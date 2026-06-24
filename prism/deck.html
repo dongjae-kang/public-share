@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM Provenance — Deck</title>
+  <meta name="description" content="Korean Political Discourse Provenance Layer — Recruitment deck" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap');
+    html, body { margin: 0; padding: 0; overflow: hidden; height: 100%; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    #root { height: 100%; }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 3.5rem 5rem 5rem 5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 450ms ease-out;
+      overflow: hidden;
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    @media (max-width: 768px) {
+      .slide { padding: 3rem 1.25rem 4rem 1.25rem; }
+    }
+
+    .edge-zone {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 7%;
+      z-index: 40;
+      cursor: pointer;
+      transition: background 200ms;
+    }
+    .edge-zone.left { left: 0; }
+    .edge-zone.right { right: 0; }
+    .edge-zone:hover { background: rgba(15, 23, 42, 0.025); }
+    @media (max-width: 768px) { .edge-zone { width: 10%; } }
+
+    .dots {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      z-index: 50;
+      padding: 0.5rem 1rem;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #cbd5e1;
+      cursor: pointer;
+      transition: all 250ms ease-out;
+      border: none;
+      padding: 0;
+    }
+    .dot.active {
+      background: #0f172a;
+      width: 28px;
+      border-radius: 3px;
+    }
+    .dot:hover:not(.active) { background: #94a3b8; }
+
+    .counter {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.75rem;
+      z-index: 50;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+
+    .brand {
+      position: fixed;
+      top: 1.25rem;
+      left: 1.75rem;
+      z-index: 50;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+
+    .mock-tag {
+      background: repeating-linear-gradient(45deg, #fef3c7, #fef3c7 8px, #fde68a 8px, #fde68a 16px);
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useCallback } = React;
+
+// ============================================
+// UTILITIES
+// ============================================
+
+const pad2 = (n) => String(n).padStart(2, '0');
+
+function SectionTag({ children }) {
+  return (
+    <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400 font-semibold mb-4">
+      {children}
+    </div>
+  );
+}
+
+// ============================================
+// SLIDE 0 — COVER
+// ============================================
+
+function SlideCover() {
+  return (
+    <div className="h-full flex flex-col justify-between max-w-6xl mx-auto w-full">
+      <div className="flex items-start justify-between">
+        <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400 font-semibold">
+          PRISM · Korean Political Discourse Provenance Layer
+        </div>
+        <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400 font-semibold tabular-nums">
+          2026 — 04 — 20
+        </div>
+      </div>
+
+      <div className="flex-1 flex items-center py-10">
+        <div>
+          <div className="text-xs uppercase tracking-[0.3em] text-slate-500 mb-6 font-semibold">Recruitment Deck</div>
+          <h1 className="text-6xl md:text-8xl font-extrabold text-slate-900 leading-[1.02] tracking-tight mb-10">
+            PRISM<br />
+            <span className="text-slate-700 font-bold">Provenance</span>
+          </h1>
+          <p className="text-xl md:text-2xl text-slate-600 font-medium leading-relaxed max-w-3xl">
+            한국 정치 YouTube에서 어떤 주장이 어떻게 퍼지는지를,
+            <br />
+            <span className="text-slate-900 font-semibold">공개 대시보드로.</span>
+          </p>
+        </div>
+      </div>
+
+      <div className="flex items-end justify-between gap-8">
+        <div className="text-sm">
+          <div className="text-[10px] uppercase tracking-[0.22em] text-slate-400 font-semibold mb-2">Author</div>
+          <div className="font-bold text-slate-900 text-base md:text-lg">Dongjae (Jack) Kang</div>
+          <div className="text-slate-600">Columbia University, SIPA</div>
+          <div className="text-slate-500 text-xs md:text-sm">Technology Policy and Innovation</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SLIDE 1 — §1 WHY NOW
+// ============================================
+
+function Slide1() {
+  return (
+    <div className="h-full flex flex-col justify-center max-w-5xl mx-auto w-full">
+      <SectionTag>§1 · 왜 지금 이 프로젝트인가</SectionTag>
+      <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-10 leading-[1.1] tracking-tight">
+        한국의 정치 정보 환경은<br />
+        <span className="text-slate-600">구조적으로 극단화되어 있다</span>
+      </h2>
+      <div className="border-l-2 border-slate-300 pl-6 md:pl-8 space-y-6">
+        <p className="text-lg md:text-xl text-slate-700 leading-[1.85]">
+          지역 정서와 정당 충성도가 논리적 판단보다 앞서는 경향이 뚜렷하고, 같은 사실 앞에서도 해석과 수용이 당파에 따라 갈라진다. 이런 지형 위에서 유튜브는 한국 정치 담론이 가장 활발하게 펼쳐지는 공간으로 자리 잡았지만, 그 안에서는 왜곡된 주장과 출처가 불분명한 루머, 클릭을 노린 자극적 콘텐츠가 빠르게 확산되고 있다.
+        </p>
+        <p className="text-lg md:text-xl text-slate-700 leading-[1.85]">
+          그러나 어떤 콘텐츠가 어디에서 시작되어 어떻게 번져 나가고 어떤 반응을 만들어내는지 체계적으로 확인할 수 있는 공공 인프라는 존재하지 않는다.
+        </p>
+        <p className="text-xl md:text-2xl font-bold text-slate-900 leading-[1.6] pt-2">
+          <span className="bg-amber-100 px-2 py-0.5 rounded-sm border-b-2 border-amber-400">
+            2026년 6월 지방선거는 이 공백이 실제 투표 행동으로 이어질 수 있는 결정적 시기다.
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SLIDE 2 — §2 THREE AXES
+// ============================================
+
+function Slide2() {
+  const axes = [
+    {
+      n: '01',
+      title: '원본 출처 추적',
+      desc: '주장이 어디에서 시작됐는지를 canonical source 7종으로 역추적',
+      border: 'border-sky-500',
+      text: 'text-sky-600',
+    },
+    {
+      n: '02',
+      title: '파생과 확산 패턴',
+      desc: '시간축 위의 증폭 속도, canonical source archive와 겹쳐본 확산 내러티브',
+      border: 'border-emerald-500',
+      text: 'text-emerald-600',
+    },
+    {
+      n: '03',
+      title: '수용자 반응 구조',
+      desc: '댓글 클러스터링과 봇 탐지를 통한 여론 확산의 질적 구분',
+      border: 'border-rose-500',
+      text: 'text-rose-600',
+    },
+  ];
+  return (
+    <div className="h-full flex flex-col justify-center max-w-6xl mx-auto w-full">
+      <SectionTag>§2 · 세 축으로 매핑한다</SectionTag>
+      <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-8 leading-[1.1] tracking-tight">
+        이 프로젝트는 정치 유튜브 생태계를<br />
+        <span className="text-slate-600">세 가지 축에서 매핑한다</span>
+      </h2>
+      <p className="text-base md:text-lg text-slate-600 leading-[1.8] mb-12 max-w-4xl border-l-2 border-slate-300 pl-6">
+        이렇게 정리된 결과는 knowledge graph 형태로 정형화되어, 누구나 들여다볼 수 있는 공개 대시보드로 제공된다. 사용자는 특정 사건이나 주장, 정치인에 대해{' '}
+        <span className="font-semibold text-slate-900">"지금 어떤 담론 환경에 놓여 있는가"</span>를 직접 확인할 수 있다.
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
+        {axes.map((a, i) => (
+          <div key={i} className={`border-t-2 ${a.border} pt-5`}>
+            <div className={`text-xs uppercase tracking-[0.2em] ${a.text} font-bold mb-3 tabular-nums`}>
+              Axis {a.n}
+            </div>
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4 leading-tight">{a.title}</h3>
+            <p className="text-sm md:text-base text-slate-600 leading-[1.75]">{a.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SLIDE 3 — §3 BEYOND DEBUNKING
+// ============================================
+
+function Slide3() {
+  return (
+    <div className="h-full flex flex-col justify-center max-w-5xl mx-auto w-full">
+      <SectionTag>§3 · 관점의 전환</SectionTag>
+      <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-10 leading-[1.1] tracking-tight">
+        Debunking 너머,<br />
+        <span className="text-slate-600">구조 자체를 드러낸다</span>
+      </h2>
+      <div className="border-l-2 border-slate-300 pl-6 md:pl-8 space-y-6 mb-10">
+        <p className="text-lg md:text-xl text-slate-700 leading-[1.85]">
+          이 작업은 사실관계를 더 빠르게 검증하는 차원에 머무르지 않는다. 정치 정보가 확산되는{' '}
+          <span className="font-bold text-slate-900">구조 자체를 드러냄으로써</span> debunking과 pre-bunking을 동시에 수행한다.
+        </p>
+        <p className="text-lg md:text-xl text-slate-700 leading-[1.85]">
+          코로나 시기의 감염 지도가 복잡한 통계를 단순한 시각화로 바꾸어 공공적 유용성을 만들어냈듯, 이 프로젝트는 불투명한 정치 정보 생태계를 한눈에 탐색할 수 있는 공공 자산으로 바꾸는 것을 단기 목표로 한다.
+        </p>
+      </div>
+      <div className="flex gap-3 flex-wrap">
+        <span className="px-3 py-1.5 rounded-sm border border-sky-300 bg-sky-50 text-sky-700 text-[11px] font-bold uppercase tracking-[0.18em]">
+          Debunking
+        </span>
+        <span className="px-3 py-1.5 rounded-sm border border-emerald-300 bg-emerald-50 text-emerald-700 text-[11px] font-bold uppercase tracking-[0.18em]">
+          Pre-bunking
+        </span>
+        <span className="px-3 py-1.5 rounded-sm border border-slate-300 bg-slate-100 text-slate-700 text-[11px] font-bold uppercase tracking-[0.18em]">
+          구조 가시화
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SLIDE 4 — §4 DASHBOARD EMBED (OVERVIEW)
+// ============================================
+
+function Slide4({ onPrev, onNext }) {
+  return (
+    <div className="h-full flex flex-col">
+      <div className="flex items-start md:items-center justify-between flex-col md:flex-row gap-3 mb-4">
+        <div>
+          <SectionTag>§4 · 대시보드는 이렇게 작동한다</SectionTag>
+          <h2 className="text-2xl md:text-4xl font-bold text-slate-900 leading-tight tracking-tight">
+            직접 체험해보기
+          </h2>
+          <p className="text-xs md:text-sm text-slate-500 mt-2 max-w-3xl leading-relaxed">
+            주간 Top-N 목록에서 주제를 클릭하면 drill-down. 다음 슬라이드에서 핵심 시각화인{' '}
+            <span className="text-slate-700 font-semibold">Pentagon Prism 3D 구조</span>를 독립 화면으로 볼 수 있습니다.
+          </p>
+        </div>
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="mock-tag px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-900 rounded-sm border border-amber-400">
+            Mockup · 실제 데이터 2026-05-04 시작
+          </span>
+          <a
+            href="mock-dashboard.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-1.5 rounded-sm border border-slate-900 bg-slate-900 text-white text-[11px] font-bold uppercase tracking-[0.18em] hover:bg-slate-700 transition"
+          >
+            전체 화면 열기 →
+          </a>
+        </div>
+      </div>
+
+      <div className="flex-1 border border-slate-300 rounded-sm overflow-hidden bg-white shadow-sm">
+        <iframe
+          src="mock-dashboard.html"
+          className="w-full h-full"
+          title="PRISM Mock Dashboard"
+          style={{ border: 'none', display: 'block' }}
+        />
+      </div>
+
+      <div className="mt-4 flex items-center justify-between gap-4 flex-wrap">
+        <button
+          onClick={onPrev}
+          className="px-4 py-2 rounded-sm border border-slate-300 hover:border-slate-900 hover:bg-white transition text-sm font-semibold text-slate-700"
+        >
+          ← 이전 슬라이드
+        </button>
+        <div className="text-[11px] text-slate-400 text-center flex-1 min-w-0">
+          대시보드 안에서 클릭한 뒤에는 키보드 방향키가 iframe 내부로 들어갑니다. 이 버튼으로 슬라이드를 넘기세요.
+        </div>
+        <button
+          onClick={onNext}
+          className="px-4 py-2 rounded-sm border border-slate-300 hover:border-slate-900 hover:bg-white transition text-sm font-semibold text-slate-700"
+        >
+          다음 슬라이드 →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SLIDE 5 — PENTAGON PRISM SPOTLIGHT (NEW)
+// ============================================
+
+function Slide5Pentagon({ onPrev, onNext }) {
+  return (
+    <div className="h-full flex flex-col">
+      <div className="flex items-start md:items-center justify-between flex-col md:flex-row gap-3 mb-4">
+        <div>
+          <SectionTag>§4 · 핵심 시각화</SectionTag>
+          <h2 className="text-2xl md:text-4xl font-bold text-slate-900 leading-tight tracking-tight">
+            Pentagon Prism <span className="text-slate-500 font-semibold">— 3D Provenance 구조</span>
+          </h2>
+          <p className="text-xs md:text-sm text-slate-500 mt-2 max-w-3xl leading-relaxed">
+            한 주제의 다섯 단면 — 확산 곡선 · 편향 분포 · 원본 추적 · 댓글·봇 · Knowledge Graph — 을 하나의 입체로 펼쳐서 담론 구조를 한 시각으로 본다. 각 면에 마우스를 올리면 패널이 전환됩니다.
+          </p>
+        </div>
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-700 rounded-sm border border-slate-300 bg-white">
+            Spotlight View
+          </span>
+          <a
+            href="mock-dashboard.html#spotlight"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-1.5 rounded-sm border border-slate-900 bg-slate-900 text-white text-[11px] font-bold uppercase tracking-[0.18em] hover:bg-slate-700 transition"
+          >
+            전체 화면 열기 →
+          </a>
+        </div>
+      </div>
+
+      <div className="flex-1 border border-slate-300 rounded-sm overflow-hidden bg-white shadow-sm">
+        <iframe
+          src="mock-dashboard.html#spotlight"
+          className="w-full h-full"
+          title="PRISM Pentagon Prism Spotlight"
+          style={{ border: 'none', display: 'block' }}
+        />
+      </div>
+
+      <div className="mt-4 flex items-center justify-between gap-4 flex-wrap">
+        <button
+          onClick={onPrev}
+          className="px-4 py-2 rounded-sm border border-slate-300 hover:border-slate-900 hover:bg-white transition text-sm font-semibold text-slate-700"
+        >
+          ← 이전 슬라이드
+        </button>
+        <div className="text-[11px] text-slate-400 text-center flex-1 min-w-0">
+          iframe을 클릭한 뒤에는 키보드 방향키가 내부로 들어갑니다. 이 버튼으로 넘기세요.
+        </div>
+        <button
+          onClick={onNext}
+          className="px-4 py-2 rounded-sm border border-slate-300 hover:border-slate-900 hover:bg-white transition text-sm font-semibold text-slate-700"
+        >
+          다음 슬라이드 →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SLIDE 6 — INVITATION (HUMBLE)
+// ============================================
+
+function Slide6Invitation() {
+  const layers = [
+    {
+      title: '학술적으로 공유되는 원 데이터',
+      desc: '한국 정치 특유의 관계 — 계파 · 지역 지지 · 발언 history — 를 KG에 반영한 원 데이터. 세계적으로도 경험적 데이터가 부족한 영역에 놓이는 기록.',
+    },
+    {
+      title: '공공 설계의 새 사례',
+      desc: '편향을 코드로 강제 보정하지 않고 투명성으로 해결하는 접근. 다른 국가의 유사 도구 설계에도 참조될 수 있는 공공 설계 사례.',
+    },
+    {
+      title: '한국 정치 데이터의 실무 선행 사례',
+      desc: '도메인 감수의 깊이를 어디까지 감당할 것인가의 균형점 기록. 한국 정치 데이터 프로젝트의 첫 실무 문서가 될 수 있다.',
+    },
+    {
+      title: 'AI 윤리·거버넌스의 실증 사례',
+      desc: 'Recursive AI-Human Gate threshold를 한국어 맥락에서 구체적으로 조율한 기록. AI 윤리·거버넌스 설계의 실증 자료.',
+    },
+  ];
+
+  return (
+    <div className="h-full flex flex-col justify-center max-w-6xl mx-auto w-full">
+      <SectionTag>§5 · 이 작업이 남기는 것</SectionTag>
+      <p className="text-base md:text-lg text-slate-600 leading-[1.8] mb-10 max-w-4xl border-l-2 border-slate-300 pl-6">
+        이 프로젝트가 남기는 기록은 네 가지 층위에서 외부 영역에 닿는다.
+      </p>
+      <div className="space-y-5">
+        {layers.map((layer, i) => (
+          <div
+            key={i}
+            className="grid grid-cols-12 gap-4 md:gap-6 border-l-2 border-slate-300 pl-5 md:pl-6 py-1"
+          >
+            <div className="col-span-12 md:col-span-5">
+              <div className="text-[10px] uppercase tracking-[0.22em] text-slate-400 font-bold mb-1.5 tabular-nums">
+                {pad2(i + 1)}
+              </div>
+              <h3 className="text-base md:text-xl font-bold text-slate-900 leading-[1.35]">{layer.title}</h3>
+            </div>
+            <div className="col-span-12 md:col-span-7">
+              <p className="text-sm md:text-base text-slate-700 leading-[1.75]">{layer.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SLIDE 7 — OPEN JUDGMENTS
+// ============================================
+
+function Slide7Meaning() {
+  const areas = [
+    {
+      title: 'Knowledge graph의 한국 정치 특화 semantics',
+      desc: '계파 · 지역 지지 · 발언 history 같은 한국 정치 특유의 관계를 KG 노드·엣지에 어떻게 반영할지. 세계적으로도 경험적 데이터가 부족한 영역.',
+    },
+    {
+      title: '편향 투명성 4원칙의 UI 구현',
+      desc: '분포 메타데이터와 병렬 sub-view를 어떻게 시각적으로 보여줘야 독자가 오해 없이 읽을 수 있을지. 디자인 판단의 영역.',
+    },
+    {
+      title: '도메인 감수의 깊이',
+      desc: '정치 발언 history · 지역 정치 역학 · 계파 배경까지 어디까지 체크해야 책임 있는 출시가 되는지. 너무 얕으면 fact-check 품질이 떨어지고, 너무 깊으면 파트타임 스케일을 넘어섬.',
+    },
+    {
+      title: 'Recursive AI-Human Gate threshold',
+      desc: '어느 판단을 사람이 계속 쥐고, 어느 판단을 AI에 맡길 것인지. LLM-human agreement 95% 기준을 한국어 맥락에서 어떻게 조율할지.',
+    },
+  ];
+
+  return (
+    <div className="h-full flex flex-col justify-center max-w-6xl mx-auto w-full">
+      <SectionTag>§6 · 남아 있는 판단들</SectionTag>
+      <div className="space-y-6">
+        {areas.map((area, i) => (
+          <div
+            key={i}
+            className="grid grid-cols-12 gap-4 md:gap-6 border-l-2 border-slate-300 pl-5 md:pl-6 py-1"
+          >
+            <div className="col-span-12 md:col-span-5">
+              <div className="text-[10px] uppercase tracking-[0.22em] text-slate-400 font-bold mb-1.5 tabular-nums">
+                {pad2(i + 1)}
+              </div>
+              <h3 className="text-base md:text-xl font-bold text-slate-900 leading-[1.35]">{area.title}</h3>
+            </div>
+            <div className="col-span-12 md:col-span-7">
+              <p className="text-sm md:text-base text-slate-700 leading-[1.75]">{area.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SLIDE 7 — TIMELINE
+// ============================================
+
+function Slide7Timeline() {
+  const phases = [
+    { date: '2026-04-20', end: '2026-05-03', label: '학업 마감 시즌', detail: '설계 다듬기 · 섭외 · 법률 preliminary check', key: false },
+    { date: '2026-05-04', end: null, label: '구현 시작', detail: '데이터 파이프라인 구축 착수', key: true, accent: 'bg-emerald-500' },
+    { date: '2026-05 전반', end: null, label: '파이프라인 구축', detail: 'Gold set 수동 라벨링, Recursive Gate 첫 calibration', key: false },
+    { date: '2026-05 후반', end: null, label: '대시보드 alpha', detail: '내부 beta 테스트 + 법률 최종 리뷰', key: false },
+    { date: '2026-05-30', end: '2026-06-01', label: 'Public launch', detail: '선거 3-5일 전 공개', key: true, accent: 'bg-sky-500' },
+    { date: '2026-06-03', end: null, label: '지방선거 당일', detail: '', key: true, accent: 'bg-amber-500' },
+    { date: '2026-06+', end: null, label: '정리 및 회고', detail: 'Track 2 설계 피드백', key: false },
+  ];
+
+  return (
+    <div className="h-full flex flex-col justify-center max-w-6xl mx-auto w-full">
+      <SectionTag>§7 · 일정</SectionTag>
+      <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-4 leading-[1.1] tracking-tight tabular-nums">
+        2026-04-20 <span className="text-slate-300 font-light">→</span> 2026-06-03
+      </h2>
+      <p className="text-base md:text-lg text-slate-600 leading-[1.8] mb-8 max-w-4xl border-l-2 border-slate-300 pl-6">
+        파트타임 규모로 예상하고 있습니다. 주 수시간 수준의 대화·검토가 중심입니다.
+      </p>
+      <div>
+        {phases.map((p, i) => (
+          <div
+            key={i}
+            className={`grid grid-cols-12 gap-3 md:gap-6 py-3.5 ${i === 0 ? 'border-t' : ''} border-b border-slate-200`}
+          >
+            <div className="col-span-12 md:col-span-3">
+              <div
+                className={`text-xs md:text-sm font-bold tabular-nums ${
+                  p.key ? 'text-slate-900' : 'text-slate-500'
+                }`}
+              >
+                {p.date}
+                {p.end && <span className="text-slate-400 font-normal"> ~ {p.end}</span>}
+              </div>
+            </div>
+            <div className="col-span-12 md:col-span-4 flex items-center gap-2.5">
+              {p.key && <span className={`inline-block w-1 h-4 ${p.accent}`}></span>}
+              <div className={`text-sm md:text-base font-bold ${p.key ? 'text-slate-900' : 'text-slate-700'}`}>
+                {p.label}
+              </div>
+            </div>
+            <div className="col-span-12 md:col-span-5 text-xs md:text-sm text-slate-600 leading-[1.7]">
+              {p.detail}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SLIDE 8 — LONG-TERM DIRECTION
+// ============================================
+
+function Slide8LongTerm() {
+  return (
+    <div className="h-full flex flex-col justify-center max-w-6xl mx-auto w-full">
+      <SectionTag>§8 · 장기적 지향</SectionTag>
+      <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-12 leading-[1.1] tracking-tight">
+        단기는 2026년 6월.<br />
+        <span className="text-slate-600">장기는 연구 영역의 기여.</span>
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+        <div className="border-t-2 border-sky-500 pt-5">
+          <div className="text-[11px] uppercase tracking-[0.22em] text-sky-600 font-bold mb-4">Short-term</div>
+          <p className="text-base md:text-xl text-slate-700 leading-[1.8]">
+            2026년 6월 지방선거에 대한{' '}
+            <span className="font-bold text-slate-900">구체적 개입</span>. 유권자가{' '}
+            <span className="font-semibold text-slate-900">3분 안에</span> 담론 환경을 파악할 수 있는 공공 자산을 만드는 일.
+          </p>
+        </div>
+        <div className="border-t-2 border-emerald-500 pt-5">
+          <div className="text-[11px] uppercase tracking-[0.22em] text-emerald-600 font-bold mb-4">Long-term</div>
+          <p className="text-base md:text-xl text-slate-700 leading-[1.8]">
+            Political misinformation provenance와 knowledge graph ontology가 교차하는 연구 영역에{' '}
+            <span className="font-bold text-slate-900">경험적 방법론과 공개 데이터</span>를 기여하는 일.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SLIDE 9 — CONTACT (SIMPLIFIED)
+// ============================================
+
+function Slide9Contact() {
+  return (
+    <div className="h-full flex flex-col justify-center max-w-5xl mx-auto w-full">
+      <SectionTag>Contact</SectionTag>
+      <div className="space-y-10">
+        <div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-slate-400 font-bold mb-3">Author</div>
+          <div className="font-bold text-slate-900 text-4xl md:text-6xl mb-3 leading-[1.05] tracking-tight">
+            Dongjae (Jack) Kang
+          </div>
+          <div className="text-slate-600 text-lg md:text-2xl leading-tight">Columbia University, SIPA</div>
+          <div className="text-slate-500 text-base md:text-lg">Technology Policy and Innovation</div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8 border-t border-slate-200">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.22em] text-slate-400 font-bold mb-2">Personal site</div>
+            <a
+              href="https://dongjae-kang.github.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-900 font-semibold text-base md:text-lg hover:text-sky-600 transition underline-offset-4 hover:underline"
+            >
+              dongjae-kang.github.io
+            </a>
+          </div>
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.22em] text-slate-400 font-bold mb-2">Project repository</div>
+            <a
+              href="https://github.com/dongjae-kang/prism-provenance"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-900 font-semibold text-base md:text-lg hover:text-sky-600 transition underline-offset-4 hover:underline break-all"
+            >
+              github.com/dongjae-kang/prism-provenance
+            </a>
+          </div>
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.22em] text-slate-400 font-bold mb-2">Mock dashboard</div>
+            <a
+              href="mock-dashboard.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-900 font-semibold text-base md:text-lg hover:text-sky-600 transition underline-offset-4 hover:underline break-all"
+            >
+              dongjae-kang.github.io/prism-provenance/mock-dashboard.html
+            </a>
+          </div>
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.22em] text-slate-400 font-bold mb-2">Email</div>
+            <a
+              href="mailto:jackkang3780@gmail.com"
+              className="text-slate-900 font-semibold text-base md:text-lg hover:text-sky-600 transition underline-offset-4 hover:underline"
+            >
+              jackkang3780@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// DECK CONTROLLER
+// ============================================
+
+function Deck() {
+  const [current, setCurrent] = useState(0);
+
+  const total = 11;
+
+  const next = useCallback(() => setCurrent((c) => Math.min(c + 1, total - 1)), []);
+  const prev = useCallback(() => setCurrent((c) => Math.max(c - 1, 0)), []);
+  const goTo = useCallback((i) => setCurrent(i), []);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        e.preventDefault();
+        next();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prev();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        setCurrent(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        setCurrent(total - 1);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [next, prev]);
+
+  const slides = [
+    <SlideCover />,
+    <Slide1 />,
+    <Slide2 />,
+    <Slide3 />,
+    <Slide4 onPrev={prev} onNext={next} />,
+    <Slide5Pentagon onPrev={prev} onNext={next} />,
+    <Slide6Invitation />,
+    <Slide7Meaning />,
+    <Slide7Timeline />,
+    <Slide8LongTerm />,
+    <Slide9Contact />,
+  ];
+
+  return (
+    <div style={{ position: 'fixed', inset: 0 }}>
+      <div className="brand">PRISM · Provenance</div>
+      <div className="counter tabular-nums">
+        {pad2(current + 1)} <span className="text-slate-300"> / </span> {pad2(total)}
+      </div>
+
+      {slides.map((slide, i) => (
+        <div key={i} className={`slide ${i === current ? 'active' : ''}`}>
+          {slide}
+        </div>
+      ))}
+
+      <div className="edge-zone left" onClick={prev} aria-label="Previous slide" />
+      <div className="edge-zone right" onClick={next} aria-label="Next slide" />
+
+      <div className="dots" role="tablist" aria-label="Slide navigation">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            className={`dot ${i === current ? 'active' : ''}`}
+            onClick={() => goTo(i)}
+            aria-label={`Go to slide ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Deck />);
+</script>
+</body>
+</html>

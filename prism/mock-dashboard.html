@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM Provenance — Mock Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; }
+    .kg-node { cursor: pointer; transition: opacity 0.2s; }
+    .mock-badge {
+      background: repeating-linear-gradient(45deg, #fef3c7, #fef3c7 8px, #fde68a 8px, #fde68a 16px);
+    }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+// ============================================
+// MOCK DATA
+// ============================================
+
+const TOPICS = [
+  { id: 1, title: "후보자 A의 교육 정책 발언", summary: "4월 15일 공식 채널 발표 후 47개 파생 영상 생성, 조회수 124만", date: "2026-04-15", totalViews: 1240000, videoCount: 47, origin: "정치인 공식 채널", biasOrigin: "centrist", biasSpread: { conservative: 65, progressive: 35 }, unverifiablePercent: 17, viralPeak: "4/17 오후", sparkline: [5, 25, 50, 75, 90, 100], change: { direction: 'same' } },
+  { id: 2, title: "정당 B의 청년 공약 발표", summary: "4월 14일 정당 공식 보도자료 → 18개 주요 채널 인용 보도", date: "2026-04-14", totalViews: 890000, videoCount: 32, origin: "정당 공식", biasOrigin: "progressive", biasSpread: { conservative: 28, progressive: 72 }, unverifiablePercent: 9, viralPeak: "4/15 저녁", sparkline: [20, 60, 85, 95, 98, 100], change: { direction: 'new' } },
+  { id: 3, title: "지역 C의 개발 공약 논쟁", summary: "지역 유권자 집회 발언이 유튜브 숏츠로 확산", date: "2026-04-13", totalViews: 720000, videoCount: 29, origin: "언론 직접인용", biasOrigin: "mixed", biasSpread: { conservative: 48, progressive: 52 }, unverifiablePercent: 24, viralPeak: "4/14 오전", sparkline: [10, 20, 35, 55, 80, 100], change: { direction: 'new' } },
+  { id: 4, title: "후보자 D의 전과 관련 보도", summary: "연합 보도 이후 16개 채널이 재가공, 일부 unverifiable 주장 확산", date: "2026-04-12", totalViews: 1560000, videoCount: 56, origin: "주요 언론 직접인용", biasOrigin: "conservative", biasSpread: { conservative: 74, progressive: 26 }, unverifiablePercent: 31, viralPeak: "4/13 밤", sparkline: [40, 80, 95, 98, 99, 100], change: { direction: 'up', amount: 2 } },
+  { id: 5, title: "정당 E의 SNS 게시물 논란", summary: "공식 X 계정 게시물이 24시간 내 12개 채널로 증폭", date: "2026-04-11", totalViews: 580000, videoCount: 22, origin: "정당 공식 SNS", biasOrigin: "progressive", biasSpread: { conservative: 41, progressive: 59 }, unverifiablePercent: 12, viralPeak: "4/12 점심", sparkline: [30, 75, 85, 88, 92, 100], change: { direction: 'down', amount: 3 } },
+  { id: 6, title: "후보자 F의 재산 공개", summary: "국회 공시 자료 기반 언론 보도 → 유튜브 재해석 다수", date: "2026-04-10", totalViews: 430000, videoCount: 19, origin: "정부 공식", biasOrigin: "mixed", biasSpread: { conservative: 55, progressive: 45 }, unverifiablePercent: 8, viralPeak: "4/11 오후", sparkline: [15, 30, 50, 70, 85, 100], change: { direction: 'new' } },
+  { id: 7, title: "지역 G의 복지 공약 비교", summary: "후보자 간 공약 비교 영상이 지역 맘카페 공유로 확산", date: "2026-04-09", totalViews: 310000, videoCount: 14, origin: "언론 직접인용", biasOrigin: "mixed", biasSpread: { conservative: 52, progressive: 48 }, unverifiablePercent: 15, viralPeak: "4/10 저녁", sparkline: [8, 18, 35, 55, 75, 100], change: { direction: 'same' } },
+  { id: 8, title: "후보자 H의 과거 발언 재조명", summary: "국회 속기록 기반 과거 발언이 현재 맥락에서 재해석", date: "2026-04-08", totalViews: 670000, videoCount: 26, origin: "국회 속기록", biasOrigin: "progressive", biasSpread: { conservative: 38, progressive: 62 }, unverifiablePercent: 19, viralPeak: "4/09 아침", sparkline: [12, 25, 55, 80, 92, 100], change: { direction: 'up', amount: 2 } },
+  { id: 9, title: "정당 I의 토론회 발언", summary: "방송 토론회 발언 일부가 축약 클립으로 재편집 확산", date: "2026-04-07", totalViews: 1020000, videoCount: 41, origin: "언론 직접인용", biasOrigin: "conservative", biasSpread: { conservative: 61, progressive: 39 }, unverifiablePercent: 28, viralPeak: "4/08 오후", sparkline: [25, 50, 75, 85, 95, 100], change: { direction: 'up', amount: 1 } },
+  { id: 10, title: "후보자 J의 학력 관련 의혹", summary: "온라인 커뮤니티 발화가 유튜브로 이동, 원본 불명 주장 다수", date: "2026-04-06", totalViews: 840000, videoCount: 38, origin: "unverifiable", biasOrigin: "conservative", biasSpread: { conservative: 68, progressive: 32 }, unverifiablePercent: 47, viralPeak: "4/07 밤", sparkline: [10, 25, 40, 70, 90, 100], change: { direction: 'down', amount: 2 } },
+];
+
+const TOPIC_DETAIL_1 = {
+  diffusion: [
+    { day: '4/15', cumulative: 5000 },
+    { day: '4/16', cumulative: 285000 },
+    { day: '4/17', cumulative: 810000 },
+    { day: '4/18', cumulative: 1050000 },
+    { day: '4/19', cumulative: 1180000 },
+    { day: '4/20', cumulative: 1240000 },
+  ],
+  provenance: [
+    { level: 0, channel: "후보자 A 공식 채널", time: "4/15 14:00", type: "canonical", title: "교육 정책 5대 과제 발표", subs: "1.2M" },
+    { level: 1, channel: "정치 분석 채널 X", time: "4/15 19:00", type: "direct", title: "후보 A가 공약 발표에서 밝힌 5대 과제 정리", subs: "420K" },
+    { level: 1, channel: "시사 채널 Y", time: "4/16 08:30", type: "partial", title: "후보 A의 교육 공약, 현실성 없다는 지적", subs: "280K" },
+    { level: 2, channel: "시민 분석 채널 Z", time: "4/16 15:00", type: "unverifiable", title: "후보 A가 교육 공약에서 숨긴 진짜 의도", subs: "150K" },
+    { level: 2, channel: "유튜브 채널 W", time: "4/17 10:15", type: "partial", title: "교육 공약의 이면 - 우리가 놓친 3가지", subs: "95K" },
+  ],
+  comments: [
+    { label: "원본 주장 반복", value: 65 },
+    { label: "확장 주장", value: 20 },
+    { label: "반박", value: 10 },
+    { label: "off-topic", value: 5 },
+  ],
+  botPercent: 12,
+  kg: {
+    nodes: [
+      { id: 'candidate', label: '후보자 A', type: 'politician', x: 400, y: 230 },
+      { id: 'claim', label: '교육 정책\n클레임', type: 'claim', x: 400, y: 120 },
+      { id: 'source', label: '공식 채널', type: 'source', x: 220, y: 70 },
+      { id: 'v1', label: '파생 영상 1\n(직접 인용)', type: 'video', x: 140, y: 300 },
+      { id: 'v2', label: '파생 영상 2\n(부분 인용)', type: 'video', x: 310, y: 360 },
+      { id: 'v3', label: '파생 영상 3\n(부분 인용)', type: 'video', x: 520, y: 360 },
+      { id: 'v4', label: '영상 W\n(unverifiable)', type: 'video-u', x: 640, y: 230 },
+      { id: 'c1', label: '댓글 클러스터\n(원본 반복)', type: 'comment', x: 70, y: 190 },
+      { id: 'c2', label: '댓글 클러스터\n(확장 주장)', type: 'comment', x: 680, y: 90 },
+    ],
+    edges: [
+      { from: 'source', to: 'claim' },
+      { from: 'claim', to: 'candidate' },
+      { from: 'claim', to: 'v1' },
+      { from: 'claim', to: 'v2' },
+      { from: 'claim', to: 'v3' },
+      { from: 'v4', to: 'claim', style: 'dashed' },
+      { from: 'v1', to: 'c1' },
+      { from: 'v2', to: 'c2' },
+    ],
+  },
+};
+
+// ============================================
+// UTILS
+// ============================================
+
+const formatNumber = (n) => {
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n / 1000).toFixed(0) + 'K';
+  return n.toString();
+};
+
+function getFlags(topic) {
+  const flags = [];
+  if (topic.unverifiablePercent >= 30) flags.push({ label: `원본 불명 ${topic.unverifiablePercent}%`, color: 'rose' });
+  if (topic.totalViews >= 1000000) flags.push({ label: '조회수 100만+', color: 'emerald' });
+  if (topic.origin === 'unverifiable') flags.push({ label: '출처 없음', color: 'rose' });
+  if (Math.abs(topic.biasSpread.conservative - topic.biasSpread.progressive) <= 10) flags.push({ label: '대칭 확산', color: 'slate' });
+  if ([2, 5, 10].includes(topic.id)) flags.push({ label: '단기 확산', color: 'amber' });
+  return flags;
+}
+
+// ============================================
+// PRIMITIVES
+// ============================================
+
+function Sparkline({ data, width = 60, height = 20, color = '#475569' }) {
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  const points = data.map((v, i) => ({
+    x: (i / (data.length - 1)) * (width - 2) + 1,
+    y: (height - 2) - ((v - min) / range) * (height - 4) + 1,
+  }));
+  const path = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+  const lastPoint = points[points.length - 1];
+  return (
+    <svg width={width} height={height} className="inline-block flex-shrink-0" viewBox={`0 0 ${width} ${height}`}>
+      <path d={path} fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
+      <circle cx={lastPoint.x} cy={lastPoint.y} r="1.8" fill={color} />
+    </svg>
+  );
+}
+
+function Badge({ label, color = 'slate' }) {
+  const colors = {
+    slate: 'bg-slate-100 text-slate-700 border-slate-200',
+    rose: 'bg-rose-50 text-rose-700 border-rose-200',
+    amber: 'bg-amber-50 text-amber-800 border-amber-200',
+    emerald: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    sky: 'bg-sky-50 text-sky-700 border-sky-200',
+  };
+  return (
+    <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider border ${colors[color]} whitespace-nowrap`}>
+      {label}
+    </span>
+  );
+}
+
+// ============================================
+// HEADER + BANNER
+// ============================================
+
+function Header() {
+  return (
+    <header className="bg-slate-900 text-white">
+      <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+        <div>
+          <div className="text-xs tracking-widest text-slate-400 uppercase mb-1">Korean Political Discourse Provenance Layer</div>
+          <h1 className="text-xl font-semibold">공개 대시보드 <span className="text-slate-400 font-normal">— 2026-06 지방선거 파일럿</span></h1>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="mock-badge px-3 py-1.5 rounded-md text-xs font-semibold text-amber-900 border border-amber-300">MOCKUP</div>
+          <div className="text-xs text-slate-400 hidden md:block">실제 데이터 수집: <span className="text-slate-200 font-medium">2026-05-04 시작</span></div>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function MockupBanner() {
+  return (
+    <div className="bg-amber-50 border-b border-amber-200">
+      <div className="max-w-6xl mx-auto px-6 py-2.5 text-xs text-amber-900 flex items-start gap-2">
+        <span className="font-semibold">NOTICE</span>
+        <span>이 페이지는 <strong>mockup</strong>입니다. 수치·영상·주제는 시각적 시연을 위한 placeholder이며, 실제 파이프라인은 2026-05-04 이후 구축됩니다.</span>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// WEEKLY SUMMARY BAR
+// ============================================
+
+function Metric({ value, label }) {
+  return (
+    <div className="text-left md:text-right">
+      <div className="text-base md:text-lg font-bold text-slate-900 leading-none tabular-nums">{value}</div>
+      <div className="text-[11px] text-slate-500 mt-1 uppercase tracking-wider">{label}</div>
+    </div>
+  );
+}
+
+function WeeklySummaryBar() {
+  const totalViews = TOPICS.reduce((s, t) => s + t.totalViews, 0);
+  const totalVideos = TOPICS.reduce((s, t) => s + t.videoCount, 0);
+  const avgUnv = TOPICS.reduce((s, t) => s + t.unverifiablePercent, 0) / TOPICS.length;
+  return (
+    <div className="bg-white border-b border-slate-200">
+      <div className="max-w-6xl mx-auto px-6 py-4">
+        <div className="flex items-end justify-between flex-wrap gap-4">
+          <div>
+            <div className="text-[11px] text-slate-500 uppercase tracking-widest mb-0.5">이번 주 요약</div>
+            <div className="text-sm text-slate-700 font-medium">2026년 4월 14일 — 20일 <span className="text-slate-400">· 주 2회 batch 업데이트</span></div>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-10">
+            <Metric value="10" label="주제 추적" />
+            <Metric value={formatNumber(totalViews)} label="총 조회수" />
+            <Metric value={`${avgUnv.toFixed(0)}%`} label="평균 원본 불명" />
+            <Metric value="7/7" label="Canonical 커버" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// MISSION BLURB
+// ============================================
+
+function MissionBlurb() {
+  return (
+    <div className="bg-white border-b border-slate-200">
+      <div className="max-w-6xl mx-auto px-6 md:px-8 py-7 md:py-8">
+        <p className="text-base md:text-[17px] text-slate-700 leading-relaxed mb-2">
+          한국 정치 YouTube에서 <strong className="text-slate-900">어떤 주장이 어디에서 시작되어 어떻게 퍼지는지</strong>를
+          매주 공개 대시보드로 정리합니다.
+        </p>
+        <p className="text-base md:text-[17px] text-slate-500 leading-relaxed">
+          개별 사실을 검증하는 차원을 넘어, 정보가 확산되는 구조 자체를 드러냅니다.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// TAB NAVIGATION
+// ============================================
+
+function TabNav({ current, onChange }) {
+  const tabs = [
+    { id: 'ranking', label: '순위 뷰', desc: '이번 주 Top 10' },
+    { id: 'browse', label: '탐색 뷰', desc: 'Filter로 주제 찾기' },
+    { id: 'analysis', label: '분석 뷰', desc: 'Lead story 중심' },
+  ];
+  return (
+    <div className="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="flex gap-1 overflow-x-auto">
+          {tabs.map(t => (
+            <button
+              key={t.id}
+              onClick={() => onChange(t.id)}
+              className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
+                current === t.id
+                  ? 'border-slate-900 text-slate-900'
+                  : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'
+              }`}
+            >
+              {t.label}
+              <span className="ml-2 text-xs text-slate-400 hidden md:inline font-normal">{t.desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SECTION LABEL
+// ============================================
+
+function SectionLabel({ children }) {
+  return (
+    <div className="text-[11px] font-semibold uppercase tracking-widest text-slate-500 mb-3 border-l-2 border-slate-900 pl-2.5">
+      {children}
+    </div>
+  );
+}
+
+// ============================================
+// TAB A — NEWSROOM (ANALYSIS)
+// ============================================
+
+function HeroStory({ topic, onSelect }) {
+  const flags = getFlags(topic);
+  return (
+    <div className="bg-gradient-to-br from-white to-slate-100 border border-slate-300 rounded-xl p-6 md:p-8 shadow-sm">
+      <div className="flex items-center gap-2.5 mb-4 flex-wrap">
+        <span className="text-[11px] font-bold uppercase tracking-widest text-slate-900 border-l-2 border-slate-900 pl-2">이번 주 최대 이슈</span>
+        {flags.map((f, i) => <Badge key={i} label={f.label} color={f.color} />)}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-8 items-center">
+        <div className="md:col-span-3">
+          <div className="text-xs text-slate-500 mb-2">{topic.date} · origin: {topic.origin}</div>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 leading-tight tracking-tight">{topic.title}</h2>
+          <p className="text-slate-700 mb-6 leading-relaxed text-base md:text-[17px]">{topic.summary}</p>
+          <div className="grid grid-cols-4 gap-5 mb-6">
+            <div>
+              <div className="text-[11px] text-slate-500 uppercase tracking-wider mb-1">조회수</div>
+              <div className="text-2xl font-bold text-slate-900 tabular-nums">{formatNumber(topic.totalViews)}</div>
+            </div>
+            <div>
+              <div className="text-[11px] text-slate-500 uppercase tracking-wider mb-1">파생</div>
+              <div className="text-2xl font-bold text-slate-900 tabular-nums">{topic.videoCount}</div>
+            </div>
+            <div>
+              <div className="text-[11px] text-slate-500 uppercase tracking-wider mb-1">원본 불명</div>
+              <div className="text-2xl font-bold text-rose-700 tabular-nums">{topic.unverifiablePercent}%</div>
+            </div>
+            <div>
+              <div className="text-[11px] text-slate-500 uppercase tracking-wider mb-1">Peak</div>
+              <div className="text-base font-bold text-slate-900 leading-tight">{topic.viralPeak}</div>
+            </div>
+          </div>
+          <button onClick={() => onSelect(topic.id)} className="text-sm font-semibold text-slate-900 hover:text-slate-600 border-b-2 border-slate-900 pb-0.5 transition-colors">
+            전체 분석 보기 →
+          </button>
+        </div>
+        <div className="md:col-span-2 flex items-center justify-center bg-white/40 rounded-lg p-3">
+          <Sparkline data={topic.sparkline} width={240} height={100} color="#334155" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SecondaryStories({ topics, onSelect }) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {topics.map(topic => {
+        const flags = getFlags(topic);
+        return (
+          <button key={topic.id} onClick={() => onSelect(topic.id)} className="text-left bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-400 hover:shadow-md transition-all">
+            <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+              {flags.slice(0, 2).map((f, i) => <Badge key={i} label={f.label} color={f.color} />)}
+            </div>
+            <div className="text-xs text-slate-500 mb-1">{topic.date}</div>
+            <h3 className="font-semibold text-slate-900 mb-2 text-base leading-snug">{topic.title}</h3>
+            <p className="text-xs text-slate-600 mb-4 leading-relaxed">{topic.summary}</p>
+            <div className="flex items-center justify-between">
+              <div className="flex gap-3 text-xs">
+                <span><span className="text-slate-400">조회</span> <strong className="text-slate-800 tabular-nums">{formatNumber(topic.totalViews)}</strong></span>
+                <span><span className="text-slate-400">영상</span> <strong className="text-slate-800 tabular-nums">{topic.videoCount}</strong></span>
+              </div>
+              <Sparkline data={topic.sparkline} width={80} height={24} />
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function DenseList({ topics, onSelect, startRank = 4 }) {
+  return (
+    <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+      {topics.map((topic, i) => {
+        const flags = getFlags(topic);
+        return (
+          <button key={topic.id} onClick={() => onSelect(topic.id)}
+            className="w-full flex items-center gap-5 md:gap-6 px-6 md:px-7 py-5 md:py-6 border-b border-slate-100 last:border-b-0 hover:bg-slate-50 transition-colors text-left">
+            <div className="text-slate-400 font-mono text-sm w-10 tabular-nums shrink-0">#{String(startRank + i).padStart(2, '0')}</div>
+            <div className="flex-1 min-w-0">
+              <h4 className="font-semibold text-slate-900 truncate mb-1.5 text-base">{topic.title}</h4>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs text-slate-400">{topic.date}</span>
+                {flags.slice(0, 1).map((f, j) => <Badge key={j} label={f.label} color={f.color} />)}
+              </div>
+            </div>
+            <Sparkline data={topic.sparkline} width={64} height={24} />
+            <div className="text-right hidden md:block w-20 shrink-0">
+              <div className="text-sm font-bold text-slate-900 tabular-nums">{formatNumber(topic.totalViews)}</div>
+              <div className="text-[11px] text-slate-400">{topic.videoCount} 영상</div>
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function NewsroomTab({ onSelect }) {
+  const sorted = [...TOPICS].sort((a, b) => b.totalViews - a.totalViews);
+  return (
+    <div className="max-w-6xl mx-auto px-6 md:px-8 py-10 md:py-14 space-y-10 md:space-y-14">
+      <HeroStory topic={sorted[0]} onSelect={onSelect} />
+      <div>
+        <SectionLabel>그 다음 주요 흐름</SectionLabel>
+        <SecondaryStories topics={sorted.slice(1, 3)} onSelect={onSelect} />
+      </div>
+      <div>
+        <SectionLabel>추적 중인 나머지 주제</SectionLabel>
+        <DenseList topics={sorted.slice(3)} onSelect={onSelect} startRank={4} />
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// TAB B — BROWSE
+// ============================================
+
+function FeaturedCard({ topic, onSelect }) {
+  const flags = getFlags(topic);
+  return (
+    <button onClick={() => onSelect(topic.id)}
+      className="w-72 flex-shrink-0 bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-400 hover:shadow-md transition-all text-left">
+      <div className="mb-3 flex justify-center bg-slate-50 rounded p-2">
+        <Sparkline data={topic.sparkline} width={240} height={50} color="#334155" />
+      </div>
+      <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+        {flags.slice(0, 2).map((f, i) => <Badge key={i} label={f.label} color={f.color} />)}
+      </div>
+      <div className="text-xs text-slate-500 mb-1">{topic.date}</div>
+      <h3 className="font-semibold text-slate-900 mb-2 leading-snug text-sm">{topic.title}</h3>
+      <div className="flex gap-3 text-xs text-slate-600 pt-2 border-t border-slate-100">
+        <span><strong className="tabular-nums">{formatNumber(topic.totalViews)}</strong> 조회</span>
+        <span className="text-slate-300">·</span>
+        <span><strong className="tabular-nums">{topic.videoCount}</strong> 영상</span>
+      </div>
+    </button>
+  );
+}
+
+function FeaturedRow({ topics, onSelect }) {
+  return (
+    <div className="overflow-x-auto -mx-6 px-6 pb-3">
+      <div className="flex gap-4" style={{ width: 'max-content' }}>
+        {topics.map(topic => <FeaturedCard key={topic.id} topic={topic} onSelect={onSelect} />)}
+      </div>
+    </div>
+  );
+}
+
+function FilterChips({ active, onChange }) {
+  const chips = [
+    { id: 'all', label: '전체' },
+    { id: 'unverifiable', label: '원본 불명 30%+' },
+    { id: 'peak24', label: '단기 확산' },
+    { id: 'nocanonical', label: '출처 없음' },
+    { id: 'symmetric', label: '대칭 확산' },
+    { id: 'viral', label: '조회수 100만+' },
+  ];
+  return (
+    <div className="flex flex-wrap gap-2 mb-6">
+      {chips.map(c => (
+        <button key={c.id} onClick={() => onChange(c.id)}
+          className={`px-3 py-1.5 text-xs font-medium rounded-full border transition-colors ${
+            active === c.id
+              ? 'bg-slate-900 border-slate-900 text-white'
+              : 'bg-white border-slate-200 text-slate-700 hover:border-slate-400'
+          }`}>
+          {c.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function GridCard({ topic, onSelect }) {
+  const flags = getFlags(topic);
+  return (
+    <button onClick={() => onSelect(topic.id)}
+      className="text-left bg-white border border-slate-200 rounded-lg p-6 hover:border-slate-400 hover:shadow-md transition-all">
+      <div className="flex items-start justify-between mb-4">
+        <span className="text-xs text-slate-400">{topic.date}</span>
+        <Sparkline data={topic.sparkline} width={64} height={20} />
+      </div>
+      <h3 className="font-semibold text-slate-900 mb-3 leading-snug text-base">{topic.title}</h3>
+      <p className="text-sm text-slate-600 mb-4 leading-relaxed">{topic.summary}</p>
+      <div className="flex flex-wrap gap-1.5 mb-5">
+        {flags.slice(0, 2).map((f, i) => <Badge key={i} label={f.label} color={f.color} />)}
+      </div>
+      <div className="flex items-center gap-3 text-sm pt-4 border-t border-slate-100 tabular-nums">
+        <span className="font-bold text-slate-900">{formatNumber(topic.totalViews)}</span>
+        <span className="text-slate-300">·</span>
+        <span className="text-slate-600">{topic.videoCount} 영상</span>
+      </div>
+    </button>
+  );
+}
+
+function BrowseTab({ onSelect }) {
+  const [filter, setFilter] = useState('all');
+  const sorted = [...TOPICS].sort((a, b) => b.totalViews - a.totalViews);
+  const featured = sorted.slice(0, 5);
+  const filtered = sorted.filter(t => {
+    if (filter === 'all') return true;
+    if (filter === 'unverifiable') return t.unverifiablePercent >= 30;
+    if (filter === 'peak24') return [2, 5, 10].includes(t.id);
+    if (filter === 'nocanonical') return t.origin === 'unverifiable';
+    if (filter === 'symmetric') return Math.abs(t.biasSpread.conservative - t.biasSpread.progressive) <= 10;
+    if (filter === 'viral') return t.totalViews >= 1000000;
+    return true;
+  });
+  return (
+    <div className="max-w-6xl mx-auto px-6 md:px-8 py-10 md:py-14 space-y-10 md:space-y-14">
+      <div>
+        <SectionLabel>이번 주 주요 5건</SectionLabel>
+        <FeaturedRow topics={featured} onSelect={onSelect} />
+      </div>
+      <div>
+        <SectionLabel>전체 주제 · 필터로 탐색</SectionLabel>
+        <FilterChips active={filter} onChange={setFilter} />
+        {filtered.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filtered.map(t => <GridCard key={t.id} topic={t} onSelect={onSelect} />)}
+          </div>
+        ) : (
+          <div className="text-center py-12 text-slate-500 text-sm">해당 필터에 맞는 주제가 없습니다.</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// TAB C — RANKING
+// ============================================
+
+function ChangeIndicator({ change }) {
+  if (!change) return <span className="text-slate-400">—</span>;
+  if (change.direction === 'same') return <span className="text-slate-400">—</span>;
+  if (change.direction === 'up') return <span className="text-emerald-600 font-semibold tabular-nums">▲{change.amount}</span>;
+  if (change.direction === 'down') return <span className="text-rose-600 font-semibold tabular-nums">▼{change.amount}</span>;
+  if (change.direction === 'new') return <span className="bg-slate-900 text-white px-1.5 py-0.5 rounded text-[10px] font-bold tracking-wider">NEW</span>;
+  return <span className="text-slate-400">—</span>;
+}
+
+function RankingRow({ topic, rank, onSelect, maxViews }) {
+  const flags = getFlags(topic);
+  const barWidth = (topic.totalViews / maxViews) * 100;
+  return (
+    <div className="group border-b border-slate-100 last:border-b-0">
+      <button onClick={() => onSelect(topic.id)}
+        className="w-full flex items-center gap-5 md:gap-7 px-6 md:px-8 py-6 md:py-7 hover:bg-slate-50 transition-colors text-left">
+        <div className={`text-4xl md:text-5xl font-black w-16 md:w-20 font-mono tabular-nums leading-none shrink-0 transition-colors ${
+          rank === 1 ? 'text-slate-900' : rank <= 3 ? 'text-slate-700' : 'text-slate-300 group-hover:text-slate-500'
+        }`}>
+          #{String(rank).padStart(2, '0')}
+        </div>
+        <div className="w-12 text-center text-sm shrink-0">
+          <ChangeIndicator change={topic.change} />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="font-bold text-slate-900 text-base md:text-lg mb-2 leading-snug">{topic.title}</h3>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs text-slate-400">{topic.date}</span>
+            {flags.slice(0, 1).map((f, i) => <Badge key={i} label={f.label} color={f.color} />)}
+          </div>
+        </div>
+        <div className="hidden md:flex items-center gap-6 shrink-0">
+          <div className="flex flex-col items-end gap-1.5">
+            <div className="text-base font-bold text-slate-900 tabular-nums">{formatNumber(topic.totalViews)}</div>
+            <div className="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
+              <div className="h-full bg-slate-700 rounded-full" style={{ width: `${barWidth}%` }}></div>
+            </div>
+          </div>
+          <Sparkline data={topic.sparkline} width={72} height={28} />
+        </div>
+      </button>
+      <div className="hidden md:block max-h-0 opacity-0 overflow-hidden group-hover:max-h-44 group-hover:opacity-100 transition-all duration-300 bg-slate-50 border-t border-slate-100">
+        <div className="px-6 md:px-8 py-5 grid grid-cols-3 gap-6 text-xs">
+          <div>
+            <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1.5">원본 출처</div>
+            <div className="font-semibold text-slate-800 text-sm">{topic.origin}</div>
+          </div>
+          <div>
+            <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1.5">원본 불명</div>
+            <div className="font-semibold text-rose-700 text-sm tabular-nums">{topic.unverifiablePercent}%</div>
+          </div>
+          <div>
+            <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1.5">확산 분포</div>
+            <div className="flex h-2 rounded-full overflow-hidden bg-slate-100">
+              <div className="bg-sky-400" style={{ width: `${topic.biasSpread.progressive}%` }}></div>
+              <div className="bg-rose-400" style={{ width: `${topic.biasSpread.conservative}%` }}></div>
+            </div>
+            <div className="flex justify-between mt-1 text-[10px] text-slate-500 tabular-nums">
+              <span>진보 {topic.biasSpread.progressive}%</span>
+              <span>보수 {topic.biasSpread.conservative}%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RankingTab({ onSelect }) {
+  const sorted = [...TOPICS].sort((a, b) => b.totalViews - a.totalViews);
+  const maxViews = sorted[0].totalViews;
+  return (
+    <div className="max-w-6xl mx-auto px-6 md:px-8 py-10 md:py-14">
+      <div className="flex items-end justify-between mb-8 flex-wrap gap-3">
+        <div>
+          <SectionLabel>이번 주 순위</SectionLabel>
+          <div className="text-sm text-slate-600 pl-3">이번 주 한국 정치 YouTube에서 가장 크게 확산된 주제들입니다. 조회수 순, 지난 주 대비 변동을 함께 보여드립니다.</div>
+        </div>
+        <div className="flex items-center gap-4 text-xs text-slate-500 flex-wrap">
+          <span className="flex items-center gap-1.5"><span className="text-emerald-600 font-bold">▲</span> 상승</span>
+          <span className="flex items-center gap-1.5"><span className="text-rose-600 font-bold">▼</span> 하락</span>
+          <span className="flex items-center gap-1.5"><span>—</span> 동일</span>
+          <span className="bg-slate-900 text-white px-1.5 py-0.5 rounded text-[10px] font-bold tracking-wider">NEW</span>
+        </div>
+      </div>
+      <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+        {sorted.map((topic, i) => (
+          <RankingRow key={topic.id} topic={topic} rank={i + 1} onSelect={onSelect} maxViews={maxViews} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// DRILL-DOWN (unchanged from v1.1)
+// ============================================
+
+function DiffusionChart({ data }) {
+  const [hoverIdx, setHoverIdx] = useState(null);
+  const W = 600, H = 220;
+  const pad = { top: 15, right: 15, bottom: 30, left: 55 };
+  const iw = W - pad.left - pad.right;
+  const ih = H - pad.top - pad.bottom;
+  const max = Math.max(...data.map(d => d.cumulative));
+  const niceMax = Math.ceil(max / 200000) * 200000;
+  const points = data.map((d, i) => ({
+    x: pad.left + (i / (data.length - 1)) * iw,
+    y: pad.top + ih - (d.cumulative / niceMax) * ih,
+    label: d.day, value: d.cumulative,
+  }));
+  const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+  const areaPath = `${linePath} L ${points[points.length - 1].x} ${pad.top + ih} L ${points[0].x} ${pad.top + ih} Z`;
+  const yTicks = [0, 0.25, 0.5, 0.75, 1];
+  const interpretations = [
+    { label: '발표일', desc: 'canonical source 14:00 공식 발표. 초기 확산 5천.' },
+    { label: '확산 시작', desc: '18개 주요 채널 인용 (+5,600%). 주로 직접 인용 형태.' },
+    { label: 'Viral Peak', desc: '시사 채널 Y 업로드로 peak 도달. 51시간 후 = organic 프로파일.' },
+    { label: 'Post-peak', desc: '확산 속도 급감. unverifiable 영상 등장 시점.' },
+    { label: '안정화', desc: '주간 사이클 성숙. 추가 인용보다 댓글 클러스터 활동.' },
+    { label: '주간 마감', desc: '누적 124만 도달. 다음 batch로 이관.' },
+  ];
+  return (
+    <div className="bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-300 transition-colors">
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <h3 className="font-semibold text-slate-900">확산 곡선</h3>
+          <p className="text-xs text-slate-500 mt-0.5">누적 조회수 · 시간축 · canonical source 대비</p>
+        </div>
+        <div className="text-xs text-slate-400">viral peak: 4/17 오후</div>
+      </div>
+      <div className="relative">
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ maxHeight: 260 }}>
+          <defs>
+            <linearGradient id="diffusionGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#475569" stopOpacity="0.28" />
+              <stop offset="100%" stopColor="#475569" stopOpacity="0.02" />
+            </linearGradient>
+          </defs>
+          {yTicks.map((frac, i) => {
+            const y = pad.top + ih - frac * ih;
+            const v = frac * niceMax;
+            return (
+              <g key={i}>
+                <line x1={pad.left} y1={y} x2={pad.left + iw} y2={y} stroke="#e2e8f0" strokeDasharray="3 3" />
+                <text x={pad.left - 8} y={y + 4} textAnchor="end" fontSize="10" fill="#64748b">{formatNumber(v)}</text>
+              </g>
+            );
+          })}
+          <path d={areaPath} fill="url(#diffusionGrad)" />
+          <path d={linePath} fill="none" stroke="#475569" strokeWidth={2} />
+          {points.map((p, i) => (
+            <g key={i}
+              onMouseEnter={() => setHoverIdx(i)}
+              onMouseLeave={() => setHoverIdx(null)}
+              style={{ cursor: 'pointer' }}
+            >
+              <rect x={p.x - 22} y={pad.top} width={44} height={ih} fill="transparent" />
+              {hoverIdx === i && (
+                <line x1={p.x} y1={p.y} x2={p.x} y2={pad.top + ih} stroke="#94a3b8" strokeDasharray="2 2" strokeWidth={1} />
+              )}
+              <circle cx={p.x} cy={p.y} r={hoverIdx === i ? 6 : 3.5} fill={hoverIdx === i ? '#0f172a' : '#475569'} stroke="#fff" strokeWidth={hoverIdx === i ? 2 : 1.5} style={{ transition: 'all 0.15s' }} />
+              <text x={p.x} y={H - 8} textAnchor="middle" fontSize="11" fill={hoverIdx === i ? '#0f172a' : '#64748b'} fontWeight={hoverIdx === i ? 700 : 400} style={{ transition: 'all 0.15s' }}>{p.label}</text>
+            </g>
+          ))}
+        </svg>
+        {hoverIdx !== null && (
+          <div
+            className="absolute p-3.5 bg-slate-900 text-white text-xs rounded-lg shadow-xl min-w-[240px] max-w-[300px] z-20 pointer-events-none"
+            style={{
+              left: `${(points[hoverIdx].x / W) * 100}%`,
+              top: '8px',
+              transform: `translateX(${hoverIdx >= points.length - 2 ? 'calc(-100% - 16px)' : hoverIdx <= 1 ? '16px' : '-50%'})`
+            }}
+          >
+            <div className="font-semibold text-slate-100 mb-1.5 flex items-baseline gap-2">
+              <span>{points[hoverIdx].label}</span>
+              <span className="text-[11px] text-slate-400 font-normal uppercase tracking-wider">{interpretations[hoverIdx].label}</span>
+            </div>
+            <div className="text-slate-300 space-y-1">
+              <div>누적 조회수 <strong className="text-white tabular-nums">{formatNumber(points[hoverIdx].value)}</strong></div>
+              {hoverIdx > 0 && (
+                <div className="text-[11px] text-slate-400">전일 대비 <span className="text-emerald-400 tabular-nums">+{formatNumber(points[hoverIdx].value - points[hoverIdx - 1].value)}</span></div>
+              )}
+            </div>
+            <div className="mt-2.5 pt-2.5 border-t border-slate-700 text-slate-400 text-[11px] leading-relaxed">
+              {interpretations[hoverIdx].desc}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ProvenanceTrace({ items }) {
+  const [hoverIdx, setHoverIdx] = useState(null);
+  const typeStyle = {
+    canonical: { bg: 'bg-emerald-50', border: 'border-emerald-300', text: 'text-emerald-800', label: 'Canonical', tooltipColor: 'text-emerald-300', desc: '7종 공식 소스의 원본', review: 'Human review 0% · 신뢰도 최상 · 모든 추적의 기점' },
+    direct: { bg: 'bg-sky-50', border: 'border-sky-300', text: 'text-sky-800', label: '직접 인용', tooltipColor: 'text-sky-300', desc: '원문 그대로 인용', review: 'Human review 5% spot-check · LLM 자동 매칭 위임' },
+    partial: { bg: 'bg-amber-50', border: 'border-amber-300', text: 'text-amber-800', label: '부분 인용 + 해석', tooltipColor: 'text-amber-300', desc: '일부 인용 + 편집·해석 개입', review: 'Human review 25% · 해석 정확성 검증 필요' },
+    unverifiable: { bg: 'bg-rose-50', border: 'border-rose-300', text: 'text-rose-800', label: 'Unverifiable', tooltipColor: 'text-rose-300', desc: '원본 링크 없는 독립 주장', review: 'Human review 100% · 명예훼손 리스크 최대 · 공직선거법 250조 대상' },
+  };
+  return (
+    <div className="bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-300 transition-colors">
+      <div className="mb-4">
+        <h3 className="font-semibold text-slate-900">원본 추적 (Canonical Source)</h3>
+        <p className="text-xs text-slate-500 mt-0.5">7종 canonical source 중 어디에서 시작되어 어떻게 파생됐는가</p>
+      </div>
+      <div className="space-y-2">
+        {items.map((item, i) => {
+          const style = typeStyle[item.type];
+          return (
+            <div
+              key={i}
+              className={`${style.bg} ${style.border} border rounded-md p-3 cursor-pointer transition-all relative ${hoverIdx === i ? 'shadow-md scale-[1.01]' : ''}`}
+              onMouseEnter={() => setHoverIdx(i)}
+              onMouseLeave={() => setHoverIdx(null)}
+            >
+              <div className="flex items-start justify-between mb-1">
+                <div className="flex items-center gap-2">
+                  <span className={`${style.text} text-xs font-semibold px-1.5 py-0.5 rounded border ${style.border} bg-white`}>{style.label}</span>
+                  <span className="text-xs text-slate-500">Level {item.level}</span>
+                </div>
+                <span className="text-xs text-slate-500">{item.time}</span>
+              </div>
+              <div className="text-sm text-slate-900 font-medium mb-1">{item.title}</div>
+              <div className="text-xs text-slate-600">{item.channel} · {item.subs} 구독</div>
+              {hoverIdx === i && (
+                <div className="absolute bottom-full left-0 right-0 mb-2 p-3.5 bg-slate-900 text-white text-xs rounded-lg shadow-xl z-20">
+                  <div className={`font-semibold mb-2 ${style.tooltipColor}`}>{style.label} · Level {item.level}</div>
+                  <div className="text-slate-300 space-y-1">
+                    <div><strong className="text-white">{item.channel}</strong> <span className="text-slate-400">({item.subs} 구독)</span></div>
+                    <div>{item.time}</div>
+                    <div className="italic text-slate-400">"{item.title}"</div>
+                  </div>
+                  <div className="mt-2.5 pt-2.5 border-t border-slate-700 text-slate-400 text-[11px] leading-relaxed space-y-1">
+                    <div><span className="text-slate-300 font-medium">타입</span> · {style.desc}</div>
+                    <div><span className="text-slate-300 font-medium">처리</span> · {style.review}</div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function CommentBreakdown({ data, botPercent }) {
+  const [hover, setHover] = useState(null);
+  const max = 80;
+  const clusterInfo = {
+    "원본 주장 반복": {
+      color: 'text-sky-300',
+      data: ['Top-100 댓글 중 65건', 'canonical claim을 그대로 복제', '주요 문구: "발표대로…", "정확히 말씀하신…"'],
+      interp: '높은 비율 = 메시지 균일성. 원본 영향력이 크다는 신호이자 echo chamber 가능성 지표.'
+    },
+    "확장 주장": {
+      color: 'text-slate-200',
+      data: ['Top-100 댓글 중 20건', 'canonical claim에 해석·추가 내용 덧붙임', '봇 의심 비율: 18% (클러스터 평균보다 높음)'],
+      interp: 'misinformation 확산 경로 — 원본에서 파생되며 사실성이 희석됨. Track 2에서 2차 파생 매핑 대상.'
+    },
+    "반박": {
+      color: 'text-amber-300',
+      data: ['Top-100 댓글 중 10건', 'claim에 대한 반론·이견', '주요 반박점: 현실성·재원·집행 가능성'],
+      interp: '반박 비율이 낮음 = 상위 영상들이 특정 관점에 편중. 양 진영 병렬 sub-view로 보정.'
+    },
+    "off-topic": {
+      color: 'text-slate-400',
+      data: ['Top-100 댓글 중 5건', '주제와 무관한 스팸·개인 공격', '유튜브 평균 범위'],
+      interp: '5% = 정상 수준. 20%+면 coordinated noise 의심.'
+    },
+  };
+  return (
+    <div className="bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-300 transition-colors">
+      <div className="mb-4">
+        <h3 className="font-semibold text-slate-900">댓글 클러스터 · 봇 탐지</h3>
+        <p className="text-xs text-slate-500 mt-0.5">상위 영상 댓글 Top-100의 주제별 군집 + 봇 탐지 병렬</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="relative">
+          <div className="text-xs text-slate-500 mb-3">클러스터 분포</div>
+          <div className="space-y-2.5">
+            {data.map((item, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-3 cursor-pointer"
+                onMouseEnter={() => setHover({ type: 'cluster', key: item.label })}
+                onMouseLeave={() => setHover(null)}
+              >
+                <div className={`w-24 text-xs text-right transition-colors ${hover?.key === item.label ? 'text-slate-900 font-semibold' : 'text-slate-700'}`}>{item.label}</div>
+                <div className="flex-1 h-5 bg-slate-100 rounded overflow-hidden">
+                  <div className={`h-full rounded transition-all ${hover?.key === item.label ? 'bg-slate-800' : 'bg-slate-500'}`} style={{ width: `${(item.value / max) * 100}%` }}></div>
+                </div>
+                <div className="w-10 text-xs text-slate-700 font-medium text-right tabular-nums">{item.value}%</div>
+              </div>
+            ))}
+          </div>
+          {hover?.type === 'cluster' && clusterInfo[hover.key] && (
+            <div className="absolute top-full left-0 right-0 mt-3 p-3.5 bg-slate-900 text-white text-xs rounded-lg shadow-xl z-20">
+              <div className={`font-semibold mb-2 ${clusterInfo[hover.key].color}`}>{hover.key}</div>
+              <div className="text-slate-300 space-y-1">
+                {clusterInfo[hover.key].data.map((d, i) => <div key={i}>• {d}</div>)}
+              </div>
+              <div className="mt-2.5 pt-2.5 border-t border-slate-700 text-slate-400 text-[11px] leading-relaxed">
+                {clusterInfo[hover.key].interp}
+              </div>
+            </div>
+          )}
+        </div>
+        <div>
+          <div className="text-xs text-slate-500 mb-3">봇 탐지</div>
+          <div
+            className="bg-slate-50 border border-slate-200 rounded-md p-4 cursor-pointer hover:border-slate-300 hover:bg-slate-100 transition-colors relative"
+            onMouseEnter={() => setHover({ type: 'bot' })}
+            onMouseLeave={() => setHover(null)}
+          >
+            <div className="flex items-baseline gap-1 mb-2">
+              <span className="text-3xl font-bold text-slate-900 tabular-nums">{botPercent}%</span>
+              <span className="text-sm text-slate-500">봇 의심</span>
+            </div>
+            <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden mb-3">
+              <div className="h-full bg-slate-500" style={{ width: `${botPercent}%` }}></div>
+            </div>
+            <div className="text-xs text-slate-600 leading-relaxed">
+              계정 생성일·활동 패턴·중복 텍스트·응답 속도 4개 휴리스틱 기반.
+              원본 raw 데이터는 별도 보존, 필터링 전후 분포 모두 열람 가능.
+            </div>
+            {hover?.type === 'bot' && (
+              <div className="absolute top-full left-0 right-0 mt-3 p-3.5 bg-slate-900 text-white text-xs rounded-lg shadow-xl z-20">
+                <div className="font-semibold text-slate-100 mb-2">봇 탐지 휴리스틱 4축</div>
+                <div className="text-slate-300 space-y-1">
+                  <div>• <strong className="text-white">계정 생성일</strong> — 최근 30일 내 + 높은 활동</div>
+                  <div>• <strong className="text-white">활동 패턴</strong> — 시간대 비정상 (24시간 균일 or 편중)</div>
+                  <div>• <strong className="text-white">중복 텍스트</strong> — 동일·유사 댓글 여러 영상 반복</div>
+                  <div>• <strong className="text-white">응답 속도</strong> — 업로드 직후 수초 내 댓글</div>
+                </div>
+                <div className="mt-2.5 pt-2.5 border-t border-slate-700 text-slate-400 text-[11px] leading-relaxed">
+                  경계선: 20%+ = 집단 편향 조작 의심. 현재 {botPercent}% = 평균 수준. Raw + 필터링 분포 모두 공개.
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BiasCard({ spread, originLabel }) {
+  const [hover, setHover] = useState(null);
+  const videoCount = 47;
+  const totalViews = 1240000;
+  const progVideos = Math.round(videoCount * spread.progressive / 100);
+  const consVideos = videoCount - progVideos;
+  const progViews = Math.round(totalViews * spread.progressive / 100);
+  const consViews = totalViews - progViews;
+  return (
+    <div className="bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-300 transition-colors">
+      <div className="mb-4">
+        <h3 className="font-semibold text-slate-900">편향 분포 카드</h3>
+        <p className="text-xs text-slate-500 mt-0.5">4원칙 중 "분포 메타데이터" · 강제 대칭 없음</p>
+      </div>
+      <div className="mb-5 relative">
+        <div className="text-xs text-slate-500 mb-1.5">Origin (원본 출처 편향)</div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <div
+            className="bg-slate-100 px-3 py-1.5 rounded text-sm font-medium text-slate-700 border border-slate-200 cursor-pointer hover:border-slate-400 hover:bg-slate-200 transition-colors"
+            onMouseEnter={() => setHover('origin')}
+            onMouseLeave={() => setHover(null)}
+          >{originLabel}</div>
+          <span className="text-xs text-slate-500">— 정치인 공식 발표 채널, 중도 origin</span>
+        </div>
+        {hover === 'origin' && (
+          <div className="absolute top-full left-0 mt-2 p-3.5 bg-slate-900 text-white text-xs rounded-lg shadow-xl min-w-[280px] max-w-[340px] z-20">
+            <div className="font-semibold text-slate-100 mb-2">원본 출처: {originLabel}</div>
+            <div className="text-slate-300 leading-relaxed space-y-1">
+              <div>Canonical source 7종 중 1종 (정치인 공식).</div>
+              <div>구독자 1.2M · Verified channel.</div>
+              <div>4/15 14:00 최초 발표 → 모든 파생 영상의 추적 기점.</div>
+            </div>
+            <div className="mt-2.5 pt-2.5 border-t border-slate-700 text-slate-400 text-[11px] leading-relaxed">
+              중도 origin은 진영 한쪽에서만 증폭될 경우 "왜곡 가능성" 시그널이 됨.
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="mb-4 relative">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-xs text-slate-500">확산 진영 분포 (파생 영상 · 조회수 가중)</span>
+          <span className="text-xs text-slate-400 tabular-nums">{videoCount}개 영상</span>
+        </div>
+        <div className="flex h-10 rounded-md overflow-hidden border border-slate-200">
+          <div
+            className="bg-sky-400 hover:bg-sky-500 flex items-center justify-center text-xs text-white font-medium tabular-nums cursor-pointer transition-colors"
+            style={{ width: `${spread.progressive}%` }}
+            onMouseEnter={() => setHover('progressive')}
+            onMouseLeave={() => setHover(null)}
+          >진보 {spread.progressive}%</div>
+          <div
+            className="bg-rose-400 hover:bg-rose-500 flex items-center justify-center text-xs text-white font-medium tabular-nums cursor-pointer transition-colors"
+            style={{ width: `${spread.conservative}%` }}
+            onMouseEnter={() => setHover('conservative')}
+            onMouseLeave={() => setHover(null)}
+          >보수 {spread.conservative}%</div>
+        </div>
+        {hover === 'progressive' && (
+          <div className="absolute top-full left-0 mt-2 p-3.5 bg-slate-900 text-white text-xs rounded-lg shadow-xl min-w-[280px] max-w-[340px] z-20">
+            <div className="font-semibold text-sky-300 mb-2">진보 진영 확산</div>
+            <div className="text-slate-300 space-y-1.5">
+              <div>{videoCount}개 파생 영상 중 <strong className="text-white">{progVideos}개</strong></div>
+              <div>가중 조회수: <strong className="text-white">{(progViews / 10000).toFixed(1)}만</strong></div>
+              <div>주요 채널: 시사 채널 Y · 정치 분석 채널 X</div>
+            </div>
+            <div className="mt-2.5 pt-2.5 border-t border-slate-700 text-slate-400 text-[11px] leading-relaxed">
+              <strong className="text-amber-300">Less-represented side</strong> — 보수 대비 {Math.round(spread.progressive / spread.conservative * 100)}% 수준. 분포 자체를 투명하게 공개.
+            </div>
+          </div>
+        )}
+        {hover === 'conservative' && (
+          <div className="absolute top-full right-0 mt-2 p-3.5 bg-slate-900 text-white text-xs rounded-lg shadow-xl min-w-[280px] max-w-[340px] z-20">
+            <div className="font-semibold text-rose-300 mb-2">보수 진영 확산</div>
+            <div className="text-slate-300 space-y-1.5">
+              <div>{videoCount}개 파생 영상 중 <strong className="text-white">{consVideos}개</strong></div>
+              <div>가중 조회수: <strong className="text-white">{(consViews / 10000).toFixed(1)}만</strong></div>
+              <div>주요 채널: 정치 분석 채널 X · 시민 분석 채널 Z</div>
+            </div>
+            <div className="mt-2.5 pt-2.5 border-t border-slate-700 text-slate-400 text-[11px] leading-relaxed">
+              보수 진영이 진보 대비 {(spread.conservative / spread.progressive).toFixed(2)}배 확산. 강제 대칭 보정 없음.
+            </div>
+          </div>
+        )}
+      </div>
+      <div
+        className="bg-amber-50 border border-amber-200 rounded-md p-3 text-xs text-amber-900 leading-relaxed cursor-pointer hover:bg-amber-100 transition-colors relative"
+        onMouseEnter={() => setHover('highlight')}
+        onMouseLeave={() => setHover(null)}
+      >
+        <strong>Less-represented side highlight:</strong> 진보 진영 확산이 보수 대비 54% 수준.
+        이 비율은 "올바름/그름"의 신호가 아니라, <strong>분포의 사실</strong>을 제시한다. 보정은 독자의 판단이다.
+        {hover === 'highlight' && (
+          <div className="absolute top-full left-0 mt-2 p-3.5 bg-slate-900 text-white text-xs rounded-lg shadow-xl min-w-[280px] max-w-[340px] z-20">
+            <div className="font-semibold text-amber-300 mb-2">편향 투명성 4원칙</div>
+            <div className="text-slate-300 space-y-1">
+              <div>1. 분포 메타데이터 <span className="text-emerald-400">✓ 구현</span></div>
+              <div>2. 병렬 sub-view (전체·보수·진보) <span className="text-slate-500">· mockup 범위 밖</span></div>
+              <div>3. 방법론 공개 페이지 <span className="text-slate-500">· mockup 범위 밖</span></div>
+              <div>4. Less-represented highlight <span className="text-emerald-400">✓ 구현</span></div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MiniKG({ data }) {
+  const { nodes, edges } = data;
+  const nodeById = Object.fromEntries(nodes.map(n => [n.id, n]));
+  const [hoveredNode, setHoveredNode] = useState(null);
+  const nodeColor = {
+    politician: '#64748b', claim: '#475569', source: '#059669',
+    video: '#0284c7', 'video-u': '#e11d48', comment: '#7c3aed',
+  };
+  const nodeRadius = {
+    politician: 34, claim: 40, source: 32,
+    video: 28, 'video-u': 28, comment: 28,
+  };
+  const nodeInfo = {
+    politician: { typeName: 'Politician', color: 'text-slate-300', desc: '정치인 엔티티. 모든 관련 claim과 source의 중심. 계파·지역 지지 기반 같은 한국 정치 특화 semantics는 도메인 감수자와 협업으로 확정.' },
+    claim: { typeName: 'Claim', color: 'text-slate-200', desc: '개별 주장. canonical source에서 파생. schema.org ClaimReview 호환으로 팩트체크 생태계와 연동.' },
+    source: { typeName: 'Canonical Source', color: 'text-emerald-300', desc: '7종 공식 출처 중 1종 (정치인 공식 채널). 모든 추적의 기점. provenance chain의 root.' },
+    video: { typeName: 'YouTube Video', color: 'text-sky-300', desc: '파생 영상. 직접 또는 부분 인용 형태로 canonical claim을 재유통. Level 1-2로 매핑.' },
+    'video-u': { typeName: 'Unverifiable Video', color: 'text-rose-300', desc: '원본 링크 없는 독립 주장 영상. 명예훼손 리스크 최대. Human review 100% · recursive gate 위임 금지.' },
+    comment: { typeName: 'Comment Cluster', color: 'text-violet-300', desc: '댓글 군집. 여론 확산 레이어. 봇 탐지 휴리스틱으로 필터링 전후 분포 모두 보존.' },
+  };
+  const hoveredNodeData = hoveredNode ? nodeById[hoveredNode] : null;
+  return (
+    <div className="bg-white border border-slate-200 rounded-lg p-5 md:col-span-2 hover:border-slate-300 transition-colors">
+      <div className="flex items-start justify-between mb-4 flex-wrap gap-3">
+        <div>
+          <h3 className="font-semibold text-slate-900">Mini Knowledge Graph</h3>
+          <p className="text-xs text-slate-500 mt-0.5">해당 주제 주변의 canonical source · 파생 영상 · 정치인 · 반응 클러스터 (전체 KG의 한 단면)</p>
+        </div>
+        <div className="flex items-center gap-3 text-xs flex-wrap">
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-emerald-600"></span>source</span>
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-slate-600"></span>claim</span>
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-sky-600"></span>video</span>
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-rose-600"></span>unverifiable</span>
+          <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-violet-600"></span>comment</span>
+        </div>
+      </div>
+      <div className="relative bg-slate-50 rounded-md border border-slate-200 overflow-hidden" style={{ height: 420 }}>
+        <svg viewBox="0 0 800 420" className="w-full h-full">
+          {edges.map((edge, i) => {
+            const from = nodeById[edge.from];
+            const to = nodeById[edge.to];
+            if (!from || !to) return null;
+            const dashed = edge.style === 'dashed';
+            const connected = hoveredNode && (hoveredNode === edge.from || hoveredNode === edge.to);
+            const dim = hoveredNode && !connected;
+            return (
+              <line key={i} x1={from.x} y1={from.y} x2={to.x} y2={to.y}
+                stroke={connected ? '#0f172a' : '#94a3b8'} strokeWidth={connected ? 2.5 : 1.5}
+                strokeDasharray={dashed ? "5,5" : "none"}
+                opacity={dim ? 0.12 : 0.88}
+                style={{ transition: 'all 0.2s' }} />
+            );
+          })}
+          {nodes.map(node => {
+            const r = nodeRadius[node.type];
+            const color = nodeColor[node.type];
+            const isHovered = hoveredNode === node.id;
+            const lines = node.label.split('\n');
+            return (
+              <g key={node.id} className="kg-node"
+                onMouseEnter={() => setHoveredNode(node.id)}
+                onMouseLeave={() => setHoveredNode(null)}>
+                <circle cx={node.x} cy={node.y} r={isHovered ? r + 3 : r} fill={color}
+                  opacity={hoveredNode && !isHovered ? 0.3 : 0.95}
+                  stroke="#fff" strokeWidth={isHovered ? 3 : 2}
+                  style={{ transition: 'all 0.2s' }} />
+                {lines.map((line, idx) => (
+                  <text key={idx} x={node.x}
+                    y={node.y + (idx - (lines.length - 1) / 2) * 12}
+                    textAnchor="middle" dominantBaseline="middle"
+                    fontSize="10" fill="white" fontWeight={isHovered ? 600 : 500}>{line}</text>
+                ))}
+              </g>
+            );
+          })}
+        </svg>
+        {hoveredNodeData && nodeInfo[hoveredNodeData.type] && (
+          <div
+            className="absolute p-3.5 bg-slate-900 text-white text-xs rounded-lg shadow-xl min-w-[260px] max-w-[320px] z-20 pointer-events-none"
+            style={{
+              left: hoveredNodeData.x > 400 ? 'auto' : `${(hoveredNodeData.x / 800) * 100 + 2}%`,
+              right: hoveredNodeData.x > 400 ? `${((800 - hoveredNodeData.x) / 800) * 100 + 2}%` : 'auto',
+              top: hoveredNodeData.y > 220 ? 'auto' : `${(hoveredNodeData.y / 420) * 100 + 8}%`,
+              bottom: hoveredNodeData.y > 220 ? `${((420 - hoveredNodeData.y) / 420) * 100 + 8}%` : 'auto',
+            }}
+          >
+            <div className="font-semibold text-slate-100 mb-1">{hoveredNodeData.label.split('\n').join(' · ')}</div>
+            <div className={`text-[11px] uppercase tracking-wider mb-2 ${nodeInfo[hoveredNodeData.type].color}`}>{nodeInfo[hoveredNodeData.type].typeName}</div>
+            <div className="text-slate-300 leading-relaxed">{nodeInfo[hoveredNodeData.type].desc}</div>
+            <div className="mt-2.5 pt-2.5 border-t border-slate-700 text-slate-400 text-[11px] leading-relaxed">
+              연결된 엣지가 하이라이트됩니다. 실선 = 명시적 provenance · 점선 = unverifiable 추정 연결.
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function CarouselView({ panels, activeIdx, setActiveIdx }) {
+  const count = panels.length;
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowLeft') setActiveIdx((prev) => (prev - 1 + count) % count);
+      if (e.key === 'ArrowRight') setActiveIdx((prev) => (prev + 1) % count);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [count, setActiveIdx]);
+
+  return (
+    <div>
+      <div
+        className="relative"
+        style={{ height: 780, perspective: '1800px' }}
+      >
+        <div
+          className="absolute inset-0"
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          {panels.map((panel, i) => {
+            const angleStep = 360 / count;
+            let angleDiff = (i - activeIdx) * angleStep;
+            while (angleDiff > 180) angleDiff -= 360;
+            while (angleDiff < -180) angleDiff += 360;
+
+            const theta = (angleDiff * Math.PI) / 180;
+            const R = 420;
+            const x = R * Math.sin(theta);
+            const z = R * Math.cos(theta) - R;
+            const rotY = -angleDiff;
+
+            const absAngle = Math.abs(angleDiff);
+            const isActive = absAngle < 1;
+            const isAdjacent = Math.abs(absAngle - angleStep) < 1;
+
+            const opacity = isActive ? 1 : isAdjacent ? 0.38 : 0;
+            const blurPx = isActive ? 0 : 2;
+            const zIndex = 100 - Math.round(absAngle);
+
+            return (
+              <div
+                key={panel.id}
+                className={`absolute top-1/2 left-1/2 transition-all duration-500 ease-out ${isAdjacent && !isActive ? 'cursor-pointer' : ''}`}
+                style={{
+                  transform: `translate(-50%, -50%) translate3d(${x}px, 0, ${z}px) rotateY(${rotY}deg)`,
+                  transformStyle: 'preserve-3d',
+                  backfaceVisibility: 'hidden',
+                  opacity,
+                  filter: `blur(${blurPx}px)`,
+                  zIndex,
+                  width: 720,
+                  maxWidth: '92vw',
+                  minHeight: 680,
+                  display: 'flex',
+                  alignItems: 'center',
+                  pointerEvents: isActive ? 'auto' : isAdjacent ? 'auto' : 'none',
+                }}
+                onClick={() => !isActive && isAdjacent && setActiveIdx(i)}
+              >
+                <div style={{ width: '100%' }}>
+                  {panel.render()}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="flex items-center justify-center gap-3 mt-8 flex-wrap">
+        <button
+          onClick={() => setActiveIdx((activeIdx - 1 + count) % count)}
+          className="w-11 h-11 rounded-full border border-slate-300 bg-white hover:border-slate-500 hover:bg-slate-50 transition-all flex items-center justify-center text-slate-700 text-lg shrink-0"
+          aria-label="Previous"
+        >←</button>
+
+        <div className="flex gap-2 flex-wrap justify-center">
+          {panels.map((p, i) => (
+            <button
+              key={p.id}
+              onClick={() => setActiveIdx(i)}
+              className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-all ${
+                i === activeIdx
+                  ? 'bg-slate-900 text-white'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
+            >{p.title}</button>
+          ))}
+        </div>
+
+        <button
+          onClick={() => setActiveIdx((activeIdx + 1) % count)}
+          className="w-11 h-11 rounded-full border border-slate-300 bg-white hover:border-slate-500 hover:bg-slate-50 transition-all flex items-center justify-center text-slate-700 text-lg shrink-0"
+          aria-label="Next"
+        >→</button>
+      </div>
+
+      <div className="text-center text-[11px] text-slate-400 mt-4 uppercase tracking-wider">
+        양옆 패널 클릭 · 좌우 화살표 키 · 하단 탭으로 이동
+      </div>
+    </div>
+  );
+}
+
+function DrillDownView({ topicId, onBack }) {
+  const topic = TOPICS.find(t => t.id === topicId);
+  const detail = TOPIC_DETAIL_1;
+  const [viewMode, setViewMode] = useState('carousel');
+  const [carouselIdx, setCarouselIdx] = useState(0);
+
+  if (!topic) return null;
+
+  const panels = [
+    { id: 'diffusion', title: '확산 곡선', render: () => <DiffusionChart data={detail.diffusion} /> },
+    { id: 'bias', title: '편향 분포', render: () => <BiasCard spread={topic.biasSpread} originLabel={topic.origin} /> },
+    { id: 'provenance', title: '원본 추적', render: () => <ProvenanceTrace items={detail.provenance} /> },
+    { id: 'comments', title: '댓글·봇 탐지', render: () => <CommentBreakdown data={detail.comments} botPercent={detail.botPercent} /> },
+    { id: 'kg', title: 'Knowledge Graph', render: () => <MiniKG data={detail.kg} /> },
+  ];
+
+  return (
+    <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+        <button onClick={onBack} className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 transition-colors">
+          <span>←</span><span>목록으로 돌아가기</span>
+        </button>
+        <div className="flex items-center gap-1 bg-slate-100 rounded-lg p-1">
+          <button
+            onClick={() => setViewMode('carousel')}
+            className={`px-4 py-2 text-xs font-semibold rounded transition-all ${
+              viewMode === 'carousel' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-500 hover:text-slate-700'
+            }`}
+          >Spotlight</button>
+          <button
+            onClick={() => setViewMode('grid')}
+            className={`px-4 py-2 text-xs font-semibold rounded transition-all ${
+              viewMode === 'grid' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-500 hover:text-slate-700'
+            }`}
+          >Overview</button>
+        </div>
+      </div>
+      <div className="bg-white border border-slate-200 rounded-lg p-6 mb-6">
+        <div className="flex items-start justify-between mb-3 gap-3 flex-wrap">
+          <div>
+            <div className="text-xs text-slate-500 mb-1">{topic.date} · origin: {topic.origin}</div>
+            <h2 className="text-2xl font-semibold text-slate-900">{topic.title}</h2>
+          </div>
+          <div className="mock-badge px-2 py-1 rounded text-xs font-semibold text-amber-900 border border-amber-300">MOCK</div>
+        </div>
+        <p className="text-slate-700 mb-4">{topic.summary}</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-slate-100">
+          <div><div className="text-xs text-slate-500 mb-0.5">총 누적 조회수</div><div className="text-lg font-semibold text-slate-900 tabular-nums">{formatNumber(topic.totalViews)}</div></div>
+          <div><div className="text-xs text-slate-500 mb-0.5">파생 영상 수</div><div className="text-lg font-semibold text-slate-900 tabular-nums">{topic.videoCount}</div></div>
+          <div><div className="text-xs text-slate-500 mb-0.5">원본 불명</div><div className="text-lg font-semibold text-slate-900 tabular-nums">{topic.unverifiablePercent}%</div></div>
+          <div><div className="text-xs text-slate-500 mb-0.5">Viral peak</div><div className="text-lg font-semibold text-slate-900">{topic.viralPeak}</div></div>
+        </div>
+      </div>
+      {viewMode === 'grid' ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <DiffusionChart data={detail.diffusion} />
+          <BiasCard spread={topic.biasSpread} originLabel={topic.origin} />
+          <ProvenanceTrace items={detail.provenance} />
+          <CommentBreakdown data={detail.comments} botPercent={detail.botPercent} />
+          <MiniKG data={detail.kg} />
+        </div>
+      ) : (
+        <CarouselView panels={panels} activeIdx={carouselIdx} setActiveIdx={setCarouselIdx} />
+      )}
+    </div>
+  );
+}
+
+// ============================================
+// NOT YET IMPLEMENTED
+// ============================================
+
+function NotYetImplemented() {
+  const items = [
+    { title: "정치인 중심 drill-down", desc: "주제 기반이 아닌 정치인 기반 뷰. Track 1.5 후반 또는 Track 2에서 확장." },
+    { title: "ASR 및 영상 내용 분석", desc: "현재 파이프라인은 메타데이터·댓글·썸네일 OCR·자막(CC)까지. 영상 내 발화는 Track 2." },
+    { title: "Multi-hop provenance graph", desc: "2차 이상 파생의 자동 추적. 현재는 1차 파생까지만 매핑." },
+    { title: "전체 KG 네비게이션", desc: "현재 mini KG는 단일 주제 주변만 표시. 전체 그래프 탐색은 MVP 후 단계." },
+    { title: "편향 4원칙 전체 UI", desc: "병렬 sub-view + 방법론 공개 페이지는 본 mockup 범위 밖." },
+    { title: "실시간 업데이트", desc: "현재 계획은 주 2회 batch. 실시간 스트리밍은 post-Track 1.5." },
+  ];
+  return (
+    <div className="max-w-6xl mx-auto px-6 py-8 border-t border-slate-200 mt-8">
+      <h3 className="text-lg font-semibold text-slate-900 mb-2">아직 구현되지 않은 영역 <span className="text-slate-500 text-sm font-normal">(투명성)</span></h3>
+      <p className="text-sm text-slate-600 mb-5">아래 영역은 설계상 고려되었지만 MVP 범위에서 잠시 뒤로 미룬 부분입니다. 공동 설계·기여의 여지가 있는 지점이기도 합니다.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {items.map((item, i) => (
+          <div key={i} className="bg-slate-50 border border-dashed border-slate-300 rounded-md p-4">
+            <div className="text-sm font-semibold text-slate-800 mb-1">{item.title}</div>
+            <div className="text-xs text-slate-600 leading-relaxed">{item.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// FOOTER
+// ============================================
+
+function Footer() {
+  return (
+    <footer className="bg-slate-900 text-slate-300 mt-12">
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+          <div>
+            <div className="text-xs text-slate-400 uppercase tracking-widest mb-2">Project</div>
+            <div className="font-semibold text-white mb-1">Korean Political Discourse Provenance Layer</div>
+            <div className="text-slate-400 text-xs">2026-06 지방선거 파일럿 · Track 1.5</div>
+          </div>
+          <div>
+            <div className="text-xs text-slate-400 uppercase tracking-widest mb-2">Status</div>
+            <div className="text-slate-300">설계 lock: PRD v1.0 (2026-04-19)</div>
+            <div className="text-slate-300">시작일 lock: 2026-05-04</div>
+            <div className="text-amber-300 mt-1">이 대시보드는 mockup입니다</div>
+          </div>
+          <div>
+            <div className="text-xs text-slate-400 uppercase tracking-widest mb-2">Contact</div>
+            <div className="text-white font-medium">Dongjae (Jack) Kang</div>
+            <div className="text-slate-400 text-xs">Columbia University, SIPA</div>
+            <div className="text-slate-400 text-xs">Technology Policy and Innovation</div>
+            <div className="text-slate-300 text-xs mt-1">dongjae-kang.github.io</div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ============================================
+// APP
+// ============================================
+
+function App() {
+  const [tab, setTab] = useState('ranking');
+  const [selectedTopicId, setSelectedTopicId] = useState(() => {
+    if (typeof window !== 'undefined' && window.location.hash === '#spotlight') {
+      return 1;
+    }
+    return null;
+  });
+
+  if (selectedTopicId !== null) {
+    return (
+      <div className="min-h-screen">
+        <Header />
+        <MockupBanner />
+        <DrillDownView topicId={selectedTopicId} onBack={() => setSelectedTopicId(null)} />
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen">
+      <Header />
+      <MockupBanner />
+      <MissionBlurb />
+      <WeeklySummaryBar />
+      <TabNav current={tab} onChange={setTab} />
+      {tab === 'analysis' && <NewsroomTab onSelect={setSelectedTopicId} />}
+      {tab === 'browse' && <BrowseTab onSelect={setSelectedTopicId} />}
+      {tab === 'ranking' && <RankingTab onSelect={setSelectedTopicId} />}
+      <NotYetImplemented />
+      <Footer />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
