@@ -1,0 +1,501 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PRISM — US 홈 재설계 시안 v8 확정 (C)</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<style>
+:root{
+ --ink:#0B0B12;--ink-soft:#2B2A36;--ink-mid:#595869;--ink-faint:#9B9AAA;
+ --rule:rgba(20,20,40,0.08);--rule-strong:rgba(20,20,40,0.15);
+ --accent:#6366F1;--accent-deep:#4338CA;--accent-soft:rgba(99,102,241,0.12);
+ --spec-canonical:#4F46E5;--spec-direct:#0E9F6E;--spec-partial:#D97706;--spec-transformed:#DB2777;
+ --glass-bg:rgba(255,255,255,0.55);--glass-bg-soft:rgba(255,255,255,0.40);
+ --glass-border:rgba(255,255,255,0.78);
+ --glass-shadow:0 1px 0 rgba(255,255,255,0.95) inset,0 -1px 0 rgba(120,140,200,0.18) inset,0 10px 28px -14px rgba(20,20,60,0.22),0 28px 60px -28px rgba(20,20,60,0.28);
+ --glass-shadow-soft:0 1px 0 rgba(255,255,255,0.7) inset,0 6px 18px -8px rgba(80,60,160,0.10);
+ --spectrum:linear-gradient(90deg,#4F46E5 0%,#0E9F6E 34%,#D97706 66%,#DB2777 100%);}
+*{box-sizing:border-box;margin:0}
+body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+ font:15px/1.6 'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,sans-serif}
+.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+ background:radial-gradient(120% 80% at 50% 0%,#FFFFFF 0%,#FAFAFD 60%,#F4F4FA 100%)}
+.ambient::before{content:'';position:absolute;inset:-20%;background:
+ radial-gradient(40% 30% at 18% 28%,rgba(99,102,241,0.55) 0%,transparent 60%),
+ radial-gradient(36% 26% at 78% 22%,rgba(14,159,110,0.42) 0%,transparent 60%),
+ radial-gradient(34% 28% at 88% 62%,rgba(217,119,6,0.45) 0%,transparent 60%),
+ radial-gradient(38% 30% at 62% 82%,rgba(219,39,119,0.42) 0%,transparent 60%),
+ radial-gradient(40% 32% at 12% 78%,rgba(79,70,229,0.42) 0%,transparent 60%);
+ filter:blur(60px) saturate(150%);animation:drift 28s cubic-bezier(.4,0,.6,1) infinite alternate;opacity:.85}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-3%,2%) scale(1.06)}100%{transform:translate(2%,-1%) scale(1.02)}}
+.ambient-wash{position:fixed;inset:0;z-index:1;pointer-events:none;
+ background:radial-gradient(100% 80% at 50% 50%,rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.6) 100%)}
+.hdr{position:sticky;top:0;z-index:40;background:rgba(255,255,255,0.65);
+ backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
+ border-bottom:1px solid rgba(20,20,40,0.06)}
+.hin{max-width:672px;margin:0 auto;padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.hleft{display:flex;align-items:center;gap:12px}
+.logo{height:24px;width:auto;display:block}
+.tag{font-size:10px;line-height:1.4;color:var(--ink-mid);padding-left:12px;border-left:1px solid var(--rule);letter-spacing:.04em}
+.hnav{display:flex;align-items:center;gap:20px}
+.hnav a{font-size:14px;font-weight:500;color:var(--ink-mid);text-decoration:none;position:relative;padding-bottom:4px}
+.hnav a.on{color:var(--ink)}
+.hnav a.on::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;border-radius:2px;background:linear-gradient(90deg,#4F46E5,#DB2777)}
+.main{position:relative;z-index:2;max-width:672px;margin:0 auto;padding:28px 20px 90px}
+.ph h1{font-size:23px;font-weight:800;letter-spacing:-.015em}
+.pd{color:var(--ink-mid);font-size:13.5px;margin-top:7px;line-height:1.65}
+.pd b{color:var(--ink-soft);font-weight:600}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:18px;background:rgba(255,255,255,0.6);overflow:hidden;box-shadow:var(--glass-shadow-soft);margin:16px 0 4px}
+.seg button{border:0;background:none;color:var(--ink-mid);font:600 12px 'Pretendard Variable',sans-serif;padding:6px 14px;cursor:pointer}
+.seg button.on{background:var(--ink);color:#fff}
+.badge{display:inline-block;font-size:9.5px;font-weight:700;border-radius:6px;padding:1px 6px;vertical-align:2px;letter-spacing:.03em}
+.badge.sian{border:1px dashed var(--accent-deep);color:var(--accent-deep)}
+.badge.pen{color:var(--accent-deep);background:rgba(99,102,241,0.14)}
+/* ── C: editorial masthead — 단일 상태 확정 (Jack 라운드 6: 2상태 장치 제거) */
+.mhead{margin-top:26px}
+/* 문단 마지막 줄(짧음)의 빈 우측에 올라앉음 — 세로 공간 0 (Jack 라운드 7) */
+.hwwrow{text-align:right;margin-top:-22px;position:relative;z-index:1}
+.hwwrow a{font-size:12px;font-weight:700;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule-strong);padding-bottom:1px;cursor:pointer}
+.hwwrow a:hover{border-color:var(--ink)}
+.kick{display:flex;align-items:baseline;gap:10px;font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint)}
+.kick b{color:var(--ink-mid)}
+.kick::before{content:'◆';color:var(--spec-canonical);font-size:8px;letter-spacing:0}
+.mtitle{font-size:29px;font-weight:800;letter-spacing:-.025em;line-height:1.16;margin-top:10px;white-space:nowrap}
+@media (max-width:640px){.mtitle{font-size:23px}}
+.mtitle em{font-style:normal;background:linear-gradient(100deg,#4F46E5 0%,#DB2777 38%,#4F46E5 76%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:lensflow 9s ease-in-out infinite}
+@keyframes lensflow{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+.mmsub{font-size:13.5px;line-height:1.65;color:var(--ink-mid);margin-top:9px;max-width:632px}
+.mmsub a{color:var(--ink);font-weight:650;text-decoration:none;border-bottom:1px solid var(--rule-strong);padding-bottom:1px;cursor:pointer;white-space:nowrap}
+.mmsub a:hover{border-color:var(--ink)}
+/* 분광 키라인 v9 확정 (Jack 라운드 8, 2026-07-13 밤 — 전용 비교 데모
+   prism-us-speckey-light-0713.html 에서 A/B/C/D 4안 라운드 후 결정):
+   ① [버그 수정] 빛 궤적을 선 안에 봉인. v8 은 .speckey 에 overflow 가 없어 sheen(-120%→320%)·
+      halo 가 선 '바깥' 배경까지 그려져, 빛이 페이지 가로축을 횡단하는 것처럼 보였다(Jack 지적).
+      overflow:hidden 으로는 못 막는다 — halo 는 위아래 ±5px 를 의도적으로 넘쳐야 하는데
+      overflow 는 x·y 를 따로 못 자름. → 궤적을 선 폭 안으로 계산:
+        sheen w36% → 0 → 178%  (우측 끝 = 36 + .36×178 = 100%)
+        halo  w22% → 32% → 323% (중심을 sheen 과 동기화: 18% → 82%)
+        wash  mask 30% → position 4% → 96% (중심 동일)
+      + 양 끝 opacity 점등·소등 = 빛이 선 안에서 나서 선 안에서 죽는다.
+   ② [채택] .wash = '분산(dispersion)' — 유리 모서리를 지난 빛이 아래 종이(=funnel 문장 영역)로
+      번진다. 분광 그라데이션 전체를 깔고 '이동 마스크'로 뚫어, 빛이 지나는 자리의 '선 색'이
+      그대로 아래로 떨어진다(고정 색덩어리를 움직이면 늘 같은 색 = 프리즘의 거짓말).
+      wash = z-index 0 (글자 '뒤'), funnel 행 = z-index 2 → 공간적으로 겹치되 대비 손실 0.
+      강도 = .20 확정 (매일 오는 화면 기준 — .25 는 정지 화면에선 낫지만 물리는 속도가 빠름).
+   ③ [폐기] D안 = 선을 두껍게 한 반투명 '분광 밴드' 위에 문장을 얹는 안 (Jack 원안).
+      근거 3: (a) spec-* 5색은 카드에서 '출처 등급'이라는 의미를 이미 가짐 → 40px 색면으로
+      채우면 "이 숫자들이 색으로 분류됐나?" 오독을 부른다(PRISM 은 색 오독 비용이 비싼 제품).
+      (b) .07 이면 저가 모니터·모바일에서 안 보여 보상 0, .12+ 면 무지개 배너 = vibe-coding
+      시그니처. 좋은 창이 없다. (c) 라운드 2 원칙("정적 무지개 최소화, 시그니처=살아있는 빛
+      3곳")과 정면 충돌 + funnel 문장이 헤드라인과 위계 경쟁. 반면 B 는 요소를 더하지 않고
+      기존 시그니처(키라인 sheen)를 물리적으로 완성할 뿐.
+      → D 데모는 보존: prism-us-speckey-light-0713.html (팀 의견 청취용, Jack 7/13). */
+.speckey{height:3px;border-radius:2px;background:var(--spectrum);margin:18px 0 0;opacity:.92;position:relative;z-index:1}
+.speckey::before{content:'';position:absolute;inset:0;border-radius:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.85) 50%,transparent);width:36%;animation:sheen 5.5s cubic-bezier(.4,0,.6,1) infinite;animation-delay:-2.4s}
+.speckey::after{content:'';position:absolute;top:-5px;height:13px;width:22%;
+ background:radial-gradient(50% 50% at 50% 50%,rgba(255,255,255,0.9) 0%,rgba(255,255,255,0.35) 45%,transparent 72%);
+ animation:sheenHalo 5.5s cubic-bezier(.4,0,.6,1) infinite;animation-delay:-2.4s;pointer-events:none}
+@keyframes sheen{0%{transform:translateX(0);opacity:0}7%{opacity:1}45%{opacity:1}55%,100%{transform:translateX(178%);opacity:0}}
+@keyframes sheenHalo{0%{transform:translateX(32%);opacity:0}7%{opacity:1}45%{opacity:1}55%,100%{transform:translateX(323%);opacity:0}}
+/* 분산 wash — 글자 '뒤'(z0). funnel 행이 z2 로 위에 앉는다. 강도 .20 확정. */
+.wash{position:absolute;left:0;top:3px;height:64px;width:100%;pointer-events:none;z-index:0;
+ opacity:.20;filter:blur(13px) saturate(190%);background:var(--spectrum);
+ -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+ -webkit-mask-size:30% 130%,100% 100%;mask-size:30% 130%,100% 100%;
+ -webkit-mask-image:radial-gradient(closest-side,#000 0%,rgba(0,0,0,0.5) 45%,transparent 78%),linear-gradient(180deg,#000 0%,rgba(0,0,0,0.35) 55%,transparent 92%);
+ mask-image:radial-gradient(closest-side,#000 0%,rgba(0,0,0,0.5) 45%,transparent 78%),linear-gradient(180deg,#000 0%,rgba(0,0,0,0.35) 55%,transparent 92%);
+ -webkit-mask-composite:source-in;mask-composite:intersect;
+ animation:washSweep 5.5s cubic-bezier(.4,0,.6,1) infinite;animation-delay:-2.4s}
+@keyframes washSweep{
+ 0%{-webkit-mask-position:4% 0%,0 0;mask-position:4% 0%,0 0;opacity:0}
+ 7%{opacity:.20} 45%{opacity:.20}
+ 55%,100%{-webkit-mask-position:96% 0%,0 0;mask-position:96% 0%,0 0;opacity:0}}
+@media (prefers-reduced-motion:reduce){.speckey::before,.speckey::after,.wash,.mtitle em{animation:none}}
+.mast2{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding:11px 0 12px;position:relative;z-index:2}
+.mdate{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);font-variant-numeric:tabular-nums;white-space:nowrap}
+.funnel2{font-size:13.5px;color:var(--ink-mid);line-height:1.6}
+.funnel2 b{color:var(--ink);font-weight:750;font-variant-numeric:tabular-nums}
+/* ── A masthead (비교용 원형 유지) */
+.mast{margin-top:22px;font-size:11.5px;color:var(--ink-faint);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.funnel{font-size:15.5px;line-height:1.6;color:var(--ink-mid);margin-top:5px}
+.funnel b{color:var(--ink);font-weight:750;font-variant-numeric:tabular-nums}
+/* ── hero card */
+.cardwrap{position:relative;margin-top:12px}
+.gcard{position:relative;z-index:1;background:rgba(255,255,255,0.82);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);
+ border:1px solid var(--glass-border);border-radius:28px;box-shadow:var(--glass-shadow);padding:26px 28px}
+/* v3: 히어로 상단 정적 분광선 제거 — 정적 무지개 최소화 (Jack 라운드 2) */
+/* 2톤 칩 v7 (Jack 라운드 6): 좌 = 카테고리(책갈피 대체, 카테고리색) / 우 = 스레드 위치 or New story */
+.threadchip{display:inline-flex;align-items:stretch;font-size:11px;border-radius:3px;overflow:hidden;margin-bottom:10px;border:1px solid var(--rule-strong);box-shadow:var(--glass-shadow-soft)}
+.threadchip b{font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:10px;padding:5px 10px;display:flex;align-items:center}
+.threadchip span{font-weight:500;color:var(--ink-mid);background:rgba(255,255,255,0.75);padding:4px 11px;font-variant-numeric:tabular-nums}
+.threadchip span.newlbl{color:#0A7A55;font-weight:700}
+.ctitle{font-size:21.5px;font-weight:800;line-height:1.32;letter-spacing:-.018em;margin:2px 0 6px}
+.cstat{font-size:11.5px;color:var(--ink-faint);margin-top:4px;font-variant-numeric:tabular-nums}
+.stripcap{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}
+.stripcap i{flex:none;width:34px;height:1.5px;border-radius:1px;background:linear-gradient(90deg,var(--spec-canonical),var(--spec-transformed));position:relative}
+.stripcap i::after{content:'';position:absolute;right:-1px;top:-2.2px;border:3px solid transparent;border-left:5px solid var(--spec-transformed)}
+.stripcap em{font-style:normal;margin-left:auto;font-weight:600;letter-spacing:.08em;color:var(--ink-faint);text-transform:none}
+.tstrip{display:flex;gap:10px;overflow-x:auto;padding:10px 2px 6px}
+.tcell{flex:0 0 172px;text-decoration:none;color:var(--ink);background:var(--glass-bg-soft);border:1px solid rgba(255,255,255,0.65);border-radius:3px;box-shadow:var(--glass-shadow-soft);padding:8px;transition:transform .2s,box-shadow .2s}
+.tcell:hover{transform:translateY(-2px);box-shadow:var(--glass-shadow)}
+.tth{position:relative;border-radius:3px;overflow:hidden;background:rgba(20,20,40,0.06);aspect-ratio:16/9}
+.tth img{width:100%;height:100%;object-fit:cover;display:block}
+.tfirst{position:absolute;left:6px;bottom:6px;font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:rgba(11,11,18,0.62);border-radius:2px;padding:1.5px 7px;backdrop-filter:blur(4px)}
+.tmeta{display:flex;justify-content:space-between;align-items:baseline;font-size:10.5px;color:var(--ink-faint);margin-top:6px;gap:6px}
+.tmeta b{font-size:11.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tmeta span{white-space:nowrap;font-variant-numeric:tabular-nums}
+.ttl{font-size:10.5px;line-height:1.45;color:var(--ink-mid);margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lensline{font-size:13px;line-height:1.65;color:var(--ink-soft);margin-top:12px}
+.lensline b{font-weight:700}
+.modrow{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;margin-top:14px;border-top:1px solid var(--rule);padding-top:13px}
+.mchip{flex:none;font-size:11px;font-weight:600;color:var(--ink-soft);background:var(--glass-bg-soft);border:1px solid rgba(255,255,255,0.65);border-radius:3px;padding:3px 9px;box-shadow:var(--glass-shadow-soft);white-space:nowrap;text-decoration:none;cursor:pointer;transition:transform .15s,color .15s,border-color .15s,box-shadow .15s}
+.mchip:hover{transform:translateY(-1px);color:var(--accent-deep);border-color:rgba(99,102,241,0.45);box-shadow:var(--glass-shadow)}
+.mchip b{color:var(--accent-deep);font-size:9.5px;margin-right:5px;font-variant-numeric:tabular-nums}
+.ctarow{display:flex;justify-content:space-between;align-items:center;margin-top:16px;border-top:1px solid var(--rule);padding-top:14px}
+.cta-solid{font-size:12.5px;font-weight:700;color:#fff;background:var(--ink);border:0;border-radius:3px;padding:9px 18px;cursor:pointer;font-family:inherit;box-shadow:0 6px 16px -6px rgba(11,11,18,0.4);transition:transform .15s,box-shadow .15s}
+.cta-solid:hover{transform:translateY(-1px);box-shadow:0 10px 22px -8px rgba(11,11,18,0.45)}
+.shuffle{font-size:11px;font-weight:600;color:var(--ink-faint);background:none;border:1px solid var(--rule);border-radius:3px;padding:5px 12px;cursor:pointer;font-family:inherit;transition:color .15s,border-color .15s}
+.shuffle:hover{color:var(--ink-mid);border-color:var(--rule-strong)}
+/* ── section head */
+.sech{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:36px 0 4px}
+.sech h2{font-size:18px;font-weight:800;letter-spacing:-.015em;display:flex;align-items:baseline;gap:9px}
+.sech h2::before{content:'◆';color:var(--spec-canonical);font-size:9px}
+.sech a{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;font-variant-numeric:tabular-nums}
+.sech a:hover{color:var(--ink)}
+.sech a b{font-weight:800;color:var(--ink)}
+.herosech{margin:26px 0 0}
+.sechsub{font-size:12px;color:var(--ink-faint);margin:2px 0 10px}
+/* ── running stories rail */
+.rail{display:flex;gap:12px;overflow-x:auto;padding:10px 2px 8px}
+.rcard{position:relative;flex:0 0 236px;background:var(--glass-bg-soft);border:1px solid rgba(255,255,255,0.65);border-radius:3px;box-shadow:var(--glass-shadow-soft);padding:13px 15px 13px 18px;cursor:pointer;transition:transform .2s,box-shadow .2s;overflow:hidden}
+.rcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--spec-canonical),var(--spec-transformed));opacity:.75}
+.rcard:hover{transform:translateY(-2px);box-shadow:var(--glass-shadow)}
+.rttl{font-size:13px;font-weight:700;line-height:1.4;letter-spacing:-.014em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:36px}
+.arc{display:flex;gap:4px;margin:11px 0 8px}
+.arc i{width:12px;height:5px;border-radius:2.5px;background:rgba(20,20,40,0.08)}
+.arc i.on{background:var(--accent-deep)}
+.arc.paused i.on{background:var(--ink-faint)}
+.arc i.today{outline:1.5px solid rgba(67,56,202,0.45);outline-offset:1.5px}
+.arc.ongoing i.today{animation:breathe 3.2s ease-in-out infinite}
+@keyframes breathe{0%,100%{outline-color:rgba(67,56,202,0.5)}50%{outline-color:rgba(67,56,202,0.12)}}
+.rmeta{font-size:10.5px;color:var(--ink-faint);font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:7px}
+.rmeta em{font-style:normal;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;padding:1px 6px}
+.rmeta em.live{color:var(--accent-deep);background:var(--accent-soft)}
+.rmeta em.past{color:var(--ink-faint);background:rgba(20,20,40,0.06)}
+/* ── feed */
+.searchmock{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.6);border:1px solid var(--rule);border-radius:3px;padding:9px 14px;margin:12px 0 8px;color:var(--ink-faint);font-size:12.5px;box-shadow:var(--glass-shadow-soft)}
+.viewseg{display:inline-flex;border:1px solid var(--rule);border-radius:12px;background:rgba(255,255,255,0.6);overflow:hidden;margin-bottom:14px}
+.viewseg span{font-size:11.5px;font-weight:600;color:var(--ink-mid);padding:5px 13px}
+.viewseg span.on{background:var(--ink);color:#fff}
+.dsec{margin-bottom:26px}
+.dhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px;border-bottom:1px solid var(--rule);padding-bottom:7px}
+.dhead h3{font-size:15.5px;font-weight:800;letter-spacing:-.01em}
+.dsum{font-size:10.5px;color:var(--ink-faint);letter-spacing:.1em;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.dlist{display:flex;flex-direction:column;gap:10px}
+.feedrow{display:flex;gap:13px;color:var(--ink);text-decoration:none;background:var(--glass-bg-soft);border:1px solid rgba(255,255,255,0.65);border-radius:3px;box-shadow:var(--glass-shadow-soft);padding:10px 15px 10px 10px;transition:transform .2s,box-shadow .2s}
+.feedrow:hover{transform:translateY(-2px);box-shadow:var(--glass-shadow)}
+.fth{position:relative;flex:0 0 118px;align-self:flex-start;border-radius:3px;overflow:hidden;background:rgba(20,20,40,0.06);aspect-ratio:16/9;display:block}
+.fth img{width:100%;height:100%;object-fit:cover;display:block}
+.fbody{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.fcat{align-self:flex-start;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;padding:2px 7px}
+.fttl{font-size:13.5px;font-weight:700;line-height:1.4;letter-spacing:-.014em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fstat{font-size:10.5px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.dmore{display:inline-block;margin-top:9px;font-size:11px;font-weight:700;color:var(--ink-mid);text-decoration:none;border:1px solid var(--rule);border-radius:3px;padding:5px 13px;transition:color .15s,border-color .15s}
+.dmore:hover{color:var(--ink);border-color:var(--rule-strong)}
+/* ── topics 3×2 (KR 주제별 탐색 glass-tag 이식) */
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+@media (max-width:560px){.tgrid{grid-template-columns:repeat(2,1fr)}}
+.tpg{position:relative;text-align:left;font-family:inherit;font-size:12.5px;font-weight:700;letter-spacing:-.014em;line-height:1.3;color:var(--tc);
+ border:1px solid rgba(255,255,255,0.85);border-radius:3px;padding:13px 30px 13px 14px;min-height:62px;cursor:pointer;
+ backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);
+ box-shadow:0 1px 0 rgba(255,255,255,0.95) inset,0 4px 14px -6px rgba(80,60,160,0.12);
+ display:flex;align-items:center;transition:transform .2s,box-shadow .2s}
+.tpg:hover{transform:translateY(-2px);box-shadow:0 1px 0 rgba(255,255,255,0.95) inset,0 10px 24px -8px rgba(80,60,160,0.2)}
+.tpg em{position:absolute;top:10px;right:12px;font-style:normal;font-size:16px;font-weight:500;opacity:.5;line-height:1;color:var(--tc)}
+/* ── variant B */
+.mission{margin-top:26px}
+.mh1{font-size:29px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.mh1 em{font-style:normal;background:linear-gradient(100deg,#4F46E5 0%,#DB2777 38%,#4F46E5 76%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:lensflow 9s ease-in-out infinite}
+.msub{font-size:14px;line-height:1.7;color:var(--ink-mid);margin-top:10px;max-width:560px}
+.tiles{display:flex;align-items:stretch;gap:0;margin-top:20px}
+.tile{flex:1;background:var(--glass-bg-soft);border:1px solid rgba(255,255,255,0.65);border-radius:3px;box-shadow:var(--glass-shadow-soft);padding:14px 16px;text-align:center}
+.tile b{display:block;font-size:22px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.tile span{font-size:10.5px;color:var(--ink-faint);letter-spacing:.1em;text-transform:uppercase}
+.tarr{flex:none;align-self:center;color:var(--ink-faint);font-size:15px;padding:0 8px}
+.tilecap{font-size:11px;color:var(--ink-faint);margin-top:8px;text-align:center;font-variant-numeric:tabular-nums}
+.dest{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+@media (max-width:560px){.dest{grid-template-columns:1fr}}
+.dcard{background:rgba(255,255,255,0.82);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);border:1px solid var(--glass-border);border-radius:4px;box-shadow:var(--glass-shadow);padding:18px 20px;display:flex;flex-direction:column}
+.dcard h3{font-size:15px;font-weight:800;letter-spacing:-.01em}
+.dcard .dsub{font-size:11.5px;color:var(--ink-mid);margin:3px 0 12px}
+.mrow{display:flex;align-items:baseline;gap:8px;font-size:12px;padding:6px 0;border-bottom:1px dashed var(--rule)}
+.mrow:last-of-type{border-bottom:0}
+.mrow i{flex:none;width:8px;height:8px;border-radius:3px;align-self:center}
+.mrow .mttl{flex:1;min-width:0;font-weight:600;line-height:1.4;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.mrow em{flex:none;font-style:normal;font-size:10px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.dthread{padding:7px 0;border-bottom:1px dashed var(--rule)}
+.dthread:last-of-type{border-bottom:0}
+.dthread .rttl{min-height:0;font-size:12px;-webkit-line-clamp:1}
+.dthread .arc{margin:7px 0 4px}
+.dthread .rmeta{font-size:10px}
+.dcta{margin-top:auto;padding-top:12px;font-size:12px;font-weight:700;color:var(--ink);cursor:pointer}
+.dcta:hover{opacity:.7}
+/* ── ornament + note */
+.orn{text-align:center;color:var(--rule-strong);font-size:11px;margin-top:38px;display:flex;align-items:center;gap:14px}
+.orn::before,.orn::after{content:'';flex:1;height:1px;background:var(--rule)}
+.note{margin-top:20px;padding:16px 19px;background:var(--glass-bg-soft);border:1px solid rgba(255,255,255,0.65);border-radius:4px;font-size:12.5px;color:var(--ink-mid);line-height:1.75;box-shadow:var(--glass-shadow-soft)}
+.note b{color:var(--ink-soft)}
+@media (max-width:560px){.gcard{padding:20px 18px}.tiles{flex-direction:column;gap:8px}.tarr{transform:rotate(90deg);padding:2px 0}.mtitle{font-size:27px}}
+</style>
+<div class="ambient"></div><div class="ambient-wash"></div>
+<header class="hdr"><div class="hin">
+  <!-- 태그라인 교체 확정 (Jack 7/13): 구 "How U.S. political stories travel" 은 제품 범위와 불일치 —
+       카테고리 6개 중 절반이 비정치(Society·Justice·Economy·Media & Culture). 신 문구는 masthead
+       헤드라인("Same story. Different lenses.")과 어휘를 공유해 브랜드 일관성. 구현 = i18n header.tagline1/2. -->
+  <div class="hleft"><img class="logo" src="prism-logo.png" alt="PRISM"><div class="tag">How the story travels<br>Recorded daily</div></div>
+  <nav class="hnav"><a class="on">Home</a><a>Today's Issues</a><a>Issue Roundup</a></nav>
+</div></header>
+<main class="main">
+  <div class="ph"><h1>US 홈 재설계 — 시안 v8 확정 (C)</h1></div>
+  <p class="pd"><b>C = 하이브리드 (기본)</b> · 장식 = <b>"살아있는 빛"</b> 3곳(키라인 sheen·헤드라인 광택·오늘 칸 breathe). <b>v7 (라운드 6)</b>: ① <b>masthead 단일 상태 확정</b> — 2상태(첫/재방문) 장치 제거, 첫 방문 뷰가 상시 메인 ② How we work = 문단 밖 <b>우측 정렬</b> ③ <b>칩 재구성</b>: 책갈피 제거, 칩 좌 = 카테고리(카테고리색)·우 = 스레드명 · Day N 또는 New story. 날짜는 Today's Issue 줄에만(무채색 — 카테고리색과 경쟁 방지) ④ <b>직사각형화</b>: 히어로 28px 제외 전 표면 2~4px(KR rounded-sm 문법). 실데이터 — 하단 <b>정직 표시</b>.</p>
+  <div class="seg"><button class="on" onclick="showVar(0)">C — 하이브리드</button><button onclick="showVar(1)">A — 오늘을 전면에</button><button onclick="showVar(2)">B — 제품을 전면에</button></div>
+
+  <!-- ══ Variant C: 하이브리드 ══ -->
+  <section id="varC">
+    <div class="mhead" id="cMast">
+      <div class="kick">PRISM · Daily Brief — <b>Saturday, July 11, 2026</b></div>
+      <h2 class="mtitle">Same story. <em>Different lenses.</em> <span class="badge pen" title="미션 카피 = 제안 (taste 지점) · 대안 2종 = 브리프">✎</span></h2>
+      <p class="mmsub">Today's news happens on YouTube and podcasts — this era's live detector of what America talks about. PRISM reads hundreds of channels daily and distills what matters: where each story started, who amplified it, and how it was framed.</p>
+      <div class="hwwrow"><a>How we work →</a></div>
+      <div class="speckey"><span class="wash"></span></div>
+      <div class="mast2"><span class="funnel2">Today we read <b>2,661</b> videos across <b>347</b> channels — and distilled them into <b>4</b> issues. <span class="badge pen" title="어순 = 영상→채널→이슈 (Jack 6/8 확정) · 수치 = 7/11 파이프라인 실측">✎</span></span></div>
+    </div>
+    <div class="sech herosech"><h2>Today's Issue</h2><a href="#">Saturday, July 11 · <b id="cPos">1</b> of 4 →</a></div>
+    <div class="cardwrap">
+      <article class="gcard hero">
+        <div id="cThread"></div>
+        <h2 class="ctitle" id="cTitle"></h2>
+        <div class="cstat" id="cStat"></div>
+        <div class="stripcap"><span>origin</span><i></i><span>amplified</span><em>time-ordered · earliest first</em></div>
+        <div class="tstrip" id="cStrip"></div>
+        <p class="lensline" id="cLens"></p>
+        <div class="modrow"><a class="mchip" href="#" onclick="return false" title="오늘의 카드 01 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-01 앵커"><b>01</b>Spread & Origin</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 02 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-02 앵커"><b>02</b>The Story</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 03 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-03 앵커"><b>03</b>Media Lenses</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 04 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-04 앵커"><b>04</b>Reactions</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 05 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-05 앵커"><b>05</b>Repeated Comments</a></div>
+        <div class="ctarow">
+          <button class="shuffle" onclick="cycleHero()" title="실서비스 = 방문마다 오늘 카드 중 랜덤 (Jack 6/8 결정 유지). 데모 = 클릭 순환">↻ another of today's 4</button>
+          <button class="cta-solid">Open today's card →</button>
+        </div>
+      </article>
+    </div>
+    <div class="sech"><h2>Running stories</h2><a href="#">Issue Roundup →</a></div>
+    <div class="sechsub">Stories we've been following across days — each bar is one day, filled when a new fact was carded. <span class="badge sian" title="스레드 = 확정 픽 46장(큐레이션 §B)에서 도출한 실제 arc. T5 발행 전이라 '발행 예정 카드' 기준">시안</span></div>
+    <div class="rail"><div class="rcard">
+  <div class="rttl">U.S.–Iran war, reignited</div>
+  <span class="arc ongoing"><i class="" title="Jul 1"></i><i class="on" title="Jul 2 — card"></i><i class="on" title="Jul 3 — card"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="on" title="Jul 7 — card"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class="on today" title="Jul 11 — card"></i></span>
+  <div class="rmeta">6 cards · day 10 <em class="live">ongoing</em></div>
+</div><div class="rcard">
+  <div class="rttl">The Qatari Air Force One story — now a press-freedom case</div>
+  <span class="arc ongoing"><i class="on" title="Jul 1 — card"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="" title="Jul 7"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="" title="Jul 10"></i><i class="on today" title="Jul 11 — card"></i></span>
+  <div class="rmeta">3 cards · day 11 <em class="live">ongoing</em></div>
+</div><div class="rcard">
+  <div class="rttl">Charlie Kirk case: Tyler Robinson hearing</div>
+  <span class="arc paused"><i class="" title="Jul 1"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="on" title="Jul 6 — card"></i><i class="" title="Jul 7"></i><i class="" title="Jul 8"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class=" today" title="Jul 11"></i></span>
+  <div class="rmeta">2 cards · hearing concluded <em class="past">quiet</em></div>
+</div><div class="rcard">
+  <div class="rttl">ICE shooting in Houston</div>
+  <span class="arc ongoing"><i class="" title="Jul 1"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="" title="Jul 7"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class=" today" title="Jul 11"></i></span>
+  <div class="rmeta">2 cards · last new fact Jul 10 <em class="live">ongoing</em></div>
+</div><div class="rcard">
+  <div class="rttl">Graham Platner: allegation to withdrawal</div>
+  <span class="arc paused"><i class="" title="Jul 1"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="on" title="Jul 6 — card"></i><i class="" title="Jul 7"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="" title="Jul 10"></i><i class=" today" title="Jul 11"></i></span>
+  <div class="rmeta">2 cards · campaign suspended <em class="past">quiet</em></div>
+</div></div>
+  </section>
+
+  <!-- ══ Variant A ══ -->
+  <section id="varA" style="display:none">
+    <div class="mast">SATURDAY, JULY 11, 2026</div>
+    <div class="funnel">Today we read <b>2,661</b> videos across <b>347</b> channels, and distilled them into <b>4</b> issues. <span class="badge pen" title="어순 = 영상→채널→이슈 (Jack 6/8 확정) · 수치 = 7/11 파이프라인 실측">✎</span></div>
+    <div class="sech herosech"><h2>Today's Issue</h2><a href="#">Saturday, July 11 · <b id="aPos">1</b> of 4 →</a></div>
+    <div class="cardwrap">
+      <article class="gcard hero">
+        <div id="aThread"></div>
+        <h2 class="ctitle" id="aTitle"></h2>
+        <div class="cstat" id="aStat"></div>
+        <div class="stripcap"><span>origin</span><i></i><span>amplified</span><em>time-ordered · earliest first</em></div>
+        <div class="tstrip" id="aStrip"></div>
+        <p class="lensline" id="aLens"></p>
+        <div class="modrow"><a class="mchip" href="#" onclick="return false" title="오늘의 카드 01 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-01 앵커"><b>01</b>Spread & Origin</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 02 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-02 앵커"><b>02</b>The Story</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 03 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-03 앵커"><b>03</b>Media Lenses</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 04 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-04 앵커"><b>04</b>Reactions</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 05 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-05 앵커"><b>05</b>Repeated Comments</a></div>
+        <div class="ctarow">
+          <button class="shuffle" onclick="cycleHero()" title="실서비스 = 방문마다 오늘 카드 중 랜덤 (Jack 6/8 결정 유지). 데모 = 클릭 순환">↻ another of today's 4</button>
+          <button class="cta-solid">Open today's card →</button>
+        </div>
+      </article>
+    </div>
+    <div class="sech"><h2>Running stories</h2><a href="#">Issue Roundup →</a></div>
+    <div class="sechsub">Stories we've been following across days — each bar is one day, filled when a new fact was carded. <span class="badge sian">시안</span></div>
+    <div class="rail"><div class="rcard">
+  <div class="rttl">U.S.–Iran war, reignited</div>
+  <span class="arc ongoing"><i class="" title="Jul 1"></i><i class="on" title="Jul 2 — card"></i><i class="on" title="Jul 3 — card"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="on" title="Jul 7 — card"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class="on today" title="Jul 11 — card"></i></span>
+  <div class="rmeta">6 cards · day 10 <em class="live">ongoing</em></div>
+</div><div class="rcard">
+  <div class="rttl">The Qatari Air Force One story — now a press-freedom case</div>
+  <span class="arc ongoing"><i class="on" title="Jul 1 — card"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="" title="Jul 7"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="" title="Jul 10"></i><i class="on today" title="Jul 11 — card"></i></span>
+  <div class="rmeta">3 cards · day 11 <em class="live">ongoing</em></div>
+</div><div class="rcard">
+  <div class="rttl">Charlie Kirk case: Tyler Robinson hearing</div>
+  <span class="arc paused"><i class="" title="Jul 1"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="on" title="Jul 6 — card"></i><i class="" title="Jul 7"></i><i class="" title="Jul 8"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class=" today" title="Jul 11"></i></span>
+  <div class="rmeta">2 cards · hearing concluded <em class="past">quiet</em></div>
+</div><div class="rcard">
+  <div class="rttl">ICE shooting in Houston</div>
+  <span class="arc ongoing"><i class="" title="Jul 1"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="" title="Jul 7"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class=" today" title="Jul 11"></i></span>
+  <div class="rmeta">2 cards · last new fact Jul 10 <em class="live">ongoing</em></div>
+</div><div class="rcard">
+  <div class="rttl">Graham Platner: allegation to withdrawal</div>
+  <span class="arc paused"><i class="" title="Jul 1"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="on" title="Jul 6 — card"></i><i class="" title="Jul 7"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="" title="Jul 10"></i><i class=" today" title="Jul 11"></i></span>
+  <div class="rmeta">2 cards · campaign suspended <em class="past">quiet</em></div>
+</div></div>
+  </section>
+
+  <!-- ══ Variant B ══ -->
+  <section id="varB" style="display:none">
+    <div class="mission">
+      <h2 class="mh1">Same story. <em>Different lenses.</em> <span class="badge pen" title="미션 카피 = 제안 (taste 지점)">✎</span></h2>
+      <p class="msub">Today's news happens on YouTube and podcasts — this era's live detector of what America actually talks about. PRISM reads hundreds of channels every day and distills the stories that matter: where each started, who amplified it, and how differently it was framed.</p>
+      <div class="tiles">
+        <div class="tile"><b>55,063</b><span>videos read</span></div><span class="tarr">→</span>
+        <div class="tile"><b>488</b><span>channels tracked</span></div><span class="tarr">→</span>
+        <div class="tile"><b>46</b><span>issues carded</span></div>
+      </div>
+      <div class="tilecap">July 1–11, 2026 · pipeline totals</div>
+    </div>
+    <div class="dest">
+      <div class="dcard">
+        <h3>Today's Issues</h3>
+        <div class="dsub">Saturday, July 11 — 4 issues</div>
+        <div class="mrow"><i style="background:#0c4a6e"></i><span class="mttl">U.S. strikes on Iran and Iran&#x27;s closure of Strait of Hormuz</span><em>21 v · 14 ch</em></div><div class="mrow"><i style="background:#581c87"></i><span class="mttl">DOJ subpoenas journalists over Air Force One classified leak reports</span><em>23 v · 19 ch</em></div><div class="mrow"><i style="background:#7c2d12"></i><span class="mttl">Missouri and regional flash flooding crisis</span><em>34 v · 19 ch</em></div><div class="mrow"><i style="background:#0c4a6e"></i><span class="mttl">US Congressman Ro Khanna detained by Israeli settlers in West Bank</span><em>12 v · 10 ch</em></div>
+        <div class="dcta">Browse today's cards →</div>
+      </div>
+      <div class="dcard">
+        <h3>Issue Roundup</h3>
+        <div class="dsub">Where each running story stands</div>
+        <div class="dthread"><div class="rttl">U.S.–Iran war, reignited</div><span class="arc ongoing"><i class="" title="Jul 1"></i><i class="on" title="Jul 2 — card"></i><i class="on" title="Jul 3 — card"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="on" title="Jul 7 — card"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class="on today" title="Jul 11 — card"></i></span><div class="rmeta">6 cards · day 10 <em class="live">ongoing</em></div></div>
+        <div class="dthread"><div class="rttl">The Qatari Air Force One story</div><span class="arc ongoing"><i class="on" title="Jul 1 — card"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="" title="Jul 7"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="" title="Jul 10"></i><i class="on today" title="Jul 11 — card"></i></span><div class="rmeta">3 cards · day 11 <em class="live">ongoing</em></div></div>
+        <div class="dthread"><div class="rttl">Charlie Kirk case: Robinson hearing</div><span class="arc paused"><i class="" title="Jul 1"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="on" title="Jul 6 — card"></i><i class="" title="Jul 7"></i><i class="" title="Jul 8"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class=" today" title="Jul 11"></i></span><div class="rmeta">2 cards · concluded <em class="past">quiet</em></div></div>
+        <div class="dcta">See the full arcs →</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 공용: 피드 + 주제 ══ -->
+  <div class="sech"><h2>The last few days</h2><a href="#">All dates →</a></div>
+  <div class="searchmock">⌕&ensp;Search the stories we follow <span class="badge sian" style="margin-left:auto" title="검색 = 현행 기능 유지, 데모는 외형만. By date/By topic 토글은 은퇴(Jack 라운드 4) — 주제 진입은 아래 Explore by topic 전담, 피드는 순수 시간축">시안</span></div>
+  <section class="dsec">
+  <div class="dhead"><h3>Saturday, July 11</h3><span class="dsum">2,661 videos · 347 channels · 4 issues</span></div>
+  <div class="dlist"><a class="feedrow" href="#" onclick="return false">
+  <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/MXBi_yZYmFY/mqdefault.jpg" alt=""></span>
+  <span class="fbody">
+    <span class="fcat" style="color:#0c4a6e;background:#0c4a6e14">Foreign Policy & Security</span>
+    <span class="fttl">U.S. strikes on Iran and Iran&#x27;s closure of Strait of Hormuz</span>
+    <span class="fstat">21 videos · 14 channels · 3.8M views · 13K comments</span>
+  </span>
+</a><a class="feedrow" href="#" onclick="return false">
+  <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/3T8Z34EYk3w/mqdefault.jpg" alt=""></span>
+  <span class="fbody">
+    <span class="fcat" style="color:#581c87;background:#581c8714">Justice & Courts</span>
+    <span class="fttl">DOJ subpoenas journalists over Air Force One classified leak reports</span>
+    <span class="fstat">23 videos · 19 channels · 2.4M views · 10K comments</span>
+  </span>
+</a><a class="feedrow" href="#" onclick="return false">
+  <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/fPN-69a5QrA/mqdefault.jpg" alt=""></span>
+  <span class="fbody">
+    <span class="fcat" style="color:#7c2d12;background:#7c2d1214">Society</span>
+    <span class="fttl">Missouri and regional flash flooding crisis</span>
+    <span class="fstat">34 videos · 19 channels · 2.0M views · 2K comments</span>
+  </span>
+</a></div>
+  <a class="dmore" href="#" onclick="return false">+1 more from this day →</a>
+</section><section class="dsec">
+  <div class="dhead"><h3>Friday, July 10</h3><span class="dsum">5,994 videos · 430 channels · 5 issues</span></div>
+  <div class="dlist"><a class="feedrow" href="#" onclick="return false">
+  <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/cRXv4hMXLCU/mqdefault.jpg" alt=""></span>
+  <span class="fbody">
+    <span class="fcat" style="color:#7c2d12;background:#7c2d1214">Society</span>
+    <span class="fttl">ICE fatal shooting of Lorenzo Salgado Araujo in Houston - investigation, witness accounts, political response</span>
+    <span class="fstat">159 videos · 53 channels · 3.9M views · 45K comments</span>
+  </span>
+</a><a class="feedrow" href="#" onclick="return false">
+  <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/8mRKW9Mx_Dg/mqdefault.jpg" alt=""></span>
+  <span class="fbody">
+    <span class="fcat" style="color:#0c4a6e;background:#0c4a6e14">Foreign Policy & Security</span>
+    <span class="fttl">Israel warns US of Iranian plot to assassinate Trump</span>
+    <span class="fstat">44 videos · 28 channels · 4.1M views · 32K comments</span>
+  </span>
+</a><a class="feedrow" href="#" onclick="return false">
+  <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/s2ezzt5sMyE/mqdefault.jpg" alt=""></span>
+  <span class="fbody">
+    <span class="fcat" style="color:#581c87;background:#581c8714">Justice & Courts</span>
+    <span class="fttl">Tyler Robinson preliminary hearing in Charlie Kirk murder case</span>
+    <span class="fstat">44 videos · 30 channels · 746K views · 6K comments</span>
+  </span>
+</a></div>
+  <a class="dmore" href="#" onclick="return false">+2 more from this day →</a>
+</section><section class="dsec">
+  <div class="dhead"><h3>Thursday, July 9</h3><span class="dsum">6,357 videos · 434 channels · 1 issues</span></div>
+  <div class="dlist"><a class="feedrow" href="#" onclick="return false">
+  <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/EdXh3kkY9-E/mqdefault.jpg" alt=""></span>
+  <span class="fbody">
+    <span class="fcat" style="color:#3730a3;background:#3730a314">Politics & Elections</span>
+    <span class="fttl">Palm Beach airport renamed to Donald J. Trump International Airport</span>
+    <span class="fstat">31 videos · 21 channels · 1.5M views · 14K comments</span>
+  </span>
+</a></div>
+  
+</section>
+
+  <div class="sech"><h2>Explore by topic</h2></div>
+  <div class="sechsub">6-category taxonomy — KR 체계 임시 재사용, US 코퍼스에서 재도출 예정 (스펙 §2.5) <span class="badge sian">시안</span></div>
+  <div class="tgrid"><button class="tpg" style="--tc:#3730a3;background:linear-gradient(135deg,rgba(255,255,255,0.72) 0%,#3730a314 100%)">
+      <span>Politics & Elections</span><em>→</em></button><button class="tpg" style="--tc:#7c2d12;background:linear-gradient(135deg,rgba(255,255,255,0.72) 0%,#7c2d1214 100%)">
+      <span>Society</span><em>→</em></button><button class="tpg" style="--tc:#0c4a6e;background:linear-gradient(135deg,rgba(255,255,255,0.72) 0%,#0c4a6e14 100%)">
+      <span>Foreign Policy & Security</span><em>→</em></button><button class="tpg" style="--tc:#134e4a;background:linear-gradient(135deg,rgba(255,255,255,0.72) 0%,#134e4a14 100%)">
+      <span>Economy & Industry</span><em>→</em></button><button class="tpg" style="--tc:#581c87;background:linear-gradient(135deg,rgba(255,255,255,0.72) 0%,#581c8714 100%)">
+      <span>Justice & Courts</span><em>→</em></button><button class="tpg" style="--tc:#92400e;background:linear-gradient(135deg,rgba(255,255,255,0.72) 0%,#92400e14 100%)">
+      <span>Media & Culture</span><em>→</em></button></div>
+
+  <div class="orn">◆</div>
+  <div class="note"><b>정직 표시.</b>
+  ① <b>실데이터</b> = 이슈 제목(파이프라인 event_label 원문) · 영상 제목·채널·게시시각(UTC)·조회수 · 썸네일(수집 video_id) · 클러스터 규모(n·ch·조회·댓글 합산) · 일일 funnel(7/11 = 영상 2,661 스캔 실측; 채널 347 = 그날 클러스터에 등장한 채널 수) · 누적 타일(영상 55,063 · 채널 488 · 카드 46 = net 488 코퍼스 + 확정 픽) · 스레드 arc 의 카드 날짜(큐레이션 §B 확정 체인) · "earliest collected" 배지 = 해당 클러스터 온토픽 최초 수집 영상.
+  ② <span class="badge pen">✎</span> = 카피 제안 (미션 문장 · funnel 문장 EN · lens 한 줄) — taste 지점, Jack 라운드에서 확정. 실서비스 히어로 문장은 heroLede(LLM) 소관.
+  ③ <span class="badge sian">시안</span> = 아직 데이터·기능이 없는 것: 스레드(T5 발행 전 — arc 는 확정 픽 46장 기준 실제 계획) · 카테고리 부여(시연 수동 — 실서비스 = 파이프라인) · 검색 외형 · How we work 링크(기존 페이지로 연결 예정) · <b>모듈 칩 딥링크</b>(01~05 클릭 = 오늘의 카드 해당 모듈 앵커 /today/&lt;id&gt;#mod-NN — 카드 쪽 모듈 헤더에 id 부여 필요, 이식 노트). masthead = <b>단일 상태 확정</b>(Jack 라운드 6 — 2상태·방문 카운팅 장치 불채택: 화면 변동 = 혼란, 풀 미션 3줄 = 상시 비용 미미).
+  ④ 🔴 <b>오수집 제외</b> (카드 데모 ⑦과 같은 관행): DOJ 카드 스트립·티저에서 공항 개명/헬기/Reflecting Pool 영상 5건, Missouri 카드에서 타주·해외(Helene·호주·가나·TN 일부) 영상 제외 — 클러스터 통계(n·views)는 실측 그대로라 오염분 포함, relevance 게이트는 파이프라인 예정(브리프 §2.4).
+  ⑤ 히어로 = 오늘 4장 중 1장, <b>랜덤 티저 결정(Jack 6/8) 유지</b> — 데모도 refresh마다 랜덤 + ↻ 버튼 순환. 스트립 = 시간순(원본→증폭), 카드 v16 .tstrip 문법.
+  ⑥ 피드 = 하루 최대 3개 × 3일 (Jack 7/13 지정 — 현행 HOME_DATE_SUMMARY=3 과 정합) + "+N more" = 그날 나머지. <b>By date/By topic 토글 은퇴</b>(Jack 라운드 4) — 주제 진입은 Explore by topic 전담, 피드 = 순수 시간축. 구현 시 HomePage viewMode 로직 제거, 주제 타일 클릭 = 기존 selectIssue seam(카테고리 필터) 재사용. 주제 3×2 그리드 = KR HeroCard 주제별 탐색 glass-tag 이식(Jack 7/13 지정).
+  ⑦-a 🔴 <b>분광 키라인 v9 (Jack 라운드 8, 7/13 밤 — 전용 데모 <code>prism-us-speckey-light-0713.html</code> 에서 A/B/C/D 라운드)</b>: <b>[수정]</b> v8 은 빛이 선 밖까지 나가 페이지 가로축을 횡단했다(overflow 없음 + 궤적 -120%→320%) → <b>궤적을 선 안에 봉인</b>(sheen 0→178% · halo 32→323% · wash mask 4→96%, 중심 18%→82% 동기, 양 끝 opacity 점등·소등). <b>[채택 = B]</b> 빛이 선 아래 <b>funnel 문장 영역까지 분산</b>되되 wash 는 <b>글자 뒤(z0)</b>, 문장은 z2 → 공간적 겹침 + <b>대비 손실 0</b>. 색 = 빛이 지나는 자리의 <b>선 색</b>(분광 그라데이션 + 이동 마스크). 강도 <b>.20</b>. <b>[폐기 = D]</b> 선을 두껍게 한 반투명 분광 밴드 위에 문장 얹기(Jack 원안) — spec-* 5색이 카드에서 '출처 등급' 의미를 이미 가져 색면이 "숫자가 색분류됐나" 오독을 부르고, .07 이면 안 보이고 .12+ 면 무지개 배너(vibe-coding 시그니처)라 좋은 창이 없으며, 라운드 2 원칙과 충돌 + funnel 이 헤드라인과 위계 경쟁. D 데모는 팀 의견 청취용으로 보존.<br>
+  ⑦ 장식 v3 = <b>정적 무지개 최소화, "살아있는 빛"이 시그니처</b> (Jack 라운드 2): 분광 키라인 sheen · 헤드라인 광택 흐름(lensflow 9s) · ongoing 스레드 오늘 칸 breathe(3.2s). 정적 잔존 = 레일 spine·origin→amplified 화살(2색 브랜드 그라데이션, nav 밑줄 문법)뿐. hero 상단 정적 분광선은 제거. ◆ 오너먼트(Deck footer 문법). <b>serif 미사용</b> — v5 스킨이 Pretendard only 로 확정(base.css 실측).
+  ⑧ 조회수 없는 영상(수집 시 0)은 값 생략 — 지어내지 않음. 팟캐스트 에피소드는 스트립 제외(썸네일 없음).
+  ⑨ 폐기 제안 = SpreadHero 그래프(현미 v6) — 근거는 브리프 §2. 보존 = 랜덤 티저·funnel 어순·날짜 요약 inline(6/15)·검색.
+  ⑩ <b>radius 위계 v7</b> (Jack 라운드 6 — 직사각형화): 히어로 .gcard 28px 유지 = <b>확정 카드 v16과 동형</b>(히어로는 카드의 프리뷰 — 모양이 예고) / 그 외 전 표면 <b>2~4px</b>(.feedrow·.rcard·.tpg·.tile·.tcell·칩·버튼 3px, 썸네일 3px, B 목적지 카드·정직 표시 4px) — KR 사이트의 rounded-sm(2px) 편집 문법과 정렬. 원형 알약 전면 은퇴. ⑪ <b>칩 v7</b>: 좌 = 카테고리(책갈피 은퇴 — 책갈피+날짜 병존 산만 해소), 우 = 스레드명 · Day N(연속성 핵심 2요소) 또는 New story(에메랄드 텍스트, "first card" 동어반복 제거). 날짜 = Today's Issue 섹션 헤드에만, 무채색(카테고리색과 경쟁 방지).</div>
+</main>
+<script>
+var HERO_DATA = [{"cat": "Foreign Policy & Security", "color": "#0c4a6e", "headline": "U.S. strikes on Iran and Iran's closure of the Strait of Hormuz", "chipRight": "U.S.–Iran war, reignited · Day 10", "isNew": false, "stat": "21 videos · 14 channels · 3.8M views · 13K comments", "lens": "<b>Fox News, Al Jazeera English, FDD</b> and 11 more channels each told this story from a different angle — the card shows you how far apart they sit.", "strip": "<a class=\"tcell\" href=\"https://www.youtube.com/watch?v=p5_X1rvrR64\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/p5_X1rvrR64/mqdefault.jpg\" alt=\"\"><span class=\"tfirst\">earliest collected</span></div>\n  <div class=\"tmeta\"><b>FDD</b><span>07.11 04:26 · 6K</span></div>\n  <div class=\"ttl\">The End of the Ceasefire as We Know It?</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=JGdSzSN8AXQ\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/JGdSzSN8AXQ/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>The Enforcer</b><span>07.11 06:35 · 161K</span></div>\n  <div class=\"ttl\">US GIVES DEADLY ULTIMATUM TO IRAN, CRIMEA ISOLATED AMID SHIP ATTACKS! Breaking War News The Enforcer</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=BU-SrZgvAHg\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/BU-SrZgvAHg/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Al Jazeera English</b><span>07.11 23:29 · 100K</span></div>\n  <div class=\"ttl\">Iran declares Strait of Hormuz closed amid rising US tensions</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=MXBi_yZYmFY\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/MXBi_yZYmFY/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Fox News</b><span>07.11 23:55 · 1.2M</span></div>\n  <div class=\"ttl\">BREAKING: US conducting strikes against Iranian assets near the Strait of Hormuz</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=IuNBb0Ob7Y0\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/IuNBb0Ob7Y0/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>LiveNOW from FOX</b><span>07.12 00:59 · 563K</span></div>\n  <div class=\"ttl\">BREAKING: U.S. launches new strikes against Iran</div>\n</a>"}, {"cat": "Justice & Courts", "color": "#581c87", "headline": "DOJ subpoenas journalists over Air Force One classified-leak reports", "chipRight": "The Qatari Air Force One story · Day 11", "isNew": false, "stat": "23 videos · 19 channels · 2.4M views · 10K comments", "lens": "<b>CNN, Noticias Telemundo, Legal AF</b> and 16 more channels each told this story from a different angle — the card shows you how far apart they sit.", "strip": "<a class=\"tcell\" href=\"https://www.youtube.com/watch?v=S6bPxQ1NEfs\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/S6bPxQ1NEfs/mqdefault.jpg\" alt=\"\"><span class=\"tfirst\">earliest collected</span></div>\n  <div class=\"tmeta\"><b>Legal AF</b><span>07.11 19:00 · 32K</span></div>\n  <div class=\"ttl\">Trump EMBARRASSED by Press LEAKS of New AF1 INSECURITY and ORDERS DOJ to Subpoena Reporters!!!</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=3T8Z34EYk3w\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/3T8Z34EYk3w/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>CNN</b><span>07.11 19:01 · 630K</span></div>\n  <div class=\"ttl\">Trump administration subpoenas journalists over Air Force One reporting</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=ra0M05LKIBI\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/ra0M05LKIBI/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Lamont Tyson</b><span>07.11 23:48 · 6K</span></div>\n  <div class=\"ttl\">Trump SUBPOENAS Reporters Over Qatar Jet Story?! 😳 #Trump #Politics #Shorts</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=yhRDhXt17ic\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/yhRDhXt17ic/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Noticias Telemundo</b><span>07.12 00:08 · 27K</span></div>\n  <div class=\"ttl\">El Gobierno cita a periodistas de The New York Times | Noticias Telemundo</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=hhq2kWSO9zA\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/hhq2kWSO9zA/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>WGRZ-TV</b><span>07.12 02:56 · 5K</span></div>\n  <div class=\"ttl\">Journalists subpoenaed over Air Force 1 reports</div>\n</a>"}, {"cat": "Society", "color": "#7c2d12", "headline": "Missouri and regional flash flooding crisis", "chipRight": "New story", "isNew": true, "stat": "34 videos · 19 channels · 2.0M views · 2K comments", "lens": "<b>ABC News, KSDK News, Fox News</b> and 16 more channels each told this story from a different angle — the card shows you how far apart they sit.", "strip": "<a class=\"tcell\" href=\"https://www.youtube.com/watch?v=1rSfTMyRw94\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/1rSfTMyRw94/mqdefault.jpg\" alt=\"\"><span class=\"tfirst\">earliest collected</span></div>\n  <div class=\"tmeta\"><b>KSDK News</b><span>07.11 04:12 · 16K</span></div>\n  <div class=\"ttl\">National Guard rescues students after flash flood hits campground</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=2CmBiHoItqg\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/2CmBiHoItqg/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>FOX 2 St. Louis</b><span>07.11 10:52 · 10K</span></div>\n  <div class=\"ttl\">Missouri Guard rescues 202 children, staff from flooded camp</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=7fF7OU2zlBk\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/7fF7OU2zlBk/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>ABC News</b><span>07.11 14:24 · 21K</span></div>\n  <div class=\"ttl\">Dozens rescued from Missouri flash flooding</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=Ea894FWSjCk\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/Ea894FWSjCk/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Fox News</b><span>07.11 21:00 · 55K</span></div>\n  <div class=\"ttl\">More than 200 campers RESCUED as floodwaters overrun Missouri campground #foxnews #news #us #fox</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=fPN-69a5QrA\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/fPN-69a5QrA/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>ABC News</b><span>07.12 02:00 · 1.1M</span></div>\n  <div class=\"ttl\">State of Emergency in Missouri: ABC World News Tonight with David Muir - July 11th, 2026</div>\n</a>"}, {"cat": "Foreign Policy & Security", "color": "#0c4a6e", "headline": "U.S. Congressman Ro Khanna detained by Israeli settlers in the West Bank", "chipRight": "New story", "isNew": true, "stat": "12 videos · 10 channels · 1.8M views · 16K comments", "lens": "<b>Reuters, CNN, NBC News</b> and 7 more channels each told this story from a different angle — the card shows you how far apart they sit.", "strip": "<a class=\"tcell\" href=\"https://www.youtube.com/watch?v=R2NYa2veU-s\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/R2NYa2veU-s/mqdefault.jpg\" alt=\"\"><span class=\"tfirst\">earliest collected</span></div>\n  <div class=\"tmeta\"><b>DRM News</b><span>07.11 12:02 · 548K</span></div>\n  <div class=\"ttl\">Ro Khanna Says Armed Israeli Settlers Detained Him During West Bank Visit, Slams US Policy | AC1G</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=qIb6L95pbzQ\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/qIb6L95pbzQ/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Reuters</b><span>07.11 15:40 · 88K</span></div>\n  <div class=\"ttl\">US Democrat Ro Khanna says Israeli settlers detained him</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=dZFi4_dee18\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/dZFi4_dee18/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>CNN</b><span>07.11 16:58 · 457K</span></div>\n  <div class=\"ttl\">Rep. Ro Khanna detained by Israeli settlers in West Bank</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=KFfIRqyCYWc\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/KFfIRqyCYWc/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>NBC News</b><span>07.11 17:59 · 43K</span></div>\n  <div class=\"ttl\">Rep. Ro Khanna says he was detained by Israeli settlers</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=_YVr_j1O-SI\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/_YVr_j1O-SI/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Al Jazeera English</b><span>07.11 20:30 · 235K</span></div>\n  <div class=\"ttl\">US Rep Ro Khanna speaks out about being harassed by Israeli settlers</div>\n</a>"}];
+// 실서비스와 동일: 방문(refresh)마다 오늘 카드 중 랜덤 (Jack 6/8 결정 — HeroCard.jsx 로직 그대로)
+var hi = Math.floor(Math.random() * HERO_DATA.length);
+function renderHeroInto(prefix){
+  var h = HERO_DATA[hi];
+  document.getElementById(prefix+'Title').textContent = h.headline;
+  document.getElementById(prefix+'Stat').textContent = 'Collected · ' + h.stat;
+  document.getElementById(prefix+'Strip').innerHTML = h.strip;
+  document.getElementById(prefix+'Lens').innerHTML = h.lens;
+  document.getElementById(prefix+'Pos').textContent = hi + 1;
+  var tc = document.getElementById(prefix+'Thread');
+  tc.innerHTML = '<span class="threadchip"><b style="color:' + h.color + ';background:' + h.color + '14">' + h.cat +
+    '</b><span' + (h.isNew ? ' class="newlbl"' : '') + '>' + h.chipRight + '</span></span>';
+}
+function renderHero(){ renderHeroInto('c'); renderHeroInto('a'); }
+function cycleHero(){ hi = (hi + 1) % HERO_DATA.length; renderHero(); }
+function showVar(i){
+  ['varC','varA','varB'].forEach(function(id,j){
+    document.getElementById(id).style.display = i===j ? '' : 'none';
+  });
+  document.querySelectorAll('.seg button').forEach(function(b,j){ b.classList.toggle('on', j===i); });
+}
+renderHero();
+</script>
+</html>

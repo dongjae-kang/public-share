@@ -1,0 +1,111 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>PRISM US — 확정 시안 3종 (Home · Card · Roundup)</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<style>
+:root{
+ --ink:#0B0B12;--ink-soft:#2B2A36;--ink-mid:#595869;--ink-faint:#9B9AAA;
+ --rule:rgba(20,20,40,0.08);--rule-strong:rgba(20,20,40,0.15);
+ --accent-deep:#4338CA;
+ --spec-canonical:#4F46E5;--spec-direct:#0E9F6E;--spec-partial:#D97706;--spec-transformed:#DB2777;
+ --glass-shadow:0 1px 0 rgba(255,255,255,0.95) inset,0 -1px 0 rgba(120,140,200,0.18) inset,0 10px 28px -14px rgba(20,20,60,0.22),0 28px 60px -28px rgba(20,20,60,0.28);
+ --glass-shadow-soft:0 1px 0 rgba(255,255,255,0.7) inset,0 6px 18px -8px rgba(80,60,160,0.10);
+ --spectrum:linear-gradient(90deg,#4F46E5 0%,#0E9F6E 34%,#D97706 66%,#DB2777 100%);}
+*{box-sizing:border-box;margin:0}
+body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+ font:15px/1.6 'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,sans-serif}
+.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+ background:radial-gradient(120% 80% at 50% 0%,#FFFFFF 0%,#FAFAFD 60%,#F4F4FA 100%)}
+.ambient::before{content:'';position:absolute;inset:-20%;background:
+ radial-gradient(40% 30% at 18% 28%,rgba(99,102,241,0.55) 0%,transparent 60%),
+ radial-gradient(36% 26% at 78% 22%,rgba(14,159,110,0.42) 0%,transparent 60%),
+ radial-gradient(34% 28% at 88% 62%,rgba(217,119,6,0.45) 0%,transparent 60%),
+ radial-gradient(38% 30% at 62% 82%,rgba(219,39,119,0.42) 0%,transparent 60%);
+ filter:blur(60px) saturate(150%);animation:drift 28s cubic-bezier(.4,0,.6,1) infinite alternate;opacity:.8}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-3%,2%) scale(1.06)}100%{transform:translate(2%,-1%) scale(1.02)}}
+.ambient-wash{position:fixed;inset:0;z-index:1;pointer-events:none;
+ background:radial-gradient(100% 80% at 50% 50%,rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.6) 100%)}
+main{position:relative;z-index:2;max-width:720px;margin:0 auto;padding:56px 20px 90px}
+
+.kick{display:flex;align-items:baseline;gap:10px;font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint)}
+.kick::before{content:'◆';color:var(--spec-canonical);font-size:8px;letter-spacing:0}
+h1{font-size:30px;font-weight:800;letter-spacing:-.025em;line-height:1.18;margin-top:11px}
+h1 em{font-style:normal;background:linear-gradient(100deg,#4F46E5 0%,#DB2777 38%,#4F46E5 76%);background-size:260% 100%;
+ -webkit-background-clip:text;background-clip:text;color:transparent;animation:lensflow 9s ease-in-out infinite}
+@keyframes lensflow{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+.lede{font-size:14px;line-height:1.75;color:var(--ink-mid);margin-top:11px;max-width:640px}
+.lede b{color:var(--ink-soft);font-weight:650}
+.speckey{height:3px;border-radius:2px;background:var(--spectrum);margin:20px 0 0;opacity:.92;position:relative;overflow:visible}
+.speckey::before{content:'';position:absolute;inset:0;border-radius:2px;width:36%;
+ background:linear-gradient(90deg,transparent,rgba(255,255,255,0.85) 50%,transparent);
+ animation:sheen 5.5s cubic-bezier(.4,0,.6,1) infinite;animation-delay:-2.4s}
+@keyframes sheen{0%{transform:translateX(0);opacity:0}7%{opacity:1}45%{opacity:1}55%,100%{transform:translateX(178%);opacity:0}}
+.meta{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink-faint);letter-spacing:.06em;text-transform:uppercase;
+ padding:11px 0 0;font-variant-numeric:tabular-nums}
+
+.grid{display:flex;flex-direction:column;gap:14px;margin-top:30px}
+.card{display:block;text-decoration:none;color:var(--ink);position:relative;overflow:hidden;
+ background:rgba(255,255,255,0.82);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);
+ border:1px solid rgba(255,255,255,0.78);border-radius:4px;box-shadow:var(--glass-shadow-soft);
+ padding:19px 22px 19px 24px;transition:transform .2s,box-shadow .2s}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--spec-canonical),var(--spec-transformed));opacity:.8}
+.card:hover{transform:translateY(-2px);box-shadow:var(--glass-shadow)}
+.chead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.chead h2{font-size:17px;font-weight:800;letter-spacing:-.015em}
+.st{flex:none;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:3px;padding:2px 7px}
+.st.fix{color:#fff;background:var(--ink)}
+.st.sian{color:var(--accent-deep);background:rgba(99,102,241,0.14)}
+.cdesc{font-size:13px;line-height:1.7;color:var(--ink-mid);margin-top:7px}
+.cdesc b{color:var(--ink-soft);font-weight:650}
+.ctry{font-size:11.5px;line-height:1.6;color:var(--ink-faint);margin-top:9px;border-top:1px solid var(--rule);padding-top:9px}
+.ctry b{color:var(--accent-deep);font-weight:700}
+.go{font-size:12px;font-weight:700;color:var(--ink);margin-top:11px;display:inline-block}
+
+.note{margin-top:30px;padding:16px 19px;background:rgba(255,255,255,0.42);border:1px solid rgba(255,255,255,0.65);
+ border-radius:4px;font-size:12.5px;color:var(--ink-mid);line-height:1.8;box-shadow:var(--glass-shadow-soft)}
+.note b{color:var(--ink-soft)}
+.orn{text-align:center;color:var(--rule-strong);font-size:11px;margin-top:30px;display:flex;align-items:center;gap:14px}
+.orn::before,.orn::after{content:'';flex:1;height:1px;background:var(--rule)}
+@media (prefers-reduced-motion:reduce){.speckey::before,h1 em,.ambient::before{animation:none}}
+</style>
+<div class="ambient"></div><div class="ambient-wash"></div>
+<main>
+  <div class="kick">PRISM US · Design Review — <b>2026.07.13</b></div>
+  <h1>Same story. <em>Different lenses.</em></h1>
+  <p class="lede">7/20 US 런칭 화면 <b>3종 확정 시안</b>입니다. 셋 다 <b>실데이터</b>로 만들었습니다 — 영상 제목·채널·게시시각·조회수·썸네일·클러스터 규모가 전부 파이프라인 실측이고, 데이터가 없는 것은 <b>지어내지 않고 요소를 비웠습니다</b>. 각 화면 하단에 <b>"정직 표시"</b> 블록이 있어 무엇이 실데이터이고 무엇이 아직 시안인지 그대로 적어 뒀습니다.</p>
+  <div class="speckey"></div>
+  <div class="meta"><span>브라우저에서 바로 열립니다</span><span>·</span><span>모바일도 가능</span><span>·</span><span>의견 = Jack 에게 편하게</span></div>
+
+  <div class="grid">
+    <a class="card" href="home.html">
+      <div class="chead"><h2>① 홈 — Home</h2><span class="st fix">확정 (라운드 8)</span></div>
+      <p class="cdesc">첫인상 화면. <b>편집장 masthead</b>(미션 + 오늘의 규모) → <b>오늘의 이슈 카드 프리뷰</b>(히어로) → <b>Running stories</b>(이슈가 며칠째 이어지는지) → 최근 3일 피드 → 주제 탐색.</p>
+      <p class="ctry"><b>보실 것</b> · 히어로는 <b>새로고침마다 오늘 4장 중 랜덤</b>으로 바뀝니다 (실서비스 동작 그대로). 분광 키라인 위로 <b>빛이 흐르고 그 아래 문장으로 번집니다</b>. 상단 토글의 <b>C = 확정본</b>이고 A·B 는 비교 기록용입니다.</p>
+      <span class="go">홈 시안 열기 →</span>
+    </a>
+
+    <a class="card" href="card.html">
+      <div class="chead"><h2>② 오늘의 이슈 카드 — Today's Issue</h2><span class="st fix">확정 (v16 · 코드 반영 완료)</span></div>
+      <p class="cdesc">하루 한 이슈를 6모듈로 해부합니다. <b>01 확산·원본</b>(어디서 시작해 누가 키웠나) · <b>02 사건 이해</b> · <b>03 매체 3시각</b>(같은 사실, 다른 프레이밍) · <b>04 반응</b>(의견 분포) · <b>05 댓글 반복 패턴</b> · <b>이 카드의 한계</b>.</p>
+      <p class="ctry"><b>보실 것</b> · <b>03 매체 시각</b>에서 프레이밍 문장에 마우스를 올려 보세요 — 문장·점·매체 카드 <b>3자가 함께 빛납니다</b>. <b>05</b>는 "선정된 댓글"이 아니라 <b>풀 전체에서 관측된 반복</b>이라는 게 핵심입니다.</p>
+      <span class="go">카드 시안 열기 →</span>
+    </a>
+
+    <a class="card" href="roundup.html">
+      <div class="chead"><h2>③ 이슈별 정리 — Issue Roundup</h2><span class="st sian">시안 (T5 구현 예정)</span></div>
+      <p class="cdesc">카드가 쌓이면 <b>하나의 이슈가 며칠에 걸쳐 어떻게 전개됐는지</b>가 한 줄기로 정리됩니다. 보라 막대 = 새 사실을 카드로 정리한 날, 옅은 음영 = 그날 올라온 관련 영상의 양 (새 소식이 없어도 관심은 이어질 수 있다는 것).</p>
+      <p class="ctry"><b>보실 것</b> · 홈의 <b>Running stories</b> 레일이 보내는 목적지가 이 탭입니다. 세 화면이 하나의 흐름(오늘 → 이 이슈의 전말)으로 이어지는지 봐 주세요.</p>
+      <span class="go">이슈별 정리 시안 열기 →</span>
+    </a>
+  </div>
+
+  <div class="note">
+    <b>읽는 법 (짧게).</b><br>
+    · <b>실데이터입니다.</b> 7/1~11 미국 코퍼스(영상 55,063 · 채널 488)에서 실제로 수집·군집한 이슈들이고, 썸네일·조회수·게시시각은 전부 실측입니다.<br>
+    · <b>아직 없는 것은 비워 뒀습니다.</b> 각 화면 하단 "정직 표시"에 무엇이 실데이터이고 무엇이 시안인지(예: 스레드 상태, 카테고리 자동판정) 그대로 적어 뒀습니다. 지어낸 수치는 없습니다.<br>
+    · <b>✎ 표시</b>가 붙은 문장은 <b>카피 제안</b>이라 아직 확정이 아닙니다 — 여기 의견이 가장 반갑습니다.<br>
+    · 디자인 언어: 장식은 <b>"살아있는 빛" 3곳</b>(분광 키라인 · 헤드라인 광택 · 진행 중 이슈의 오늘 칸)뿐이고, 나머지 표면은 <b>직사각형(2~4px)</b>으로 신문 편집 문법에 맞췄습니다.
+  </div>
+  <div class="orn">◆</div>
+</main>
+</html>

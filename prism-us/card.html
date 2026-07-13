@@ -1,0 +1,639 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PRISM — 오늘의 이슈 카드 v2 시안</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<style>
+:root{
+ --ink:#0B0B12;--ink-soft:#2B2A36;--ink-mid:#595869;--ink-faint:#9B9AAA;
+ --rule:rgba(20,20,40,0.08);--rule-strong:rgba(20,20,40,0.15);
+ --accent:#6366F1;--accent-deep:#4338CA;--accent-soft:rgba(99,102,241,0.12);
+ --glass-bg:rgba(255,255,255,0.55);--glass-bg-soft:rgba(255,255,255,0.40);
+ --glass-border:rgba(255,255,255,0.78);
+ --glass-shadow:0 1px 0 rgba(255,255,255,0.95) inset,0 -1px 0 rgba(120,140,200,0.18) inset,0 10px 28px -14px rgba(20,20,60,0.22),0 28px 60px -28px rgba(20,20,60,0.28);
+ --glass-shadow-soft:0 1px 0 rgba(255,255,255,0.7) inset,0 6px 18px -8px rgba(80,60,160,0.10);}
+*{box-sizing:border-box;margin:0}
+body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+ font:15px/1.6 'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif}
+.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+ background:radial-gradient(120% 80% at 50% 0%,#FFFFFF 0%,#FAFAFD 60%,#F4F4FA 100%)}
+.ambient::before{content:'';position:absolute;inset:-20%;background:
+ radial-gradient(40% 30% at 18% 28%,rgba(99,102,241,0.55) 0%,transparent 60%),
+ radial-gradient(36% 26% at 78% 22%,rgba(14,159,110,0.42) 0%,transparent 60%),
+ radial-gradient(34% 28% at 88% 62%,rgba(217,119,6,0.45) 0%,transparent 60%),
+ radial-gradient(38% 30% at 62% 82%,rgba(219,39,119,0.42) 0%,transparent 60%),
+ radial-gradient(40% 32% at 12% 78%,rgba(79,70,229,0.42) 0%,transparent 60%);
+ filter:blur(60px) saturate(150%);animation:drift 28s cubic-bezier(.4,0,.6,1) infinite alternate;opacity:.85}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-3%,2%) scale(1.06)}100%{transform:translate(2%,-1%) scale(1.02)}}
+.ambient-wash{position:fixed;inset:0;z-index:1;pointer-events:none;
+ background:radial-gradient(100% 80% at 50% 50%,rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.6) 100%)}
+.hdr{position:sticky;top:0;z-index:40;background:rgba(255,255,255,0.65);
+ backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
+ border-bottom:1px solid rgba(20,20,40,0.06)}
+.hin{max-width:672px;margin:0 auto;padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.hleft{display:flex;align-items:center;gap:12px}
+.logo{height:24px;width:auto;display:block}
+.tag{font-size:10px;line-height:1.4;color:var(--ink-mid);padding-left:12px;border-left:1px solid var(--rule);letter-spacing:.04em}
+.hnav{display:flex;align-items:center;gap:20px}
+.hnav a{font-size:14px;font-weight:500;color:var(--ink-mid);text-decoration:none;position:relative;padding-bottom:4px}
+.hnav a.on{color:var(--ink)}
+.hnav a.on::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;border-radius:2px;background:linear-gradient(90deg,#4F46E5,#DB2777)}
+.main{position:relative;z-index:2;max-width:672px;margin:0 auto;padding:28px 20px 90px}
+.ph h1{font-size:23px;font-weight:800;letter-spacing:-.015em}
+.pd{color:var(--ink-mid);font-size:13.5px;margin-top:7px;line-height:1.65}
+.pd b{color:var(--ink-soft);font-weight:600}
+.drail{position:fixed;left:28px;top:132px;width:168px;z-index:30;display:flex;flex-direction:column;gap:3px}
+@media (max-width:1180px){.drail{display:none}}
+.drm{font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);padding:0 12px 8px}
+.drow{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border:0;background:none;text-align:left;
+  padding:9px 12px;border-radius:5px;font:500 14px 'Pretendard Variable',sans-serif;color:var(--ink-soft);
+ cursor:pointer;font-variant-numeric:tabular-nums;transition:background .15s}
+.drow:hover{background:rgba(255,255,255,0.65)}
+.drow em{font-style:normal;font-size:11px;color:var(--ink-faint);font-weight:600}
+.drow.on{background:var(--ink);color:#fff;box-shadow:0 4px 12px -6px rgba(20,20,40,0.4)}
+.drow.on em{color:rgba(255,255,255,0.7)}
+.drd:hover i{border-color:var(--ink-mid);transform:scale(1.15)}
+.drd:hover b{color:var(--ink-soft)}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:18px;background:rgba(255,255,255,0.6);overflow:hidden;box-shadow:var(--glass-shadow-soft);margin:16px 0 4px}
+.seg button{border:0;background:none;color:var(--ink-mid);font:600 12px 'Pretendard Variable',sans-serif;padding:6px 14px;cursor:pointer}
+.seg button.on{background:var(--ink);color:#fff}
+.stage{position:relative;margin-top:6px;perspective:1400px;transition:height .55s cubic-bezier(.22,.8,.25,1)}
+.deckitem{position:absolute;top:0;left:0;width:100%;transform-style:preserve-3d;transform-origin:center center;
+ transition:transform .55s cubic-bezier(.22,.8,.25,1),opacity .45s,filter .45s}
+.cardwrap{position:relative;margin-top:34px}
+.bookmark{position:absolute;top:-27px;right:30px;z-index:0;color:#fff;font-size:11.5px;font-weight:700;
+ letter-spacing:.12em;text-transform:uppercase;padding:5px 14px 26px;border-radius:7px 7px 0 0;user-select:none}
+.gcard{position:relative;z-index:1;background:rgba(255,255,255,0.82);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);
+ border:1px solid var(--glass-border);border-radius:28px;box-shadow:var(--glass-shadow);padding:26px 28px}
+.navarr{position:fixed;top:50%;transform:translateY(-50%);z-index:30;width:40px;height:40px;border-radius:50%;
+ background:rgba(255,255,255,0.75);border:1px solid var(--glass-border);box-shadow:var(--glass-shadow-soft);
+ backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+ font-size:17px;color:var(--ink-mid);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.navarr:hover{color:var(--ink)}
+.navarr.left{left:calc(50% - 336px - 58px)}
+.navarr.right{right:calc(50% - 336px - 58px)}
+@media (max-width:820px){.navarr{display:none}}
+.cmeta{display:flex;align-items:center;gap:10px}
+.cdate{font-size:11.5px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.ctitle{font-size:21px;font-weight:800;line-height:1.4;letter-spacing:-.015em;margin:8px 0 4px;word-break:keep-all}
+.csub{font-size:13.5px;color:var(--ink-mid);font-style:italic;border-bottom:1px solid var(--rule-strong);display:inline-block;padding-bottom:4px;margin-bottom:13px;word-break:keep-all}
+.clead{font-size:14.5px;line-height:1.75;color:var(--ink-soft);word-break:keep-all}
+.cstat{font-size:11.5px;color:var(--ink-faint);margin-top:11px;font-variant-numeric:tabular-nums}
+.mod{margin-top:26px;border-top:1px solid var(--rule);padding-top:18px}
+.mh{display:flex;align-items:baseline;gap:8px;margin-bottom:12px}
+.mnum{font-size:10.5px;font-weight:700;color:var(--accent-deep);font-variant-numeric:tabular-nums}
+.mt{font-size:15px;font-weight:750}
+.msub{font-size:12px;color:var(--ink-faint)}
+.axis{font-size:12.5px;color:var(--ink-mid);background:var(--accent-soft);border-radius:12px;padding:8px 13px;margin-bottom:12px}
+.axis b{color:var(--accent-deep);font-weight:700}
+.badge{display:inline-block;font-size:9.5px;font-weight:700;border-radius:6px;padding:1px 6px;vertical-align:2px;letter-spacing:.03em}
+.badge.sian{border:1px dashed var(--accent-deep);color:var(--accent-deep)}
+.badge.pen{color:var(--accent-deep);background:rgba(99,102,241,0.14)}
+.tstrip{display:flex;gap:10px;overflow-x:auto;padding:16px 2px 6px;margin-top:4px}
+.tcell{flex:0 0 172px;text-decoration:none;color:var(--ink);background:var(--glass-bg-soft);border:1px solid rgba(255,255,255,0.65);border-radius:14px;box-shadow:var(--glass-shadow-soft);padding:8px}
+.tth{position:relative;border-radius:9px;overflow:hidden;background:rgba(20,20,40,0.06);aspect-ratio:16/9}
+.tth img{width:100%;height:100%;object-fit:cover;display:block}
+.tspec{position:absolute;left:6px;bottom:6px;font-size:8.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:rgba(11,11,18,0.55);border-radius:5px;padding:1px 6px}
+.tspec.inline{position:static;color:var(--accent-deep);background:var(--accent-soft)}
+.tmeta{display:flex;justify-content:space-between;align-items:baseline;font-size:10.5px;color:var(--ink-faint);margin-top:6px}
+.tmeta b{font-size:11.5px;color:var(--ink)}
+.ttl{font-size:10.5px;line-height:1.45;color:var(--ink-mid);margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.oline{font-size:12.5px;color:var(--ink-mid);margin-bottom:10px}
+.oline b{font-weight:700;color:var(--ink)}
+.otime{color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.ptext{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin-bottom:10px;word-break:keep-all}
+.dtext{font-size:13.5px;line-height:1.8;color:var(--ink-soft);word-break:keep-all}
+.dcurve{width:100%;height:auto;display:block;margin-top:6px}
+.svgt{font:500 9.5px 'Pretendard Variable',sans-serif;fill:var(--ink-faint)}
+.halo{paint-order:stroke;stroke:#fff;stroke-width:3px;fill:var(--ink-mid)}
+.shbar{height:6px;border-radius:3px;background:rgba(20,20,40,0.07);overflow:hidden;margin-top:10px}
+.shfill{height:100%;border-radius:3px;background:linear-gradient(90deg,rgba(99,102,241,0.75),rgba(99,102,241,0.45))}
+.shlab{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-faint);margin-top:5px}
+.shlab b{color:var(--accent-deep)}
+.specfig{margin:4px 0 16px;padding:12px 14px 6px;background:var(--accent-soft);border-radius:14px}
+.specends{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;font-weight:700;color:var(--accent-deep);margin-bottom:26px}
+.spectrack{position:relative;height:4px;border-radius:2px;margin:0 6px;
+ background:linear-gradient(90deg,rgba(67,56,202,0.45),rgba(20,20,40,0.10),rgba(67,56,202,0.45))}
+.stick{position:absolute;top:-3px;width:2px;height:10px;border-radius:1px;background:rgba(20,20,40,0.18);transform:translateX(-50%)}
+.sdot{position:absolute;top:2px;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;
+ background:#4F46E5;border:2px solid #fff;box-shadow:0 1px 4px rgba(40,30,120,0.35);display:flex;align-items:center;justify-content:center}
+.sdot b{font-size:8.5px;color:#fff;font-weight:800}
+.sdot span{position:absolute;white-space:nowrap;font-size:10px;font-weight:700;color:var(--ink-soft);left:50%;transform:translateX(-50%)}
+.sdot span.up{bottom:16px}.sdot span.dn{top:16px}
+.pnum{position:absolute;left:6px;top:6px;width:16px;height:16px;border-radius:50%;background:#4F46E5;color:#fff;
+ font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;font-style:normal}
+.fpara{font-size:12.5px;line-height:1.85;color:var(--ink-mid);margin-top:12px;word-break:keep-all;background:var(--glass-bg-soft);border:1px solid rgba(255,255,255,0.65);border-radius:14px;padding:12px 15px}
+.fseg{text-decoration:underline dotted;text-decoration-thickness:1.5px;text-underline-offset:3px;cursor:default;transition:background .15s}
+.fseg:hover{background:rgba(99,102,241,0.10)}
+.fseg.fon{background:rgba(99,102,241,0.10)}
+.msel{transition:opacity .2s}
+.msel.on line{stroke-width:3.1}
+.msel.on circle{stroke-width:2.2}
+.msel.on text{font-size:19px;font-weight:800}
+svg.vfocus .moth{opacity:0.14}
+svg.vfocus .msel:not(.on){opacity:0.30}
+.prow:hover,.prow.hl{background:linear-gradient(to left,var(--pct) 0%,var(--pct2) 55%,rgba(255,255,255,0.35) 100%);box-shadow:0 0 0 1.5px var(--pc),0 1px 0 rgba(255,255,255,0.9) inset,0 16px 34px -14px var(--pcs);transform:translateY(-2px)}
+.mshead{display:flex;align-items:baseline;gap:10px;justify-content:space-between}
+.msex{font-size:12px;font-style:italic;color:var(--ink-mid);line-height:1.6}
+.msex b{color:var(--ink-soft)}
+.mshow{position:relative;flex:none;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:var(--ink-mid);color:#fff;border-radius:4px;padding:3px 8px;cursor:help}
+.mshow:hover{background:var(--ink)}
+.htip{width:340px;left:auto;right:0}
+.mshow:hover .htip,.mshow:focus .htip{visibility:visible;opacity:1}
+.msfoot{display:flex;justify-content:space-between;gap:10px;font-size:10.5px;color:var(--ink-faint);margin-top:6px;flex-wrap:wrap}
+.pfull{margin-top:7px}
+.pfull summary{font-size:10.5px;font-weight:600;color:var(--ink-faint);cursor:pointer}
+.pfull summary:hover{color:var(--ink-mid)}
+.pfull p{font-size:11.5px;line-height:1.65;color:var(--ink-mid);margin-top:5px;word-break:keep-all}
+.pch a{text-decoration:none;color:var(--ink)}
+.pch a:hover b{text-decoration:underline}
+.pers{display:flex;flex-direction:column;gap:10px}
+.prow{display:flex;gap:13px;color:var(--ink);transition:box-shadow .2s,transform .2s;background:var(--glass-bg-soft);border:1px solid rgba(255,255,255,0.65);border-radius:16px;box-shadow:var(--glass-shadow-soft);padding:11px 15px 11px 11px;transition:box-shadow .2s}
+.pth{position:relative;flex:0 0 132px;align-self:flex-start;border-radius:10px;overflow:hidden;background:rgba(20,20,40,0.06);aspect-ratio:16/9;display:block}
+.pth img{width:100%;height:100%;object-fit:cover;display:block}
+.pbody{flex:1;min-width:0}
+.pch{display:flex;align-items:baseline;gap:8px;font-size:12px}
+.pch b{font-size:13.5px;font-weight:750}
+.pch i{font-style:normal;color:var(--ink-faint);font-size:10.5px;border:1px solid var(--rule);border-radius:99px;padding:0 7px;flex:none}
+.pv{margin-left:auto;color:var(--ink-faint);font-size:11px;font-variant-numeric:tabular-nums;flex:none}
+.pa{font-size:12.5px;color:var(--accent-deep);font-weight:700;margin-top:4px}
+.pq{font-size:12px;line-height:1.5;color:var(--ink-mid);margin-top:4px;word-break:keep-all}
+.pstat{font-size:10.5px;color:var(--ink-faint);margin-top:6px;font-variant-numeric:tabular-nums}
+.glegrow{display:flex;align-items:center;gap:10px;font-size:11.5px;font-weight:600;color:var(--ink-mid);margin:2px 0 7px}
+.glab{flex:none;font-weight:700;color:var(--ink-soft)}
+.gbarwrap{position:relative;flex:1;min-width:180px}
+.gbar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:rgba(20,20,40,0.06);cursor:help}
+.gbar i{display:block;height:100%}
+.gtip{position:absolute;left:0;right:0;top:16px;z-index:20;visibility:hidden;opacity:0;transition:opacity .18s;
+ background:rgba(20,18,32,0.92);color:#fff;font-size:11px;font-weight:500;line-height:1.6;border-radius:10px;padding:9px 12px}
+.gbarwrap:hover .gtip,.gbarwrap:focus .gtip{visibility:visible;opacity:1}
+.gleglist{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin-bottom:11px}
+.gleg{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--ink-soft)}
+.gleg i{width:9px;height:9px;border-radius:3px;display:inline-block}
+.gleg em{font-style:normal;font-weight:700;color:var(--ink-faint);font-size:10px}
+.gpill{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;letter-spacing:.02em;margin-bottom:5px}
+.gpill i{width:7px;height:7px;border-radius:2.5px;display:inline-block}
+.mapwrap{margin-top:14px;border-top:1px dashed var(--rule);padding-top:10px}
+.chat{display:flex;flex-direction:column;gap:9px;margin-top:2px}
+.brow{display:flex}
+.brow.bl{justify-content:flex-start}
+.brow.br{justify-content:flex-end}
+.bub{max-width:82%;padding:10px 14px;box-shadow:var(--glass-shadow-soft);border:1px solid rgba(255,255,255,0.65)}
+.bl .bub{border-radius:16px 16px 16px 5px}
+.br .bub{border-radius:16px 16px 5px 16px}
+.bub.tn{background:var(--glass-bg-soft)}
+.bl .bub.tn{background:rgba(255,255,255,0.52)}
+.bub.ta{background:rgba(13,148,136,0.10);border-color:rgba(13,148,136,0.25)}
+.bub.tb{background:rgba(217,119,6,0.10);border-color:rgba(217,119,6,0.25)}
+.qt{font-size:12.5px;line-height:1.6;color:var(--ink-soft);word-break:keep-all}
+.qm{display:flex;gap:10px;font-size:10.5px;color:var(--ink-faint);margin-top:6px}
+.ql{font-weight:700;color:var(--accent-deep)}
+.caveat{font-size:11.5px;color:var(--ink-faint);line-height:1.65;margin-top:10px}
+.clist{list-style:none;padding:0;display:flex;flex-direction:column;gap:7px}
+.clist li{display:flex;align-items:baseline;gap:9px;font-size:12.5px;border-bottom:1px dashed var(--rule);padding-bottom:6px}
+.clist li:last-child{border-bottom:0}
+.clist a{color:var(--ink);text-decoration:none;font-weight:600}
+.clist a:hover{text-decoration:underline}
+.cn{font-size:10px;color:var(--ink-faint);font-variant-numeric:tabular-nums;flex:none}
+.cs{margin-left:auto;font-size:10.5px;color:var(--ink-faint);flex:none;padding-left:10px;white-space:nowrap}
+.note{margin-top:38px;padding:16px 19px;background:var(--glass-bg-soft);border:1px solid rgba(255,255,255,0.65);border-radius:20px;font-size:12.5px;color:var(--ink-mid);line-height:1.75;box-shadow:var(--glass-shadow-soft)}
+.note b{color:var(--ink-soft)}
+@media (max-width:560px){.gcard{padding:20px 18px}.prow{flex-direction:column}.pth{flex:none;width:100%}}
+</style>
+<div class="ambient"></div><div class="ambient-wash"></div>
+<header class="hdr"><div class="hin">
+  <div class="hleft"><img class="logo" src="prism-logo.png" alt="PRISM"><div class="tag">How the story travels<br>Recorded daily</div></div>
+  <nav class="hnav"><a>홈</a><a class="on">오늘의 이슈</a><a>이슈별 정리</a></nav>
+</div></header>
+<nav class="drail" aria-label="일자 선택 (목업)">
+  <span class="drm">날짜</span>
+  <button class="drow on"><span>7월 10일 (금)</span><em>2</em></button>
+  <button class="drow"><span>7월 9일 (목)</span><em>5</em></button>
+  <button class="drow"><span>7월 8일 (수)</span><em>4</em></button>
+  <button class="drow"><span>7월 7일 (화)</span><em>3</em></button>
+  <span class="drnote">실사이트 TodayArchive 패턴 + 유리 스킨 · 목업 (US = Jul 10)</span>
+</nav>
+<button class="navarr left" onclick="stepCard(-1)" aria-label="이전 카드">&#8592;</button>
+<button class="navarr right" onclick="stepCard(1)" aria-label="다음 카드">&#8594;</button>
+<main class="main">
+  <div class="ph"><h1>오늘의 이슈 — 카드 정보 설계 v16 최종 시안</h1></div>
+  <p class="pd">Jack 7/12 확정 구성: <b>개요(abstract) → 썸네일 흐름(시간순) → 확산·원본 → 사건 이해(설명 글) → 매체 시각 → 반응(말풍선) → 한계 → 언론 보도</b> + <b>매체 3시각 = MDSScatter 2D + PCA 축선·극 라벨(시안) + 실제 파이프라인 선정 3채널</b>(평면에서 가장 먼 3매체가 그대로 보이게) + 색은 hover/연결 시에만. 실물 발행 데이터(2026-07-10) 2장, 두 카드 동일 코드 렌더. 근거 = <b>M7-today-card/TODAY-CARD-IA-BRIEF-0711.md</b></p>
+  <div class="seg"><button class="on" onclick="showCard(0)">안규백 탈영 의혹</button><button class="" onclick="showCard(1)">장윤기 부실수사</button></div>
+  <div class="stage" id="stage"><section class="deckitem" data-idx="0">
+<div class="cardwrap">
+  <div class="bookmark" style="background:#6B7280">사법</div>
+  <article class="gcard">
+
+  <!-- 헤드: 제목 · 부제 · 개요(abstract) -->
+  <div class="chead">
+    <h2 class="ctitle">안규백 국방부 장관 방위병 시절 탈영 의혹…국방부 &quot;행정 착오&quot; 반박, 야권 병적기록 공개 요구</h2>
+    <p class="csub">&#x27;탈영의혹&#x27; 재점화 국방장관 병적기록 공개 촉구..안규백 탄핵청원 30만</p>
+    <p class="clead">안규백 국방부 장관의 방위병(단기사병) 복무 당시 군무이탈 의혹이 1년 만에 재점화됐다. 경찰이 의혹 제기자를 고발인으로 수사하기 시작한 가운데, 국방부는 10일 &quot;탈영 주장은 명백한 허위&quot;라며 &quot;장관 임기가 끝나면 병적기록 오류에 대해 정정을 청구하겠다&quot;고 반박했다. 한편 국민의힘은 안 장관이 병적기록을 공개하지 않는 점을 지적하며 사퇴를 촉구했고, 여러 매체가 국방부의 반박 입장과 야권의 비판을 동시에 전했다.</p>
+    <div class="cstat">수집 규모 · 매체 12곳 · 영상 38개 · 조회 55.6만회 · 댓글 707개</div>
+  </div>
+
+  <!-- 썸네일 흐름 — 시간순(원본→증폭), 상시 노출 (Jack 7/12: "이미지는 무조건 필요") -->
+  <div class="tstrip"><a class="tcell" href="https://www.youtube.com/watch?v=9zDQai1IqVI" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/9zDQai1IqVI/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>연합뉴스TV</b><span>07.09 20:27</span></div>
+  <div class="ttl">경찰, &#x27;안규백 탈영 의혹&#x27; 수사…16일 고발인 조사 / 연합뉴스TV (YonhapnewsTV)</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=1_IkQY3-I9U" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/1_IkQY3-I9U/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>고성국TV</b><span>07.10 02:24 · 6.5만회</span></div>
+  <div class="ttl">&#x27;탈영 안 했다&#x27;고 절대 말 못하는 안규백 #안규백 #탈영 #국방부</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=_omg1IoCdRo" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/_omg1IoCdRo/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>채널A News</b><span>07.10 02:41 · 4.2만회</span></div>
+  <div class="ttl">국방부 &quot;안규백 탈영 의혹 명백한 허위…행정 착오 피해자&quot; [자막뉴스] / 채널A</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=a5TviZraknA" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/a5TviZraknA/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>성창경TV</b><span>07.10 02:49 · 5.7만회</span></div>
+  <div class="ttl">경찰,안규백 탈영의혹 전격 수사 착수 이재명 정권 발칵 (2026.7.10)</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=W5-dErDvx8E" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/W5-dErDvx8E/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>MBN News</b><span>07.10 03:35 · 3.8만회</span></div>
+  <div class="ttl">안규백 국방부 장관 &#x27;탈영 의혹&#x27; 1년 만에 재점화…왜? [아침&amp;매일경제]</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=dlqo9yKOCqM" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/dlqo9yKOCqM/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>조선일보</b><span>07.10 07:40 · 1.7만회</span></div>
+  <div class="ttl">병적기록 공개 않는다는 안규백... 국방부 &quot;퇴임 후 기록 정정 청구&quot; [오늘의 1분]</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=nKZN8tCRnrg" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/nKZN8tCRnrg/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>YTN</b><span>07.10 09:22 · 1.3만회</span></div>
+  <div class="ttl">국방부 &quot;장관 탈영 주장 명백한 허위...퇴임 뒤 정정 신청&quot; / YTN</div>
+</a></div>
+
+  <!-- 확산 · 원본 -->
+  <div class="mod">
+    <div class="mh"><span class="mnum">01</span><span class="mt">확산 · 원본</span><span class="msub">어디서 시작해 누가 키웠나</span></div>
+    <div class="oline">수집 범위에서 가장 이른 직접 보도&ensp;<b>연합뉴스TV</b>&ensp;<span class="otime">07.09 20:27</span></div>
+    <p class="ptext">7월 10일 새벽 개인 채널과 종편 보도가 함께 불을 붙였고, 아침에 신문·보도전문채널이 뒤따랐다. 상위 2개 채널(성창경TV·채널A News)이 전체 조회의 약 54%를 차지해 편중이 크다. <span class="badge pen" title="새 텍스트 스펙 적용 예시">✎</span></p>
+    <svg viewBox="0 0 560 130" class="dcurve" role="img" aria-label="누적 조회 확산 곡선">
+<path d="M14.0,116.0 L14.0,115.9 L22.9,115.8 L109.1,115.6 L115.1,115.3 L121.0,110.8 L126.9,109.1 L126.9,106.1 L168.5,104.9 L174.5,101.5 L180.4,99.3 L186.4,97.0 L189.4,94.1 L189.4,93.6 L192.3,81.8 L198.3,74.1 L204.2,63.7 L225.0,56.7 L278.5,55.7 L287.4,54.8 L287.4,53.0 L329.0,51.6 L335.0,50.7 L346.9,47.6 L361.7,46.7 L373.6,37.7 L376.6,36.3 L388.5,36.0 L397.4,33.7 L412.3,33.6 L418.2,25.1 L421.2,25.0 L430.1,24.6 L453.9,23.0 L456.8,20.7 L459.8,17.5 L492.5,15.4 L504.4,14.2 L546.0,14.0 L546.0,116.0 Z" fill="rgba(99,102,241,0.10)"/>
+<polyline points="14.0,115.9 22.9,115.8 109.1,115.6 115.1,115.3 121.0,110.8 126.9,109.1 126.9,106.1 168.5,104.9 174.5,101.5 180.4,99.3 186.4,97.0 189.4,94.1 189.4,93.6 192.3,81.8 198.3,74.1 204.2,63.7 225.0,56.7 278.5,55.7 287.4,54.8 287.4,53.0 329.0,51.6 335.0,50.7 346.9,47.6 361.7,46.7 373.6,37.7 376.6,36.3 388.5,36.0 397.4,33.7 412.3,33.6 418.2,25.1 421.2,25.0 430.1,24.6 453.9,23.0 456.8,20.7 459.8,17.5 492.5,15.4 504.4,14.2 546.0,14.0" fill="none" stroke="#6366F1" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="192.3" cy="81.8" r="4" fill="#6366F1"/><circle cx="192.3" cy="81.8" r="7.5" fill="none" stroke="#6366F1" stroke-opacity=".35"/><text x="200.3" y="70.8" text-anchor="start" class="svgt halo">최다 조회 영상 업로드 · 고성국TV</text>
+<text x="14" y="128" class="svgt">0h</text>
+<text x="546" y="128" text-anchor="end" class="svgt">18h · 누적 55.6만회</text>
+</svg>
+    <div class="shbar"><div class="shfill" style="width:54%"></div></div>
+    <div class="shlab"><span>상위 2개 채널 · 성창경TV·채널A News <b>54%</b></span><span>나머지 46%</span></div>
+  </div>
+
+  <!-- 사건 설명 — 위 개요가 abstract라면 여기는 한 번에 이해되는 설명 (Jack 7/12) -->
+  <div class="mod">
+    <div class="mh"><span class="mnum">02</span><span class="mt">사건 이해</span><span class="msub">이 카드만 읽어도 알 수 있게</span></div>
+    <p class="dtext">이 의혹은 지난해 안규백 장관의 국방부 장관 후보자 인사청문회에서 처음 쟁점이 됐다. 당시 안 장관은 의혹을 부인하면서도 병적 자료 제출은 거부했다. 의혹을 제기해 온 김영수 국방권익연구소장은 안 장관이 1984년 방위병 복무 중 약 7개월간 군무를 이탈한 뒤 헌병대에 체포돼 30일간 구금됐다고 주장하며, 청문회에서 허위 증언을 했다는 취지로 안 장관을 고발했다. 서울 용산경찰서는 국회증언감정법 위반 혐의로 수사에 착수해 오는 16일 고발인인 김 소장을 소환해 조사할 예정이다. 국방부는 &quot;1년 전 인사청문회 속기록을 보면 충분히 소명된 의혹&quot;이라며 탈영 주장은 명백한 허위라는 입장이고, 장관 임기가 끝나면 병적기록 오류에 대한 정정을 청구하겠다고 밝혔다. 국민의힘은 병적기록을 공개하면 될 일이라며 공개를 거듭 요구했고, 일부 의원은 &quot;사실이라면 제2의 스티브 유&quot;라고 비판했다. 안 장관 탄핵을 요구하는 청원 동의는 30만을 넘었다. <span class="badge pen" title="새 텍스트 스펙 적용 예시 — 수집된 언론 보도·영상 설명 기반">✎</span></p>
+  </div>
+
+  <!-- 매체 시각 -->
+  <div class="mod">
+    <div class="mh"><span class="mnum">03</span><span class="mt">매체 시각</span><span class="msub">같은 사건, 다른 각도</span></div>
+    <div class="mshead"><span class="msex">이 평면에서 두 점 사이 <b>거리 = 두 매체의 보도 시각 차이</b>. 시각이 가장 멀리 갈린 3개 매체를 자동 선정합니다.</span>
+  <span class="mshow" tabindex="0">How<span class="gtip htip">클러스터 영상의 텍스트를 1024차원 의미 벡터로 변환(Voyage) → 매체 간 cosine 거리 계산 → MDS가 거리를 평면에 보존 투영 → 가장 멀리 떨어진 3개 매체를 자동 선정. 색상은 식별 표식이며 정치 성향과 무관합니다.</span></span></div>
+<svg viewBox="0 0 720 412" class="dcurve" style="margin-top:8px" role="img" aria-label="매체 3시각 MDS 평면">
+<defs><marker id="mg0" viewBox="0 0 12 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 12 5 L 0 10 L 3.5 5 z" fill="#9ca3a0"/></marker><marker id="ma00" viewBox="0 0 12 8" refX="10" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 12 4 L 0 8 L 5 4 z" fill="#1e1b4b"/></marker><linearGradient id="gl00" x1="360.0" y1="206.0" x2="393.4" y2="262.0" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1e1b4b" stop-opacity="0.15"/><stop offset="100%" stop-color="#1e1b4b" stop-opacity="0.95"/></linearGradient><marker id="ma01" viewBox="0 0 12 8" refX="10" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 12 4 L 0 8 L 5 4 z" fill="#134e4a"/></marker><linearGradient id="gl01" x1="360.0" y1="206.0" x2="323.2" y2="100.6" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#134e4a" stop-opacity="0.15"/><stop offset="100%" stop-color="#134e4a" stop-opacity="0.95"/></linearGradient><marker id="ma02" viewBox="0 0 12 8" refX="10" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 12 4 L 0 8 L 5 4 z" fill="#9f1239"/></marker><linearGradient id="gl02" x1="360.0" y1="206.0" x2="402.0" y2="217.4" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#9f1239" stop-opacity="0.15"/><stop offset="100%" stop-color="#9f1239" stop-opacity="0.95"/></linearGradient></defs>
+<rect x="24" y="24" width="672" height="364" fill="#fafaf7" stroke="#ede8db" stroke-width="1" rx="2"/>
+<line x1="360.0" y1="32" x2="360.0" y2="380" stroke="#e7e5e4" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="32" y1="206.0" x2="688" y2="206.0" stroke="#e7e5e4" stroke-width="1" stroke-dasharray="3 4"/>
+<polygon points="393.4,262.0 323.2,100.6 402.0,217.4" fill="#9f1239" fill-opacity="0.06" stroke="#9f1239" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 3"/>
+<line x1="557.4" y1="329.4" x2="162.6" y2="82.6" stroke="#4338CA" stroke-opacity="0.30" stroke-width="1.3" stroke-dasharray="7 5"/><text x="565.4" y="333.4" text-anchor="start" font-size="12" font-weight="700" fill="#4338CA">의혹·수사 확대</text><text x="154.6" y="86.6" text-anchor="end" font-size="12" font-weight="700" fill="#4338CA">국방부 해명</text>
+<circle cx="360.0" cy="206.0" r="4.5" fill="#a8a29e"/><circle cx="360.0" cy="206.0" r="9" fill="none" stroke="#a8a29e" stroke-width="1" stroke-opacity="0.4"/>
+<text x="372.0" y="210.0" font-size="11.5" fill="#a8a29e">평균 보도 시각</text>
+<g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="377.6" y2="220.0" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg0)"/><circle cx="377.6" cy="220.0" r="5.9" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="377.6" y="209.1" font-size="11" text-anchor="middle" fill="#78716c">MBN News</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="338.4" y2="215.1" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg0)"/><circle cx="338.4" cy="215.1" r="6.0" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="338.4" y="204.1" font-size="11" text-anchor="middle" fill="#78716c">채널A News</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="311.5" y2="197.4" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg0)"/><circle cx="311.5" cy="197.4" r="5.9" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="311.5" y="186.5" font-size="11" text-anchor="middle" fill="#78716c">고성국TV</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="324.0" y2="195.8" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg0)"/><circle cx="324.0" cy="195.8" r="6.0" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="324.0" y="184.8" font-size="11" text-anchor="middle" fill="#78716c">성창경TV</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="424.1" y2="242.6" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg0)"/><circle cx="424.1" cy="242.6" r="5.6" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="424.1" y="232.0" font-size="11" text-anchor="middle" fill="#78716c">SBS 뉴스</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="386.1" y2="227.2" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg0)"/><circle cx="386.1" cy="227.2" r="5.6" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="386.1" y="216.6" font-size="11" text-anchor="middle" fill="#78716c">JTBC New</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="409.3" y2="210.0" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg0)"/><circle cx="409.3" cy="210.0" r="5.7" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="409.3" y="199.3" font-size="11" text-anchor="middle" fill="#78716c">조선일보</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="224.8" y2="200.1" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg0)"/><circle cx="224.8" cy="200.1" r="5.2" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="224.8" y="189.9" font-size="11" text-anchor="middle" fill="#78716c">보수의 시선</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="220.1" y2="186.3" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg0)"/><circle cx="220.1" cy="186.3" r="5.7" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="220.1" y="175.7" font-size="11" text-anchor="middle" fill="#78716c">전여옥TV</text></g><g class="msel" data-p="0"><line x1="360.0" y1="206.0" x2="393.4" y2="262.0" stroke="#1e1b4b" stroke-width="3.5" stroke-linecap="round" opacity="0.08"/><line x1="360.0" y1="206.0" x2="393.4" y2="262.0" stroke="url(#gl00)" stroke-width="2.2" stroke-linecap="round" marker-end="url(#ma00)"/><circle cx="393.4" cy="262.0" r="5.7" fill="#1e1b4b" stroke="white" stroke-width="1.2"/><text x="405.4" y="268.0" font-size="17" font-weight="600" text-anchor="start" fill="#18181b" letter-spacing="-0.014em">연합뉴스TV</text></g><g class="msel" data-p="1"><line x1="360.0" y1="206.0" x2="323.2" y2="100.6" stroke="#134e4a" stroke-width="3.5" stroke-linecap="round" opacity="0.08"/><line x1="360.0" y1="206.0" x2="323.2" y2="100.6" stroke="url(#gl01)" stroke-width="2.2" stroke-linecap="round" marker-end="url(#ma01)"/><circle cx="323.2" cy="100.6" r="5.6" fill="#134e4a" stroke="white" stroke-width="1.2"/><text x="311.2" y="106.6" font-size="17" font-weight="600" text-anchor="end" fill="#18181b" letter-spacing="-0.014em">뉴스TVCHOSUN</text></g><g class="msel" data-p="2"><line x1="360.0" y1="206.0" x2="402.0" y2="217.4" stroke="#9f1239" stroke-width="3.5" stroke-linecap="round" opacity="0.08"/><line x1="360.0" y1="206.0" x2="402.0" y2="217.4" stroke="url(#gl02)" stroke-width="2.2" stroke-linecap="round" marker-end="url(#ma02)"/><circle cx="402.0" cy="217.4" r="5.8" fill="#9f1239" stroke="white" stroke-width="1.2"/><text x="414.0" y="223.4" font-size="17" font-weight="600" text-anchor="start" fill="#18181b" letter-spacing="-0.014em">YTN</text></g>
+</svg>
+<div class="msfoot"><span>분광 점수 3.018 · 선정 = 이 평면에서 서로 가장 멀리 떨어진 3매체(자동)</span><span>평면 = MDS(1024차원 의미공간의 2D 압축) · 축 이름·축선 = per-topic 라벨(시안)</span></div>
+
+
+    <div class="pers"><div class="prow" data-p="0" style="--pc:#1e1b4b;--pcs:rgba(79,70,229,0.28);--pct:rgba(79,70,229,0.16);--pct2:rgba(79,70,229,0.04)">
+  <a class="pth" href="https://www.youtube.com/watch?v=H5nzyxPKAcc" target="_blank" rel="noopener"><img loading="lazy" src="https://i.ytimg.com/vi/H5nzyxPKAcc/mqdefault.jpg" alt=""><b class="pnum" style="background:#1e1b4b">1</b></a>
+  <div class="pbody">
+    <div class="pch"><a href="https://www.youtube.com/watch?v=H5nzyxPKAcc" target="_blank" rel="noopener"><b>연합뉴스TV</b></a><i>보도전문채널</i><span class="pv">1.9만회</span></div>
+    <div class="pa">수사 개시 사실을 담담히 전달 <span class="badge pen" title="새 텍스트 스펙 적용 예시">✎</span></div>
+    <div class="pq">“&#x27;안규백 탈영 의혹&#x27; 경찰 수사 착수”</div>
+    <div class="pstat">구독 224만 · 30일 조회 125.5만 · 월 250편 · 2015년 개설</div>
+  </div>
+</div>
+<div class="prow" data-p="1" style="--pc:#134e4a;--pcs:rgba(13,148,136,0.28);--pct:rgba(13,148,136,0.16);--pct2:rgba(13,148,136,0.04)">
+  <a class="pth" href="https://www.youtube.com/watch?v=AvmUi4Hhp9o" target="_blank" rel="noopener"><img loading="lazy" src="https://i.ytimg.com/vi/AvmUi4Hhp9o/mqdefault.jpg" alt=""><b class="pnum" style="background:#134e4a">2</b></a>
+  <div class="pbody">
+    <div class="pch"><a href="https://www.youtube.com/watch?v=AvmUi4Hhp9o" target="_blank" rel="noopener"><b>뉴스TVCHOSUN</b></a><i>종합편성채널</i><span class="pv">6,539회</span></div>
+    <div class="pa">사안을 논평의 각도로 <span class="badge pen" title="새 텍스트 스펙 적용 예시">✎</span></div>
+    <div class="pq">“한 장이면 될 일 [윤정호의 앵커칼럼]”</div>
+    <div class="pstat">구독 308만 · 30일 조회 368.5만 · 월 250편 · 2012년 개설</div>
+  </div>
+</div>
+<div class="prow" data-p="2" style="--pc:#9f1239;--pcs:rgba(225,29,72,0.28);--pct:rgba(225,29,72,0.16);--pct2:rgba(225,29,72,0.04)">
+  <a class="pth" href="https://www.youtube.com/watch?v=nKZN8tCRnrg" target="_blank" rel="noopener"><img loading="lazy" src="https://i.ytimg.com/vi/nKZN8tCRnrg/mqdefault.jpg" alt=""><b class="pnum" style="background:#9f1239">3</b></a>
+  <div class="pbody">
+    <div class="pch"><a href="https://www.youtube.com/watch?v=nKZN8tCRnrg" target="_blank" rel="noopener"><b>YTN</b></a><i>보도전문채널</i><span class="pv">1.3만회</span></div>
+    <div class="pa">국방부의 반박 입장을 전면에 <span class="badge pen" title="새 텍스트 스펙 적용 예시">✎</span></div>
+    <div class="pq">“국방부 &quot;장관 탈영 주장 명백한 허위...퇴임 뒤 정정 신청&quot;”</div>
+    <div class="pstat">구독 534만 · 30일 조회 359만 · 월 250편 · 2013년 개설</div>
+  </div>
+</div><p class="fpara"><b style="color:#1e1b4b">1</b> <span class="fseg" data-p="0" style="text-decoration-color:#1e1b4b">보도전문채널 연합뉴스TV는 &quot;&#x27;안규백 탈영 의혹&#x27; 경찰 수사 착수&quot;(18,826 조회)로 수사 개시 사실을 담담히 전했다.</span> <b style="color:#134e4a">2</b> <span class="fseg" data-p="1" style="text-decoration-color:#134e4a">종합편성채널 뉴스TVCHOSUN은 앵커칼럼 &quot;한 장이면 될 일&quot;(6,539 조회)로 이 사안을 논평의 각도에서 다뤘다.</span> <b style="color:#9f1239">3</b> <span class="fseg" data-p="2" style="text-decoration-color:#9f1239">보도전문채널 YTN은 &quot;국방부 &#x27;장관 탈영 주장 명백한 허위...퇴임 뒤 정정 신청&#x27;&quot;(12,872 조회)으로 국방부의 반박 입장을 전면에 뒀다.</span> <span class="badge pen" title="새 텍스트 스펙 재작성 예시(선정 영상 실제 제목 근거) — 구절 hover 시 위 박스 연결">✎</span></p></div>
+  </div>
+
+  <!-- 반응 — 말풍선 좌우, 색으로 대립 인코딩 -->
+  <div class="mod">
+    <div class="mh"><span class="mnum">04</span><span class="mt">반응</span><span class="msub">보는 사람들은</span></div>
+    <p class="ptext">국방부의 &#x27;행정 착오&#x27; 해명에 대한 회의와 병적기록 공개 요구가 두드러졌다. <span class="badge pen" title="새 텍스트 스펙 적용 예시">✎</span></p>
+    <div class="glegrow"><span class="glab">의견 분포</span> <span class="badge pen" title="그룹핑 = 수동 분류 시연, 실서비스=LLM 의견 클러스터">✎</span><div class="gbarwrap" tabindex="0"><div class="gbar"><i style="width:33.3%;background:#3730A3"></i><i style="width:66.7%;background:#065F46"></i></div><div class="gtip">이 비율이 만들어지는 방법: 조회 상위 영상들의 인기(top)·최신(new) 댓글 표본을 수집해 의견별로 클러스터링한 뒤 그룹 비율을 계산. 이 시연은 발행 카드의 대표 댓글 3개 기준이며, 실서비스는 상위 영상 댓글 수십 개를 LLM이 묶는다.</div></div></div><div class="gleglist"><span class="gleg"><i style="background:#3730A3"></i>해명 못 믿겠다<em>33%</em></span><span class="gleg"><i style="background:#065F46"></i>병적기록 공개하라<em>67%</em></span></div><div class="chat"><div class="brow bl">
+  <div class="bub" style="background:rgba(55,48,163,0.09);border-color:rgba(55,48,163,0.35)">
+    <div class="gpill" style="color:#3730A3"><i style="background:#3730A3"></i>해명 못 믿겠다</div>
+    <div class="qt">행정착오로 7개월 가량을 더 근무한다고? ㅋㅋㅋㅋㅋㅋㅋㅋ 그걸 순순히 근무해주는 사람이 어딨냐 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ 선관위 마냥 까지는 않고 믿어만 달라고하네 ㅋㅋㅋ</div>
+    <div class="qm"><span class="ql">♥ 1,562</span><span>채널A News 영상 댓글</span></div>
+  </div>
+</div><div class="brow br">
+  <div class="bub" style="background:rgba(6,95,70,0.09);border-color:rgba(6,95,70,0.35)">
+    <div class="gpill" style="color:#065F46"><i style="background:#065F46"></i>병적기록 공개하라</div>
+    <div class="qt">아니 알겠으니까 병적기록부를 까라고요 이 쉬운걸 왜 못해
+피해자면 고발자들 다 고소하라고요
+왜 못해?</div>
+    <div class="qm"><span class="ql">♥ 1,215</span><span>채널A News 영상 댓글</span></div>
+  </div>
+</div><div class="brow bl">
+  <div class="bub" style="background:rgba(6,95,70,0.09);border-color:rgba(6,95,70,0.35)">
+    <div class="gpill" style="color:#065F46"><i style="background:#065F46"></i>병적기록 공개하라</div>
+    <div class="qt">그러니까 병적서 보여주면 될일 아니냐고 보여주고 허위증언한 사람 고소하고 그럼될일 아니냐고 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</div>
+    <div class="qm"><span class="ql">♥ 1,019</span><span>채널A News 영상 댓글</span></div>
+  </div>
+</div></div>
+    <p class="caveat">색 = 의견 그룹(정파 아닌 의견 내용 기준) · 말풍선 정렬 = 좋아요순. 이 이슈는 상위 표본이 한 방향으로 기울어 좌우 대립을 구성하지 않음 — 정면 대립 이슈에서는 대립 쌍이 좌우로 갈리고 직접 충돌 exchange가 이어진다. 🔴 표본 5건 중 2건은 주제 밖 반응으로 판정되어 제외(수집 영상: 성창경TV 올다르크 출석). 파이프라인에 댓글-주제 정합 게이트 예정.</p>
+  </div>
+
+  <!-- 한계 -->
+  <div class="mod">
+    <div class="mh"><span class="mnum">05</span><span class="mt">한계</span><span class="msub">이 카드가 담지 못한 것</span></div>
+    <p class="caveat">상위 댓글 표본이 의혹 제기 측에 기울어, 국방부 입장을 지지하는 반응은 제한적으로 관찰됐다. 댓글 여론은 상위 좋아요 표본에 국한된다. 이 카드는 유튜브 영상과 네이버 뉴스 본문에 기반하며, 댓글 여론은 상위 좋아요 표본에 국한되고, 보도 이후의 추가 전개는 수집 범위 밖이다.</p>
+  </div>
+
+  <!-- 언론 보도 -->
+  <div class="mod foot">
+    <div class="mh"><span class="mnum">06</span><span class="mt">언론 보도 (2026.7.10)</span></div>
+    <ul class="clist"><li><span class="cn">[01]</span><a href="https://news.tf.co.kr/read/ptoday/2341828.htm" target="_blank" rel="noopener">[이철영의 정사신] 안규백, &#x27;탈영&#x27; 의혹 거짓이어야 산다</a><span class="cs">더팩트</span></li>
+<li><span class="cn">[02]</span><a href="https://www.donga.com/news/Politics/article/all/20260710/134271207/2" target="_blank" rel="noopener">‘안규백 탈영 의혹’ 재점화… 野 “병적 기록 공개하라”</a><span class="cs">동아일보</span></li>
+<li><span class="cn">[03]</span><a href="https://news.kbs.co.kr/news/pc/view/view.do?ncd=8607179&amp;ref=A" target="_blank" rel="noopener">국방장관 ‘군무 이탈’ 의혹 재점화…병적 기록 공개 요구에 ‘무대응...</a><span class="cs">KBS</span></li>
+<li><span class="cn">[04]</span><a href="http://www.breaknews.com/1220751" target="_blank" rel="noopener">국민의힘 “장동혁·정점식, 이재명 정권 국정독주·검찰권박탈 규탄”</a><span class="cs">브레이크뉴스</span></li>
+<li><span class="cn">[05]</span><a href="https://imnews.imbc.com/news/2026/politics/article/6836446_36911.html" target="_blank" rel="noopener">국힘, &#x27;안규백 탈영 의혹&#x27;에 &quot;도둑을 포도대장에 앉힌 꼴, 사퇴하라&quot;</a><span class="cs">MBC</span></li>
+<li><span class="cn">[06]</span><a href="http://www.fnnews.com/news/202607100941477695" target="_blank" rel="noopener">&#x27;탈영의혹&#x27; 재점화 국방장관 병적기록 공개 촉구..안규백 탄핵청원 30만...</a><span class="cs">파이낸셜뉴스</span></li>
+<li><span class="cn">[07]</span><a href="https://www.news1.kr/politics/assembly/6223957" target="_blank" rel="noopener">국힘 &quot;안규백, 제2의 스티브 유…병적기록부 공개 못하면 사퇴해야&quot;</a><span class="cs">뉴스1</span></li>
+<li><span class="cn">[08]</span><a href="https://www.wikitree.co.kr/articles/1145739" target="_blank" rel="noopener">&#x27;안규백 국방장관 7개월 탈영 후 30일 영창&#x27; 의혹 일파만파</a><span class="cs">위키트리</span></li></ul>
+  </div>
+  </article>
+</div>
+</section><section class="deckitem" data-idx="1">
+<div class="cardwrap">
+  <div class="bookmark" style="background:#6B7280">사법</div>
+  <article class="gcard">
+
+  <!-- 헤드: 제목 · 부제 · 개요(abstract) -->
+  <div class="chead">
+    <h2 class="ctitle">장윤기 사건 경찰 부실수사·유착 의혹…광산경찰서장·형사과장 입건</h2>
+    <p class="csub">그제는 경찰, 어제는 검찰… 장윤기 부친 앞다퉈 조사</p>
+    <p class="clead">여고생 살인 사건 피의자 장윤기(23)를 둘러싼 경찰의 부실수사와 유착 의혹이 확산했다.  경찰이 장윤기의 휴대폰 통화내역 조회조차 하지 않았고, 블랙박스 판독 불가라며 제출하지 않은 것을 검찰은 화질개선으로 판독하는 등 수사 과정에서 심각한 부실이 드러났다. 장윤기의 아버지인 현직 경찰관(경감)이 수사 기간 중 아들을 3차례 접견하고 차량 블랙박스 메모리카드 행방을 물어본 것으로 확인되면서 경찰-피의자 가족 간 유착 정황도 불거졌다. 경찰청장 직무대행은 미국 출장 일정을 하루 앞당겨 귀국해 대국민 사과를 했다.</p>
+    <div class="cstat">수집 규모 · 매체 14곳 · 영상 139개 · 조회 231만회 · 댓글 800개</div>
+  </div>
+
+  <!-- 썸네일 흐름 — 시간순(원본→증폭), 상시 노출 (Jack 7/12: "이미지는 무조건 필요") -->
+  <div class="tstrip"><a class="tcell" href="https://www.youtube.com/watch?v=FZQcIj36T5E" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/FZQcIj36T5E/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>꽉TV</b><span>07.09 15:00 · 75.2만회</span></div>
+  <div class="ttl">유부녀 여경, 유부남 경찰 2명과… 남편도 경찰, 50초 안에 설명하기</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=rgD1Bc2rg4Q" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/rgD1Bc2rg4Q/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>YTN</b><span>07.09 16:43</span></div>
+  <div class="ttl">장윤기 사건에 다급해진 경찰...쇄신 TF에 비리수사대도 신설 / YTN</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=_JjKn-cTA-E" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/_JjKn-cTA-E/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>KBS News</b><span>07.10 04:00 · 2만회</span></div>
+  <div class="ttl">&#x27;여고생 살해범&#x27; 장윤기, 큰아버지도 현직 경찰이었다 #shorts / KBS</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=xCcmjt7NVfg" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/xCcmjt7NVfg/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>SBS 뉴스</b><span>07.10 07:00 · 4.2만회</span></div>
+  <div class="ttl">장윤기 감싼 &#x27;경찰 아버지&#x27;..전국 경찰 가족 사건 다 뒤진다 (자막뉴스) / SBS</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=4ojG9iuLRz0" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/4ojG9iuLRz0/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>연합뉴스TV</b><span>07.10 07:45 · 1.9만회</span></div>
+  <div class="ttl">장윤기, 경찰 수사 열흘간 3차례 부모 접견 / 연합뉴스TV(YonhapnewsTV)</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=KQjKUZRHT5g" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/KQjKUZRHT5g/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>JTBC News</b><span>07.10 10:57 · 2.9만회</span></div>
+  <div class="ttl">[속보] 경찰청장 대행 &quot;장윤기 사건 유족에 깊이 사죄...관계자 최대한 엄벌&quot; [이슈PLAY] / JTBC News</div>
+</a><a class="tcell" href="https://www.youtube.com/watch?v=PV5JRWKBsnY" target="_blank" rel="noopener">
+  <div class="tth"><img loading="lazy" src="https://i.ytimg.com/vi/PV5JRWKBsnY/mqdefault.jpg" alt=""></div>
+  <div class="tmeta"><b>채널A News</b><span>07.10 11:14 · 6.1만회</span></div>
+  <div class="ttl">[단독]경찰 “블랙박스 판독 불가”…검찰은 화질개선 판독 / 채널A / 뉴스A</div>
+</a></div>
+
+  <!-- 확산 · 원본 -->
+  <div class="mod">
+    <div class="mh"><span class="mnum">01</span><span class="mt">확산 · 원본</span><span class="msub">어디서 시작해 누가 키웠나</span></div>
+    <div class="oline">수집 범위에서 가장 이른 직접 보도&ensp;<b> YTN</b>&ensp;<span class="otime">07.09 16:43</span></div>
+    <p class="ptext">개인 채널의 영상 하나가 가장 넓게 유통됐고(전체 조회의 약 48%), 나머지 확산은 방송·대형 매체 보도가 이끌었다. 139개 영상 중 개인·소형 채널은 2개뿐이다. <span class="badge pen" title="새 텍스트 스펙 적용 예시">✎</span></p>
+    <svg viewBox="0 0 560 130" class="dcurve" role="img" aria-label="누적 조회 확산 곡선">
+<path d="M14.0,116.0 L14.0,115.6 L55.7,82.4 L90.0,82.2 L107.2,82.1 L114.5,81.3 L124.3,81.2 L126.8,81.0 L126.8,81.0 L131.7,80.7 L141.5,80.7 L151.3,80.7 L151.3,80.6 L156.2,80.3 L158.6,80.1 L158.6,79.7 L161.1,79.6 L170.9,79.5 L178.3,78.7 L180.7,78.6 L183.2,78.6 L183.2,78.6 L183.2,78.5 L188.1,77.8 L190.5,77.7 L190.5,77.4 L193.0,77.3 L193.0,77.2 L193.0,77.2 L195.4,75.5 L197.9,75.2 L197.9,75.0 L200.3,74.9 L200.3,74.8 L210.1,74.5 L212.6,74.4 L217.5,74.3 L217.5,70.4 L219.9,70.3 L222.4,70.1 L224.8,69.9 L224.8,69.5 L227.3,69.4 L229.7,69.3 L229.7,69.3 L229.7,69.2 L229.7,69.1 L232.2,69.0 L234.6,68.9 L239.5,68.6 L242.0,68.3 L242.0,68.2 L242.0,66.6 L244.5,65.8 L246.9,65.6 L246.9,64.8 L251.8,63.3 L251.8,63.1 L251.8,62.8 L254.3,62.5 L261.6,62.5 L261.6,62.4 L264.1,62.4 L271.4,62.3 L271.4,62.2 L271.4,61.6 L278.8,61.0 L291.0,60.2 L291.0,60.0 L295.9,59.7 L305.7,59.5 L305.7,58.3 L305.7,58.1 L305.7,57.0 L310.6,56.9 L310.6,56.8 L315.5,56.5 L315.5,40.8 L320.5,40.7 L322.9,39.5 L325.4,39.0 L330.3,38.9 L340.1,38.2 L342.5,37.4 L345.0,37.2 L349.9,36.8 L349.9,36.4 L362.1,36.0 L364.6,34.2 L376.8,32.6 L376.8,31.6 L376.8,31.2 L381.7,30.3 L386.6,30.3 L389.1,30.2 L396.5,29.9 L396.5,29.8 L401.4,29.5 L401.4,29.5 L411.2,29.4 L416.1,29.3 L430.8,29.3 L440.6,29.3 L443.0,29.1 L443.0,28.6 L443.0,28.5 L445.5,28.4 L447.9,27.8 L450.4,27.7 L450.4,27.0 L455.3,26.6 L460.2,25.3 L462.6,24.6 L462.6,24.4 L467.5,21.7 L467.5,21.2 L467.5,20.4 L467.5,20.4 L467.5,19.5 L467.5,19.3 L470.0,19.1 L470.0,18.8 L470.0,18.5 L477.4,18.2 L477.4,17.5 L477.4,17.3 L489.6,17.2 L489.6,17.1 L492.1,16.9 L494.5,16.8 L499.4,16.7 L504.3,16.7 L509.2,16.6 L531.3,16.2 L531.3,16.1 L533.7,16.0 L533.7,15.7 L533.7,15.5 L536.2,15.5 L546.0,14.0 L546.0,116.0 Z" fill="rgba(99,102,241,0.10)"/>
+<polyline points="14.0,115.6 55.7,82.4 90.0,82.2 107.2,82.1 114.5,81.3 124.3,81.2 126.8,81.0 126.8,81.0 131.7,80.7 141.5,80.7 151.3,80.7 151.3,80.6 156.2,80.3 158.6,80.1 158.6,79.7 161.1,79.6 170.9,79.5 178.3,78.7 180.7,78.6 183.2,78.6 183.2,78.6 183.2,78.5 188.1,77.8 190.5,77.7 190.5,77.4 193.0,77.3 193.0,77.2 193.0,77.2 195.4,75.5 197.9,75.2 197.9,75.0 200.3,74.9 200.3,74.8 210.1,74.5 212.6,74.4 217.5,74.3 217.5,70.4 219.9,70.3 222.4,70.1 224.8,69.9 224.8,69.5 227.3,69.4 229.7,69.3 229.7,69.3 229.7,69.2 229.7,69.1 232.2,69.0 234.6,68.9 239.5,68.6 242.0,68.3 242.0,68.2 242.0,66.6 244.5,65.8 246.9,65.6 246.9,64.8 251.8,63.3 251.8,63.1 251.8,62.8 254.3,62.5 261.6,62.5 261.6,62.4 264.1,62.4 271.4,62.3 271.4,62.2 271.4,61.6 278.8,61.0 291.0,60.2 291.0,60.0 295.9,59.7 305.7,59.5 305.7,58.3 305.7,58.1 305.7,57.0 310.6,56.9 310.6,56.8 315.5,56.5 315.5,40.8 320.5,40.7 322.9,39.5 325.4,39.0 330.3,38.9 340.1,38.2 342.5,37.4 345.0,37.2 349.9,36.8 349.9,36.4 362.1,36.0 364.6,34.2 376.8,32.6 376.8,31.6 376.8,31.2 381.7,30.3 386.6,30.3 389.1,30.2 396.5,29.9 396.5,29.8 401.4,29.5 401.4,29.5 411.2,29.4 416.1,29.3 430.8,29.3 440.6,29.3 443.0,29.1 443.0,28.6 443.0,28.5 445.5,28.4 447.9,27.8 450.4,27.7 450.4,27.0 455.3,26.6 460.2,25.3 462.6,24.6 462.6,24.4 467.5,21.7 467.5,21.2 467.5,20.4 467.5,20.4 467.5,19.5 467.5,19.3 470.0,19.1 470.0,18.8 470.0,18.5 477.4,18.2 477.4,17.5 477.4,17.3 489.6,17.2 489.6,17.1 492.1,16.9 494.5,16.8 499.4,16.7 504.3,16.7 509.2,16.6 531.3,16.2 531.3,16.1 533.7,16.0 533.7,15.7 533.7,15.5 536.2,15.5 546.0,14.0" fill="none" stroke="#6366F1" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="55.7" cy="82.4" r="4" fill="#6366F1"/><circle cx="55.7" cy="82.4" r="7.5" fill="none" stroke="#6366F1" stroke-opacity=".35"/><text x="63.7" y="71.4" text-anchor="start" class="svgt halo">최다 조회 영상 업로드 · 꽉TV</text>
+<text x="14" y="128" class="svgt">0h</text>
+<text x="546" y="128" text-anchor="end" class="svgt">22h · 누적 231만회</text>
+</svg>
+    <div class="shbar"><div class="shfill" style="width:62%"></div></div>
+    <div class="shlab"><span>상위 2개 채널 · 꽉TV·SBS 뉴스 <b>62%</b></span><span>나머지 38%</span></div>
+  </div>
+
+  <!-- 사건 설명 — 위 개요가 abstract라면 여기는 한 번에 이해되는 설명 (Jack 7/12) -->
+  <div class="mod">
+    <div class="mh"><span class="mnum">02</span><span class="mt">사건 이해</span><span class="msub">이 카드만 읽어도 알 수 있게</span></div>
+    <p class="dtext">전남·광주 여고생 피살 사건을 처음 수사한 경찰은 피의자 장윤기의 휴대전화 통신 내역조차 조회하지 않았고, 차량 블랙박스는 판독 불가라며 검찰에 제출하지 않았다. 사건을 넘겨받은 검찰은 장윤기의 1년 치 통신 내역과 3년 치 금융거래 내역을 추가 확보하고 블랙박스 영상을 화질 개선으로 판독해, 장윤기를 단순 살인이 아닌 강간 등 살인 혐의로 구속기소했다. 여기에 장윤기의 아버지인 현직 경찰관(경감)이 수사 기간 중 아들을 3차례 접견하며 블랙박스 메모리카드의 행방을 물어본 사실이 확인되면서, 경찰과 피의자 가족 간 유착 정황으로 번졌다. 경찰은 전국 경찰관 가족 관련 사건을 점검하겠다고 밝혔고, 미국 출장 중이던 경찰청장 직무대행은 일정을 앞당겨 귀국해 &quot;매우 송구하다&quot;며 대국민 사과를 했다. 검찰 보완수사권 문제는 국회 논의로 넘어갔다. <span class="badge pen" title="새 텍스트 스펙 적용 예시 — 수집된 언론 보도·영상 설명 기반">✎</span></p>
+  </div>
+
+  <!-- 매체 시각 -->
+  <div class="mod">
+    <div class="mh"><span class="mnum">03</span><span class="mt">매체 시각</span><span class="msub">같은 사건, 다른 각도</span></div>
+    <div class="mshead"><span class="msex">이 평면에서 두 점 사이 <b>거리 = 두 매체의 보도 시각 차이</b>. 시각이 가장 멀리 갈린 3개 매체를 자동 선정합니다.</span>
+  <span class="mshow" tabindex="0">How<span class="gtip htip">클러스터 영상의 텍스트를 1024차원 의미 벡터로 변환(Voyage) → 매체 간 cosine 거리 계산 → MDS가 거리를 평면에 보존 투영 → 가장 멀리 떨어진 3개 매체를 자동 선정. 색상은 식별 표식이며 정치 성향과 무관합니다.</span></span></div>
+<svg viewBox="0 0 720 412" class="dcurve" style="margin-top:8px" role="img" aria-label="매체 3시각 MDS 평면">
+<defs><marker id="mg1" viewBox="0 0 12 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 12 5 L 0 10 L 3.5 5 z" fill="#9ca3a0"/></marker><marker id="ma10" viewBox="0 0 12 8" refX="10" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 12 4 L 0 8 L 5 4 z" fill="#1e1b4b"/></marker><linearGradient id="gl10" x1="360.0" y1="206.0" x2="216.7" y2="127.2" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1e1b4b" stop-opacity="0.15"/><stop offset="100%" stop-color="#1e1b4b" stop-opacity="0.95"/></linearGradient><marker id="ma11" viewBox="0 0 12 8" refX="10" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 12 4 L 0 8 L 5 4 z" fill="#134e4a"/></marker><linearGradient id="gl11" x1="360.0" y1="206.0" x2="286.3" y2="241.1" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#134e4a" stop-opacity="0.15"/><stop offset="100%" stop-color="#134e4a" stop-opacity="0.95"/></linearGradient><marker id="ma12" viewBox="0 0 12 8" refX="10" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 12 4 L 0 8 L 5 4 z" fill="#9f1239"/></marker><linearGradient id="gl12" x1="360.0" y1="206.0" x2="447.7" y2="164.2" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#9f1239" stop-opacity="0.15"/><stop offset="100%" stop-color="#9f1239" stop-opacity="0.95"/></linearGradient></defs>
+<rect x="24" y="24" width="672" height="364" fill="#fafaf7" stroke="#ede8db" stroke-width="1" rx="2"/>
+<line x1="360.0" y1="32" x2="360.0" y2="380" stroke="#e7e5e4" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="32" y1="206.0" x2="688" y2="206.0" stroke="#e7e5e4" stroke-width="1" stroke-dasharray="3 4"/>
+<polygon points="216.7,127.2 286.3,241.1 447.7,164.2" fill="#9f1239" fill-opacity="0.06" stroke="#9f1239" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 3"/>
+<line x1="118.0" y1="108.7" x2="602.0" y2="303.3" stroke="#4338CA" stroke-opacity="0.30" stroke-width="1.3" stroke-dasharray="7 5"/><text x="110.0" y="112.7" text-anchor="end" font-size="12" font-weight="700" fill="#4338CA">유착·관계 정황</text><text x="610.0" y="307.3" text-anchor="start" font-size="12" font-weight="700" fill="#4338CA">경찰 대응·사과</text>
+<circle cx="360.0" cy="206.0" r="4.5" fill="#a8a29e"/><circle cx="360.0" cy="206.0" r="9" fill="none" stroke="#a8a29e" stroke-width="1" stroke-opacity="0.4"/>
+<text x="372.0" y="210.0" font-size="11.5" fill="#a8a29e">평균 보도 시각</text>
+<g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="366.2" y2="227.7" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg1)"/><circle cx="366.2" cy="227.7" r="5.8" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="366.2" y="216.8" font-size="11" text-anchor="middle" fill="#78716c">YTN</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="408.0" y2="225.7" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg1)"/><circle cx="408.0" cy="225.7" r="5.7" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="408.0" y="215.0" font-size="11" text-anchor="middle" fill="#78716c">연합뉴스TV</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="294.0" y2="215.6" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg1)"/><circle cx="294.0" cy="215.6" r="5.9" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="294.0" y="204.7" font-size="11" text-anchor="middle" fill="#78716c">SBS 뉴스</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="392.6" y2="185.9" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg1)"/><circle cx="392.6" cy="185.9" r="5.7" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="392.6" y="175.2" font-size="11" text-anchor="middle" fill="#78716c">KBS News</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="311.8" y2="197.7" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg1)"/><circle cx="311.8" cy="197.7" r="5.8" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="311.8" y="186.9" font-size="11" text-anchor="middle" fill="#78716c">채널A News</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="365.7" y2="193.9" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg1)"/><circle cx="365.7" cy="193.9" r="5.7" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="365.7" y="183.2" font-size="11" text-anchor="middle" fill="#78716c">JTBC New</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="412.3" y2="242.6" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg1)"/><circle cx="412.3" cy="242.6" r="5.4" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="412.3" y="232.2" font-size="11" text-anchor="middle" fill="#78716c">중앙일보</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="314.2" y2="241.0" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg1)"/><circle cx="314.2" cy="241.0" r="5.4" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="314.2" y="230.6" font-size="11" text-anchor="middle" fill="#78716c">KNN NEWS</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="283.6" y2="207.7" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg1)"/><circle cx="283.6" cy="207.7" r="5.4" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="283.6" y="197.3" font-size="11" text-anchor="middle" fill="#78716c">YTN 라디오</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="421.5" y2="228.1" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg1)"/><circle cx="421.5" cy="228.1" r="5.3" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="421.5" y="217.8" font-size="11" text-anchor="middle" fill="#78716c">동아일보</text></g><g class="moth" opacity="0.55"><line x1="360.0" y1="206.0" x2="385.8" y2="232.2" stroke="#cbc8c1" stroke-width="0.9" marker-end="url(#mg1)"/><circle cx="385.8" cy="232.2" r="5.2" fill="#a8a29e" stroke="white" stroke-width="1"/><text x="385.8" y="222.0" font-size="11" text-anchor="middle" fill="#78716c">뉴스TVCHOS</text></g><g class="msel" data-p="0"><line x1="360.0" y1="206.0" x2="216.7" y2="127.2" stroke="#1e1b4b" stroke-width="3.5" stroke-linecap="round" opacity="0.08"/><line x1="360.0" y1="206.0" x2="216.7" y2="127.2" stroke="url(#gl10)" stroke-width="2.2" stroke-linecap="round" marker-end="url(#ma10)"/><circle cx="216.7" cy="127.2" r="6.0" fill="#1e1b4b" stroke="white" stroke-width="1.2"/><text x="204.7" y="133.2" font-size="17" font-weight="600" text-anchor="end" fill="#18181b" letter-spacing="-0.014em">꽉TV</text></g><g class="msel" data-p="1"><line x1="360.0" y1="206.0" x2="286.3" y2="241.1" stroke="#134e4a" stroke-width="3.5" stroke-linecap="round" opacity="0.08"/><line x1="360.0" y1="206.0" x2="286.3" y2="241.1" stroke="url(#gl11)" stroke-width="2.2" stroke-linecap="round" marker-end="url(#ma11)"/><circle cx="286.3" cy="241.1" r="5.7" fill="#134e4a" stroke="white" stroke-width="1.2"/><text x="274.3" y="247.1" font-size="17" font-weight="600" text-anchor="end" fill="#18181b" letter-spacing="-0.014em">MBN News</text></g><g class="msel" data-p="2"><line x1="360.0" y1="206.0" x2="447.7" y2="164.2" stroke="#9f1239" stroke-width="3.5" stroke-linecap="round" opacity="0.08"/><line x1="360.0" y1="206.0" x2="447.7" y2="164.2" stroke="url(#gl12)" stroke-width="2.2" stroke-linecap="round" marker-end="url(#ma12)"/><circle cx="447.7" cy="164.2" r="5.7" fill="#9f1239" stroke="white" stroke-width="1.2"/><text x="459.7" y="170.2" font-size="17" font-weight="600" text-anchor="start" fill="#18181b" letter-spacing="-0.014em">MBCNEWS</text></g>
+</svg>
+<div class="msfoot"><span>분광 점수 3.294 · 선정 = 이 평면에서 서로 가장 멀리 떨어진 3매체(자동)</span><span>평면 = MDS(1024차원 의미공간의 2D 압축) · 축 이름·축선 = per-topic 라벨(시안)</span></div>
+
+
+    <div class="pers"><div class="prow" data-p="0" style="--pc:#1e1b4b;--pcs:rgba(79,70,229,0.28);--pct:rgba(79,70,229,0.16);--pct2:rgba(79,70,229,0.04)">
+  <a class="pth" href="https://www.youtube.com/watch?v=FZQcIj36T5E" target="_blank" rel="noopener"><img loading="lazy" src="https://i.ytimg.com/vi/FZQcIj36T5E/mqdefault.jpg" alt=""><b class="pnum" style="background:#1e1b4b">1</b></a>
+  <div class="pbody">
+    <div class="pch"><a href="https://www.youtube.com/watch?v=FZQcIj36T5E" target="_blank" rel="noopener"><b>꽉TV</b></a><i>개인 채널</i><span class="pv">75.2만회</span></div>
+    <div class="pa">사건 관계자들의 관계 구도를 전면에 <span class="badge pen" title="새 텍스트 스펙 적용 예시">✎</span></div>
+    <div class="pq">“유부녀 여경, 유부남 경찰 2명과… 남편도 경찰, 50초 안에 설명하기”</div>
+    <div class="pstat">구독 121만 · 30일 조회 17544.7만 · 월 238편 · 2013년 개설</div>
+  </div>
+</div>
+<div class="prow" data-p="1" style="--pc:#134e4a;--pcs:rgba(13,148,136,0.28);--pct:rgba(13,148,136,0.16);--pct2:rgba(13,148,136,0.04)">
+  <a class="pth" href="https://www.youtube.com/watch?v=juHWilRrmxU" target="_blank" rel="noopener"><img loading="lazy" src="https://i.ytimg.com/vi/juHWilRrmxU/mqdefault.jpg" alt=""><b class="pnum" style="background:#134e4a">2</b></a>
+  <div class="pbody">
+    <div class="pch"><a href="https://www.youtube.com/watch?v=juHWilRrmxU" target="_blank" rel="noopener"><b>MBN News</b></a><i>종합편성채널</i><span class="pv">1.6만회</span></div>
+    <div class="pa">부친의 녹음파일 삭제 정황을 단독으로 <span class="badge pen" title="새 텍스트 스펙 적용 예시">✎</span></div>
+    <div class="pq">“[단독] &quot;내가 지웠다&quot;…장윤기 부친, 휴대전화 녹음파일 삭제 뒤 경찰에 임의제출”</div>
+    <div class="pstat">구독 256만 · 30일 조회 145.5만 · 월 249편 · 2006년 개설</div>
+  </div>
+</div>
+<div class="prow" data-p="2" style="--pc:#9f1239;--pcs:rgba(225,29,72,0.28);--pct:rgba(225,29,72,0.16);--pct2:rgba(225,29,72,0.04)">
+  <a class="pth" href="https://www.youtube.com/watch?v=bDukcb-RNcw" target="_blank" rel="noopener"><img loading="lazy" src="https://i.ytimg.com/vi/bDukcb-RNcw/mqdefault.jpg" alt=""><b class="pnum" style="background:#9f1239">3</b></a>
+  <div class="pbody">
+    <div class="pch"><a href="https://www.youtube.com/watch?v=bDukcb-RNcw" target="_blank" rel="noopener"><b>MBCNEWS</b></a><i>지상파</i><span class="pv">1.7만회</span></div>
+    <div class="pa">경찰 수뇌부의 사과 대응을 중심에 <span class="badge pen" title="새 텍스트 스펙 적용 예시">✎</span></div>
+    <div class="pq">“&#x27;여론 심상찮다&#x27; 급 복귀 ..굳은 표정 &quot;깊이 사죄&quot;”</div>
+    <div class="pstat">구독 617만 · 30일 조회 1036.4만 · 월 250편 · 2006년 개설</div>
+  </div>
+</div><p class="fpara"><b style="color:#1e1b4b">1</b> <span class="fseg" data-p="0" style="text-decoration-color:#1e1b4b">개인 채널 꽉TV는 &quot;유부녀 여경, 유부남 경찰 2명과… 남편도 경찰, 50초 안에 설명하기&quot;(751,993 조회)로 사건 관계자들의 관계 구도를 전면에 뒀다.</span> <b style="color:#134e4a">2</b> <span class="fseg" data-p="1" style="text-decoration-color:#134e4a">종합편성채널 MBN News는 &quot;[단독] &#x27;내가 지웠다&#x27;…장윤기 부친, 휴대전화 녹음파일 삭제 뒤 경찰에 임의제출&quot;(15,681 조회)로 부친의 녹음파일 삭제 정황을 단독 보도했다.</span> <b style="color:#9f1239">3</b> <span class="fseg" data-p="2" style="text-decoration-color:#9f1239">지상파 MBC뉴스는 &quot;&#x27;여론 심상찮다&#x27; 급 복귀..굳은 표정 &#x27;깊이 사죄&#x27;&quot;(17,435 조회)로 경찰 수뇌부의 사과 대응을 중심에 뒀다.</span> <span class="badge pen" title="새 텍스트 스펙 재작성 예시(선정 영상 실제 제목 근거) — 구절 hover 시 위 박스 연결">✎</span></p></div>
+  </div>
+
+  <!-- 반응 — 말풍선 좌우, 색으로 대립 인코딩 -->
+  <div class="mod">
+    <div class="mh"><span class="mnum">04</span><span class="mt">반응</span><span class="msub">보는 사람들은</span></div>
+    <p class="ptext">경찰 수사 부실과 가족 유착에 대한 비판, 검찰 수사권 축소에 대한 우려가 두드러졌다. <span class="badge pen" title="새 텍스트 스펙 적용 예시">✎</span></p>
+    <div class="glegrow"><span class="glab">의견 분포</span> <span class="badge pen" title="그룹핑 = 수동 분류 시연, 실서비스=LLM 의견 클러스터">✎</span><div class="gbarwrap" tabindex="0"><div class="gbar"><i style="width:60.0%;background:#3730A3"></i><i style="width:20.0%;background:#065F46"></i><i style="width:20.0%;background:#92400E"></i></div><div class="gtip">이 비율이 만들어지는 방법: 조회 상위 영상들의 인기(top)·최신(new) 댓글 표본을 수집해 의견별로 클러스터링한 뒤 그룹 비율을 계산. 이 시연은 발행 카드의 대표 댓글 5개 기준이며, 실서비스는 상위 영상 댓글 수십 개를 LLM이 묶는다.</div></div></div><div class="gleglist"><span class="gleg"><i style="background:#3730A3"></i>경찰 조직 불신<em>60%</em></span><span class="gleg"><i style="background:#065F46"></i>검찰 수사권 축소 우려<em>20%</em></span><span class="gleg"><i style="background:#92400E"></i>처벌·책임 요구<em>20%</em></span></div><div class="chat"><div class="brow bl">
+  <div class="bub" style="background:rgba(55,48,163,0.09);border-color:rgba(55,48,163,0.35)">
+    <div class="gpill" style="color:#3730A3"><i style="background:#3730A3"></i>경찰 조직 불신</div>
+    <div class="qt">이야 진짜 정말 대~단하다. 이런 조직에 수사권을 다 준다고? ㅎㅎㅎ</div>
+    <div class="qm"><span class="ql">♥ 2,921</span><span>꽉TV 영상 댓글</span></div>
+  </div>
+</div><div class="brow br">
+  <div class="bub" style="background:rgba(55,48,163,0.09);border-color:rgba(55,48,163,0.35)">
+    <div class="gpill" style="color:#3730A3"><i style="background:#3730A3"></i>경찰 조직 불신</div>
+    <div class="qt">경찰은 모두가 가족 이잖아요.
+광주 사건 만 봐도.
+선관위 랑 똑같아 지겠네.</div>
+    <div class="qm"><span class="ql">♥ 2,794</span><span>꽉TV 영상 댓글</span></div>
+  </div>
+</div><div class="brow bl">
+  <div class="bub" style="background:rgba(6,95,70,0.09);border-color:rgba(6,95,70,0.35)">
+    <div class="gpill" style="color:#065F46"><i style="background:#065F46"></i>검찰 수사권 축소 우려</div>
+    <div class="qt">이래도  검찰수사권을 박탈한다고?  이건 국기문란 아니야?</div>
+    <div class="qm"><span class="ql">♥ 1,973</span><span>채널A News 영상 댓글</span></div>
+  </div>
+</div><div class="brow br">
+  <div class="bub" style="background:rgba(146,64,14,0.09);border-color:rgba(146,64,14,0.35)">
+    <div class="gpill" style="color:#92400E"><i style="background:#92400E"></i>처벌·책임 요구</div>
+    <div class="qt">모두 파면 당해야 마땅한데 
+가벼운 처벌만 했다는게 충격</div>
+    <div class="qm"><span class="ql">♥ 1,828</span><span>꽉TV 영상 댓글</span></div>
+  </div>
+</div><div class="brow bl">
+  <div class="bub" style="background:rgba(55,48,163,0.09);border-color:rgba(55,48,163,0.35)">
+    <div class="gpill" style="color:#3730A3"><i style="background:#3730A3"></i>경찰 조직 불신</div>
+    <div class="qt">뻔뻔한 범죄가족이네</div>
+    <div class="qm"><span class="ql">♥ 1,695</span><span>꽉TV 영상 댓글</span></div>
+  </div>
+</div></div>
+    <p class="caveat">색 = 의견 그룹(정파 아닌 의견 내용 기준) · 말풍선 정렬 = 좋아요순. 이 이슈는 비판이 한 방향으로 수렴해 좌우 대립을 구성하지 않음 — 정면 대립 이슈에서는 대립 쌍이 좌우로 갈리고 직접 충돌 exchange가 이어진다.</p>
+  </div>
+
+  <!-- 한계 -->
+  <div class="mod">
+    <div class="mh"><span class="mnum">05</span><span class="mt">한계</span><span class="msub">이 카드가 담지 못한 것</span></div>
+    <p class="caveat">댓글 여론은 상위 좋아요 표본에 국한된다. 이 카드는 유튜브 영상과 네이버 뉴스 본문에 기반하며, 댓글 여론은 상위 좋아요 표본에 국한되고, 보도 이후의 추가 수사 전개·처벌 결과는 수집 범위 밖이다.</p>
+  </div>
+
+  <!-- 언론 보도 -->
+  <div class="mod foot">
+    <div class="mh"><span class="mnum">06</span><span class="mt">언론 보도 (2026.7.10)</span></div>
+    <ul class="clist"><li><span class="cn">[01]</span><a href="https://www.donga.com/news/Society/article/all/20260710/134271223/2" target="_blank" rel="noopener">그제는 경찰, 어제는 검찰… 장윤기 부친 앞다퉈 조사</a><span class="cs">동아일보</span></li>
+<li><span class="cn">[02]</span><a href="https://www.newsis.com/view/NISX20260709_0003703276" target="_blank" rel="noopener">경찰청장 직무대행 &quot;&#x27;장윤기 사건&#x27; 송구…보완수사권 국회서 결정&quot;</a><span class="cs">뉴시스</span></li>
+<li><span class="cn">[03]</span><a href="http://www.yonhapnewstv.co.kr/news/MYH20260710053145Fha" target="_blank" rel="noopener">장윤기, 경찰 수사 열흘간 3차례 부모 접견</a><span class="cs">연합뉴스TV</span></li>
+<li><span class="cn">[04]</span><a href="https://www.ytn.co.kr/_ln/0103_202607100610301677" target="_blank" rel="noopener">경찰청장 대행 &quot;장윤기 사건 매우 송구&quot;...보완수사권엔 &quot;국회 논의&quot;</a><span class="cs">YTN</span></li>
+<li><span class="cn">[05]</span><a href="https://www.yna.co.kr/view/AKR20260710010600004?input=1195m" target="_blank" rel="noopener">장윤기 사건에 조기 귀국한 경찰청장 대행, &quot;매우 송구&quot;</a><span class="cs">연합뉴스</span></li>
+<li><span class="cn">[06]</span><a href="https://www.mk.co.kr/article/12095011" target="_blank" rel="noopener">장윤기 사건에 조기 귀국한 경찰청장 대행…“매우 송구”</a><span class="cs">매일경제</span></li>
+<li><span class="cn">[07]</span><a href="https://www.hankyung.com/article/2026071067747" target="_blank" rel="noopener">&quot;사안 엄중&quot;…경찰청장 대행, 장윤기 사건에 조기 귀국</a><span class="cs">한국경제</span></li>
+<li><span class="cn">[08]</span><a href="https://www.ytn.co.kr/_ln/0103_202607100711270507" target="_blank" rel="noopener">경찰청장 대행, 장윤기 사건 첫 공개입장...&quot;국민께 매우 송구&quot;</a><span class="cs">YTN</span></li></ul>
+  </div>
+  </article>
+</div>
+</section></div>
+  <div class="note"><b>정직 표시.</b> ① 실데이터 = 제목·부제·개요·썸네일·인용 제목·조회수·확산 곡선·편중 %·댓글·언론 보도·채널 스탯(구독/30일 조회/월 업로드/개설연도 = 사이트 CHANNEL_PROFILES 실측).
+  ② <span class="badge pen">✎</span> = 새 텍스트 스펙을 수집된 사실(현행 body·영상 설명문·기사 제목)만으로 재작성한 예시 — 파이프라인(derive_flat) 개선 후 자동 생성될 글의 시연. '사건 이해' 글이 대표.
+  ③ <span class="badge sian">시안</span> = 축 이름·축선(방향 = 시각①이 왼쪽 극). 2D 평면·화살표·분광 점수·선정 = 전부 실데이터. <b>3시각 = 실제 파이프라인 선정(평면 max-disperse)</b> — body 프레이밍 채널 하이라이트(v7까지)를 §2.3 권고대로 vector 선정에 정렬, 각도·프레이밍 문장은 선정 영상 실제 제목 기반 ✎ 재작성.
+  ⑦ 🔴 안규백 카드의 반응 표본 중 2건(성창경TV 올다르크 출석 영상 댓글)은 Jack 판정으로 <b>주제 밖 오수집 → 시연에서 제외</b> — 댓글-주제 정합(relevance) 게이트 추가 예정(브리프 §2.4).
+  ⑧ 좌측 일자 패널 = <b>실사이트 TodayArchive 패턴</b>(날짜 "7월 10일 (금)" + 카드 수, 활성=잉크 솔리드, radius 5px) — 화면 왼쪽 끝 고정(KR left-3/xl:left-8과 동일 문법, deck peek 좌우 카드 공간과 분리). US = Jul 10 표기. 목업, 1180px 이하 숨김(모바일=드롭다운 패턴). 박스·문단 구절 hover 시 <b>평면의 해당 화살표·라벨이 함께 강조</b>되고 나머지는 옅어짐(figure↔박스↔문단 3방향 연동).
+  ⑨ 출처 tier 칩(direct/transformed 등)은 채널 권위 tier의 기계 라벨이라 보도의 1차/2차성 판정으로 오독될 수 있어 v10에서 표면 제거(재검토 백로그). 카드 상단 날짜도 제거 — 날짜는 좌측 일자 바 소관.
+  ⑩ 장윤기 3시각의 ①(꽉TV 영상)은 이후 Jack 확인으로 <b>오클러스터링 판정 — 실발행 카드에서는 제외</b>됐고 1번 영상 오선정 조치도 파이프라인에 반영됨. 이 시연은 수정 전 cooked 스냅샷(7/10) 기준.
+  ④ 반응 = <b>의견 분포 바</b>(비율 %, hover=수집·클러스터링 방법 설명) + 그룹 색 말풍선(정파 아닌 의견 내용 그룹·professional 톤), 말풍선 정렬=좋아요순. 그룹 분류·비율은 표본 5개 기준 ✎ 시연(실서비스=상위 영상 댓글 수십 개 LLM 클러스터). 댓글 pool 권고 = 브리프 §2.4.
+  ⑤ 실서비스 프레임 = 카테고리 책갈피 + <b>Deck 3D peek 재현</b>(실사이트 Deck.jsx 실스펙: 인접 카드 84% 옆·18° 회전·투명 0.30, 클릭=점프·스와이프·←→ 키) / 일자 선택 바·선거 카드 테두리 표시는 시안 밖(스펙 기재).
+  ⑥ 카테고리(책갈피) = 현 KR 6분류 그대로 — US 카테고리 체계는 KR 프로세스(카드 축적 후 전수 분석→확정) 재활용 예정, 스펙 §2.5.</div>
+</main>
+<script>
+// Deck 3D peek — 실사이트 Deck.jsx 스펙 이식 (PEEK_TX 84% · rotY 18° · TZ -180 · opacity .30 · blur 1.4px)
+var cur=0, total=2;
+var stage=document.getElementById('stage');
+var items=[].slice.call(document.querySelectorAll('.deckitem'));
+function layout(dragX){
+  dragX=dragX||0;
+  items.forEach(function(el,i){
+    var diff=i-cur, isActive=diff===0, isAdj=Math.abs(diff)===1, isFar=Math.abs(diff)>=2;
+    var tx=diff*80, rotY=isActive?0:Math.sign(diff)*-10, tz=isActive?0:-90;
+    var dx=isActive?dragX:0;
+    el.style.transform='translate3d(calc('+tx+'% + '+dx+'px), 0, '+tz+'px) rotateY('+rotY+'deg)';
+    el.style.opacity=isFar?0:(isAdj?0.42:1);
+    el.style.filter=isActive?'none':'blur(1.4px)';
+    el.style.pointerEvents=isFar?'none':'auto';
+    el.style.cursor=isAdj?'pointer':'default';
+    el.style.zIndex=100-Math.abs(diff);
+    el.style.visibility=isFar?'hidden':'visible';
+  });
+  document.querySelectorAll('.seg button').forEach(function(b,j){b.classList.toggle('on',j===cur);});
+  var al=document.querySelector('.navarr.left'),ar=document.querySelector('.navarr.right');
+  al.style.opacity=cur===0?0.25:1; al.style.pointerEvents=cur===0?'none':'auto';
+  ar.style.opacity=cur===total-1?0.25:1; ar.style.pointerEvents=cur===total-1?'none':'auto';
+  stage.style.height=items[cur].offsetHeight+'px';
+}
+function showCard(i){cur=i;layout();}
+function stepCard(d){var n=cur+d;if(n<0||n>=total)return;showCard(n);}
+items.forEach(function(el,i){el.addEventListener('click',function(e){
+  if(i!==cur){e.preventDefault();e.stopPropagation();showCard(i);}
+},true);});
+// 스와이프 — 활성 카드에 --drag-x, 50px 임계
+var sx=null,sy=null,drag=0;
+stage.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY;drag=0;},{passive:true});
+stage.addEventListener('touchmove',function(e){
+  if(sx===null)return;
+  var dx=e.touches[0].clientX-sx, dy=e.touches[0].clientY-sy;
+  if(Math.abs(dx)>Math.abs(dy)){drag=dx;layout(dx*0.6);}
+},{passive:true});
+stage.addEventListener('touchend',function(){
+  if(Math.abs(drag)>50)stepCard(drag<0?1:-1);else layout();
+  sx=sy=null;drag=0;
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft')stepCard(-1);if(e.key==='ArrowRight')stepCard(1);
+});
+// 활성 카드 높이 추적 (이미지 lazy-load·리사이즈 대응)
+if(window.ResizeObserver){
+  var ro=new ResizeObserver(function(){stage.style.height=items[cur].offsetHeight+'px';});
+  items.forEach(function(el){ro.observe(el);});
+}
+function bindPerspective(el){
+  var sec=el.closest('.mod'); if(!sec)return;
+  var i=el.dataset.p;
+  var row=sec.querySelector('.prow[data-p="'+i+'"]');
+  var seg=sec.querySelector('.fseg[data-p="'+i+'"]');
+  var svg=sec.querySelector('svg');
+  var mk=svg?svg.querySelector('.msel[data-p="'+i+'"]'):null;
+  function set(on){
+    if(row)row.classList.toggle('hl',on&&el!==row);
+    if(seg&&el!==seg)seg.classList.toggle('fon',on);
+    if(mk)mk.classList.toggle('on',on);
+    if(svg)svg.classList.toggle('vfocus',on);
+  }
+  el.addEventListener('mouseenter',function(){set(true);});
+  el.addEventListener('mouseleave',function(){set(false);});
+}
+document.querySelectorAll('.fseg,.prow[data-p]').forEach(bindPerspective);
+window.addEventListener('load',function(){layout();});
+layout();
+</script>
+</html>
