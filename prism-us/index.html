@@ -1,6 +1,6 @@
 <!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>PRISM US — 확정 시안 3종 (Home · Card · Roundup)</title>
+<title>PRISM — 런칭 화면 목업 (내부 공유용)</title>
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
 <style>
 :root{
@@ -25,87 +25,75 @@ body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;over
 @keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-3%,2%) scale(1.06)}100%{transform:translate(2%,-1%) scale(1.02)}}
 .ambient-wash{position:fixed;inset:0;z-index:1;pointer-events:none;
  background:radial-gradient(100% 80% at 50% 50%,rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.6) 100%)}
-main{position:relative;z-index:2;max-width:720px;margin:0 auto;padding:56px 20px 90px}
+main{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:64px 20px 80px}
 
 .kick{display:flex;align-items:baseline;gap:10px;font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint)}
 .kick::before{content:'◆';color:var(--spec-canonical);font-size:8px;letter-spacing:0}
-h1{font-size:30px;font-weight:800;letter-spacing:-.025em;line-height:1.18;margin-top:11px}
+h1{font-size:29px;font-weight:800;letter-spacing:-.025em;line-height:1.2;margin-top:12px}
 h1 em{font-style:normal;background:linear-gradient(100deg,#4F46E5 0%,#DB2777 38%,#4F46E5 76%);background-size:260% 100%;
  -webkit-background-clip:text;background-clip:text;color:transparent;animation:lensflow 9s ease-in-out infinite}
 @keyframes lensflow{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
-.lede{font-size:14px;line-height:1.75;color:var(--ink-mid);margin-top:11px;max-width:640px}
-.lede b{color:var(--ink-soft);font-weight:650}
-.speckey{height:3px;border-radius:2px;background:var(--spectrum);margin:20px 0 0;opacity:.92;position:relative;overflow:visible}
+.speckey{height:3px;border-radius:2px;background:var(--spectrum);margin:20px 0 0;opacity:.92;position:relative}
 .speckey::before{content:'';position:absolute;inset:0;border-radius:2px;width:36%;
  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.85) 50%,transparent);
  animation:sheen 5.5s cubic-bezier(.4,0,.6,1) infinite;animation-delay:-2.4s}
 @keyframes sheen{0%{transform:translateX(0);opacity:0}7%{opacity:1}45%{opacity:1}55%,100%{transform:translateX(178%);opacity:0}}
-.meta{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink-faint);letter-spacing:.06em;text-transform:uppercase;
- padding:11px 0 0;font-variant-numeric:tabular-nums}
 
-.grid{display:flex;flex-direction:column;gap:14px;margin-top:30px}
-.card{display:block;text-decoration:none;color:var(--ink);position:relative;overflow:hidden;
- background:rgba(255,255,255,0.82);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);
- border:1px solid rgba(255,255,255,0.78);border-radius:4px;box-shadow:var(--glass-shadow-soft);
- padding:19px 22px 19px 24px;transition:transform .2s,box-shadow .2s}
-.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--spec-canonical),var(--spec-transformed));opacity:.8}
-.card:hover{transform:translateY(-2px);box-shadow:var(--glass-shadow)}
-.chead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.chead h2{font-size:17px;font-weight:800;letter-spacing:-.015em}
-.st{flex:none;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:3px;padding:2px 7px}
-.st.fix{color:#fff;background:var(--ink)}
-.st.sian{color:var(--accent-deep);background:rgba(99,102,241,0.14)}
-.cdesc{font-size:13px;line-height:1.7;color:var(--ink-mid);margin-top:7px}
-.cdesc b{color:var(--ink-soft);font-weight:650}
-.ctry{font-size:11.5px;line-height:1.6;color:var(--ink-faint);margin-top:9px;border-top:1px solid var(--rule);padding-top:9px}
-.ctry b{color:var(--accent-deep);font-weight:700}
-.go{font-size:12px;font-weight:700;color:var(--ink);margin-top:11px;display:inline-block}
+.lede{font-size:14.5px;line-height:1.8;color:var(--ink-mid);margin-top:18px}
+.lede b{color:var(--ink-soft);font-weight:650}
+.rows{margin-top:22px;display:flex;flex-direction:column;gap:0}
+.r{display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid var(--rule);font-size:13px;line-height:1.7;color:var(--ink-mid)}
+.r:last-child{border-bottom:1px solid var(--rule)}
+.r b{color:var(--ink-soft);font-weight:700}
+.rk{flex:none;width:88px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);padding-top:2px}
 
-.note{margin-top:30px;padding:16px 19px;background:rgba(255,255,255,0.42);border:1px solid rgba(255,255,255,0.65);
- border-radius:4px;font-size:12.5px;color:var(--ink-mid);line-height:1.8;box-shadow:var(--glass-shadow-soft)}
-.note b{color:var(--ink-soft)}
-.orn{text-align:center;color:var(--rule-strong);font-size:11px;margin-top:30px;display:flex;align-items:center;gap:14px}
+.cta{display:flex;align-items:center;gap:14px;margin-top:30px;flex-wrap:wrap}
+.go{display:inline-flex;align-items:center;gap:9px;font:700 14px 'Pretendard Variable',sans-serif;color:#fff;background:var(--ink);
+ border:0;border-radius:4px;padding:14px 24px;text-decoration:none;cursor:pointer;
+ box-shadow:0 8px 20px -8px rgba(11,11,18,0.45);transition:transform .15s,box-shadow .15s}
+.go:hover{transform:translateY(-1px);box-shadow:0 14px 28px -10px rgba(11,11,18,0.5)}
+.gohint{font-size:12px;color:var(--ink-faint);line-height:1.6}
+
+.curtain{margin-top:34px;padding:18px 20px;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.7);
+ border-radius:4px;box-shadow:var(--glass-shadow-soft);position:relative;overflow:hidden}
+.curtain::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--spec-canonical),var(--spec-transformed));opacity:.55}
+.ctitle{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+.cbody{font-size:12.5px;line-height:1.85;color:var(--ink-mid);margin-top:8px}
+.cbody b{color:var(--ink-soft);font-weight:650}
+.cbody code{font-size:11.5px;background:rgba(20,20,40,0.05);border-radius:3px;padding:1px 5px}
+.orn{text-align:center;color:var(--rule-strong);font-size:11px;margin-top:34px;display:flex;align-items:center;gap:14px}
 .orn::before,.orn::after{content:'';flex:1;height:1px;background:var(--rule)}
 @media (prefers-reduced-motion:reduce){.speckey::before,h1 em,.ambient::before{animation:none}}
 </style>
 <div class="ambient"></div><div class="ambient-wash"></div>
 <main>
-  <div class="kick">PRISM US · Design Review — <b>2026.07.13</b></div>
+  <div class="kick">PRISM · 내부 공유용 목업 — <b>2026.07.13</b></div>
   <h1>Same story. <em>Different lenses.</em></h1>
-  <p class="lede">7/20 런칭 화면 <b>확정 시안</b>입니다. <b>실제 사이트처럼 돌아갑니다</b> — 각 화면 상단의 <b>탭(Home · Today's Issues · Issue Roundup)이 실제로 작동</b>하니 눌러서 오가며 봐 주세요. 전부 <b>실데이터</b>입니다(영상·채널·조회수·썸네일·클러스터 규모 = 파이프라인 실측). 데이터가 없는 것은 <b>지어내지 않고 비웠고</b>, 각 화면 하단 접이식 <b>"이 시안에 대하여"</b>에 무엇이 실데이터이고 무엇이 시안인지 적어 뒀습니다.</p>
   <div class="speckey"></div>
-  <div class="meta"><span>브라우저에서 바로 열립니다</span><span>·</span><span>모바일도 가능</span><span>·</span><span>의견 = Jack 에게 편하게</span></div>
 
-  <div class="grid">
-    <a class="card" href="home.html">
-      <div class="chead"><h2>① 홈 — Home</h2><span class="st fix">확정 (라운드 8)</span></div>
-      <p class="cdesc">첫인상 화면. <b>편집장 masthead</b>(미션 + 오늘의 규모) → <b>오늘의 이슈 카드 프리뷰</b>(히어로) → <b>Running stories</b>(이슈가 며칠째 이어지는지) → 최근 3일 피드 → 주제 탐색.</p>
-      <p class="ctry"><b>보실 것</b> · 히어로는 <b>새로고침할 때마다 오늘 4장 중 랜덤</b>으로 바뀝니다 (실서비스 동작 그대로). 분광 키라인 위로 <b>빛이 흐르고 그 아래 문장으로 번집니다</b>. 미국 실데이터(7/11) 기준입니다.</p>
-      <span class="go">홈 시안 열기 →</span>
-    </a>
+  <p class="lede">7/20 런칭 예정 화면의 <b>확정 시안</b>입니다. 실서비스가 아니라 <b>브라우저에서 도는 정적 목업</b>이지만, <b>진짜 사이트처럼 돌아다닐 수 있게</b> 만들었습니다 — 상단 탭으로 화면을 오가고, 카드를 넘기고, 이슈의 전말까지 눌러 들어갈 수 있습니다.</p>
 
-    <a class="card" href="card.html">
-      <div class="chead"><h2>② 오늘의 이슈 카드 — Today's Issues</h2><span class="st fix">확정 (v16 · 코드 반영 완료)</span></div>
-      <p class="cdesc">하루 한 이슈를 6모듈로 해부합니다. <b>01 확산·원본</b>(어디서 시작해 누가 키웠나) · <b>02 사건 이해</b> · <b>03 매체 3시각</b>(같은 사실, 다른 프레이밍) · <b>04 반응</b>(의견 분포) · <b>05 댓글 반복 패턴</b> · <b>이 카드의 한계</b>.</p>
-      <p class="ctry"><b>보실 것</b> · 카드 좌우 <b>화살표로 그날의 다른 카드</b>로 넘어갑니다. <b>03 매체 시각</b>에서 프레이밍 문장에 마우스를 올려 보세요 — 문장·점·매체 카드 <b>3자가 함께 빛납니다</b>. 페이지 아래쪽에 <b>새 모듈 05 댓글 반복 패턴</b>(7/13 확정)이 실관측으로 붙어 있습니다 — "선정된 댓글"이 아니라 <b>풀 전체에서 관측된 반복</b>이고, <b>판정하지 않고 관측만 서술</b>합니다.<br>※ 카드 2장은 <b>KR 파일럿 실데이터</b>(US 카드는 백필 중), 05 관측은 <b>US 코퍼스 실측</b>입니다.</p>
-      <span class="go">카드 시안 열기 →</span>
-    </a>
-
-    <a class="card" href="roundup.html">
-      <div class="chead"><h2>③ 이슈별 정리 — Issue Roundup</h2><span class="st sian">시안 (T5 구현 예정)</span></div>
-      <p class="cdesc">카드가 쌓이면 <b>하나의 이슈가 며칠에 걸쳐 어떻게 전개됐는지</b>가 한 줄기로 정리됩니다. 보라 막대 = 새 사실을 카드로 정리한 날, 옅은 음영 = 그날 올라온 관련 영상의 양 (새 소식이 없어도 관심은 이어질 수 있다는 것).</p>
-      <p class="ctry"><b>보실 것</b> · <b>전말 보기 →</b> 를 누르면 그 이슈의 <b>전체 전개(스레드 상세)</b>가 열립니다 — 여기까지가 하나의 흐름입니다(오늘의 카드 → 이 이슈가 어디까지 왔나 → 처음부터 끝까지). KR 파일럿 실데이터 기준.</p>
-      <span class="go">이슈별 정리 시안 열기 →</span>
-    </a>
+  <div class="rows">
+    <div class="r"><span class="rk">무엇을</span><span><b>홈</b> · <b>오늘의 이슈 카드</b> · <b>이슈별 정리</b> · <b>이슈 전말(스레드)</b> — 네 화면이 실제로 이어집니다.</span></div>
+    <div class="r"><span class="rk">데이터</span><span><b>실데이터입니다.</b> 미국 코퍼스(7/9~11)에서 실제로 수집·군집한 이슈이고, 영상·채널·조회수·썸네일·댓글은 파이프라인 실측입니다. <b>카드 본문은 아직 사람 검수 전 초안</b>입니다.</span></div>
+    <div class="r"><span class="rk">정직</span><span>데이터가 없는 것은 <b>지어내지 않고 비웠습니다.</b> 무엇을 왜 비웠는지는 각 화면 하단 <b>"이 시안에 대하여"</b>에 적어 뒀습니다.</span></div>
+    <div class="r"><span class="rk">의견</span><span>✎ 표시가 붙은 문장은 <b>확정 아닌 카피 제안</b>입니다. 그 부분 의견이 가장 반갑습니다.</span></div>
   </div>
 
-  <div class="note">
-    <b>읽는 법 (짧게).</b><br>
-    · <b>실데이터입니다.</b> 7/1~11 미국 코퍼스(영상 55,063 · 채널 488)에서 실제로 수집·군집한 이슈들이고, 썸네일·조회수·게시시각은 전부 실측입니다.<br>
-    · <b>아직 없는 것은 비워 뒀습니다.</b> 각 화면 하단 "정직 표시"에 무엇이 실데이터이고 무엇이 시안인지(예: 스레드 상태, 카테고리 자동판정) 그대로 적어 뒀습니다. 지어낸 수치는 없습니다.<br>
-    · <b>✎ 표시</b>가 붙은 문장은 <b>카피 제안</b>이라 아직 확정이 아닙니다 — 여기 의견이 가장 반갑습니다.<br>
-    · 디자인 언어: 장식은 <b>"살아있는 빛" 3곳</b>(분광 키라인 · 헤드라인 광택 · 진행 중 이슈의 오늘 칸)뿐이고, 나머지 표면은 <b>직사각형(2~4px)</b>으로 신문 편집 문법에 맞췄습니다.
+  <div class="cta">
+    <a class="go" href="home.html">구경하기 →</a>
+    <span class="gohint">홈부터 시작합니다. 상단 탭으로 자유롭게 이동하세요.</span>
   </div>
+
+  <div class="curtain">
+    <div class="ctitle">이 목업이 무엇이고, 무엇이 아닌지</div>
+    <p class="cbody">
+    이 페이지들은 <b>프론트엔드 디자인 시안</b>을 팀이 브라우저에서 직접 만져 볼 수 있게 만든 <b>정적 HTML 목업</b>입니다. 실제 서비스(<code>prism-provenance.com</code>)도, 배포된 무언가도 아닙니다.<br>
+    <b>백엔드는 이 목업과 아무 관계가 없습니다</b> — 서버·스키마·DB·API 는 <b>건드리지 않았고</b>, 이 화면들은 API 를 호출하지도 않습니다. 데이터는 이미 만들어진 파이프라인 산출물(클러스터·영상·댓글·카드 본문)을 <b>그대로 읽어 화면에 꽂은 것</b>이고, 새로 계산하거나 바꾼 값은 없습니다.<br>
+    실제 구현은 정해진 절차대로 갑니다 — <b>브랜치 → PR → 리뷰 → 머지</b>. 이 목업은 그 PR 이 무엇을 만들지 팀이 미리 보고 의견을 주기 위한 <b>공유 자료</b>일 뿐, 어떤 경로를 건너뛰거나 대체하지 않습니다.
+    </p>
+  </div>
+
   <div class="orn">◆</div>
 </main>
 </html>

@@ -250,7 +250,7 @@ body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;over
        카테고리 6개 중 절반이 비정치(Society·Justice·Economy·Media & Culture). 신 문구는 masthead
        헤드라인("Same story. Different lenses.")과 어휘를 공유해 브랜드 일관성. 구현 = i18n header.tagline1/2. -->
   <div class="hleft"><img class="logo" src="prism-logo.png" alt="PRISM"><div class="tag">How the story travels<br>Recorded daily</div></div>
-  <nav class="hnav"><a class="on" href="index.html">Home</a><a href="card.html">Today's Issues</a><a href="roundup.html">Issue Roundup</a></nav>
+  <nav class="hnav"><a class="on" href="home.html">Home</a><a href="card.html">Today's Issues</a><a href="roundup.html">Issue Roundup</a></nav>
 </div></header>
 <main class="main">
   <!-- ══ Variant C: 하이브리드 ══ -->
@@ -263,7 +263,7 @@ body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;over
       <div class="speckey"><span class="wash"></span></div>
       <div class="mast2"><span class="funnel2">Today we read <b>2,661</b> videos across <b>347</b> channels — and distilled them into <b>4</b> issues. <span class="badge pen" title="어순 = 영상→채널→이슈 (Jack 6/8 확정) · 수치 = 7/11 파이프라인 실측">✎</span></span></div>
     </div>
-    <div class="sech herosech"><h2>Today's Issue</h2><a href="#">Saturday, July 11 · <b id="cPos">1</b> of 4 →</a></div>
+    <div class="sech herosech"><h2>Today's Issue</h2><a href="card.html">Saturday, July 11 · <b id="cPos">1</b> of 4 →</a></div>
     <div class="cardwrap">
       <article class="gcard hero">
         <div id="cThread"></div>
@@ -275,13 +275,13 @@ body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;over
         <div class="modrow"><a class="mchip" href="#" onclick="return false" title="오늘의 카드 01 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-01 앵커"><b>01</b>Spread & Origin</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 02 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-02 앵커"><b>02</b>The Story</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 03 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-03 앵커"><b>03</b>Media Lenses</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 04 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-04 앵커"><b>04</b>Reactions</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 05 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-05 앵커"><b>05</b>Repeated Comments</a></div>
         <div class="ctarow">
           <button class="shuffle" onclick="cycleHero()" title="실서비스 = 방문마다 오늘 카드 중 랜덤 (Jack 6/8 결정 유지). 데모 = 클릭 순환">↻ another of today's 4</button>
-          <button class="cta-solid">Open today's card →</button>
+          <a class="cta-solid" href="card.html" style="text-decoration:none;display:inline-block">Open today's card →</a>
         </div>
       </article>
     </div>
-    <div class="sech"><h2>Running stories</h2><a href="#">Issue Roundup →</a></div>
+    <div class="sech"><h2>Running stories</h2><a href="roundup.html">Issue Roundup →</a></div>
     <div class="sechsub">Stories we've been following across days — each bar is one day, filled when a new fact was carded. <span class="badge sian" title="스레드 = 확정 픽 46장(큐레이션 §B)에서 도출한 실제 arc. T5 발행 전이라 '발행 예정 카드' 기준">시안</span></div>
-    <div class="rail"><div class="rcard">
+    <div class="rail"><div class="rcard" onclick="location.href='roundup.html'">
   <div class="rttl">U.S.–Iran war, reignited</div>
   <span class="arc ongoing"><i class="" title="Jul 1"></i><i class="on" title="Jul 2 — card"></i><i class="on" title="Jul 3 — card"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="on" title="Jul 7 — card"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class="on today" title="Jul 11 — card"></i></span>
   <div class="rmeta">6 cards · day 10 <em class="live">ongoing</em></div>
@@ -307,25 +307,25 @@ body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;over
 
 
   <!-- ══ 공용: 피드 + 주제 ══ -->
-  <div class="sech"><h2>The last few days</h2><a href="#">All dates →</a></div>
+  <div class="sech"><h2>The last few days</h2><a href="card.html">All dates →</a></div>
   <div class="searchmock">⌕&ensp;Search the stories we follow <span class="badge sian" style="margin-left:auto" title="검색 = 현행 기능 유지, 데모는 외형만. By date/By topic 토글은 은퇴(Jack 라운드 4) — 주제 진입은 아래 Explore by topic 전담, 피드는 순수 시간축">시안</span></div>
   <section class="dsec">
   <div class="dhead"><h3>Saturday, July 11</h3><span class="dsum">2,661 videos · 347 channels · 4 issues</span></div>
-  <div class="dlist"><a class="feedrow" href="#" onclick="return false">
+  <div class="dlist"><a class="feedrow" href="card.html">
   <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/MXBi_yZYmFY/mqdefault.jpg" alt=""></span>
   <span class="fbody">
     <span class="fcat" style="color:#0c4a6e;background:#0c4a6e14">Foreign Policy & Security</span>
     <span class="fttl">U.S. strikes on Iran and Iran&#x27;s closure of Strait of Hormuz</span>
     <span class="fstat">21 videos · 14 channels · 3.8M views · 13K comments</span>
   </span>
-</a><a class="feedrow" href="#" onclick="return false">
+</a><a class="feedrow" href="card.html">
   <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/3T8Z34EYk3w/mqdefault.jpg" alt=""></span>
   <span class="fbody">
     <span class="fcat" style="color:#581c87;background:#581c8714">Justice & Courts</span>
     <span class="fttl">DOJ subpoenas journalists over Air Force One classified leak reports</span>
     <span class="fstat">23 videos · 19 channels · 2.4M views · 10K comments</span>
   </span>
-</a><a class="feedrow" href="#" onclick="return false">
+</a><a class="feedrow" href="card.html">
   <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/fPN-69a5QrA/mqdefault.jpg" alt=""></span>
   <span class="fbody">
     <span class="fcat" style="color:#7c2d12;background:#7c2d1214">Society</span>
@@ -336,21 +336,21 @@ body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;over
   <a class="dmore" href="#" onclick="return false">+1 more from this day →</a>
 </section><section class="dsec">
   <div class="dhead"><h3>Friday, July 10</h3><span class="dsum">5,994 videos · 430 channels · 5 issues</span></div>
-  <div class="dlist"><a class="feedrow" href="#" onclick="return false">
+  <div class="dlist"><a class="feedrow" href="card.html">
   <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/cRXv4hMXLCU/mqdefault.jpg" alt=""></span>
   <span class="fbody">
     <span class="fcat" style="color:#7c2d12;background:#7c2d1214">Society</span>
     <span class="fttl">ICE fatal shooting of Lorenzo Salgado Araujo in Houston - investigation, witness accounts, political response</span>
     <span class="fstat">159 videos · 53 channels · 3.9M views · 45K comments</span>
   </span>
-</a><a class="feedrow" href="#" onclick="return false">
+</a><a class="feedrow" href="card.html">
   <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/8mRKW9Mx_Dg/mqdefault.jpg" alt=""></span>
   <span class="fbody">
     <span class="fcat" style="color:#0c4a6e;background:#0c4a6e14">Foreign Policy & Security</span>
     <span class="fttl">Israel warns US of Iranian plot to assassinate Trump</span>
     <span class="fstat">44 videos · 28 channels · 4.1M views · 32K comments</span>
   </span>
-</a><a class="feedrow" href="#" onclick="return false">
+</a><a class="feedrow" href="card.html">
   <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/s2ezzt5sMyE/mqdefault.jpg" alt=""></span>
   <span class="fbody">
     <span class="fcat" style="color:#581c87;background:#581c8714">Justice & Courts</span>
@@ -361,7 +361,7 @@ body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;over
   <a class="dmore" href="#" onclick="return false">+2 more from this day →</a>
 </section><section class="dsec">
   <div class="dhead"><h3>Thursday, July 9</h3><span class="dsum">6,357 videos · 434 channels · 1 issues</span></div>
-  <div class="dlist"><a class="feedrow" href="#" onclick="return false">
+  <div class="dlist"><a class="feedrow" href="card.html">
   <span class="fth"><img loading="lazy" src="https://i.ytimg.com/vi/EdXh3kkY9-E/mqdefault.jpg" alt=""></span>
   <span class="fbody">
     <span class="fcat" style="color:#3730a3;background:#3730a314">Politics & Elections</span>
