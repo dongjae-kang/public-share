@@ -250,13 +250,9 @@ body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;over
        카테고리 6개 중 절반이 비정치(Society·Justice·Economy·Media & Culture). 신 문구는 masthead
        헤드라인("Same story. Different lenses.")과 어휘를 공유해 브랜드 일관성. 구현 = i18n header.tagline1/2. -->
   <div class="hleft"><img class="logo" src="prism-logo.png" alt="PRISM"><div class="tag">How the story travels<br>Recorded daily</div></div>
-  <nav class="hnav"><a class="on">Home</a><a>Today's Issues</a><a>Issue Roundup</a></nav>
+  <nav class="hnav"><a class="on" href="index.html">Home</a><a href="card.html">Today's Issues</a><a href="roundup.html">Issue Roundup</a></nav>
 </div></header>
 <main class="main">
-  <div class="ph"><h1>US 홈 재설계 — 시안 v8 확정 (C)</h1></div>
-  <p class="pd"><b>C = 하이브리드 (기본)</b> · 장식 = <b>"살아있는 빛"</b> 3곳(키라인 sheen·헤드라인 광택·오늘 칸 breathe). <b>v7 (라운드 6)</b>: ① <b>masthead 단일 상태 확정</b> — 2상태(첫/재방문) 장치 제거, 첫 방문 뷰가 상시 메인 ② How we work = 문단 밖 <b>우측 정렬</b> ③ <b>칩 재구성</b>: 책갈피 제거, 칩 좌 = 카테고리(카테고리색)·우 = 스레드명 · Day N 또는 New story. 날짜는 Today's Issue 줄에만(무채색 — 카테고리색과 경쟁 방지) ④ <b>직사각형화</b>: 히어로 28px 제외 전 표면 2~4px(KR rounded-sm 문법). 실데이터 — 하단 <b>정직 표시</b>.</p>
-  <div class="seg"><button class="on" onclick="showVar(0)">C — 하이브리드</button><button onclick="showVar(1)">A — 오늘을 전면에</button><button onclick="showVar(2)">B — 제품을 전면에</button></div>
-
   <!-- ══ Variant C: 하이브리드 ══ -->
   <section id="varC">
     <div class="mhead" id="cMast">
@@ -308,80 +304,7 @@ body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;over
 </div></div>
   </section>
 
-  <!-- ══ Variant A ══ -->
-  <section id="varA" style="display:none">
-    <div class="mast">SATURDAY, JULY 11, 2026</div>
-    <div class="funnel">Today we read <b>2,661</b> videos across <b>347</b> channels, and distilled them into <b>4</b> issues. <span class="badge pen" title="어순 = 영상→채널→이슈 (Jack 6/8 확정) · 수치 = 7/11 파이프라인 실측">✎</span></div>
-    <div class="sech herosech"><h2>Today's Issue</h2><a href="#">Saturday, July 11 · <b id="aPos">1</b> of 4 →</a></div>
-    <div class="cardwrap">
-      <article class="gcard hero">
-        <div id="aThread"></div>
-        <h2 class="ctitle" id="aTitle"></h2>
-        <div class="cstat" id="aStat"></div>
-        <div class="stripcap"><span>origin</span><i></i><span>amplified</span><em>time-ordered · earliest first</em></div>
-        <div class="tstrip" id="aStrip"></div>
-        <p class="lensline" id="aLens"></p>
-        <div class="modrow"><a class="mchip" href="#" onclick="return false" title="오늘의 카드 01 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-01 앵커"><b>01</b>Spread & Origin</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 02 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-02 앵커"><b>02</b>The Story</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 03 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-03 앵커"><b>03</b>Media Lenses</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 04 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-04 앵커"><b>04</b>Reactions</a><a class="mchip" href="#" onclick="return false" title="오늘의 카드 05 모듈로 이동 — 구현: /today/&lt;card&gt;#mod-05 앵커"><b>05</b>Repeated Comments</a></div>
-        <div class="ctarow">
-          <button class="shuffle" onclick="cycleHero()" title="실서비스 = 방문마다 오늘 카드 중 랜덤 (Jack 6/8 결정 유지). 데모 = 클릭 순환">↻ another of today's 4</button>
-          <button class="cta-solid">Open today's card →</button>
-        </div>
-      </article>
-    </div>
-    <div class="sech"><h2>Running stories</h2><a href="#">Issue Roundup →</a></div>
-    <div class="sechsub">Stories we've been following across days — each bar is one day, filled when a new fact was carded. <span class="badge sian">시안</span></div>
-    <div class="rail"><div class="rcard">
-  <div class="rttl">U.S.–Iran war, reignited</div>
-  <span class="arc ongoing"><i class="" title="Jul 1"></i><i class="on" title="Jul 2 — card"></i><i class="on" title="Jul 3 — card"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="on" title="Jul 7 — card"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class="on today" title="Jul 11 — card"></i></span>
-  <div class="rmeta">6 cards · day 10 <em class="live">ongoing</em></div>
-</div><div class="rcard">
-  <div class="rttl">The Qatari Air Force One story — now a press-freedom case</div>
-  <span class="arc ongoing"><i class="on" title="Jul 1 — card"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="" title="Jul 7"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="" title="Jul 10"></i><i class="on today" title="Jul 11 — card"></i></span>
-  <div class="rmeta">3 cards · day 11 <em class="live">ongoing</em></div>
-</div><div class="rcard">
-  <div class="rttl">Charlie Kirk case: Tyler Robinson hearing</div>
-  <span class="arc paused"><i class="" title="Jul 1"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="on" title="Jul 6 — card"></i><i class="" title="Jul 7"></i><i class="" title="Jul 8"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class=" today" title="Jul 11"></i></span>
-  <div class="rmeta">2 cards · hearing concluded <em class="past">quiet</em></div>
-</div><div class="rcard">
-  <div class="rttl">ICE shooting in Houston</div>
-  <span class="arc ongoing"><i class="" title="Jul 1"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="" title="Jul 7"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class=" today" title="Jul 11"></i></span>
-  <div class="rmeta">2 cards · last new fact Jul 10 <em class="live">ongoing</em></div>
-</div><div class="rcard">
-  <div class="rttl">Graham Platner: allegation to withdrawal</div>
-  <span class="arc paused"><i class="" title="Jul 1"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="on" title="Jul 6 — card"></i><i class="" title="Jul 7"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="" title="Jul 10"></i><i class=" today" title="Jul 11"></i></span>
-  <div class="rmeta">2 cards · campaign suspended <em class="past">quiet</em></div>
-</div></div>
-  </section>
 
-  <!-- ══ Variant B ══ -->
-  <section id="varB" style="display:none">
-    <div class="mission">
-      <h2 class="mh1">Same story. <em>Different lenses.</em> <span class="badge pen" title="미션 카피 = 제안 (taste 지점)">✎</span></h2>
-      <p class="msub">Today's news happens on YouTube and podcasts — this era's live detector of what America actually talks about. PRISM reads hundreds of channels every day and distills the stories that matter: where each started, who amplified it, and how differently it was framed.</p>
-      <div class="tiles">
-        <div class="tile"><b>55,063</b><span>videos read</span></div><span class="tarr">→</span>
-        <div class="tile"><b>488</b><span>channels tracked</span></div><span class="tarr">→</span>
-        <div class="tile"><b>46</b><span>issues carded</span></div>
-      </div>
-      <div class="tilecap">July 1–11, 2026 · pipeline totals</div>
-    </div>
-    <div class="dest">
-      <div class="dcard">
-        <h3>Today's Issues</h3>
-        <div class="dsub">Saturday, July 11 — 4 issues</div>
-        <div class="mrow"><i style="background:#0c4a6e"></i><span class="mttl">U.S. strikes on Iran and Iran&#x27;s closure of Strait of Hormuz</span><em>21 v · 14 ch</em></div><div class="mrow"><i style="background:#581c87"></i><span class="mttl">DOJ subpoenas journalists over Air Force One classified leak reports</span><em>23 v · 19 ch</em></div><div class="mrow"><i style="background:#7c2d12"></i><span class="mttl">Missouri and regional flash flooding crisis</span><em>34 v · 19 ch</em></div><div class="mrow"><i style="background:#0c4a6e"></i><span class="mttl">US Congressman Ro Khanna detained by Israeli settlers in West Bank</span><em>12 v · 10 ch</em></div>
-        <div class="dcta">Browse today's cards →</div>
-      </div>
-      <div class="dcard">
-        <h3>Issue Roundup</h3>
-        <div class="dsub">Where each running story stands</div>
-        <div class="dthread"><div class="rttl">U.S.–Iran war, reignited</div><span class="arc ongoing"><i class="" title="Jul 1"></i><i class="on" title="Jul 2 — card"></i><i class="on" title="Jul 3 — card"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="on" title="Jul 7 — card"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class="on today" title="Jul 11 — card"></i></span><div class="rmeta">6 cards · day 10 <em class="live">ongoing</em></div></div>
-        <div class="dthread"><div class="rttl">The Qatari Air Force One story</div><span class="arc ongoing"><i class="on" title="Jul 1 — card"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="" title="Jul 6"></i><i class="" title="Jul 7"></i><i class="on" title="Jul 8 — card"></i><i class="" title="Jul 9"></i><i class="" title="Jul 10"></i><i class="on today" title="Jul 11 — card"></i></span><div class="rmeta">3 cards · day 11 <em class="live">ongoing</em></div></div>
-        <div class="dthread"><div class="rttl">Charlie Kirk case: Robinson hearing</div><span class="arc paused"><i class="" title="Jul 1"></i><i class="" title="Jul 2"></i><i class="" title="Jul 3"></i><i class="" title="Jul 4"></i><i class="" title="Jul 5"></i><i class="on" title="Jul 6 — card"></i><i class="" title="Jul 7"></i><i class="" title="Jul 8"></i><i class="" title="Jul 9"></i><i class="on" title="Jul 10 — card"></i><i class=" today" title="Jul 11"></i></span><div class="rmeta">2 cards · concluded <em class="past">quiet</em></div></div>
-        <div class="dcta">See the full arcs →</div>
-      </div>
-    </div>
-  </section>
 
   <!-- ══ 공용: 피드 + 주제 ══ -->
   <div class="sech"><h2>The last few days</h2><a href="#">All dates →</a></div>
@@ -460,7 +383,7 @@ body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;over
       <span>Media & Culture</span><em>→</em></button></div>
 
   <div class="orn">◆</div>
-  <div class="note"><b>정직 표시.</b>
+  <details class="note"><summary style="cursor:pointer;font-weight:700;color:var(--ink-soft);list-style:none">◆ 이 시안에 대하여 — 무엇이 실데이터이고 무엇이 아직 시안인가 (펼치기)</summary><div style="margin-top:10px">
   ① <b>실데이터</b> = 이슈 제목(파이프라인 event_label 원문) · 영상 제목·채널·게시시각(UTC)·조회수 · 썸네일(수집 video_id) · 클러스터 규모(n·ch·조회·댓글 합산) · 일일 funnel(7/11 = 영상 2,661 스캔 실측; 채널 347 = 그날 클러스터에 등장한 채널 수) · 누적 타일(영상 55,063 · 채널 488 · 카드 46 = net 488 코퍼스 + 확정 픽) · 스레드 arc 의 카드 날짜(큐레이션 §B 확정 체인) · "earliest collected" 배지 = 해당 클러스터 온토픽 최초 수집 영상.
   ② <span class="badge pen">✎</span> = 카피 제안 (미션 문장 · funnel 문장 EN · lens 한 줄) — taste 지점, Jack 라운드에서 확정. 실서비스 히어로 문장은 heroLede(LLM) 소관.
   ③ <span class="badge sian">시안</span> = 아직 데이터·기능이 없는 것: 스레드(T5 발행 전 — arc 는 확정 픽 46장 기준 실제 계획) · 카테고리 부여(시연 수동 — 실서비스 = 파이프라인) · 검색 외형 · How we work 링크(기존 페이지로 연결 예정) · <b>모듈 칩 딥링크</b>(01~05 클릭 = 오늘의 카드 해당 모듈 앵커 /today/&lt;id&gt;#mod-NN — 카드 쪽 모듈 헤더에 id 부여 필요, 이식 노트). masthead = <b>단일 상태 확정</b>(Jack 라운드 6 — 2상태·방문 카운팅 장치 불채택: 화면 변동 = 혼란, 풀 미션 3줄 = 상시 비용 미미).
@@ -471,7 +394,7 @@ body{background:#FAFAFD;color:var(--ink);-webkit-font-smoothing:antialiased;over
   ⑦ 장식 v3 = <b>정적 무지개 최소화, "살아있는 빛"이 시그니처</b> (Jack 라운드 2): 분광 키라인 sheen · 헤드라인 광택 흐름(lensflow 9s) · ongoing 스레드 오늘 칸 breathe(3.2s). 정적 잔존 = 레일 spine·origin→amplified 화살(2색 브랜드 그라데이션, nav 밑줄 문법)뿐. hero 상단 정적 분광선은 제거. ◆ 오너먼트(Deck footer 문법). <b>serif 미사용</b> — v5 스킨이 Pretendard only 로 확정(base.css 실측).
   ⑧ 조회수 없는 영상(수집 시 0)은 값 생략 — 지어내지 않음. 팟캐스트 에피소드는 스트립 제외(썸네일 없음).
   ⑨ 폐기 제안 = SpreadHero 그래프(현미 v6) — 근거는 브리프 §2. 보존 = 랜덤 티저·funnel 어순·날짜 요약 inline(6/15)·검색.
-  ⑩ <b>radius 위계 v7</b> (Jack 라운드 6 — 직사각형화): 히어로 .gcard 28px 유지 = <b>확정 카드 v16과 동형</b>(히어로는 카드의 프리뷰 — 모양이 예고) / 그 외 전 표면 <b>2~4px</b>(.feedrow·.rcard·.tpg·.tile·.tcell·칩·버튼 3px, 썸네일 3px, B 목적지 카드·정직 표시 4px) — KR 사이트의 rounded-sm(2px) 편집 문법과 정렬. 원형 알약 전면 은퇴. ⑪ <b>칩 v7</b>: 좌 = 카테고리(책갈피 은퇴 — 책갈피+날짜 병존 산만 해소), 우 = 스레드명 · Day N(연속성 핵심 2요소) 또는 New story(에메랄드 텍스트, "first card" 동어반복 제거). 날짜 = Today's Issue 섹션 헤드에만, 무채색(카테고리색과 경쟁 방지).</div>
+  ⑩ <b>radius 위계 v7</b> (Jack 라운드 6 — 직사각형화): 히어로 .gcard 28px 유지 = <b>확정 카드 v16과 동형</b>(히어로는 카드의 프리뷰 — 모양이 예고) / 그 외 전 표면 <b>2~4px</b>(.feedrow·.rcard·.tpg·.tile·.tcell·칩·버튼 3px, 썸네일 3px, B 목적지 카드·정직 표시 4px) — KR 사이트의 rounded-sm(2px) 편집 문법과 정렬. 원형 알약 전면 은퇴. ⑪ <b>칩 v7</b>: 좌 = 카테고리(책갈피 은퇴 — 책갈피+날짜 병존 산만 해소), 우 = 스레드명 · Day N(연속성 핵심 2요소) 또는 New story(에메랄드 텍스트, "first card" 동어반복 제거). 날짜 = Today's Issue 섹션 헤드에만, 무채색(카테고리색과 경쟁 방지).</div></details>
 </main>
 <script>
 var HERO_DATA = [{"cat": "Foreign Policy & Security", "color": "#0c4a6e", "headline": "U.S. strikes on Iran and Iran's closure of the Strait of Hormuz", "chipRight": "U.S.–Iran war, reignited · Day 10", "isNew": false, "stat": "21 videos · 14 channels · 3.8M views · 13K comments", "lens": "<b>Fox News, Al Jazeera English, FDD</b> and 11 more channels each told this story from a different angle — the card shows you how far apart they sit.", "strip": "<a class=\"tcell\" href=\"https://www.youtube.com/watch?v=p5_X1rvrR64\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/p5_X1rvrR64/mqdefault.jpg\" alt=\"\"><span class=\"tfirst\">earliest collected</span></div>\n  <div class=\"tmeta\"><b>FDD</b><span>07.11 04:26 · 6K</span></div>\n  <div class=\"ttl\">The End of the Ceasefire as We Know It?</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=JGdSzSN8AXQ\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/JGdSzSN8AXQ/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>The Enforcer</b><span>07.11 06:35 · 161K</span></div>\n  <div class=\"ttl\">US GIVES DEADLY ULTIMATUM TO IRAN, CRIMEA ISOLATED AMID SHIP ATTACKS! Breaking War News The Enforcer</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=BU-SrZgvAHg\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/BU-SrZgvAHg/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Al Jazeera English</b><span>07.11 23:29 · 100K</span></div>\n  <div class=\"ttl\">Iran declares Strait of Hormuz closed amid rising US tensions</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=MXBi_yZYmFY\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/MXBi_yZYmFY/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Fox News</b><span>07.11 23:55 · 1.2M</span></div>\n  <div class=\"ttl\">BREAKING: US conducting strikes against Iranian assets near the Strait of Hormuz</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=IuNBb0Ob7Y0\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/IuNBb0Ob7Y0/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>LiveNOW from FOX</b><span>07.12 00:59 · 563K</span></div>\n  <div class=\"ttl\">BREAKING: U.S. launches new strikes against Iran</div>\n</a>"}, {"cat": "Justice & Courts", "color": "#581c87", "headline": "DOJ subpoenas journalists over Air Force One classified-leak reports", "chipRight": "The Qatari Air Force One story · Day 11", "isNew": false, "stat": "23 videos · 19 channels · 2.4M views · 10K comments", "lens": "<b>CNN, Noticias Telemundo, Legal AF</b> and 16 more channels each told this story from a different angle — the card shows you how far apart they sit.", "strip": "<a class=\"tcell\" href=\"https://www.youtube.com/watch?v=S6bPxQ1NEfs\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/S6bPxQ1NEfs/mqdefault.jpg\" alt=\"\"><span class=\"tfirst\">earliest collected</span></div>\n  <div class=\"tmeta\"><b>Legal AF</b><span>07.11 19:00 · 32K</span></div>\n  <div class=\"ttl\">Trump EMBARRASSED by Press LEAKS of New AF1 INSECURITY and ORDERS DOJ to Subpoena Reporters!!!</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=3T8Z34EYk3w\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/3T8Z34EYk3w/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>CNN</b><span>07.11 19:01 · 630K</span></div>\n  <div class=\"ttl\">Trump administration subpoenas journalists over Air Force One reporting</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=ra0M05LKIBI\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/ra0M05LKIBI/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Lamont Tyson</b><span>07.11 23:48 · 6K</span></div>\n  <div class=\"ttl\">Trump SUBPOENAS Reporters Over Qatar Jet Story?! 😳 #Trump #Politics #Shorts</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=yhRDhXt17ic\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/yhRDhXt17ic/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Noticias Telemundo</b><span>07.12 00:08 · 27K</span></div>\n  <div class=\"ttl\">El Gobierno cita a periodistas de The New York Times | Noticias Telemundo</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=hhq2kWSO9zA\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/hhq2kWSO9zA/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>WGRZ-TV</b><span>07.12 02:56 · 5K</span></div>\n  <div class=\"ttl\">Journalists subpoenaed over Air Force 1 reports</div>\n</a>"}, {"cat": "Society", "color": "#7c2d12", "headline": "Missouri and regional flash flooding crisis", "chipRight": "New story", "isNew": true, "stat": "34 videos · 19 channels · 2.0M views · 2K comments", "lens": "<b>ABC News, KSDK News, Fox News</b> and 16 more channels each told this story from a different angle — the card shows you how far apart they sit.", "strip": "<a class=\"tcell\" href=\"https://www.youtube.com/watch?v=1rSfTMyRw94\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/1rSfTMyRw94/mqdefault.jpg\" alt=\"\"><span class=\"tfirst\">earliest collected</span></div>\n  <div class=\"tmeta\"><b>KSDK News</b><span>07.11 04:12 · 16K</span></div>\n  <div class=\"ttl\">National Guard rescues students after flash flood hits campground</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=2CmBiHoItqg\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/2CmBiHoItqg/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>FOX 2 St. Louis</b><span>07.11 10:52 · 10K</span></div>\n  <div class=\"ttl\">Missouri Guard rescues 202 children, staff from flooded camp</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=7fF7OU2zlBk\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/7fF7OU2zlBk/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>ABC News</b><span>07.11 14:24 · 21K</span></div>\n  <div class=\"ttl\">Dozens rescued from Missouri flash flooding</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=Ea894FWSjCk\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/Ea894FWSjCk/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Fox News</b><span>07.11 21:00 · 55K</span></div>\n  <div class=\"ttl\">More than 200 campers RESCUED as floodwaters overrun Missouri campground #foxnews #news #us #fox</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=fPN-69a5QrA\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/fPN-69a5QrA/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>ABC News</b><span>07.12 02:00 · 1.1M</span></div>\n  <div class=\"ttl\">State of Emergency in Missouri: ABC World News Tonight with David Muir - July 11th, 2026</div>\n</a>"}, {"cat": "Foreign Policy & Security", "color": "#0c4a6e", "headline": "U.S. Congressman Ro Khanna detained by Israeli settlers in the West Bank", "chipRight": "New story", "isNew": true, "stat": "12 videos · 10 channels · 1.8M views · 16K comments", "lens": "<b>Reuters, CNN, NBC News</b> and 7 more channels each told this story from a different angle — the card shows you how far apart they sit.", "strip": "<a class=\"tcell\" href=\"https://www.youtube.com/watch?v=R2NYa2veU-s\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/R2NYa2veU-s/mqdefault.jpg\" alt=\"\"><span class=\"tfirst\">earliest collected</span></div>\n  <div class=\"tmeta\"><b>DRM News</b><span>07.11 12:02 · 548K</span></div>\n  <div class=\"ttl\">Ro Khanna Says Armed Israeli Settlers Detained Him During West Bank Visit, Slams US Policy | AC1G</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=qIb6L95pbzQ\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/qIb6L95pbzQ/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Reuters</b><span>07.11 15:40 · 88K</span></div>\n  <div class=\"ttl\">US Democrat Ro Khanna says Israeli settlers detained him</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=dZFi4_dee18\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/dZFi4_dee18/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>CNN</b><span>07.11 16:58 · 457K</span></div>\n  <div class=\"ttl\">Rep. Ro Khanna detained by Israeli settlers in West Bank</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=KFfIRqyCYWc\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/KFfIRqyCYWc/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>NBC News</b><span>07.11 17:59 · 43K</span></div>\n  <div class=\"ttl\">Rep. Ro Khanna says he was detained by Israeli settlers</div>\n</a><a class=\"tcell\" href=\"https://www.youtube.com/watch?v=_YVr_j1O-SI\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"tth\"><img loading=\"lazy\" src=\"https://i.ytimg.com/vi/_YVr_j1O-SI/mqdefault.jpg\" alt=\"\"></div>\n  <div class=\"tmeta\"><b>Al Jazeera English</b><span>07.11 20:30 · 235K</span></div>\n  <div class=\"ttl\">US Rep Ro Khanna speaks out about being harassed by Israeli settlers</div>\n</a>"}];
@@ -488,14 +411,8 @@ function renderHeroInto(prefix){
   tc.innerHTML = '<span class="threadchip"><b style="color:' + h.color + ';background:' + h.color + '14">' + h.cat +
     '</b><span' + (h.isNew ? ' class="newlbl"' : '') + '>' + h.chipRight + '</span></span>';
 }
-function renderHero(){ renderHeroInto('c'); renderHeroInto('a'); }
+function renderHero(){ renderHeroInto('c'); }
 function cycleHero(){ hi = (hi + 1) % HERO_DATA.length; renderHero(); }
-function showVar(i){
-  ['varC','varA','varB'].forEach(function(id,j){
-    document.getElementById(id).style.display = i===j ? '' : 'none';
-  });
-  document.querySelectorAll('.seg button').forEach(function(b,j){ b.classList.toggle('on', j===i); });
-}
 renderHero();
 </script>
 </html>

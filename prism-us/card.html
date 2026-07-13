@@ -197,11 +197,50 @@ svg.vfocus .msel:not(.on){opacity:0.30}
 .note{margin-top:38px;padding:16px 19px;background:var(--glass-bg-soft);border:1px solid rgba(255,255,255,0.65);border-radius:20px;font-size:12.5px;color:var(--ink-mid);line-height:1.75;box-shadow:var(--glass-shadow-soft)}
 .note b{color:var(--ink-soft)}
 @media (max-width:560px){.gcard{padding:20px 18px}.prow{flex-direction:column}.pth{flex:none;width:100%}}
+
+/* ── 05 댓글 반복 패턴 — 확정본(PR #35/#36, 라운드7: "박스를 그리지 않는다").
+   시각 장치 셋뿐: 유형 헤드의 괘선 · 인용의 좌측 바 · hover 틴트. */
+.p5{max-width:672px;margin:44px auto 0;padding:0 20px}
+.p5head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.p5head h2{font-size:17px;font-weight:800;letter-spacing:-.015em}
+.p5head .msub{font-size:12px;color:var(--ink-faint)}
+.p5note{font-size:11.5px;line-height:1.7;color:var(--ink-faint);margin-top:6px}
+.p5note b{color:var(--ink-mid)}
+.p5card{margin-top:16px;background:rgba(255,255,255,0.82);backdrop-filter:blur(22px) saturate(150%);
+ -webkit-backdrop-filter:blur(22px) saturate(150%);border:1px solid rgba(255,255,255,0.78);
+ border-radius:28px;box-shadow:var(--glass-shadow);padding:24px 26px}
+.p5meta{font-size:11.5px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.p5t{font-size:17px;font-weight:800;letter-spacing:-.015em;margin:5px 0 3px}
+.osec{margin-top:18px}
+.ohead{display:flex;align-items:center;gap:8px}
+.ochip{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:2px 8px}
+.ochip.multi{color:var(--accent-deep);background:rgba(99,102,241,0.12)}
+.ochip.single{color:#475569;background:rgba(71,85,105,0.10)}
+.ocount{font-size:10.5px;font-weight:600;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.orule{flex:1;border-top:1px solid var(--rule)}
+.orow{margin:0 -8px;padding:9px 8px 7px;border-radius:10px;transition:background .15s;cursor:default}
+.orow:hover{background:rgba(99,102,241,0.035)}
+.orow + .orow{border-top:1px dashed var(--rule);margin-top:4px}
+.osent{font-size:13px;line-height:1.75;color:var(--ink-soft);word-break:keep-all}
+.osent b{font-weight:700;color:var(--ink)}
+.ofirst{font-size:10px;color:var(--ink-faint);font-variant-numeric:tabular-nums;margin-left:6px;white-space:nowrap}
+.oq{margin-top:8px;font-size:12.5px;line-height:1.6;font-style:italic;color:var(--ink-soft);
+ border-left:2.5px solid rgba(99,102,241,0.35);padding:2px 0 2px 12px}
+.oq.amber{border-left-color:rgba(180,83,9,0.4)}
+.oinv{margin-top:7px;font-size:11.5px;line-height:1.65;color:var(--ink-faint);word-break:keep-all}
+.opromo{margin:14px -8px 0;padding:7px 8px;border-radius:10px;transition:background .15s;cursor:default}
+.opromo:hover{background:rgba(180,83,9,0.045)}
+.opromo .ohead span:first-child{color:#B45309;font-size:13px;line-height:1}
+.opromo .plab{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#92400E}
+.ohint{margin-top:7px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);
+ display:flex;align-items:center;gap:6px}
+.ohint::before{content:'›'}
+.onone{font-size:13px;line-height:1.75;color:var(--ink-soft);word-break:keep-all}
 </style>
 <div class="ambient"></div><div class="ambient-wash"></div>
 <header class="hdr"><div class="hin">
   <div class="hleft"><img class="logo" src="prism-logo.png" alt="PRISM"><div class="tag">How the story travels<br>Recorded daily</div></div>
-  <nav class="hnav"><a>홈</a><a class="on">오늘의 이슈</a><a>이슈별 정리</a></nav>
+  <nav class="hnav"><a href="index.html">Home</a><a class="on" href="card.html">Today's Issues</a><a href="roundup.html">Issue Roundup</a></nav>
 </div></header>
 <nav class="drail" aria-label="일자 선택 (목업)">
   <span class="drm">날짜</span>
@@ -214,9 +253,6 @@ svg.vfocus .msel:not(.on){opacity:0.30}
 <button class="navarr left" onclick="stepCard(-1)" aria-label="이전 카드">&#8592;</button>
 <button class="navarr right" onclick="stepCard(1)" aria-label="다음 카드">&#8594;</button>
 <main class="main">
-  <div class="ph"><h1>오늘의 이슈 — 카드 정보 설계 v16 최종 시안</h1></div>
-  <p class="pd">Jack 7/12 확정 구성: <b>개요(abstract) → 썸네일 흐름(시간순) → 확산·원본 → 사건 이해(설명 글) → 매체 시각 → 반응(말풍선) → 한계 → 언론 보도</b> + <b>매체 3시각 = MDSScatter 2D + PCA 축선·극 라벨(시안) + 실제 파이프라인 선정 3채널</b>(평면에서 가장 먼 3매체가 그대로 보이게) + 색은 hover/연결 시에만. 실물 발행 데이터(2026-07-10) 2장, 두 카드 동일 코드 렌더. 근거 = <b>M7-today-card/TODAY-CARD-IA-BRIEF-0711.md</b></p>
-  <div class="seg"><button class="on" onclick="showCard(0)">안규백 탈영 의혹</button><button class="" onclick="showCard(1)">장윤기 부실수사</button></div>
   <div class="stage" id="stage"><section class="deckitem" data-idx="0">
 <div class="cardwrap">
   <div class="bookmark" style="background:#6B7280">사법</div>
@@ -555,7 +591,75 @@ svg.vfocus .msel:not(.on){opacity:0.30}
   </article>
 </div>
 </section></div>
-  <div class="note"><b>정직 표시.</b> ① 실데이터 = 제목·부제·개요·썸네일·인용 제목·조회수·확산 곡선·편중 %·댓글·언론 보도·채널 스탯(구독/30일 조회/월 업로드/개설연도 = 사이트 CHANNEL_PROFILES 실측).
+
+<!-- ══ 05 댓글 반복 패턴 — 확정본(PR #35/#36) 실관측 렌더 ══ -->
+<section class="p5">
+  <div class="p5head"><h2>05 · 댓글 반복 패턴</h2><span class="msub">선정된 댓글이 아니라, 풀 전체에서 관측된 것</span></div>
+  <p class="p5note"><b>왜 따로 보여드리나</b> — 이 모듈은 7/13 확정된 <b>새 모듈</b>입니다. 위 두 카드는 <b>KR 파일럿 데이터</b>라 이 관측치가 없어서(지어내지 않습니다), <b>US 코퍼스에서 실제로 계산된 클러스터</b>로 보여드립니다. 실서비스에서는 카드 04(반응) 바로 아래에 붙습니다. 관측 영역에 <b>마우스를 올리면</b> 그 문구가 언제·어느 영상에 게시됐는지가 펼쳐집니다(아래 데이터엔 게시 위치 목록이 아직 없어 생략).</p>
+
+  <article class="p5card">
+    <div class="p5meta">2026-07-09 · US 클러스터 #12 · 영상 36개 · 채널 21곳 · 댓글 13,777개 · 04 좋아요 컷 ♥793</div>
+    <div class="p5t">ICE 오인 총격 논란</div>
+
+    <div class="osec">
+      <div class="ohead"><span class="ochip multi">다계정 반복</span><span class="ocount">1건 관측</span><span class="orule"></span></div>
+      <div class="orow">
+        <p class="osent">같은 문구의 댓글이 서로 다른 계정 <b>3개</b>에서 <b>13시간</b> 동안 영상 <b>5개</b>(채널 <b>2곳</b>)에 게시됐다.<span class="ofirst">첫 관측 07-09 08:31 ET</span></p>
+        <p class="oq">“Dems allowed 20+ million people into our country during joe’s tenure. dems are responsible for our country’s problems.”</p>
+        <p class="oinv">이 문구들의 최대 좋아요는 <b>20</b> — 좋아요 컷 793인 위 반응(04) 표본에는 나타나지 않는 층이다.</p>
+        <div class="ohint">게시 위치 · 영상 5곳</div>
+      </div>
+    </div>
+
+    <div class="osec">
+      <div class="ohead"><span class="ochip single">단일 계정 도배</span><span class="ocount">1건 관측</span><span class="orule"></span></div>
+      <div class="orow">
+        <p class="osent">한 계정이 같은 글을 <b>1시간</b> 안에 영상 <b>4개</b>(채널 <b>3곳</b>)에 게시했다.<span class="ofirst">첫 관측 07-10 13:52 ET</span></p>
+        <p class="oq">“America demands an answer as to how you can remain in our country for 35 years ILLEGALLY, weaponize a car, and use US resources while likely not paying taxes ... then demand anything.”</p>
+        <div class="ohint">게시 위치 · 영상 4곳</div>
+      </div>
+    </div>
+  </article>
+
+  <article class="p5card">
+    <div class="p5meta">2026-07-02 · US 클러스터 #16 · 영상 41개 · 채널 15곳 · 댓글 50,318개 · 04 좋아요 컷 ♥2,380</div>
+    <div class="p5t">독립 250주년 내셔널몰 행사 후폭풍</div>
+
+    <div class="opromo">
+      <div class="ohead"><span>⊘</span><span class="plab">반응 표본 제외</span><span class="orule"></span></div>
+      <p class="osent" style="margin-top:6px">투자·상품 홍보성 반복 문구 그룹 <b>3건</b>(댓글 <b>42개</b>, 최다 그룹 = 계정 <b>21개</b>)을 반응 표본에서 제외했다.</p>
+      <p class="oq amber">“sooo many people talking about that vera hart archetype quiz its crazy, lol. Tried it myself and the results are quite promising.”</p>
+      <div class="ohint">제외된 원본 문구 · 그룹 3건</div>
+    </div>
+
+    <div class="osec">
+      <div class="ohead"><span class="ochip single">단일 계정 도배</span><span class="ocount">3건 관측</span><span class="orule"></span></div>
+      <div class="orow">
+        <p class="osent">한 계정이 같은 글을 <b>3분</b> 안에 영상 <b>5개</b>(채널 <b>4곳</b>)에 게시했다.<span class="ofirst">첫 관측 07-04 10:41 ET</span></p>
+        <p class="oq">“The daily metaphors that relate to this trash administration are HILARIOUS if they weren’t so sad. 😂😔”</p>
+      </div>
+      <div class="orow">
+        <p class="osent">또 다른 계정이 같은 글을 <b>7분</b> 안에 영상 <b>4개</b>(채널 <b>3곳</b>)에 게시했다.<span class="ofirst">첫 관측 07-03 08:50 ET</span></p>
+        <p class="oq">“A spokesman for the Vandals has released a statement denying any responsibility for the incident at the mainstage of The Great State Fair…”</p>
+      </div>
+      <div class="orow">
+        <p class="osent">또 다른 계정이 같은 글을 <b>9분</b> 안에 영상 <b>4개</b>(채널 <b>3곳</b>)에 게시했다.<span class="ofirst">첫 관측 07-03 06:52 ET</span></p>
+        <p class="oq">“At the county fair where I live, they have 12-15 rides. The only time I've seen an event with a single Ferris Wheel was the grand opening of a grocery store.”</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="p5card">
+    <div class="p5meta">2026-07-05 · US 클러스터 #14 · 영상 26개 · 채널 20곳 · 댓글 4,546개</div>
+    <div class="p5t">관측 없음 — 이 상태도 그대로 보여준다</div>
+    <p class="onone" style="margin-top:12px">이 카드의 댓글 풀(영상 <b>26개</b> · 댓글 <b>4,546개</b>)에서는 기준(동일 문구의 다계정 반복 또는 단일 계정 도배)을 넘는 반복 패턴이 <b>관측되지 않았다</b>.</p>
+    <p class="oinv">부재 진술 그 자체가 정보다 — "없었다"를 숨기지 않는 것이 이 모듈의 규칙이다. (다만 이는 수집 표본 안에서의 사실이며, 표본 밖 활동의 부재를 뜻하지 않는다.)</p>
+  </article>
+
+  <p class="p5note" style="margin-top:14px">🔴 <b>표면 어휘 규칙 (타협 불가)</b> — 이 모듈은 <b>관측만 서술</b>합니다. "봇 · 여론 조작 · 댓글 부대 · 조율" 같은 판정 어휘는 문구 테이블에 아예 존재하지 않습니다. <b>반복은 사실이고, 이유는 열려 있습니다</b> — 해석은 독자 몫입니다. 계정은 익명 서술("한 계정이")이고 원문 인용은 그대로 두어 검증 가능성만 남깁니다.</p>
+</section>
+
+  <details class="note"><summary style="cursor:pointer;font-weight:700;color:var(--ink-soft);list-style:none">◆ 이 시안에 대하여 — 무엇이 실데이터이고 무엇이 아직 시안인가 (펼치기)</summary><div style="margin-top:10px"> ① 실데이터 = 제목·부제·개요·썸네일·인용 제목·조회수·확산 곡선·편중 %·댓글·언론 보도·채널 스탯(구독/30일 조회/월 업로드/개설연도 = 사이트 CHANNEL_PROFILES 실측).
   ② <span class="badge pen">✎</span> = 새 텍스트 스펙을 수집된 사실(현행 body·영상 설명문·기사 제목)만으로 재작성한 예시 — 파이프라인(derive_flat) 개선 후 자동 생성될 글의 시연. '사건 이해' 글이 대표.
   ③ <span class="badge sian">시안</span> = 축 이름·축선(방향 = 시각①이 왼쪽 극). 2D 평면·화살표·분광 점수·선정 = 전부 실데이터. <b>3시각 = 실제 파이프라인 선정(평면 max-disperse)</b> — body 프레이밍 채널 하이라이트(v7까지)를 §2.3 권고대로 vector 선정에 정렬, 각도·프레이밍 문장은 선정 영상 실제 제목 기반 ✎ 재작성.
   ⑦ 🔴 안규백 카드의 반응 표본 중 2건(성창경TV 올다르크 출석 영상 댓글)은 Jack 판정으로 <b>주제 밖 오수집 → 시연에서 제외</b> — 댓글-주제 정합(relevance) 게이트 추가 예정(브리프 §2.4).
@@ -564,7 +668,7 @@ svg.vfocus .msel:not(.on){opacity:0.30}
   ⑩ 장윤기 3시각의 ①(꽉TV 영상)은 이후 Jack 확인으로 <b>오클러스터링 판정 — 실발행 카드에서는 제외</b>됐고 1번 영상 오선정 조치도 파이프라인에 반영됨. 이 시연은 수정 전 cooked 스냅샷(7/10) 기준.
   ④ 반응 = <b>의견 분포 바</b>(비율 %, hover=수집·클러스터링 방법 설명) + 그룹 색 말풍선(정파 아닌 의견 내용 그룹·professional 톤), 말풍선 정렬=좋아요순. 그룹 분류·비율은 표본 5개 기준 ✎ 시연(실서비스=상위 영상 댓글 수십 개 LLM 클러스터). 댓글 pool 권고 = 브리프 §2.4.
   ⑤ 실서비스 프레임 = 카테고리 책갈피 + <b>Deck 3D peek 재현</b>(실사이트 Deck.jsx 실스펙: 인접 카드 84% 옆·18° 회전·투명 0.30, 클릭=점프·스와이프·←→ 키) / 일자 선택 바·선거 카드 테두리 표시는 시안 밖(스펙 기재).
-  ⑥ 카테고리(책갈피) = 현 KR 6분류 그대로 — US 카테고리 체계는 KR 프로세스(카드 축적 후 전수 분석→확정) 재활용 예정, 스펙 §2.5.</div>
+  ⑥ 카테고리(책갈피) = 현 KR 6분류 그대로 — US 카테고리 체계는 KR 프로세스(카드 축적 후 전수 분석→확정) 재활용 예정, 스펙 §2.5.</div></div></details>
 </main>
 <script>
 // Deck 3D peek — 실사이트 Deck.jsx 스펙 이식 (PEEK_TX 84% · rotY 18° · TZ -180 · opacity .30 · blur 1.4px)
@@ -585,7 +689,7 @@ function layout(dragX){
     el.style.zIndex=100-Math.abs(diff);
     el.style.visibility=isFar?'hidden':'visible';
   });
-  document.querySelectorAll('.seg button').forEach(function(b,j){b.classList.toggle('on',j===cur);});
+  
   var al=document.querySelector('.navarr.left'),ar=document.querySelector('.navarr.right');
   al.style.opacity=cur===0?0.25:1; al.style.pointerEvents=cur===0?'none':'auto';
   ar.style.opacity=cur===total-1?0.25:1; ar.style.pointerEvents=cur===total-1?'none':'auto';
