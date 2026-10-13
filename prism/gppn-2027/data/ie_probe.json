@@ -1,0 +1,1102 @@
+{
+  "impostor_or_empty_handles": [
+    {
+      "handle": "VirginMediaNews",
+      "title": "VirginMediaNews",
+      "subscribers": 2
+    },
+    {
+      "handle": "TheJournalie",
+      "title": "TheJournalie",
+      "subscribers": 2
+    },
+    {
+      "handle": "newstalk",
+      "title": "NewsTalk",
+      "subscribers": 256
+    },
+    {
+      "handle": "gript",
+      "title": "gript",
+      "subscribers": 0
+    },
+    {
+      "handle": "theditch",
+      "title": "theDitch",
+      "subscribers": 0
+    },
+    {
+      "handle": "breakingnewsie",
+      "title": "BreakingNews.ie",
+      "subscribers": 39
+    }
+  ],
+  "probed_at_utc": "2026-10-13T21:19:49.447220+00:00",
+  "window_24h_start": "2026-10-12T21:19:49.447220+00:00",
+  "handles_tried": [
+    "rtenews",
+    "rte",
+    "VirginMediaNews",
+    "irishtimes",
+    "IrishIndependent",
+    "independent.ie",
+    "thejournal_ie",
+    "TheJournalie",
+    "NewstalkFM",
+    "newstalk",
+    "irishexaminer",
+    "griptmedia",
+    "gript",
+    "theditch",
+    "OireachtasTV",
+    "breakingnewsie",
+    "sundayworld",
+    "TodayFM",
+    "irishmirror",
+    "extraie",
+    "TG4TV",
+    "TheIrishSun",
+    "businesspost",
+    "farmersjournal",
+    "dublinlive",
+    "irishlegalnews"
+  ],
+  "not_found": [
+    [
+      "IrishIndependent",
+      "no channel"
+    ],
+    [
+      "independent.ie",
+      "no channel"
+    ],
+    [
+      "thejournal_ie",
+      "no channel"
+    ],
+    [
+      "OireachtasTV",
+      "no channel"
+    ],
+    [
+      "sundayworld",
+      "no channel"
+    ],
+    [
+      "irishmirror",
+      "no channel"
+    ],
+    [
+      "extraie",
+      "no channel"
+    ],
+    [
+      "TheIrishSun",
+      "no channel"
+    ],
+    [
+      "businesspost",
+      "no channel"
+    ],
+    [
+      "farmersjournal",
+      "no channel"
+    ],
+    [
+      "dublinlive",
+      "no channel"
+    ],
+    [
+      "irishlegalnews",
+      "no channel"
+    ]
+  ],
+  "channels": [
+    {
+      "handle": "rtenews",
+      "channel_id": "UC8urSFTmQDxaPDEIZ2Fd63Q",
+      "title": "RTÉ News",
+      "country": "IE",
+      "subscribers": 253000,
+      "video_count": 9291,
+      "uploads": "UU8urSFTmQDxaPDEIZ2Fd63Q",
+      "videos_24h": 13,
+      "videos_7d": 67
+    },
+    {
+      "handle": "rte",
+      "channel_id": "UCGnlgHCdAsCNeAdNRTbS4hg",
+      "title": "RTÉ - IRELAND’S NATIONAL PUBLIC SERVICE MEDIA",
+      "country": null,
+      "subscribers": 400000,
+      "video_count": 10563,
+      "uploads": "UUGnlgHCdAsCNeAdNRTbS4hg",
+      "videos_24h": 0,
+      "videos_7d": 3
+    },
+    {
+      "handle": "irishtimes",
+      "channel_id": "UCNNnna72yOMxXU4n9Fg1Agg",
+      "title": "The Irish Times",
+      "country": "IE",
+      "subscribers": 20100,
+      "video_count": 1148,
+      "uploads": "UUNNnna72yOMxXU4n9Fg1Agg",
+      "videos_24h": 0,
+      "videos_7d": 10
+    },
+    {
+      "handle": "NewstalkFM",
+      "channel_id": "UCyQkMUy1w7X7pZEqq2j-1CQ",
+      "title": "Newstalk",
+      "country": "IE",
+      "subscribers": 113000,
+      "video_count": 7032,
+      "uploads": "UUyQkMUy1w7X7pZEqq2j-1CQ",
+      "videos_24h": 5,
+      "videos_7d": 16
+    },
+    {
+      "handle": "irishexaminer",
+      "channel_id": "UCN65cXpG1DyqNzQ074obQ0Q",
+      "title": "Irish Examiner",
+      "country": null,
+      "subscribers": 12400,
+      "video_count": 1832,
+      "uploads": "UUN65cXpG1DyqNzQ074obQ0Q",
+      "videos_24h": 1,
+      "videos_7d": 4
+    },
+    {
+      "handle": "griptmedia",
+      "channel_id": "UC4bTRXU-ycVU516_pZbKG4g",
+      "title": "Gript Media",
+      "country": "IE",
+      "subscribers": 79000,
+      "video_count": 2372,
+      "uploads": "UU4bTRXU-ycVU516_pZbKG4g",
+      "videos_24h": 2,
+      "videos_7d": 14
+    },
+    {
+      "handle": "TodayFM",
+      "channel_id": "UC5ECgn-R-rJFHBVHuzkpp6w",
+      "title": "Today FM",
+      "country": "IE",
+      "subscribers": 34100,
+      "video_count": 2703,
+      "uploads": "UU5ECgn-R-rJFHBVHuzkpp6w",
+      "videos_24h": 2,
+      "videos_7d": 17
+    },
+    {
+      "handle": "TG4TV",
+      "channel_id": "UC_xS76ZZEkVk1Lx-H23J01w",
+      "title": "TG4",
+      "country": "IE",
+      "subscribers": 47400,
+      "video_count": 2750,
+      "uploads": "UU_xS76ZZEkVk1Lx-H23J01w",
+      "videos_24h": 1,
+      "videos_7d": 2
+    },
+    {
+      "handle": "(search) TheJournal.ie",
+      "channel_id": "UCDg5Dpx6BCf_4ogh3xMqIkg",
+      "title": "The Journal",
+      "country": "IE",
+      "subscribers": 53800,
+      "video_count": null,
+      "uploads": "UUDg5Dpx6BCf_4ogh3xMqIkg",
+      "videos_24h": 5,
+      "videos_7d": 12
+    },
+    {
+      "handle": "(search) Irish Independent",
+      "channel_id": "UCRIi2dybGnHe3D9vdJJuU-Q",
+      "title": "Irish Independent",
+      "country": "IE",
+      "subscribers": 118000,
+      "video_count": null,
+      "uploads": "UURIi2dybGnHe3D9vdJJuU-Q",
+      "videos_24h": 9,
+      "videos_7d": 43
+    },
+    {
+      "handle": "(search) Oireachtas TV",
+      "channel_id": "UC9v7Rw6tSd1vtIj3G4RlJVA",
+      "title": "VideoParliament Ireland",
+      "country": "IE",
+      "subscribers": 51300,
+      "video_count": null,
+      "uploads": "UU9v7Rw6tSd1vtIj3G4RlJVA",
+      "videos_24h": 40,
+      "videos_7d": 150
+    },
+    {
+      "handle": "(search) Irish Mirror",
+      "channel_id": "UCTIG9dG8IINO3gXdChQ9eKA",
+      "title": "Irish Mirror",
+      "country": "IE",
+      "subscribers": 48200,
+      "video_count": null,
+      "uploads": "UUTIG9dG8IINO3gXdChQ9eKA",
+      "videos_24h": 7,
+      "videos_7d": 29
+    }
+  ],
+  "videos_24h": [
+    {
+      "video_id": "gl28dAeYm-c",
+      "published_at": "2026-10-13T20:56:58Z",
+      "channel": "RTÉ News",
+      "title": "Latest on murder investigation after four killed in Waterford house fire | Prime Time",
+      "view_count": 771,
+      "comment_count": null,
+      "duration": "PT13M23S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "5V4yDiIlcT0",
+      "published_at": "2026-10-13T19:56:37Z",
+      "channel": "RTÉ News",
+      "title": "How was Katie Zacharia’s first White House press briefing? #rtenews",
+      "view_count": 2380,
+      "comment_count": 7,
+      "duration": "PT1M9S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "Qw5dMGK6dR8",
+      "published_at": "2026-10-13T19:00:48Z",
+      "channel": "RTÉ News",
+      "title": "Murder investigation launched after four die in Waterford arson attack | RTÉ News",
+      "view_count": 7276,
+      "comment_count": null,
+      "duration": "PT20M10S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "2yi-X5KLy2o",
+      "published_at": "2026-10-13T17:42:05Z",
+      "channel": "RTÉ News",
+      "title": "Fresh fears raised over nitrous oxide | #RTÉNews #health #laughinggas",
+      "view_count": 5203,
+      "comment_count": 33,
+      "duration": "PT53S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "FuOg_RlpfdQ",
+      "published_at": "2026-10-13T17:42:05Z",
+      "channel": "RTÉ News",
+      "title": "Public sector strike to go ahead despite Government pleas to postpone | RTÉ News",
+      "view_count": 2185,
+      "comment_count": 5,
+      "duration": "PT5M8S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "NehZz1Xh708",
+      "published_at": "2026-10-13T17:30:06Z",
+      "channel": "RTÉ News",
+      "title": "Microsoft President calls for a 'safety break' on AI \\ RTÉ News",
+      "view_count": 960,
+      "comment_count": 2,
+      "duration": "PT7M25S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "UKmWHUlj-2I",
+      "published_at": "2026-10-13T12:45:52Z",
+      "channel": "RTÉ News",
+      "title": "Murder investigation under way after Waterford arson attack | #rtenews",
+      "view_count": 64292,
+      "comment_count": null,
+      "duration": "PT39S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "19_fSq3JzFk",
+      "published_at": "2026-10-13T11:29:01Z",
+      "channel": "RTÉ News",
+      "title": "Greta Thunberg says French students ‘leading by example’ | #rtenews",
+      "view_count": 9688,
+      "comment_count": 56,
+      "duration": "PT22S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "1W6-Ora9C9s",
+      "published_at": "2026-10-13T11:14:06Z",
+      "channel": "RTÉ News",
+      "title": "'Absolute devastation' in Waterford as four people die in house fire | #RTÉNews #Waterford #Ireland",
+      "view_count": 18158,
+      "comment_count": null,
+      "duration": "PT53S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "rn7IgGEAIjA",
+      "published_at": "2026-10-13T10:51:59Z",
+      "channel": "RTÉ News",
+      "title": "Father, daughter credit sea rescue to 'mind over matter' | RTÉ News",
+      "view_count": 2396,
+      "comment_count": 1,
+      "duration": "PT5M26S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "PFQCevjoAIo",
+      "published_at": "2026-10-13T10:41:31Z",
+      "channel": "RTÉ News",
+      "title": "‘Muscle memory’ of college lifeguard job helped save lives in Curracloe rescue #RTÉNews",
+      "view_count": 4191,
+      "comment_count": 3,
+      "duration": "PT32S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "MBafk5QfAdM",
+      "published_at": "2026-10-13T09:13:57Z",
+      "channel": "RTÉ News",
+      "title": "Number of fatalities feared in house fire in Waterford #RTÉNews",
+      "view_count": 9613,
+      "comment_count": null,
+      "duration": "PT16S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "roPf5piSEfE",
+      "published_at": "2026-10-13T07:18:27Z",
+      "channel": "RTÉ News",
+      "title": "Family of Gillian Curran welcome sentencing of ‘beyond evil’ killer | #rtenews",
+      "view_count": 4975,
+      "comment_count": 13,
+      "duration": "PT50S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "__DUbNkAk4s",
+      "published_at": "2026-10-13T18:43:19Z",
+      "channel": "Newstalk",
+      "title": "Secondary infertility | Newstalk",
+      "view_count": 319,
+      "comment_count": 0,
+      "duration": "PT1M36S",
+      "default_audio_language": "en-GB"
+    },
+    {
+      "video_id": "J2cHNp2Ga-Y",
+      "published_at": "2026-10-13T16:32:05Z",
+      "channel": "Newstalk",
+      "title": "Garda statement on Waterford arson attack | Newstalk",
+      "view_count": 6121,
+      "comment_count": null,
+      "duration": "PT1M36S",
+      "default_audio_language": "en-GB"
+    },
+    {
+      "video_id": "MolwrAuetFE",
+      "published_at": "2026-10-13T13:30:10Z",
+      "channel": "Newstalk",
+      "title": "HSE to consider public funding for Mounjaro | Newstalk",
+      "view_count": 2186,
+      "comment_count": 1,
+      "duration": "PT2M5S",
+      "default_audio_language": "en-GB"
+    },
+    {
+      "video_id": "OfmmcJoFvoc",
+      "published_at": "2026-10-13T12:25:15Z",
+      "channel": "Newstalk",
+      "title": "Four dead after arson attack | Newstalk #ireland #news #waterford",
+      "view_count": 35082,
+      "comment_count": 23,
+      "duration": "PT1M51S",
+      "default_audio_language": "en-GB"
+    },
+    {
+      "video_id": "DtnToLP5bDs",
+      "published_at": "2026-10-13T09:27:02Z",
+      "channel": "Newstalk",
+      "title": "Fatal house fire in Waterford | Newstalk",
+      "view_count": 12053,
+      "comment_count": null,
+      "duration": "PT19S",
+      "default_audio_language": "en-GB"
+    },
+    {
+      "video_id": "oxxGxTv77dw",
+      "published_at": "2026-10-13T11:06:02Z",
+      "channel": "Irish Examiner",
+      "title": "A generational run? #GAA",
+      "view_count": 683,
+      "comment_count": 0,
+      "duration": "PT35S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "mvpPPfJx2LM",
+      "published_at": "2026-10-13T11:04:47Z",
+      "channel": "Gript Media",
+      "title": "Foley: Some children can \"elude\" Tusla staff",
+      "view_count": 10158,
+      "comment_count": 214,
+      "duration": "PT7M21S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "A67jVMjczTA",
+      "published_at": "2026-10-13T11:00:17Z",
+      "channel": "Gript Media",
+      "title": "What happens when Ireland’s tax windfall runs out?",
+      "view_count": 4699,
+      "comment_count": 52,
+      "duration": "PT2M21S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "_A1uCj08LsQ",
+      "published_at": "2026-10-13T12:28:46Z",
+      "channel": "Today FM",
+      "title": "Sleeping With Someone Else Before Becoming Official",
+      "view_count": 20,
+      "comment_count": 0,
+      "duration": "PT1M30S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "aIvkPsDyoco",
+      "published_at": "2026-10-13T09:33:58Z",
+      "channel": "Today FM",
+      "title": "Is It Okay To Fall Asleep In The Passenger Seat?",
+      "view_count": 32,
+      "comment_count": 0,
+      "duration": "PT57S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "wd8mDKpgEc8",
+      "published_at": "2026-10-13T13:14:57Z",
+      "channel": "TG4",
+      "title": "Naíonra | Sraith a 2 ag tosú Dé Luain 26/10 ag 21:00 | TG4",
+      "view_count": 97,
+      "comment_count": 0,
+      "duration": "PT1M53S",
+      "default_audio_language": "ga"
+    },
+    {
+      "video_id": "6nbGk1KhQE8",
+      "published_at": "2026-10-13T20:15:20Z",
+      "channel": "The Journal",
+      "title": "The battle for Silwan: Palestinian families face demolition and eviction in Jerusalem",
+      "view_count": 203,
+      "comment_count": 0,
+      "duration": "PT1M",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "wbia3G4C4fI",
+      "published_at": "2026-10-13T19:45:34Z",
+      "channel": "The Journal",
+      "title": "The battle for Silwan: Palestinian families face demolition and eviction in Jerusalem",
+      "view_count": 5,
+      "comment_count": 0,
+      "duration": "PT54S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "HEJSMNwK8gI",
+      "published_at": "2026-10-13T17:24:12Z",
+      "channel": "The Journal",
+      "title": "The Journal travelled to the West Bank to meet communities affected by displacement",
+      "view_count": 530,
+      "comment_count": 7,
+      "duration": "PT1M2S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "1f99s5r_vHI",
+      "published_at": "2026-10-13T15:23:59Z",
+      "channel": "The Journal",
+      "title": "Timeline: The allegations against George Gibney, and how he evaded justice for decades",
+      "view_count": 217,
+      "comment_count": 1,
+      "duration": "PT1M23S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "aPT4fWmICdY",
+      "published_at": "2026-10-13T15:02:00Z",
+      "channel": "The Journal",
+      "title": "Debunked: Development of Israeli plague vaccine did not coincide with Russian lab worker's death",
+      "view_count": 32,
+      "comment_count": 0,
+      "duration": "PT1M",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "CFsXIlw9Ijo",
+      "published_at": "2026-10-13T19:00:08Z",
+      "channel": "Irish Independent",
+      "title": "Taste Test - Supermarket Sweet Chilli Sauce",
+      "view_count": 89,
+      "comment_count": 0,
+      "duration": "PT2M57S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "4BuZSpBCByc",
+      "published_at": "2026-10-13T15:06:08Z",
+      "channel": "Irish Independent",
+      "title": "Family named in Waterford house-fire murder investigation | The Indo Daily",
+      "view_count": 33866,
+      "comment_count": null,
+      "duration": "PT8M37S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "p9bfpzfXqYA",
+      "published_at": "2026-10-13T14:30:37Z",
+      "channel": "Irish Independent",
+      "title": "The Social Reckoning review | Zuckerberg gets villain treatment in disappointing Aaron Sorkin sequel",
+      "view_count": 912,
+      "comment_count": 2,
+      "duration": "PT29M16S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "9cWvMEZhiQ4",
+      "published_at": "2026-10-13T14:27:25Z",
+      "channel": "Irish Independent",
+      "title": "Jeremy Strong's portrayal of Mark Zuckerberg criticised for being too one-dimensional",
+      "view_count": 1023,
+      "comment_count": 1,
+      "duration": "PT1M",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "noHWsQVacq8",
+      "published_at": "2026-10-13T14:08:25Z",
+      "channel": "Irish Independent",
+      "title": "Jack Chambers says planned strike action ‘unfair on public’",
+      "view_count": 1494,
+      "comment_count": 11,
+      "duration": "PT57S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "C5FHCSD4V0o",
+      "published_at": "2026-10-13T13:32:11Z",
+      "channel": "Irish Independent",
+      "title": "What will happen if the public sector go on strike? | The Indo Daily",
+      "view_count": 1798,
+      "comment_count": 7,
+      "duration": "PT1M41S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "onNeB_yGw1c",
+      "published_at": "2026-10-13T12:03:43Z",
+      "channel": "Irish Independent",
+      "title": "Government vs 400,000 Workers. Who wins? | The Indo Daily",
+      "view_count": 2225,
+      "comment_count": 17,
+      "duration": "PT13M26S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "ZFsMvA-Vor0",
+      "published_at": "2026-10-13T10:42:53Z",
+      "channel": "Irish Independent",
+      "title": "Drumcree and Garvaghy: Why the stand-off? | Seachtain",
+      "view_count": 1026,
+      "comment_count": 0,
+      "duration": "PT1M4S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "YB1gvzR0JAE",
+      "published_at": "2026-10-13T10:36:46Z",
+      "channel": "Irish Independent",
+      "title": "Drumcree and Garvaghy: Why the stand-off?",
+      "view_count": 651,
+      "comment_count": 2,
+      "duration": "PT3M50S",
+      "default_audio_language": "en-IE"
+    },
+    {
+      "video_id": "YGUJ0isEERQ",
+      "published_at": "2026-10-13T21:13:15Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Jim O'Callaghan: Bill to protect public participation advances",
+      "view_count": 0,
+      "comment_count": 0,
+      "duration": "PT1M30S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "IBtcyXz4l4U",
+      "published_at": "2026-10-13T21:12:59Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Does storing potatoes count as a process?",
+      "view_count": 151,
+      "comment_count": 0,
+      "duration": "PT32S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "Sh07OgRXSmk",
+      "published_at": "2026-10-13T21:01:53Z",
+      "channel": "VideoParliament Ireland",
+      "title": "A student reportedly fainted on a packed Galway train",
+      "view_count": 305,
+      "comment_count": 0,
+      "duration": "PT24S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "IHtin0nbyhs",
+      "published_at": "2026-10-13T20:06:50Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Donnchadh Ó Laoghaire: Budget leaves households short-changed",
+      "view_count": 8,
+      "comment_count": 0,
+      "duration": "PT2M2S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "-NHgxD5-RyU",
+      "published_at": "2026-10-13T19:47:01Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Alan Dillon Defends Government’s Fuel-Cost Supports",
+      "view_count": 48,
+      "comment_count": 1,
+      "duration": "PT6M39S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "HBLtuWmJ30I",
+      "published_at": "2026-10-13T19:46:59Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Michael Cahill urges action on home heating oil costs",
+      "view_count": 94,
+      "comment_count": 0,
+      "duration": "PT6M7S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "SsO_uRwHsjQ",
+      "published_at": "2026-10-13T19:46:59Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Peadar Tóibín says carbon tax hits people without alternatives",
+      "view_count": 45,
+      "comment_count": 1,
+      "duration": "PT3M23S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "TyGUv65ScyA",
+      "published_at": "2026-10-13T19:21:38Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Michael Fitzmaurice Warns on Home Heating Oil Costs",
+      "view_count": 275,
+      "comment_count": 1,
+      "duration": "PT2M35S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "2TyxguElQCs",
+      "published_at": "2026-10-13T19:21:36Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Paul Nicholas Gogarty calls for EU-funded grid upgrade",
+      "view_count": 6,
+      "comment_count": 0,
+      "duration": "PT2M4S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "7ppDBZIumA0",
+      "published_at": "2026-10-13T19:12:46Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Roderic O'Gorman: Oil, not carbon tax, drives heating costs",
+      "view_count": 75,
+      "comment_count": 0,
+      "duration": "PT3M50S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "TfBYUNY-b-g",
+      "published_at": "2026-10-13T19:11:55Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Brian Stanley says budget fails squeezed households",
+      "view_count": 7,
+      "comment_count": 0,
+      "duration": "PT4M5S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "37frnKIUMvk",
+      "published_at": "2026-10-13T19:06:15Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Richard O'Donoghue Challenges Government on Protests and Food Producers",
+      "view_count": 303,
+      "comment_count": 4,
+      "duration": "PT2M41S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "KLvGYgggR-M",
+      "published_at": "2026-10-13T18:59:41Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Ged Nash: Families need targeted energy credits this winter",
+      "view_count": 47,
+      "comment_count": 0,
+      "duration": "PT11M29S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "eezAKAbOujU",
+      "published_at": "2026-10-13T18:52:14Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Eoin Hayes says government lacks energy crisis leadership",
+      "view_count": 11,
+      "comment_count": 0,
+      "duration": "PT5M8S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "6ASMtv7xMjQ",
+      "published_at": "2026-10-13T18:31:46Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Martin Kenny says carbon tax should be removed to ease fuel costs",
+      "view_count": 83,
+      "comment_count": 2,
+      "duration": "PT2M58S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "hpZi3VGwuQs",
+      "published_at": "2026-10-13T18:29:12Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Louise O'Reilly says people should be able to heat their homes",
+      "view_count": 137,
+      "comment_count": 2,
+      "duration": "PT2M38S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "WDQLQwIVcDw",
+      "published_at": "2026-10-13T18:25:56Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Robert Troy defends carbon tax and cost-of-living measures",
+      "view_count": 73,
+      "comment_count": 3,
+      "duration": "PT9M37S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "wy67HreNbnc",
+      "published_at": "2026-10-13T18:23:36Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Louis O'Hara: Remove Carbon Tax from Home Heating Oil",
+      "view_count": 61,
+      "comment_count": 0,
+      "duration": "PT2M26S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "uzog3A7v1Gs",
+      "published_at": "2026-10-13T18:17:26Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Thomas Gould warns of winter protests over energy costs",
+      "view_count": 124,
+      "comment_count": 0,
+      "duration": "PT2M34S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "PtmxRDmLsx4",
+      "published_at": "2026-10-13T18:11:50Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Rose Conway-Walsh says heating oil support falls far short",
+      "view_count": 92,
+      "comment_count": 0,
+      "duration": "PT2M9S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "yEWgIOQtoaU",
+      "published_at": "2026-10-13T18:04:39Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Pearse Doherty says €43 oil relief falls short",
+      "view_count": 248,
+      "comment_count": 5,
+      "duration": "PT5M24S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "CbGUbx_yH68",
+      "published_at": "2026-10-13T17:52:23Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Joe O'Reilly says councillors need real tax-raising powers",
+      "view_count": 9,
+      "comment_count": 0,
+      "duration": "PT4M56S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "Q0yy4FuLeTM",
+      "published_at": "2026-10-13T17:45:39Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Sharon Keogan: Local Councillors Need Power and Proper Resources",
+      "view_count": 118,
+      "comment_count": 0,
+      "duration": "PT6M17S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "vDkpVXCZDAQ",
+      "published_at": "2026-10-13T17:45:11Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Richard Boyd Barrett challenges RTÉ funding for film producers",
+      "view_count": 12,
+      "comment_count": 0,
+      "duration": "PT4M7S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "hTFYsw5Q5x0",
+      "published_at": "2026-10-13T17:36:14Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Richard Boyd Barrett warns of RTE outsourcing and workers’ rights",
+      "view_count": 248,
+      "comment_count": 3,
+      "duration": "PT9M35S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "1fBs5ZpJrKw",
+      "published_at": "2026-10-13T15:49:25Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Sharon Keogan says ESB should cut winter power margins",
+      "view_count": 222,
+      "comment_count": 0,
+      "duration": "PT2M21S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "jTcPPaJqcM4",
+      "published_at": "2026-10-13T15:38:14Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Gerard P. Craughwell blames delays for public service strike",
+      "view_count": 133,
+      "comment_count": 0,
+      "duration": "PT2M52S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "hsgATFJCKDU",
+      "published_at": "2026-10-13T15:38:13Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Albert Dolan backs pay gap reporting and DNA search change",
+      "view_count": 79,
+      "comment_count": 0,
+      "duration": "PT2M58S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "kqhLwyk4Qso",
+      "published_at": "2026-10-13T15:38:13Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Danny Healy-Rae urges fairer support for home survivors and employers",
+      "view_count": 224,
+      "comment_count": 1,
+      "duration": "PT7M59S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "2tnYGHTHsJM",
+      "published_at": "2026-10-13T15:25:50Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Seán Canney welcomes first-cousin DNA testing at Tuam",
+      "view_count": 168,
+      "comment_count": 0,
+      "duration": "PT2M53S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "9w9Znd_gWXY",
+      "published_at": "2026-10-13T15:13:38Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Keira Keogh backs pay gap data and Tuam identification changes",
+      "view_count": 47,
+      "comment_count": 1,
+      "duration": "PT2M5S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "C2peSk8vywk",
+      "published_at": "2026-10-13T15:01:32Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Conor D McGuinness on truth and justice for survivors",
+      "view_count": 25,
+      "comment_count": 0,
+      "duration": "PT2M21S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "MlEDg8g5k3s",
+      "published_at": "2026-10-13T15:01:29Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Claire Kerrane says Mother and Baby scheme is failing survivors",
+      "view_count": 75,
+      "comment_count": 0,
+      "duration": "PT5M48S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "xel5FLdYFDg",
+      "published_at": "2026-10-13T15:01:28Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Rose Conway-Walsh demands action on the gender pay gap",
+      "view_count": 56,
+      "comment_count": 1,
+      "duration": "PT3M32S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "1EU5DJVF8w8",
+      "published_at": "2026-10-13T14:30:20Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Ivana Bacik backs public sector workers amid pay dispute",
+      "view_count": 653,
+      "comment_count": 5,
+      "duration": "PT8M22S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "yJHoX3ZgNkY",
+      "published_at": "2026-10-13T14:25:08Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Peadar Tóibín challenges Taoiseach over strikes and cost of living",
+      "view_count": 3730,
+      "comment_count": 18,
+      "duration": "PT9M7S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "Sv0uUf-UI2Y",
+      "published_at": "2026-10-13T14:15:46Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Richard Boyd Barrett says public sector pay has fallen behind",
+      "view_count": 225,
+      "comment_count": 3,
+      "duration": "PT1M8S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "1BNElF6w1GI",
+      "published_at": "2026-10-13T14:13:34Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Cian O'Callaghan challenges Taoiseach over public service strike",
+      "view_count": 1966,
+      "comment_count": 6,
+      "duration": "PT7M42S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "Ye8TxVUA3so",
+      "published_at": "2026-10-13T13:56:20Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Mary Lou McDonald: Pay Must Come First in Strike Talks",
+      "view_count": 2403,
+      "comment_count": 10,
+      "duration": "PT11M4S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "uznhMcNc-Hk",
+      "published_at": "2026-10-13T13:22:36Z",
+      "channel": "VideoParliament Ireland",
+      "title": "Joe O'Reilly Calls for Action on Smart Glasses Privacy",
+      "view_count": 168,
+      "comment_count": 0,
+      "duration": "PT11M13S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "Vekb0dJ3rlQ",
+      "published_at": "2026-10-13T17:09:52Z",
+      "channel": "Irish Mirror",
+      "title": "Chris Bryant Issues SIX-MONTH JAIL WARNING Over Drumcree Protests as PSNI Operation Gets Underway",
+      "view_count": 6650,
+      "comment_count": 38,
+      "duration": "PT41M19S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "aApIdYLTCGs",
+      "published_at": "2026-10-13T15:10:37Z",
+      "channel": "Irish Mirror",
+      "title": "Two Children DEAD, Parents KILLED as Gardaí Confirm Waterford Family Home 'WAS ATTACKED'",
+      "view_count": 38472,
+      "comment_count": 91,
+      "duration": "PT8M3S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "jxpKfEypjWQ",
+      "published_at": "2026-10-13T11:58:48Z",
+      "channel": "Irish Mirror",
+      "title": "'I'LL NEVER FORGET THEIR SCREAMS' Neighbours Tried to Save Family in Waterford ARSON ATTACK",
+      "view_count": 8734,
+      "comment_count": 44,
+      "duration": "PT5M2S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "-vBE7hvDe94",
+      "published_at": "2026-10-13T10:25:32Z",
+      "channel": "Irish Mirror",
+      "title": "'THE PRIME MINISTER IS A LIAR' Farage ERUPTS as Burnham REOPENS Brexit Row With Russia Claims",
+      "view_count": 82924,
+      "comment_count": 164,
+      "duration": "PT19M35S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "fFMCcCtoj9o",
+      "published_at": "2026-10-13T08:14:11Z",
+      "channel": "Irish Mirror",
+      "title": "'POORER, WEAKER AND LESS SAFE!' Ed Davey BLASTS Brexit Deal as Burnham Faces EU Return Demands",
+      "view_count": 6596,
+      "comment_count": 37,
+      "duration": "PT11M32S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "PxiM2lHSETw",
+      "published_at": "2026-10-12T23:20:15Z",
+      "channel": "Irish Mirror",
+      "title": "Nigel Farage Vows to SHUT DOWN UK Asylum System for FIVE YEARS in MASS DEPORTATION Crackdown",
+      "view_count": 5804,
+      "comment_count": 20,
+      "duration": "PT17M43S",
+      "default_audio_language": "en"
+    },
+    {
+      "video_id": "3rmAHeYBXPY",
+      "published_at": "2026-10-12T21:49:16Z",
+      "channel": "Irish Mirror",
+      "title": "UK’s FIRST Somali-Born Woman MP Replaces Keir Starmer and Takes Oath on QURAN in Commons",
+      "view_count": 17084,
+      "comment_count": 366,
+      "duration": "PT11M39S",
+      "default_audio_language": "en"
+    }
+  ],
+  "videos_7d_total": 367,
+  "quota_units_used": 43
+}

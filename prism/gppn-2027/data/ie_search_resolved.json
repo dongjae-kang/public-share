@@ -1,0 +1,212 @@
+{
+  "log": [
+    {
+      "query": "Virgin Media News",
+      "candidates": [
+        {
+          "channel_id": "UCXIQcJ1TcFeMlF32vAOORLQ",
+          "title": "Virgin Media Sport",
+          "subs": 200000,
+          "country": "IE",
+          "uploads": "UUXIQcJ1TcFeMlF32vAOORLQ"
+        },
+        {
+          "channel_id": "UCSs6lDsi723swfltNt9PSiA",
+          "title": "Virgin Media Television",
+          "subs": 67300,
+          "country": "IE",
+          "uploads": "UUSs6lDsi723swfltNt9PSiA"
+        },
+        {
+          "channel_id": "UC78imML6tEzLoEcadXNu87w",
+          "title": "Virgin Media News",
+          "subs": 29700,
+          "country": "IE",
+          "uploads": "UU78imML6tEzLoEcadXNu87w"
+        }
+      ]
+    },
+    {
+      "query": "TheJournal.ie",
+      "candidates": [
+        {
+          "channel_id": "UCDg5Dpx6BCf_4ogh3xMqIkg",
+          "title": "The Journal",
+          "subs": 53800,
+          "country": "IE",
+          "uploads": "UUDg5Dpx6BCf_4ogh3xMqIkg"
+        },
+        {
+          "channel_id": "UCdVrbRDburdJ3pkKiqpisJA",
+          "title": "The Journal",
+          "subs": 13400,
+          "country": null,
+          "uploads": "UUdVrbRDburdJ3pkKiqpisJA"
+        },
+        {
+          "channel_id": "UC6qPRYlMdec4tzysJze_4rw",
+          "title": "The Journal | الجورنال",
+          "subs": 62,
+          "country": "EG",
+          "uploads": "UU6qPRYlMdec4tzysJze_4rw"
+        }
+      ]
+    },
+    {
+      "query": "Irish Independent",
+      "candidates": [
+        {
+          "channel_id": "UCRIi2dybGnHe3D9vdJJuU-Q",
+          "title": "Irish Independent",
+          "subs": 118000,
+          "country": "IE",
+          "uploads": "UURIi2dybGnHe3D9vdJJuU-Q"
+        },
+        {
+          "channel_id": "UCYwonHriInpvTo81Uod5fZA",
+          "title": "Indo Sport",
+          "subs": 21100,
+          "country": null,
+          "uploads": "UUYwonHriInpvTo81Uod5fZA"
+        },
+        {
+          "channel_id": "UCh5YeYf5mlsAFgW5tl8bM5A",
+          "title": "Independent Irish Boxing Union",
+          "subs": 224,
+          "country": null,
+          "uploads": "UUh5YeYf5mlsAFgW5tl8bM5A"
+        }
+      ]
+    },
+    {
+      "query": "Oireachtas TV",
+      "candidates": [
+        {
+          "channel_id": "UC9v7Rw6tSd1vtIj3G4RlJVA",
+          "title": "VideoParliament Ireland",
+          "subs": 51300,
+          "country": "IE",
+          "uploads": "UU9v7Rw6tSd1vtIj3G4RlJVA"
+        },
+        {
+          "channel_id": "UCohINnUgwVw6OSUF7WRVd9g",
+          "title": "Oireachtas Tv",
+          "subs": 447,
+          "country": null,
+          "uploads": "UUohINnUgwVw6OSUF7WRVd9g"
+        },
+        {
+          "channel_id": "UC55T8fFcK6T-NomBUou2P_Q",
+          "title": "Oireachtas TV RBX",
+          "subs": 25,
+          "country": null,
+          "uploads": "UU55T8fFcK6T-NomBUou2P_Q"
+        }
+      ]
+    },
+    {
+      "query": "Sunday World",
+      "candidates": [
+        {
+          "channel_id": "UCHmq4Fx-0MEiZzYhQMlrmtw",
+          "title": "Sonday Word By Apostle Ankit Sajwan",
+          "subs": 311000,
+          "country": "IN",
+          "uploads": "UUHmq4Fx-0MEiZzYhQMlrmtw"
+        },
+        {
+          "channel_id": "UC8MalTYHvpmBKt5y365hDmQ",
+          "title": "Crime World ",
+          "subs": 102000,
+          "country": "IE",
+          "uploads": "UU8MalTYHvpmBKt5y365hDmQ"
+        },
+        {
+          "channel_id": "UCQ3BHsc3di4dxGkAV4MrbsQ",
+          "title": "Sunday World Podcast",
+          "subs": 43700,
+          "country": "ZA",
+          "uploads": "UUQ3BHsc3di4dxGkAV4MrbsQ"
+        }
+      ]
+    },
+    {
+      "query": "Irish Mirror",
+      "candidates": [
+        {
+          "channel_id": "UCTIG9dG8IINO3gXdChQ9eKA",
+          "title": "Irish Mirror",
+          "subs": 48200,
+          "country": "IE",
+          "uploads": "UUTIG9dG8IINO3gXdChQ9eKA"
+        },
+        {
+          "channel_id": "UCwT53queYH5p0LNFzD_imEQ",
+          "title": "Irish Mirror Sport",
+          "subs": 62,
+          "country": null,
+          "uploads": "UUwT53queYH5p0LNFzD_imEQ"
+        },
+        {
+          "channel_id": "UCkvVf4FzzxarZgv_q_vshRg",
+          "title": "Irish Mirror",
+          "subs": 1,
+          "country": null,
+          "uploads": "UUkvVf4FzzxarZgv_q_vshRg"
+        }
+      ]
+    }
+  ],
+  "resolved": [
+    {
+      "channel_id": "UCXIQcJ1TcFeMlF32vAOORLQ",
+      "title": "Virgin Media Sport",
+      "subs": 200000,
+      "country": "IE",
+      "uploads": "UUXIQcJ1TcFeMlF32vAOORLQ",
+      "query": "Virgin Media News"
+    },
+    {
+      "channel_id": "UCDg5Dpx6BCf_4ogh3xMqIkg",
+      "title": "The Journal",
+      "subs": 53800,
+      "country": "IE",
+      "uploads": "UUDg5Dpx6BCf_4ogh3xMqIkg",
+      "query": "TheJournal.ie"
+    },
+    {
+      "channel_id": "UCRIi2dybGnHe3D9vdJJuU-Q",
+      "title": "Irish Independent",
+      "subs": 118000,
+      "country": "IE",
+      "uploads": "UURIi2dybGnHe3D9vdJJuU-Q",
+      "query": "Irish Independent"
+    },
+    {
+      "channel_id": "UC9v7Rw6tSd1vtIj3G4RlJVA",
+      "title": "VideoParliament Ireland",
+      "subs": 51300,
+      "country": "IE",
+      "uploads": "UU9v7Rw6tSd1vtIj3G4RlJVA",
+      "query": "Oireachtas TV"
+    },
+    {
+      "channel_id": "UCHmq4Fx-0MEiZzYhQMlrmtw",
+      "title": "Sonday Word By Apostle Ankit Sajwan",
+      "subs": 311000,
+      "country": "IN",
+      "uploads": "UUHmq4Fx-0MEiZzYhQMlrmtw",
+      "query": "Sunday World"
+    },
+    {
+      "channel_id": "UCTIG9dG8IINO3gXdChQ9eKA",
+      "title": "Irish Mirror",
+      "subs": 48200,
+      "country": "IE",
+      "uploads": "UUTIG9dG8IINO3gXdChQ9eKA",
+      "query": "Irish Mirror"
+    }
+  ],
+  "quota_units_used": 12,
+  "search_calls": 6
+}

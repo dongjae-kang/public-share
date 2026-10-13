@@ -1,0 +1,55 @@
+{
+  "t0_utc": "2026-10-13T04:43:00+00:00",
+  "t1_utc": "2026-10-13T21:21:17.545168+00:00",
+  "hours_between": 16.6,
+  "n_videos": 586,
+  "stories": [
+    {
+      "title": "Bipartisan backlash grows over Trump's Russian diesel deal as Zelenskyy says Russia violated the energy ceasefire",
+      "n_youtube": 198,
+      "views_t0": 9774739,
+      "views_t1": 12681273,
+      "change_pct": 29.7
+    },
+    {
+      "title": "Federal agents raid Ilhan Omar's home in criminal investigation",
+      "n_youtube": 250,
+      "views_t0": 17911155,
+      "views_t1": 26341527,
+      "change_pct": 47.1
+    },
+    {
+      "title": "Federal judge orders Trump administration to halt taxpayer-funded TV ads",
+      "n_youtube": 19,
+      "views_t0": 570424,
+      "views_t1": 620646,
+      "change_pct": 8.8
+    },
+    {
+      "title": "James Talarico rejects Republican claims about his whereabouts after a flu absence from the Texas Senate campaign",
+      "n_youtube": 52,
+      "views_t0": 3007404,
+      "views_t1": 4464301,
+      "change_pct": 48.4
+    },
+    {
+      "title": "Man dies at Six Flags Over Georgia as witnesses say he fell from Goliath roller coaster",
+      "n_youtube": 54,
+      "views_t0": 2492355,
+      "views_t1": 6488557,
+      "change_pct": 160.3
+    },
+    {
+      "title": "South Carolina Senate debate between Graham and Andrews features clashes on healthcare, data centers, and Iran war",
+      "n_youtube": 13,
+      "views_t0": 1557083,
+      "views_t1": 1951484,
+      "change_pct": 25.3
+    }
+  ],
+  "per_video_growth": {
+    "median_pct": 29.7,
+    "p90_pct": 360.5,
+    "at_least_doubled": 141
+  }
+}

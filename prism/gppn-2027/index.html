@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>YouTube Access Ledger</title>
+<meta name="description" content="Three demonstrations of what the public route to YouTube gives an independent monitor, built from real requests made on October 13, 2026.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root{
+    --ground:#f3f4f7; --panel:#ffffff; --tint:#f8f9fc;
+    --ink:#0e1116; --body:#2a303a; --muted:#5c6570; --faint:#98a0ad;
+    --rule:#e6e8ee; --rule2:#f0f2f6;
+    --accent:#4f46e5; --accent-soft:#eef0fd;
+    --ok:#0f8a57; --cond:#b45309; --closed:#be123c; --none:#6b7280;
+    --spectrum:linear-gradient(90deg,#4338ca 0%,#7c3aed 28%,#c026d3 52%,#e11d48 76%,#f59e0b 100%);
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:"Pretendard Variable",Pretendard,-apple-system,"Segoe UI",Roboto,sans-serif;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --ground:#0f1216; --panel:#161a20; --tint:#1b2028; --ink:#eef0f4; --body:#c9ced8; --muted:#97a0ae; --faint:#6b7483;
+    --rule:#262c36; --rule2:#1f242c; --accent:#8b86f2; --accent-soft:#232647;
+    --ok:#3fbf88; --cond:#e0a048; --closed:#ef6b85; --none:#9aa3b2; color-scheme:dark;}}
+  :root[data-theme="dark"]{
+    --ground:#0f1216; --panel:#161a20; --tint:#1b2028; --ink:#eef0f4; --body:#c9ced8; --muted:#97a0ae; --faint:#6b7483;
+    --rule:#262c36; --rule2:#1f242c; --accent:#8b86f2; --accent-soft:#232647;
+    --ok:#3fbf88; --cond:#e0a048; --closed:#ef6b85; --none:#9aa3b2; color-scheme:dark;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--ground);line-height:1.62;-webkit-font-smoothing:antialiased;font-size:15.5px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code{font-family:var(--mono);font-size:.92em;color:var(--accent)}
+  b{font-weight:650;color:var(--ink)}
+
+  /* contents (left) */
+  .toc{position:fixed;top:0;left:0;width:264px;height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--rule);padding:34px 10px 40px;z-index:7}
+  .toc .hd{padding:0 12px 16px;border-bottom:1px solid var(--rule);margin-bottom:6px}
+  .toc .hd .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .toc .hd .t{font-size:17px;font-weight:750;letter-spacing:-.02em;line-height:1.25;margin-top:6px}
+  .toc .hd .d{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.45}
+  .tocgrp{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:16px 0 2px;padding:10px 8px 0 12px;border-top:1px solid var(--rule)}
+  .tocgrp:first-of-type{margin-top:6px;border-top:0;padding-top:4px}
+  .toc a{display:flex;align-items:baseline;gap:8px;text-decoration:none;color:var(--body);border-left:2px solid transparent;line-height:1.3;font-size:13px;font-weight:550;padding:7px 8px 7px 12px;margin-top:2px;border-radius:0 4px 4px 0}
+  .toc a:hover{color:var(--accent);text-decoration:none}
+  .toc a .n{font-family:var(--mono);font-size:10px;color:var(--faint);min-width:18px;flex:none}
+  .toc a small{display:block;font-weight:400;color:var(--muted);font-size:11.5px;margin-top:2px;line-height:1.35}
+  .toc a[aria-current="page"]{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft)}
+  .toc a[aria-current="page"] small{color:var(--accent)}
+  .toc .foot{margin-top:16px;padding:12px 12px 0;border-top:1px solid var(--rule);font-family:var(--mono);font-size:10px;color:var(--faint);line-height:1.7;letter-spacing:.04em}
+  .st{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;white-space:nowrap}
+  .st i{width:8px;height:8px;border-radius:2px;display:inline-block}
+  .st.ok i{background:var(--ok)} .st.ok{color:var(--ok)}
+  .st.cond i{background:var(--cond)} .st.cond{color:var(--cond)}
+  .st.closed i{background:var(--closed)} .st.closed{color:var(--closed)}
+  .st.none i{background:var(--none)} .st.none{color:var(--none)}
+
+  .bar{display:none}
+  main{padding-left:264px}
+  .wrap{max-width:920px;margin:0 auto;padding:44px 40px 90px}
+  .view[hidden]{display:none}
+  .vh{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:22px}
+  .vh .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .vh h1{font-size:30px;line-height:1.2;letter-spacing:-.03em;font-weight:800;margin-top:8px;max-width:22em}
+  .vh .dek{font-size:15px;color:var(--muted);margin-top:8px;max-width:50em;line-height:1.6}
+  h2{font-size:18px;letter-spacing:-.02em;font-weight:750;margin:38px 0 10px;padding-top:14px;border-top:1px solid var(--rule)}
+  h3{font-size:15px;font-weight:700;margin:20px 0 6px}
+  p{color:var(--body);max-width:62em}
+  p+p{margin-top:9px}
+  .finding{font-size:17px;line-height:1.65;color:var(--ink);max-width:50em;margin:4px 0 20px}
+  .note{font-size:13px;color:var(--muted);max-width:62em;margin-top:10px;line-height:1.55}
+  .note b{color:var(--ink);font-weight:600}
+  .est{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--cond);border:1px solid currentColor;border-radius:3px;padding:1px 5px;vertical-align:2px;margin-left:4px}
+  .meta{display:flex;flex-wrap:wrap;gap:0 24px;margin:16px 0 0;padding-top:12px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .meta b{color:var(--ink);font-weight:600}
+
+  /* try list (start) */
+  .try{list-style:none;max-width:62em;margin-top:4px}
+  .try li{display:grid;grid-template-columns:34px 1fr auto;gap:0 14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--rule)}
+  .try .n{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:700}
+  .try .t{font-size:15.5px;font-weight:650;color:var(--ink)}
+  .try .t small{display:block;font-weight:400;color:var(--muted);font-size:13.5px;margin-top:2px;line-height:1.5}
+  .try a.go{font-size:13px;white-space:nowrap}
+
+  /* matrix */
+  figure.matrix{margin:6px 0 0}
+  figure.matrix svg{width:100%;height:auto;display:block}
+  figure.matrix figcaption{font-size:12.5px;color:var(--muted);margin-top:8px;max-width:62em}
+  figure.matrix .rowhit{fill:transparent;cursor:pointer}
+  figure.matrix .rowhit:hover{fill:var(--accent-soft)}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:8px;font-size:12.5px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .mark{display:inline-block;width:12px;height:12px;border-radius:50%;flex:none}
+  .mark.full{background:var(--ink)}
+  .mark.half{background:linear-gradient(90deg,var(--cond) 50%,transparent 50%);border:2px solid var(--cond)}
+  .mark.ring{border:2px solid var(--closed)}
+  .mark.dash{width:12px;height:2px;border-radius:0;background:var(--faint);align-self:center}
+
+  /* pickers / segmented buttons */
+  .seg{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
+  .seg button{appearance:none;font-family:var(--sans);font-size:12.5px;cursor:pointer;border:1px solid var(--rule);background:var(--tint);color:var(--body);padding:7px 12px;border-radius:4px;text-align:left;line-height:1.3}
+  .seg button small{display:block;font-size:11px;color:var(--muted);font-family:var(--mono)}
+  .seg button:hover{border-color:var(--accent);color:var(--accent)}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+  .seg button.on small{color:#e6e4ff}
+
+  /* demo 1 question blocks */
+  .qa{border-top:1px solid var(--ink);padding:16px 0 22px;display:grid;grid-template-columns:1fr 1.25fr;gap:0 30px}
+  .qa .qh{grid-column:1/-1;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+  .qa .qh .qn{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--accent);font-weight:700}
+  .qa .qh h3{margin:0;font-size:17px;letter-spacing:-.015em}
+  .qa .qh .st{margin-left:auto}
+  .qa .col .cl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .qa .col p{font-size:14px}
+  .req{font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--tint);border:1px solid var(--rule);border-radius:5px;padding:8px 10px;word-break:break-all;line-height:1.55;margin:6px 0 8px}
+  .req b{color:var(--accent);font-weight:600}
+  .resp{font-family:var(--mono);font-size:11.5px;line-height:1.7;border-left:2px solid var(--rule);padding:4px 0 4px 12px;color:var(--body);overflow-wrap:anywhere}
+  .resp .k{color:var(--muted)}
+  .resp .v{color:var(--ink)}
+  .resp .err{color:var(--closed)}
+  .resp .ok{color:var(--ok)}
+  .verdict{margin-top:10px;font-size:13.5px;color:var(--body);line-height:1.5}
+  .verdict b{color:var(--ink)}
+  .facts{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:13.5px}
+  .facts dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:3px;white-space:nowrap}
+  .facts dd{color:var(--body)}
+  .readings{display:flex;align-items:flex-end;gap:10px;margin:22px 0 4px;flex-wrap:nowrap}
+  .readings .r{text-align:left}
+  .readings .r .v{font-size:18px;font-weight:750;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+  .readings .r .t{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:3px}
+  .readings .gap{flex:1;height:1px;border-top:1px dashed var(--faint);margin-bottom:22px;position:relative;min-width:34px}
+  .readings .gap::after{content:"not returned";position:absolute;left:50%;top:-16px;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--faint);white-space:nowrap}
+  .clock{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--cond);border:1px solid currentColor;border-radius:4px;padding:6px 10px;max-width:46em}
+  .clock.expired{color:var(--closed)}
+  .clock b{font-weight:700;color:inherit}
+
+  /* demo 2 */
+  .brief{border:1px solid var(--rule);border-radius:12px;padding:22px 26px;background:var(--panel);max-width:880px}
+  .brief .head{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:12px}
+  .brief .head .t{font-size:10.5px;font-family:var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .brief .head .d{font-size:11.5px;color:var(--muted);font-family:var(--mono)}
+  .brief h3{font-size:16.5px;letter-spacing:-.02em;margin:0 0 12px;line-height:1.35}
+  .mod{display:grid;grid-template-columns:150px 1fr;gap:6px 18px;padding:12px 0;border-top:1px solid var(--rule2);font-size:13.5px}
+  .mod dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+  .mod dt .st{display:flex;margin-top:6px}
+  .mod dd{color:var(--body);line-height:1.58}
+  .mod dd .how{display:block;margin-top:6px;font-size:12.5px;color:var(--muted)}
+  .band{max-width:720px;margin:10px 0 2px}
+  .band svg{width:100%;height:auto;display:block}
+
+  /* demo 3 planner */
+  .plan{display:grid;grid-template-columns:1.1fr .9fr;gap:0 30px;align-items:start}
+  .plan table{width:100%;border-collapse:collapse;font-size:13px}
+  .plan th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:left;padding:8px 8px 6px;border-bottom:1px solid var(--ink)}
+  .plan td{padding:7px 8px;border-bottom:1px solid var(--rule2);color:var(--body);vertical-align:middle}
+  .plan td.r,.plan th.r{text-align:right;font-variant-numeric:tabular-nums}
+  .plan input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;vertical-align:-2px;margin-right:8px}
+  .out{border:1px solid var(--rule);border-radius:12px;padding:18px 22px;background:var(--panel);position:sticky;top:20px}
+  .out .big{font-size:30px;font-weight:750;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
+  .out .l{font-size:12px;color:var(--muted)}
+  .out .row{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;margin-top:12px}
+  .out .row .v{font-size:20px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .out .meter{position:relative;height:10px;background:var(--rule);border-radius:5px;margin-top:12px;overflow:hidden}
+  .out .meter i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:5px}
+  .out .meter.over i{background:var(--closed)}
+  .out .formula{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:10px;line-height:1.6}
+  .cannot{margin-top:18px;border-top:1px solid var(--ink);padding-top:10px}
+  .cannot li{list-style:none;padding:8px 0;border-bottom:1px solid var(--rule2);font-size:13.5px;color:var(--body);display:grid;grid-template-columns:auto 1fr;gap:0 10px;align-items:baseline}
+  .cannot li b{color:var(--ink)}
+  table.elig{width:100%;border-collapse:collapse;font-size:13.5px}
+  table.elig th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:left;padding:9px 10px 7px;border-bottom:1px solid var(--ink);vertical-align:bottom}
+  table.elig td{padding:10px;border-bottom:1px solid var(--rule2);vertical-align:top;color:var(--body);line-height:1.5;font-size:13px}
+  table.elig .pass{color:var(--ok);font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+  table.elig .fail{color:var(--closed);font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+
+  /* reference */
+  .quotes{display:grid;grid-template-columns:1fr 1fr;gap:12px 26px;margin-top:6px}
+  .q{padding:12px 0 12px 14px;border-left:2px solid var(--rule)}
+  .q .ref{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--accent);font-weight:700;margin-bottom:5px}
+  .q blockquote{font-size:13.5px;color:var(--ink);line-height:1.58}
+  .q .so{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.5}
+  ul.plain{list-style:none;max-width:62em}
+  ul.plain li{padding:7px 0;border-bottom:1px solid var(--rule2);font-size:13.5px;color:var(--body);line-height:1.55}
+  ul.plain li b{color:var(--ink)}
+  .src a{word-break:break-all}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0 22px;margin:8px 0 4px}
+  .stat{padding:12px 0 10px;border-top:1px solid var(--rule)}
+  .stat .l{font-size:12px;color:var(--muted);line-height:1.4}
+  .stat .v{font-size:24px;font-weight:750;letter-spacing:-.03em;line-height:1.15;margin-top:5px;font-variant-numeric:tabular-nums}
+  .stat .d{font-size:11.5px;color:var(--muted);margin-top:3px;font-family:var(--mono)}
+  .vfoot{margin-top:40px;padding-top:12px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:12px;font-size:13px}
+
+  @media (max-width:1139px){
+    .toc{display:none}
+    main{padding-left:0}
+    .bar{display:block;position:sticky;top:0;z-index:8;background:var(--panel);border-bottom:1px solid var(--rule)}
+    .bar details{max-width:920px;margin:0 auto;padding:0 16px}
+    .bar summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:13.5px;font-weight:650}
+    .bar summary::-webkit-details-marker{display:none}
+    .bar summary .cur{color:var(--accent)}
+    .bar summary .hint{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.08em}
+    .bar .list{padding:0 0 10px;display:grid;gap:2px}
+    .bar .list a{display:flex;gap:8px;align-items:baseline;padding:7px 8px;border-radius:4px;font-size:13.5px;color:var(--body);text-decoration:none}
+    .bar .list a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+    .bar .list .g{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:10px 8px 2px}
+    .wrap{padding:26px 16px 70px}
+    .vh h1{font-size:24px}
+    .qa{grid-template-columns:1fr}
+    .plan{grid-template-columns:1fr}
+    .out{position:static;margin-top:16px}
+    .quotes{grid-template-columns:1fr}
+    .stats{grid-template-columns:1fr 1fr}
+    .mod{grid-template-columns:1fr}
+    .try li{grid-template-columns:34px 1fr}
+    .try a.go{grid-column:2}
+    figure.matrix{overflow-x:auto}
+    figure.matrix svg{min-width:860px}
+    .tw{overflow-x:auto}
+  }
+  @media (max-width:560px){.stats{grid-template-columns:1fr}}
+  @media print{.toc,.bar,.vfoot{display:none}main{padding-left:0}body{background:#fff}.wrap{max-width:none;padding:0}.qa,.brief,.q{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<nav class="toc" aria-label="Contents">
+  <div class="hd">
+    <div class="k">Access ledger</div>
+    <div class="t">What the public route to YouTube gives an independent monitor</div>
+    <div class="d">Three demonstrations built from real requests, October 12 to 13, 2026. Draft for review.</div>
+  </div>
+  <p class="tocgrp">Start</p>
+  <a href="#start" data-view="start"><span class="n">00</span><span>The finding<small>and the route matrix</small></span></a>
+  <p class="tocgrp">Demonstrations</p>
+  <a href="#demo1" data-view="demo1"><span class="n">01</span><span>Same video, two views<small>pick a video, ask the API four questions</small></span></a>
+  <a href="#demo2" data-view="demo2"><span class="n">02</span><span>One story, route by route<small>a filing to EDMO, with the route each module needed</small></span></a>
+  <a href="#demo3" data-view="demo3"><span class="n">03</span><span>Plan the Irish pilot<small>choose outlets and a team, see cost and what is missing</small></span></a>
+  <p class="tocgrp">Reference</p>
+  <a href="#terms" data-view="terms"><span class="n">04</span><span>The terms<small>six clauses and three eligibility texts, verbatim</small></span></a>
+  <a href="#method" data-view="method"><span class="n">05</span><span>Method and sources<small>instrument, one night in numbers, limits, scripts</small></span></a>
+  <div class="foot">Measured Oct 12 to 13, 2026<br>Columbia SIPA · GPPN 2027 proposal "Seeing the Feed"</div>
+</nav>
+
+<div class="bar"><details id="navdetails">
+  <summary><span>Contents · <span class="cur" id="curname">The finding</span></span><span class="hint">OPEN</span></summary>
+  <div class="list" id="narrowlist"></div>
+</details></div>
+
+<main>
+<div class="wrap">
+
+<!-- ================= 00 start ================= -->
+<section class="view" id="start" data-title="The finding">
+  <div class="vh">
+    <div class="k"><span>00 · Start</span><span>Four items, three routes, one night</span></div>
+    <h1>What the public route to YouTube gives an independent monitor</h1>
+    <div class="dek">Step 1 of the proposal asks the Commission to set a minimum data specification for video platforms: video metadata, transcripts where published, view counts over time, public comments. The pages here test that specification against YouTube with real requests, so that the gap the proposal describes can be seen rather than asserted.</div>
+  </div>
+  <p class="finding">Through the route YouTube sanctions, the Data API, a researcher gets <b>one item in full</b> (metadata), <b>one up to a quota ceiling</b> (comments), <b>one only as a listing without the text</b> (transcripts), and <b>one not at all</b> (view counts over time). The developer terms then forbid keeping the counts that are returned for more than 30 days. What every viewer sees on a watch page and what a researcher may take from it are two different sets.</p>
+
+  <h2>Three things to try</h2>
+  <ul class="try">
+    <li><span class="n">01</span><span class="t">Same video, two views<small>Pick one of eight videos from the night of October 12. The API's real answers to four questions sit next to what the watch page shows anyone, request by request.</small></span><a class="go" href="#demo1">Open</a></li>
+    <li><span class="n">02</span><span class="t">One story, route by route<small>The research Step 2 would file with EDMO, built from one story that night, with each module marked by the route it needed and whether the sanctioned route provides it.</small></span><a class="go" href="#demo2">Open</a></li>
+    <li><span class="n">03</span><span class="t">Plan the Irish pilot<small>Choose outlets and a team for the Step 3 pilot. The planner uses measured daily volumes to show the quota it costs, and what it cannot obtain at any size.</small></span><a class="go" href="#demo3">Open</a></li>
+  </ul>
+
+  <h2>The route matrix</h2>
+  <p class="note" style="margin:0 0 8px">Each row opens the matching question in demonstration 01.</p>
+  <figure class="matrix">
+    <svg viewBox="0 0 960 352" role="img" aria-labelledby="mx-title" xmlns="http://www.w3.org/2000/svg">
+      <title id="mx-title">Three ways to read the same watch page</title>
+      <defs><clipPath id="halfclip"><rect x="0" y="0" width="7" height="14"/></clipPath></defs>
+      <g font-family="ui-monospace, SF Mono, Menlo, monospace" font-size="10.5" fill="#5c6570" letter-spacing="1.2">
+        <text x="0" y="14">ITEM</text><text x="300" y="14">ON THE WATCH PAGE</text><text x="520" y="14">THROUGH THE DATA API</text><text x="740" y="14">BY SCRIPT, OUTSIDE THE API</text>
+      </g>
+      <line x1="0" y1="24" x2="960" y2="24" stroke="#0e1116" stroke-width="1" class="inkline"/>
+      <rect class="rowhit" data-go="demo1-q1" x="0" y="26" width="960" height="58"><title>Open: what is this video</title></rect>
+      <rect class="rowhit" data-go="demo1-q2" x="0" y="86" width="960" height="50"><title>Open: what does it say</title></rect>
+      <rect class="rowhit" data-go="demo1-q3" x="0" y="138" width="960" height="50"><title>Open: how did it spread</title></rect>
+      <rect class="rowhit" data-go="demo1-q4" x="0" y="190" width="960" height="50"><title>Open: who reacted</title></rect>
+      <rect class="rowhit" data-go="demo3-cannot" x="0" y="252" width="960" height="98"><title>Open: beyond the specification</title></rect>
+      <g pointer-events="none">
+      <g font-family="Pretendard Variable, Pretendard, -apple-system, sans-serif" font-size="13.5" fill="#0e1116" font-weight="650" class="inktext">
+        <text x="0" y="52">Video metadata</text><text x="0" y="104">Transcripts where published</text><text x="0" y="156">View counts over time</text><text x="0" y="208">Public comments</text><text x="0" y="276">Community posts</text><text x="0" y="324">Exposure and recommendation</text>
+      </g>
+      <g font-family="Pretendard Variable, Pretendard, -apple-system, sans-serif" font-size="11.5" fill="#5c6570">
+        <text x="0" y="69">title, description, tags, time, duration, counts</text><text x="0" y="121">uploader captions and platform auto captions</text><text x="0" y="173">a series of readings per video, not one</text><text x="0" y="225">threads and replies, newest or top</text><text x="0" y="293">beyond the specification</text><text x="0" y="341">why a video was shown, impressions, watch time</text>
+      </g>
+      <g stroke="#e6e8ee" stroke-width="1"><line x1="0" y1="84" x2="960" y2="84"/><line x1="0" y1="136" x2="960" y2="136"/><line x1="0" y1="188" x2="960" y2="188"/><line x1="0" y1="240" x2="960" y2="240"/><line x1="0" y1="308" x2="960" y2="308"/></g>
+      <line x1="0" y1="250" x2="960" y2="250" stroke="#0e1116" stroke-width="0.6" class="inkline"/>
+      <text x="300" y="262" font-family="ui-monospace, SF Mono, Menlo, monospace" font-size="9.5" fill="#98a0ad" letter-spacing="1.4">BEYOND THE SPECIFICATION</text>
+      <g font-family="Pretendard Variable, Pretendard, -apple-system, sans-serif" font-size="11.5" fill="#2a303a" class="bodytext">
+        <circle cx="307" cy="56" r="6" fill="#0e1116" class="inkfill"/><text x="320" y="60">shown on every watch page</text>
+        <circle cx="527" cy="56" r="6" fill="#0e1116" class="inkfill"/><text x="540" y="56"><tspan x="540" dy="0">returned in full, 1 unit per 50;</tspan><tspan x="540" dy="14">search capped at 100 calls a day</tspan></text>
+        <circle cx="747" cy="56" r="6" fill="#0e1116" class="inkfill"/><text x="760" y="60">the same fields</text>
+        <circle cx="307" cy="108" r="6" fill="#0e1116" class="inkfill"/><text x="320" y="112">the player plays both kinds</text>
+        <circle cx="527" cy="108" r="6" fill="none" stroke="#be123c" stroke-width="2"/><text x="540" y="108"><tspan x="540" dy="0">tracks are listed; the text is</tspan><tspan x="540" dy="14">refused: 401, edit permission</tspan></text>
+        <circle cx="747" cy="108" r="6" fill="#0e1116" class="inkfill"/><text x="760" y="108"><tspan x="760" dy="0">readable from the player's track;</tspan><tspan x="760" dy="14">the terms forbid this route</tspan></text>
+        <circle cx="307" cy="160" r="6" fill="none" stroke="#be123c" stroke-width="2"/><text x="320" y="164">the current count only, no history</text>
+        <g transform="translate(520,153)"><circle cx="7" cy="7" r="6" fill="none" stroke="#b45309" stroke-width="2"/><circle cx="7" cy="7" r="6" fill="#b45309" clip-path="url(#halfclip)"/></g><text x="540" y="160"><tspan x="540" dy="0">one reading per call; stored</tspan><tspan x="540" dy="14">readings expire at 30 days</tspan></text>
+        <g transform="translate(740,153)"><circle cx="7" cy="7" r="6" fill="none" stroke="#b45309" stroke-width="2"/><circle cx="7" cy="7" r="6" fill="#b45309" clip-path="url(#halfclip)"/></g><text x="760" y="164">the same single reading</text>
+        <circle cx="307" cy="212" r="6" fill="#0e1116" class="inkfill"/><text x="320" y="216">shown under each video</text>
+        <g transform="translate(520,205)"><circle cx="7" cy="7" r="6" fill="none" stroke="#b45309" stroke-width="2"/><circle cx="7" cy="7" r="6" fill="#b45309" clip-path="url(#halfclip)"/></g><text x="540" y="212"><tspan x="540" dy="0">1 unit per 100 threads; no total,</tspan><tspan x="540" dy="14">no oldest-first; the quota binds</tspan></text>
+        <circle cx="747" cy="212" r="6" fill="#0e1116" class="inkfill"/><text x="760" y="216">the same threads; the terms forbid</text>
+        <circle cx="307" cy="280" r="6" fill="#0e1116" class="inkfill"/><text x="320" y="284">shown on the channel page</text>
+        <line x1="521" y1="280" x2="533" y2="280" stroke="#98a0ad" stroke-width="2"/><text x="540" y="284">no endpoint</text>
+        <circle cx="747" cy="280" r="6" fill="#0e1116" class="inkfill"/><text x="760" y="284">readable; the terms forbid</text>
+        <line x1="301" y1="328" x2="313" y2="328" stroke="#98a0ad" stroke-width="2"/><text x="320" y="332">not shown to anyone</text>
+        <line x1="521" y1="328" x2="533" y2="328" stroke="#98a0ad" stroke-width="2"/><text x="540" y="332">not in the public API</text>
+        <line x1="741" y1="328" x2="753" y2="328" stroke="#98a0ad" stroke-width="2"/><text x="760" y="332">only Art. 40(4), vetted access</text>
+      </g>
+      </g>
+    </svg>
+    <figcaption>The first route is a person with a browser. The second is the route the platform sanctions. The third is what a program can read from the same page, which the Terms of Service prohibit without written permission.</figcaption>
+    <div class="legend"><span><i class="mark full"></i>available</span><span><i class="mark half"></i>available with a limit</span><span><i class="mark ring"></i>closed on this route</span><span><i class="mark dash"></i>does not exist on this route</span></div>
+  </figure>
+  <div class="meta"><span>Measured <b>Oct 12 to 13, 2026</b></span><span>Platform <b>YouTube</b></span><span>Instrument <b>the nightly pipeline described in the proposal, one Data API key on the default quota</b></span><span>Terms <b>as read on Oct 13, 2026</b></span></div>
+  <div class="vfoot"><span></span><a href="#demo1">Next: 01 Same video, two views</a></div>
+</section>
+
+<!-- ================= 01 demo 1 ================= -->
+<section class="view" id="demo1" data-title="Same video, two views" hidden>
+  <div class="vh">
+    <div class="k"><span>01 · Demonstration</span><span>Eight real videos, four questions each</span></div>
+    <h1>Same video, two views</h1>
+    <div class="dek">Pick a video. The left column is what its watch page shows any viewer; the right column is what the Data API returned for it through the sanctioned route, with each request as it was sent (key removed) and the response as it came back. Recorded October 13, 2026, 22:39 UTC; 466 quota units for all eight.</div>
+  </div>
+  <div class="seg" id="vidpick" role="group" aria-label="Choose a video"></div>
+  <div id="vidhead" style="margin:0 0 6px"></div>
+
+  <div class="qa" id="demo1-q1">
+    <div class="qh"><span class="qn">Q1</span><h3>What is this video?</h3><span class="st ok"><i></i>returned in full</span></div>
+    <div class="col"><div class="cl"><i class="mark full"></i>On the watch page</div><dl class="facts" id="q1-page"></dl></div>
+    <div class="col"><div class="cl"><i class="mark full"></i>Through the Data API</div><div class="req" id="q1-req"></div><div class="resp" id="q1-resp"></div><div class="verdict">Every field the page shows, at 1 unit per 50 videos. Finding the channel in the first place is the cost the API does not cover: <code>search.list</code> is capped at 100 calls a day.</div></div>
+  </div>
+
+  <div class="qa" id="demo1-q2">
+    <div class="qh"><span class="qn">Q2</span><h3>What does it say?</h3><span class="st closed"><i></i>listed, text refused</span></div>
+    <div class="col"><div class="cl"><i class="mark full"></i>On the watch page</div><p>The player's captions menu lists the tracks that exist for this video, uploader-made and auto-generated, and plays either one. <a id="q2-open" href="#" target="_blank" rel="noopener">Open the video on YouTube</a> to see the menu.</p><p class="note">"Transcripts where published" in the specification covers both kinds: the uploader's track is published by the outlet, the auto track by the platform, and both are public on the page.</p></div>
+    <div class="col"><div class="cl"><i class="mark ring"></i>Through the Data API</div><div class="req" id="q2-req"></div><div class="resp" id="q2-resp"></div><div class="req" id="q2-req2"></div><div class="resp" id="q2-resp2"></div><div class="verdict" id="q2-verdict"></div></div>
+  </div>
+
+  <div class="qa" id="demo1-q3">
+    <div class="qh"><span class="qn">Q3</span><h3>How did it spread?</h3><span class="st none"><i></i>one reading per call</span></div>
+    <div class="col"><div class="cl"><i class="mark ring"></i>On the watch page</div><p>The current view count, and nothing earlier. No history is shown to anyone.</p><p class="note">The spread of a story is a curve. The page shows one point on it.</p></div>
+    <div class="col"><div class="cl"><i class="mark half"></i>Through the Data API</div><div class="req" id="q3-req"></div><div class="readings" id="q3-readings"></div><div class="verdict">Each reading is <code>statistics.viewCount</code> at the moment of the call. There is no history endpoint for a video you do not own; a series exists only if the researcher keeps polling, and nothing between two readings can be recovered.</div><div class="clock" id="q3-clock"></div><p class="note">Developer Policies III.E.4.b: "an API Client must not store statistics retrieved as Non-Authorized Data for more than 30 days." The clock counts from the first reading of this video.</p></div>
+  </div>
+
+  <div class="qa" id="demo1-q4">
+    <div class="qh"><span class="qn">Q4</span><h3>Who reacted?</h3><span class="st cond" id="q4-chip"><i></i>within quota</span></div>
+    <div class="col"><div class="cl"><i class="mark full"></i>On the watch page</div><p>Comments and replies, newest or top, as many as a reader scrolls through.</p><p class="note">On the night of October 12 the pipeline collected 205,613 comments on 1,049 videos for 2,338 units, 23% of the day's quota, for six stories.</p></div>
+    <div class="col"><div class="cl"><i class="mark half"></i>Through the Data API</div><div class="req" id="q4-req"></div><div class="resp" id="q4-resp"></div><div class="verdict" id="q4-verdict"></div></div>
+  </div>
+  <p class="note">The responses above are stored as returned, with comment text and author names removed; the file is <a href="data/api_record.json">api_record.json</a>. Nothing on this page was obtained outside the Data API.</p>
+  <div class="vfoot"><a href="#start">Back: 00 The finding</a><a href="#demo2">Next: 02 One story, route by route</a></div>
+</section>
+
+<!-- ================= 02 demo 2 ================= -->
+<section class="view" id="demo2" data-title="One story, route by route" hidden>
+  <div class="vh">
+    <div class="k"><span>02 · Demonstration</span><span>Step 2: the research a platform's assessment would answer</span></div>
+    <h1>One story, route by route</h1>
+    <div class="dek">Step 2 asks the Commission to require each platform's annual civic-discourse assessment to respond to independent cross-outlet research filed through EDMO. Below is one such filing, built from a story collected on October 12, with each module marked by the route it needed and whether the sanctioned route provides it.</div>
+  </div>
+  <div class="legend" style="margin:0 0 14px"><span class="st ok"><i></i>via the Data API</span><span class="st cond"><i></i>via the API, single readings only</span><span class="st closed"><i></i>not returned by the API</span></div>
+  <div class="brief">
+    <div class="head"><span class="t">Cross-outlet brief</span><span class="d">Collection window Oct 12 to 13, 2026 · Public data only · Source card: <a href="https://prism-news.org/en/trend_2026-10-12_backlash-grows-over-trump-s-russian-diesel-d">prism-news.org</a></span></div>
+    <h3>Bipartisan backlash grows over Trump's Russian diesel deal as Zelenskyy says Russia violated the energy ceasefire</h3>
+    <dl class="mod"><dt>Question</dt><dd>Which framings did the feed repeat, where did the story enter the news-video ecosystem, and did identical comments appear across outlets at once.</dd></dl>
+    <dl class="mod"><dt>Data<span class="st ok"><i></i>via API</span></dt><dd><b>208 items from 83 outlets</b>: 198 YouTube videos and 10 podcast episodes, 9,774,739 views at first reading. <span class="how">Video metadata and comments through <code>videos.list</code> and <code>commentThreads.list</code>; podcast episodes through RSS.</span></dd></dl>
+    <dl class="mod"><dt>Origin<span class="st ok"><i></i>via API</span></dt><dd>Earliest item in the collected window: Bloomberg Television, October 12. <span class="how">Publish timestamps are returned for every video.</span></dd></dl>
+    <dl class="mod"><dt>Framing<span class="st cond"><i></i>partly</span></dt><dd>Three outlets selected for maximal dispersion among the 198 videos: <b>BBC News</b> led with Zelenskyy's statement that Russia hit a power plant after the ceasefire was declared; <b>The Damage Report</b> folded the deal into a multi-topic episode in which Trump "angers republicans" with a "fake ceasefire"; <b>Forbes Breaking News</b> put Trump's response to Republican criticism first. <span class="how">The quoted framings are titles and descriptions, which the API returns. The transcripts that would let the comparison go past headlines are listed by the API but not returned (demonstration 01, Q2).</span></dd></dl>
+    <dl class="mod"><dt>Spread<span class="st cond"><i></i>single readings</span></dt><dd>The two largest channels, MeidasTouch and CNN, held about 31% of all views at first reading. The peak item was a MeidasTouch video at 1,008,850 views; by the second reading, 16.6 hours later, the story's YouTube videos had grown from 9.77M to 12.68M views (+29.7%).
+      <div class="band" id="band"></div>
+      <span class="how">Each reading is a separate call. The curve between readings, where the spread happens, is not returned, and under III.E.4.b readings must be deleted or refreshed after 30 days.</span></dd></dl>
+    <dl class="mod"><dt>Reception<span class="st ok"><i></i>via API, within quota</span></dt><dd>Comment sample of 198 videos, 34,685 comments. One account posted the same comment ("Why isn't Putin speaking for himself instead of letting Trump speak on his behalf?") on <b>6 videos across 5 channels within six minutes</b>, with at most 11 likes on any copy. The most-liked comments in the sample sat on CNN (1,086 likes) and MeidasTouch (876 and 791). <span class="how">Returned at 1 unit per page of 100 threads. There is no oldest-first order, so reaching a video's first comments means paging to the end.</span></dd></dl>
+    <dl class="mod"><dt>Limits</dt><dd>About 31% of views concentrate in two channels; comment opinion reflects a sample; developments after the window are out of scope; the single-account pattern is one account, not a campaign, and is reported as observed.</dd></dl>
+    <dl class="mod"><dt>What the assessment would answer</dt><dd>Whether the platform's own systems saw the same comment land on five outlets' videos within minutes, and what, if anything, that triggered. Under Step 2 the annual civic-discourse assessment responds to the filing; today there is no obligation to.</dd></dl>
+  </div>
+  <p class="note">Of the four modules that carry evidence, two are fully supported by the sanctioned route, one is supported at the level of headlines, and one rests on readings the researcher must take and then discard. That is the shape of independent research under today's access, and the reason Step 1 precedes Step 2.</p>
+  <div class="vfoot"><a href="#demo1">Back: 01 Same video, two views</a><a href="#demo3">Next: 03 Plan the Irish pilot</a></div>
+</section>
+
+<!-- ================= 03 demo 3 ================= -->
+<section class="view" id="demo3" data-title="Plan the Irish pilot" hidden>
+  <div class="vh">
+    <div class="k"><span>03 · Demonstration</span><span>Step 3: twelve outlets measured through the same route on Oct 13, 21:19 UTC</span></div>
+    <h1>Plan the Irish pilot</h1>
+    <div class="dek">Step 3 proposes a six-month pilot on Irish news channels with Coimisiún na Meán. Tick the outlets to include. The daily volumes and comment counts are what the Data API returned for the last 24 hours; the quota arithmetic uses the API's published costs.</div>
+  </div>
+  <div class="plan">
+    <div>
+      <div class="tw">
+      <table id="plantable">
+        <thead><tr><th>Outlet (YouTube channel)</th><th class="r">Subscribers</th><th class="r">Videos / 24 h</th><th class="r">Comments / 24 h</th><th class="r">Comment pages</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      </div>
+      <p class="note">Found by handle: 8 outlets. Found only through <code>search.list</code> (100 calls a day): The Journal, Irish Independent, VideoParliament Ireland, Irish Mirror. Six look-alike channels carrying an outlet's name (2, 2, 256, 0, 0 and 39 subscribers) were excluded. Comments were disabled on 8 of the 85 videos.</p>
+      <h3 id="demo3-cannot">What the pilot cannot obtain at any size</h3>
+      <ul class="cannot">
+        <li><span class="st closed"><i></i>transcripts</span><span><b>The text of any caption track.</b> <code>captions.list</code> names the tracks at 50 units a video; <code>captions.download</code> answered 401 ("API keys are not supported by this API") and requires permission to edit the video.</span></li>
+        <li><span class="st none"><i></i>view history</span><span><b>Any reading older than the call.</b> A six-month series exists only if the pilot polls every video it follows, and III.E.4.b requires each reading to be deleted or refreshed within 30 days.</span></li>
+        <li><span class="st cond"><i></i>comments</span><span><b>The first comments on a video, cheaply.</b> No oldest-first order and no total; the pilot pages to the end to see how a thread began.</span></li>
+      </ul>
+    </div>
+    <div class="out">
+      <div class="l">Units a day for the selected outlets</div>
+      <div class="big" id="p-units">0</div>
+      <div class="meter" id="p-meter"><i style="width:0"></i></div>
+      <div class="row">
+        <div><div class="v" id="p-pct">0%</div><div class="l">of the default 10,000</div></div>
+        <div><div class="v" id="p-6m">0</div><div class="l">units over six months (183 days)</div></div>
+        <div><div class="v" id="p-vid">0</div><div class="l">videos a day</div></div>
+        <div><div class="v" id="p-com">0</div><div class="l">comments a day</div></div>
+      </div>
+      <div class="formula" id="p-formula"></div>
+      <p class="note" style="margin-top:12px">For comparison, the US run on October 12: 485 channels, 5,889 videos, 1,028 units for metadata and 2,338 for the comments of six stories. For Ireland, quota is not the constraint; the three items above are.</p>
+    </div>
+  </div>
+
+  <h2>Who can run it</h2>
+  <p>Art. 40(12) names the researchers who may ask. Two Google pages set the conditions for the routes that exist today. Pick a team and see which doors open.</p>
+  <div class="seg" id="teamseg" role="group" aria-label="Team type">
+    <button data-team="us-uni" class="on">University team in New York (ours)</button>
+    <button data-team="ie-uni">University team in Dublin</button>
+    <button data-team="ie-npo">Not-for-profit newsroom in Dublin</button>
+    <button data-team="us-npo">Not-for-profit in the United States</button>
+  </div>
+  <div class="tw">
+  <table class="elig">
+    <thead><tr><th style="width:26%">Text</th><th style="width:12%">Result</th><th>Why, in the text's own words</th><th style="width:24%">What the route returns</th></tr></thead>
+    <tbody>
+      <tr><td><b>Art. 40(12) DSA</b><br><span class="note">the legal entitlement</span></td><td id="e1-r"></td><td id="e1-w"></td><td>Publicly accessible data, "without undue delay", "including, where technically possible, ... real-time data"</td></tr>
+      <tr><td><b>Google's DSA researcher programme page</b><br><span class="note">transparency.google</span></td><td id="e2-r"></td><td id="e2-w"></td><td>Access to "data from Google Maps, Google Play, Google Search, Google Shopping and YouTube"; the page does not list fields</td></tr>
+      <tr><td><b>YouTube Researcher Program</b><br><span class="note">research.youtube</span></td><td id="e3-r"></td><td id="e3-w"></td><td>"scaled, expanded access to global video metadata across the entire public YouTube corpus via our Data API": metadata, so no transcripts and no view history</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note" id="eligsum"></p>
+  <div class="vfoot"><a href="#demo2">Back: 02 One story, route by route</a><a href="#terms">Next: 04 The terms</a></div>
+</section>
+
+<!-- ================= 04 terms ================= -->
+<section class="view" id="terms" data-title="The terms" hidden>
+  <div class="vh">
+    <div class="k"><span>04 · Reference</span><span>Verbatim, with section numbers, as read on Oct 13, 2026</span></div>
+    <h1>The terms that bind the researcher</h1>
+    <div class="dek">Six passages from YouTube's Terms of Service, the API Developer Policies and the Data API documentation, and the three texts that say who may ask.</div>
+  </div>
+  <div class="quotes" style="margin-top:20px">
+    <div class="q"><div class="ref">YouTube Terms of Service, Permissions and Restrictions, item 3</div><blockquote>"access the Service using any automated means (such as robots, botnets or scrapers) except (a) in the case of public search engines, in accordance with YouTube's robots.txt file; or (b) with YouTube's prior written permission"</blockquote><div class="so">The clause that puts transcripts, community posts and any collection outside the API off limits. The X decision found that a contractual ban of this kind cannot be applied to researchers covered by Art. 40(12). Exception (b) is the door Step 1 asks the Commission to open as a class.</div></div>
+    <div class="q"><div class="ref">API Developer Policies III.E.4.b</div><blockquote>"To be clear, an API Client must not store statistics retrieved as Non-Authorized Data for more than 30 days."</blockquote><div class="so">View, like and comment counts for videos the researcher does not own are non-authorized data. A series kept for six months exceeds this ceiling as written.</div></div>
+    <div class="q"><div class="ref">API Developer Policies III.E.4.d</div><blockquote>"API Clients may temporarily store limited amounts of Non-Authorized Data for as long as is necessary for the purposes of the API Client but not longer than 30 calendar days."</blockquote><div class="so">The same ceiling for every other field taken through the API, including titles and descriptions, unless the data is refreshed or deleted every 30 days.</div></div>
+    <div class="q"><div class="ref">API Developer Policies III.E.2.b</div><blockquote>"Do not aggregate API Data or otherwise use API Data or YouTube API Services to gain insights into YouTube's usage, revenue, or any other aspects of YouTube's business."</blockquote><div class="so">Cross-outlet research measures how the platform is used. Whether that falls under this clause is decided by the platform, which is the uncertainty Step 1 asks the Commission to remove.</div></div>
+    <div class="q"><div class="ref">API Developer Policies III.E.6 and III.I.14</div><blockquote>"You and your API Clients must not, and must not encourage, enable, or require others to, directly or indirectly, scrape YouTube Applications or Google Applications, or obtain scraped YouTube data or content." / "use any technology other than YouTube API Services to access or retrieve API Data, including to access any portion of any YouTube audiovisual content"</blockquote><div class="so">Together with item 3 of the Terms of Service, these close the only route to the text of a caption track for a video one does not own.</div></div>
+    <div class="q"><div class="ref">Data API quota, Getting started</div><blockquote>"a default quota allocation of 100 search.list calls, 100 videos.insert calls, and 10,000 units per day combined for all other endpoints"; "All API requests, including invalid requests, incur at least a one-point quota cost." More is available through "the Quota extension request form for YouTube API Services."</blockquote><div class="so">One night of the US monitoring used 3,366 units for metadata and the comments of six stories. Covering every comment on a day's 5,889 videos would not fit.</div></div>
+  </div>
+  <h2>Who may ask, in three texts</h2>
+  <ul class="plain">
+    <li><b>Art. 40(12) DSA.</b> Access for "researchers, including those affiliated to not for profit bodies, organisations and associations, who comply with the conditions set out in paragraph 8, points (b), (c), (d) and (e)". Those points are independence from commercial interests, disclosure of funding, data security, and proportionality. No academic affiliation test, no residence test.</li>
+    <li><b>Google's DSA researcher programme page</b> (transparency.google, read Oct 13, 2026). Lists the Art. 40(8) conditions and "affiliated with not for profit bodies, organizations and associations", then adds: "This programme is currently only available for researchers affiliated with an EU-based institution" and "Individual platform teams may have additional eligibility requirements beyond those listed here." Step 1 names the residence test as one the standard should remove; the X decision treated the bearing of the research on risks in the Union, not the researcher's seat, as the test.</li>
+    <li><b>YouTube Researcher Program</b> (research.youtube, read Oct 13, 2026). Applicants must be "affiliated with an accredited, higher-education institution that can grant degrees"; the program is open in 60 countries, Ireland and 25 of the 27 EU member states among them (Croatia and Slovenia are not listed); "researchers will provide YouTube with free access to and use of all research based upon YouTube data".</li>
+  </ul>
+  <div class="vfoot"><a href="#demo3">Back: 03 Plan the Irish pilot</a><a href="#method">Next: 05 Method and sources</a></div>
+</section>
+
+<!-- ================= 05 method ================= -->
+<section class="view" id="method" data-title="Method and sources" hidden>
+  <div class="vh">
+    <div class="k"><span>05 · Reference</span></div>
+    <h1>Method and sources</h1>
+    <div class="dek">What was measured, with what, what the measurements cannot say, and where every number comes from.</div>
+  </div>
+  <h2>The instrument, and one night in numbers</h2>
+  <p>The nightly pipeline described in section 2 of the proposal: a locked universe of 485 US news channels, a Data API fetch, and comment collection for the selected stories. One Data API key on the default quota. The US figures are from the news day of October 12, 2026 (window 04:00 UTC Oct 12 to 04:00 UTC Oct 13); the six selected stories are the ones published on October 13.</p>
+  <div class="stats" style="margin-top:14px">
+    <div class="stat"><div class="l">Channels in the universe, channels that published</div><div class="v">485 / 398</div><div class="d">US net, locked June 28</div></div>
+    <div class="stat"><div class="l">Videos fetched in the 24-hour window</div><div class="v">5,889</div><div class="d">1,028 units, 10.3% of quota</div></div>
+    <div class="stat"><div class="l">Comments the API counted across those videos</div><div class="v">553,191</div><div class="d">on 3,965 videos (66%)</div></div>
+    <div class="stat"><div class="l">Comments collected for the six selected stories</div><div class="v">205,613</div><div class="d">1,049 videos, 2,338 units</div></div>
+  </div>
+  <p class="note">The night's discover count (5,983 items from 426 sources) includes podcast episodes gathered through RSS; the YouTube figures here exclude them. Units are counted locally as the number of calls made. Two readings of the 586 YouTube videos behind the six stories, 16.6 hours apart, moved from 35.3M to 52.5M views (+48.8%); per video the median change was +29.7% and 141 videos at least doubled.</p>
+
+  <h2>Limits</h2>
+  <ul class="plain">
+    <li><b>One platform, two days.</b> YouTube only. X, Meta and TikTok are not measured here.</li>
+    <li><b>Demonstration 01 is eight videos.</b> The top video of each of the six October 12 stories and the two most-viewed Irish videos in the probe. The captions.download refusal was recorded on one track; the documentation states the same requirement for every video.</li>
+    <li><b>View growth is one interval.</b> Readings 16.6 hours apart show that a series can only be built by polling; they say nothing about the shape between them.</li>
+    <li><b>Quota is counted by the client.</b> The Google Cloud console was not consulted.</li>
+    <li><b>Terms are quoted, not interpreted.</b> Whether cross-outlet research falls under III.E.2.b, and whether the X decision's reasoning transfers to YouTube, are questions for the Commission and the courts; the proposal asks for the first and assumes the second.</li>
+    <li><b>Estimates are marked.</b> The planner's outputs are arithmetic on measured volumes and published costs; the measured US fetch cost 1,028 units where the same arithmetic gives 613, because high-volume channels need several playlist pages. Read planner outputs as a floor.</li>
+  </ul>
+
+  <h2>Scripts and outputs</h2>
+  <ul class="plain">
+    <li><a href="record_api_views.py">record_api_views.py</a> produced <a href="data/api_record.json">api_record.json</a> (demonstration 01; comment text and author names removed).</li>
+    <li><a href="probe_ie_channels.py">probe_ie_channels.py</a> and <a href="resolve_ie_search.py">resolve_ie_search.py</a> produced <a href="data/ie_probe.json">ie_probe.json</a> and <a href="data/ie_search_resolved.json">ie_search_resolved.json</a> (demonstration 03).</li>
+    <li><a href="poll_views.py">poll_views.py</a> took the second reading of 586 videos; <a href="data/view_snapshots_aggregate.json">view_snapshots_aggregate.json</a> holds the per-story totals and the growth distribution.</li>
+    <li>The nightly fetch and comment collection are pipeline code in the team's repository (07_phase2a_24h_fetch.py, collect_comments.py).</li>
+  </ul>
+  <h2>Texts quoted</h2>
+  <ul class="plain src">
+    <li>Regulation (EU) 2022/2065, Art. 40: <a href="https://eur-lex.europa.eu/eli/reg/2022/2065/oj">eur-lex.europa.eu/eli/reg/2022/2065/oj</a></li>
+    <li>YouTube Data API, Getting started (quota): <a href="https://developers.google.com/youtube/v3/getting-started">developers.google.com/youtube/v3/getting-started</a> · Quota costs: <a href="https://developers.google.com/youtube/v3/determine_quota_cost">developers.google.com/youtube/v3/determine_quota_cost</a></li>
+    <li>YouTube API Services, Developer Policies: <a href="https://developers.google.com/youtube/terms/developer-policies">developers.google.com/youtube/terms/developer-policies</a></li>
+    <li>captions.download reference: <a href="https://developers.google.com/youtube/v3/docs/captions/download">developers.google.com/youtube/v3/docs/captions/download</a></li>
+    <li>YouTube Terms of Service: <a href="https://www.youtube.com/t/terms">youtube.com/t/terms</a></li>
+    <li>YouTube Researcher Program: <a href="https://research.youtube/how-it-works/">research.youtube/how-it-works</a> · Policies: <a href="https://research.youtube/policies/">research.youtube/policies</a></li>
+    <li>Google, Researcher engagement (DSA programme): <a href="https://transparency.google/intl/en/researcher-engagement">transparency.google/intl/en/researcher-engagement</a></li>
+    <li>European Commission, roundtable on data access for vetted researchers (May 19, 2026): <a href="https://digital-strategy.ec.europa.eu/en/news/commission-holds-roundtable-data-access-vetted-researchers">digital-strategy.ec.europa.eu</a></li>
+    <li>The team's method, as published: <a href="https://prism-news.org/en/how-we-work">prism-news.org/en/how-we-work</a> · The story in demonstration 02: <a href="https://prism-news.org/en/trend_2026-10-12_backlash-grows-over-trump-s-russian-diesel-d">prism-news.org/en/trend_2026-10-12_backlash-grows-over-trump-s-russian-diesel-d</a></li>
+  </ul>
+  <div class="vfoot"><a href="#terms">Back: 04 The terms</a><a href="#start">Start again: 00 The finding</a></div>
+</section>
+
+</div>
+</main>
+
+<script>
+(function () {
+  function fmt(n){ return (n===null||n===undefined||n==="") ? "" : Number(n).toLocaleString("en-US"); }
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function dstr(iso){ var d=new Date(iso); return d.toISOString().slice(0,16).replace("T"," ")+" UTC"; }
+  function dayOnly(iso){ var d=new Date(iso); return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric",timeZone:"UTC"}); }
+
+  // ---------- demo 1 data (recorded Oct 13, 2026, 22:39 UTC; from data/api_record.json) ----------
+  var T0US="2026-10-13T04:43:00+00:00", T1US="2026-10-13T21:21:17.545168+00:00", T0IE="2026-10-13T21:19:49.447220+00:00", TREC="2026-10-13T22:39:46.818397+00:00";
+  var VIDS = [{"id": "mMok2XA6Dmk", "set": "US", "ch": "MeidasTouch", "story": "Russian diesel deal", "title": "🚨All HELL BREAKS LOOSE as Zelensky Hits THE MOTHERLODE…", "pub": "2026-10-12T12:30:06Z", "dur": "PT22M36S", "likes": "44,938", "com": "5,374", "desc": "MeidasTouch host Ben Meiselas reports on Ukraine's strikes on three Russian Yandex data centers as Trump faces backlash over his diesel deal with Russia and shi…", "tags": ["meidastouch", "meidas touch", "politics", "political videos", "political advertising", "breaking news"], "lang": "en-US", "flag": "false", "tracks": [["en", "asr"]], "reads": [["2026-10-13T04:43:00+00:00", 1008850], ["2026-10-13T21:21:17.545168+00:00", 1113203], ["2026-10-13T22:39:46.818397+00:00", 1117497]], "comments": {"status": 200, "n": 5, "next": true, "total": 5, "newest": "2026-10-12T16:38:38Z"}},
+    {"id": "kDtOdVpppA8", "set": "US", "ch": "Fox News", "story": "Ilhan Omar raid", "title": "Ilhan Omar SLAMS Trump after federal raid: 'I WILL NOT BE SILENCED'", "pub": "2026-10-12T17:24:04Z", "dur": "PT3M12S", "likes": "10,883", "com": "8,440", "desc": "Fox News justice correspondent David Spunt reports on the ongoing criminal investigation into Rep. Ilhan Omar's immigration paperwork. Spunt reports that the ra…", "tags": ["fox", "fox news", "david spunt", "ilhan omar", "rep. ilhan omar", "criminal investigation"], "lang": "en", "flag": "true", "tracks": [["en-US", "standard"], ["en", "standard"], ["en", "asr"], ["en", "standard"]], "reads": [["2026-10-13T04:43:00+00:00", 1304557], ["2026-10-13T21:21:17.545168+00:00", 1507114], ["2026-10-13T22:39:46.818397+00:00", 1515609]], "comments": {"status": 200, "n": 5, "next": true, "total": 5, "newest": "2026-10-12T22:32:17Z"}},
+    {"id": "im4XHObgmfA", "set": "US", "ch": "Legal AF", "story": "Judge halts taxpayer-funded ads", "title": "Trump BUSTED as Judge Enters EMERGENCY BLOCK of his Taxpayer Funded Ad Campaign to SWAY the Midterms", "pub": "2026-10-12T13:30:24Z", "dur": "PT11M30S", "likes": "6,871", "com": "454", "desc": "Popok reports on breaking news, as Federal Judge Jennifer Rochon, who once clerked for Trump's sister, entered an EMERGENCY BLOCK to prevent him from continuing…", "tags": [], "lang": "en-US", "flag": "false", "tracks": [["en", "asr"]], "reads": [["2026-10-13T04:43:00+00:00", 142377], ["2026-10-13T21:21:17.545168+00:00", 146696], ["2026-10-13T22:39:46.818397+00:00", 146832]], "comments": {"status": 200, "n": 5, "next": true, "total": 5, "newest": "2026-10-13T19:11:47Z"}},
+    {"id": "ny_YmIN_7rU", "set": "US", "ch": "CNN", "story": "Talarico and the Texas Senate race", "title": "'A very unusual pattern': Enten & experts unpack Texas election polling", "pub": "2026-10-12T23:47:41Z", "dur": "PT8M10S", "likes": "7,809", "com": "1,220", "desc": "CNN chief data analyst Harry Enten examines the latest polls in Texas and finds an unusual pattern of emerging Democratic strength, downballot from the Senate a…", "tags": ["news", "cnn", "c.n.n.", "elections", "election", "midterm"], "lang": "en", "flag": "true", "tracks": [["en", "standard"], ["en", "asr"]], "reads": [["2026-10-13T04:43:00+00:00", 482111], ["2026-10-13T21:21:17.545168+00:00", 1067854], ["2026-10-13T22:39:46.818397+00:00", 1092360]], "comments": {"status": 200, "n": 5, "next": true, "total": 5, "newest": "2026-10-12T20:07:11Z"}},
+    {"id": "VdrBREe15_s", "set": "US", "ch": "11Alive", "story": "Goliath roller coaster death", "title": "Chilling audio | Witnesses share what unfolded in moment they say man fell from roller coaster", "pub": "2026-10-12T21:42:55Z", "dur": "PT4M17S", "likes": "3,787", "com": "1,375", "desc": "Six Flags Over Georgia Goliath Death: Witnesses on a roller coaster at Six Flags Over Georgia said a person fell from a ride on Monday. They describe the terrif…", "tags": ["6 flags", "6 flags death", "Georgia news today", "Six Flags Goliath roller coaster accident", "Six Flags Over Georgia incident", "WXIA Atlanta"], "lang": "en-US", "flag": "true", "tracks": [["en", "standard"], ["en", "asr"]], "reads": [["2026-10-13T04:43:00+00:00", 269741], ["2026-10-13T21:21:17.545168+00:00", 657285], ["2026-10-13T22:39:46.818397+00:00", 665205]], "comments": {"status": 200, "n": 5, "next": true, "total": 5, "newest": "2026-10-13T22:12:37Z"}},
+    {"id": "U3hzB1TME20", "set": "US", "ch": "MeidasTouch", "story": "South Carolina Senate debate", "title": "🚨SC Debate GOES OFF THE RAILS…", "pub": "2026-10-12T18:48:24Z", "dur": "PT16M20S", "likes": "26,514", "com": "2,875", "desc": "MeidasTouch host Ben Meiselas breaks down the South Carolina Senate debate between Senator Darline Graham and Dr. Annie Andrews, including their clashes over he…", "tags": ["meidastouch", "meidas touch", "politics", "political videos", "political advertising", "breaking news"], "lang": "en-US", "flag": "false", "tracks": [["en", "asr"]], "reads": [["2026-10-13T04:43:00+00:00", 466129], ["2026-10-13T21:21:17.545168+00:00", 700388], ["2026-10-13T22:39:46.818397+00:00", 708950]], "comments": {"status": 200, "n": 5, "next": true, "total": 5, "newest": "2026-10-13T22:22:06Z"}},
+    {"id": "-vBE7hvDe94", "set": "IE", "ch": "Irish Mirror", "story": "Irish probe", "title": "'THE PRIME MINISTER IS A LIAR' Farage ERUPTS as Burnham REOPENS Brexit Row With Russia Claims", "pub": "2026-10-13T10:25:32Z", "dur": "PT19M35S", "likes": "651", "com": "176", "desc": "Nigel Farage has launched a furious attack on Prime Minister Andy Burnham, branding him a \"liar\" after the Labour leader claimed Russia interfered in Britain's …", "tags": [], "lang": "en", "flag": "false", "tracks": [["en", "asr"]], "reads": [["2026-10-13T21:19:49.447220+00:00", 82924], ["2026-10-13T22:39:46.818397+00:00", 97700]], "comments": {"status": 200, "n": 5, "next": true, "total": 5, "newest": "2026-10-13T22:20:01Z"}},
+    {"id": "UKmWHUlj-2I", "set": "IE", "ch": "RTÉ News", "story": "Irish probe", "title": "Murder investigation under way after Waterford arson attack | #rtenews", "pub": "2026-10-13T12:45:52Z", "dur": "PT39S", "likes": "366", "com": null, "desc": "A murder investigation is under way following the deaths of four people, including two children, in an arson attack at a house in Waterford. Gardai have said…", "tags": ["News", "RTE", "RTÉ News", "RTE News", "RTÉ", "Irish news"], "lang": "en-IE", "flag": "false", "tracks": [["en", "asr"]], "reads": [["2026-10-13T21:19:49.447220+00:00", 64292], ["2026-10-13T22:39:46.818397+00:00", 72547]], "comments": {"status": 403, "reason": "commentsDisabled", "message": "The video identified by the videoId parameter has disabled comments."}}];
+  var DL = {"video": "mMok2XA6Dmk", "url": "https://www.googleapis.com/youtube/v3/captions/AUieDaauXyHpRgebn3fKcbkBLAkl3aBbAU_sG_wFkuREiBJzi0g?key=REDACTED", "status": 401, "message": "API keys are not supported by this API. Expected OAuth2 access token or other authentication credentials that assert a principal. See https://cloud.google.com/docs/authentication", "reason": "required", "detail": "Login Required.", "status2": "UNAUTHENTICATED"};
+  var cur = 0;
+  function pickBtns(){
+    var html = "";
+    VIDS.forEach(function(v,i){ html += '<button data-i="'+i+'"'+(i===cur?' class="on"':'')+'>'+esc(v.ch)+'<small>'+v.set+' · '+esc(v.story)+'</small></button>'; });
+    document.getElementById("vidpick").innerHTML = html;
+  }
+  function showVid(i){
+    cur = i; var v = VIDS[i]; pickBtns();
+    document.getElementById("vidhead").innerHTML = '<div class="note" style="margin:0"><b>'+esc(v.title)+'</b> · '+esc(v.ch)+' · published '+dstr(v.pub)+' · <a href="https://www.youtube.com/watch?v='+v.id+'" target="_blank" rel="noopener">youtube.com/watch?v='+v.id+'</a></div>';
+    // Q1
+    document.getElementById("q1-page").innerHTML = '<dt>Title</dt><dd>'+esc(v.title)+'</dd><dt>Channel</dt><dd>'+esc(v.ch)+'</dd><dt>Published</dt><dd>'+dstr(v.pub)+'</dd><dt>Length</dt><dd>'+v.dur.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")+'</dd><dt>Views now</dt><dd>'+fmt(v.reads[v.reads.length-1][1])+' (at the last recorded call)</dd><dt>Likes</dt><dd>'+v.likes+'</dd><dt>Comments</dt><dd>'+(v.com===null?"comments are turned off":v.com)+'</dd>';
+    document.getElementById("q1-req").innerHTML = 'GET youtube/v3/<b>videos</b>?part=snippet,statistics,contentDetails,topicDetails&id='+v.id+'&key=REDACTED';
+    document.getElementById("q1-resp").innerHTML = '<span class="k">status</span> <span class="ok">200</span><br><span class="k">snippet.title</span> <span class="v">"'+esc(v.title)+'"</span><br><span class="k">snippet.channelTitle</span> <span class="v">"'+esc(v.ch)+'"</span><br><span class="k">snippet.publishedAt</span> <span class="v">"'+v.pub+'"</span><br><span class="k">snippet.description</span> <span class="v">"'+esc(v.desc)+'"</span><br><span class="k">snippet.tags</span> <span class="v">'+esc(JSON.stringify(v.tags))+'</span><br><span class="k">snippet.defaultAudioLanguage</span> <span class="v">"'+v.lang+'"</span><br><span class="k">contentDetails.duration</span> <span class="v">"'+v.dur+'"</span><br><span class="k">statistics.viewCount</span> <span class="v">"'+v.reads[v.reads.length-1][1]+'"</span><br><span class="k">statistics.likeCount</span> <span class="v">"'+v.likes.replace(/,/g,"")+'"</span><br><span class="k">statistics.commentCount</span> <span class="v">'+(v.com===null?'<span class="err">absent (comments disabled)</span>':'"'+v.com.replace(/,/g,"")+'"')+'</span><br><span class="k">cost</span> <span class="v">1 unit</span>';
+    // Q2
+    document.getElementById("q2-open").href = "https://www.youtube.com/watch?v="+v.id;
+    document.getElementById("q2-req").innerHTML = 'GET youtube/v3/<b>captions</b>?part=snippet&videoId='+v.id+'&key=REDACTED';
+    var tr = v.tracks.map(function(t){ return '<span class="v">{ language: "'+t[0]+'", trackKind: "'+t[1]+'" }</span>'; }).join("<br>");
+    document.getElementById("q2-resp").innerHTML = '<span class="k">status</span> <span class="ok">200</span> · <span class="k">items</span> <span class="v">'+v.tracks.length+'</span> · <span class="k">cost</span> <span class="v">50 units</span><br>'+tr+'<br><span class="k">contentDetails.caption (from Q1)</span> <span class="v">"'+v.flag+'"</span> <span class="k">= has a non-asr track</span>';
+    document.getElementById("q2-req2").innerHTML = 'GET youtube/v3/<b>captions</b>/'+(v.id===DL.video?'AUieDaa…ZBJzi0g':'{caption id}')+'?key=REDACTED &nbsp;<span class="k">(download)</span>';
+    document.getElementById("q2-resp2").innerHTML = (v.id===DL.video ? '' : '<span class="k">as recorded for the MeidasTouch track; the documentation states the same requirement for every video</span><br>') + '<span class="k">status</span> <span class="err">401</span><br><span class="k">error.message</span> <span class="err">"'+esc(DL.message)+'"</span><br><span class="k">errors[0].message</span> <span class="err">"'+DL.detail+'"</span> · <span class="k">reason</span> <span class="err">"'+DL.reason+'"</span> · <span class="k">status</span> <span class="err">"'+DL.status2+'"</span>';
+    document.getElementById("q2-verdict").innerHTML = 'The API lists <b>'+v.tracks.length+' track'+(v.tracks.length>1?'s':'')+'</b> for this video'+(v.tracks.some(function(t){return t[1]==="asr";})?', including the platform\'s auto track,':'')+' and refuses the text. The documentation adds that <code>captions.download</code> "requires the user to have permission to edit the video". The player plays the same track to anyone.';
+    // Q3
+    document.getElementById("q3-req").innerHTML = 'GET youtube/v3/<b>videos</b>?part=statistics&id='+v.id+'&key=REDACTED &nbsp;<span class="k">× '+v.reads.length+', one per reading</span>';
+    var rh = ""; v.reads.forEach(function(r,k){ if (k>0) rh += '<div class="gap"></div>'; rh += '<div class="r"><div class="v">'+fmt(r[1])+'</div><div class="t">'+dstr(r[0]).replace(" UTC","").slice(5)+' UTC</div></div>'; });
+    document.getElementById("q3-readings").innerHTML = rh;
+    var first = new Date(v.reads[0][0]); var exp = new Date(first.getTime()+30*86400000); var now = new Date(); var left = Math.ceil((exp-now)/86400000);
+    var c = document.getElementById("q3-clock"); c.classList.toggle("expired", left<=0);
+    c.innerHTML = left>0 ? 'first reading '+dayOnly(v.reads[0][0])+' · must be deleted or refreshed by <b>'+dayOnly(exp.toISOString())+'</b> · <b>'+left+' day'+(left===1?'':'s')+' left</b>' : 'first reading '+dayOnly(v.reads[0][0])+' · <b>30 days have passed</b>: under III.E.4.b these readings should by now have been deleted or refreshed';
+    // Q4
+    document.getElementById("q4-req").innerHTML = 'GET youtube/v3/<b>commentThreads</b>?part=snippet&videoId='+v.id+'&maxResults=5&order=time&key=REDACTED';
+    var chip = document.getElementById("q4-chip");
+    if (v.comments.status===200){
+      document.getElementById("q4-resp").innerHTML = '<span class="k">status</span> <span class="ok">200</span> · <span class="k">cost</span> <span class="v">1 unit per page of up to 100</span><br><span class="k">items</span> <span class="v">'+v.comments.n+'</span> (text and authors not stored here)<br><span class="k">nextPageToken</span> <span class="v">present</span><br><span class="k">pageInfo.totalResults</span> <span class="v">'+v.comments.total+'</span> <span class="k">= the page size, not the total</span><br><span class="k">items[0].snippet.topLevelComment.snippet.publishedAt</span> <span class="v">"'+v.comments.newest+'"</span><br><span class="k">order accepted</span> <span class="v">time, relevance</span> <span class="k">(no oldest-first)</span>';
+      document.getElementById("q4-verdict").innerHTML = 'Returned, one page at a time. The API gives no count of pages and no way to start from the first comment, so reaching the beginning of a thread, where coordinated arrival shows, means paging to the end. The page shows '+v.com+' comments; the API counted the same.';
+      chip.className = "st cond"; chip.innerHTML = '<i></i>within quota';
+    } else {
+      document.getElementById("q4-resp").innerHTML = '<span class="k">status</span> <span class="err">403</span><br><span class="k">errors[0].reason</span> <span class="err">"'+v.comments.reason+'"</span><br><span class="k">message</span> <span class="err">"'+esc(v.comments.message)+'"</span>';
+      document.getElementById("q4-verdict").innerHTML = 'This channel turned comments off for the video, which the page shows as "comments are turned off". On October 12, 35 of the 1,049 videos whose comments the pipeline collected (3.3%) answered this way; in the Irish probe, 8 of 85.';
+      chip.className = "st none"; chip.innerHTML = '<i></i>comments disabled';
+    }
+  }
+  document.getElementById("vidpick").addEventListener("click", function(e){ var b = e.target.closest("button"); if (b) showVid(+b.getAttribute("data-i")); });
+  showVid(0);
+
+  // ---------- demo 2: spread band ----------
+  (function(){
+    var W=720,H=170,L=60,R=30,T=22,B=36; var pts=[[0,9774739],[16.6,12681273]]; var max=13000000;
+    function x(h){ return L+(W-L-R)*h/16.6; } function y(v){ return T+(H-T-B)*(1-v/max); }
+    var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Story views at two readings with the unobserved interval marked">';
+    s+='<rect x="'+x(0)+'" y="'+T+'" width="'+(x(16.6)-x(0))+'" height="'+(H-T-B)+'" fill="var(--rule2)"/>';
+    s+='<text x="'+((x(0)+x(16.6))/2)+'" y="'+(H-B-12)+'" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--faint)" letter-spacing="1.2">NOT RETURNED BY ANY CALL</text>';
+    s+='<line x1="'+x(0)+'" y1="'+y(pts[0][1])+'" x2="'+x(16.6)+'" y2="'+y(pts[1][1])+'" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>';
+    pts.forEach(function(p,i){ s+='<circle cx="'+x(p[0])+'" cy="'+y(p[1])+'" r="5" fill="var(--accent)" stroke="var(--panel)" stroke-width="2"/>'; s+='<text x="'+x(p[0])+'" y="'+(y(p[1])-12)+'" text-anchor="'+(i?'end':'start')+'" font-family="var(--sans)" font-size="12" fill="var(--ink)" font-weight="650">'+p[1].toLocaleString("en-US")+' views</text>'; });
+    s+='<text x="'+x(0)+'" y="'+(H-12)+'" font-family="var(--mono)" font-size="10.5" fill="var(--muted)" letter-spacing="1.2">READING 1 · 04:43 UTC</text>';
+    s+='<text x="'+x(16.6)+'" y="'+(H-12)+'" text-anchor="end" font-family="var(--mono)" font-size="10.5" fill="var(--muted)" letter-spacing="1.2">READING 2 · 21:21 UTC</text>';
+    s+='</svg>';
+    document.getElementById("band").innerHTML = s;
+  })();
+
+  // ---------- demo 3: planner ----------
+  var IE = [
+    {name:"RTÉ News", subs:253000, v24:13, c24:120, pg:8},
+    {name:"RTÉ (main channel)", subs:400000, v24:0, c24:0, pg:0},
+    {name:"The Irish Times", subs:20100, v24:0, c24:0, pg:0},
+    {name:"Newstalk", subs:113000, v24:5, c24:24, pg:3},
+    {name:"Irish Examiner", subs:12400, v24:1, c24:0, pg:1},
+    {name:"Gript Media", subs:79000, v24:2, c24:266, pg:4},
+    {name:"Today FM", subs:34100, v24:2, c24:0, pg:2},
+    {name:"TG4", subs:47400, v24:1, c24:0, pg:1},
+    {name:"The Journal", subs:53800, v24:5, c24:8, pg:5},
+    {name:"Irish Independent", subs:118000, v24:9, c24:40, pg:8},
+    {name:"VideoParliament Ireland (Oireachtas)", subs:51300, v24:40, c24:67, pg:40},
+    {name:"Irish Mirror", subs:48200, v24:7, c24:760, pg:11}
+  ];
+  var sel = IE.map(function(){ return true; });
+  function drawPlan(){
+    var tb = document.querySelector("#plantable tbody"), html="";
+    IE.forEach(function(o,i){ html += '<tr><td><label><input type="checkbox" data-i="'+i+'"'+(sel[i]?' checked':'')+'>'+esc(o.name)+'</label></td><td class="r">'+fmt(o.subs)+'</td><td class="r">'+o.v24+'</td><td class="r">'+fmt(o.c24)+'</td><td class="r">'+o.pg+'</td></tr>'; });
+    tb.innerHTML = html;
+    var n=0,v=0,c=0,pg=0; IE.forEach(function(o,i){ if(sel[i]){ n++; v+=o.v24; c+=o.c24; pg+=o.pg; } });
+    var lookups = Math.ceil(n/50), playlist = n, vids = Math.ceil(v/50), units = lookups+playlist+vids+pg;
+    document.getElementById("p-units").textContent = fmt(units);
+    document.getElementById("p-pct").textContent = (units/100).toFixed(1)+"%";
+    document.getElementById("p-6m").textContent = fmt(units*183);
+    document.getElementById("p-vid").textContent = fmt(v);
+    document.getElementById("p-com").textContent = fmt(c);
+    var m = document.getElementById("p-meter"); m.classList.toggle("over", units>10000); m.firstElementChild.style.width = Math.min(100, units/100)+"%";
+    document.getElementById("p-formula").innerHTML = "channel lookups "+lookups+" + playlist pages "+playlist+" + video batches "+vids+" ("+v+" / 50) + comment pages "+pg+" = <b>"+fmt(units)+" units a day</b>; 183 days = "+fmt(units*183)+". Comment pages are counted per video at 1 page per 100 comments, from the counts the API returned.";
+  }
+  document.querySelector("#plantable").addEventListener("change", function(e){ var cb = e.target.closest("input[type=checkbox]"); if (cb){ sel[+cb.getAttribute("data-i")] = cb.checked; drawPlan(); } });
+  drawPlan();
+
+  // ---------- demo 3: eligibility ----------
+  var TEAMS = {
+    "us-uni": {label:"a university team in New York", e1:[true,"Named: researchers who meet paragraph 8 points (b) to (e). The text has no affiliation test and no residence test."], e2:[false,"\"This programme is currently only available for researchers affiliated with an EU-based institution.\" A New York institution is not EU-based."], e3:[true,"\"affiliated with an accredited, higher-education institution that can grant degrees\"; the United States is on the list of 60 countries."]},
+    "ie-uni": {label:"a university team in Dublin", e1:[true,"Named: researchers who meet paragraph 8 points (b) to (e)."], e2:[true,"An EU-based institution; the page lists the Art. 40(8) conditions, and \"Individual platform teams may have additional eligibility requirements\"."], e3:[true,"A degree-granting institution; Ireland is on the list of 60 countries."]},
+    "ie-npo": {label:"a not-for-profit newsroom in Dublin", e1:[true,"Named expressly: \"including those affiliated to not for profit bodies, organisations and associations\"."], e2:[true,"The page lists \"affiliated with not for profit bodies, organizations and associations\" and requires an EU-based institution; a Dublin not-for-profit is EU-based. Whether a newsroom counts as an institution is for the platform to decide."], e3:[false,"Not \"an accredited, higher-education institution that can grant degrees\"."]},
+    "us-npo": {label:"a not-for-profit in the United States", e1:[true,"Named expressly: \"including those affiliated to not for profit bodies, organisations and associations\"."], e2:[false,"Not affiliated with an EU-based institution."], e3:[false,"Not an accredited degree-granting institution."]}
+  };
+  function setTeam(key){
+    var t = TEAMS[key];
+    [].forEach.call(document.querySelectorAll("#teamseg button"), function(b){ b.classList.toggle("on", b.getAttribute("data-team")===key); });
+    ["e1","e2","e3"].forEach(function(k){ document.getElementById(k+"-r").innerHTML = t[k][0] ? '<span class="pass">OPEN</span>' : '<span class="fail">CLOSED</span>'; document.getElementById(k+"-w").textContent = t[k][1]; });
+    var opens = ["e2","e3"].filter(function(k){ return t[k][0]; }).length;
+    document.getElementById("eligsum").innerHTML = "For "+t.label+": the legal entitlement is there in every case; of the two routes Google operates today, "+opens+" of 2 "+(opens===1?"is":"are")+" open. Neither route returns transcripts or a view history; the Researcher Program returns metadata, and the DSA page does not list fields.";
+  }
+  document.getElementById("teamseg").addEventListener("click", function(e){ var b = e.target.closest("button"); if (b) setTeam(b.getAttribute("data-team")); });
+  setTeam("us-uni");
+
+  // ---------- routing ----------
+  var views = [].slice.call(document.querySelectorAll(".view")), ids = views.map(function(v){ return v.id; });
+  var ALIAS = {ledger:"start", overview:"start", matrix:"start", step1:"start", brief:"demo2", ireland:"demo3", calculator:"demo3", eligibility:"demo3", quota:"demo3", views:"demo1-q3", transcripts:"demo1-q2", comments:"demo1-q4", metadata:"demo1-q1", night:"method", sources:"method"};
+  (function(){
+    var html = "";
+    [].forEach.call(document.querySelectorAll(".toc .tocgrp, .toc a[data-view]"), function(el){
+      if (el.classList.contains("tocgrp")) html += '<div class="g">'+el.textContent+'</div>';
+      else html += '<a href="'+el.getAttribute("href")+'" data-view="'+el.getAttribute("data-view")+'">'+el.querySelector(".n").textContent+' '+el.querySelector("span:not(.n)").firstChild.textContent+'</a>';
+    });
+    document.getElementById("narrowlist").innerHTML = html;
+  })();
+  function show(id, scrollTop){
+    views.forEach(function(v){ v.hidden = v.id !== id; });
+    [].forEach.call(document.querySelectorAll("a[data-view]"), function(a){ if (a.getAttribute("data-view")===id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+    var sec = document.getElementById(id);
+    document.getElementById("curname").textContent = sec.getAttribute("data-title");
+    document.title = sec.getAttribute("data-title") + " · YouTube Access Ledger";
+    var d = document.getElementById("navdetails"); if (d) d.open = false;
+    if (scrollTop) window.scrollTo(0,0);
+  }
+  function openFor(hash, scrollTop){
+    var h = (hash||"").replace(/^#/,"");
+    if (!h) { show("start", scrollTop); return; }
+    if (ALIAS[h]) h = ALIAS[h];
+    if (ids.indexOf(h) >= 0) { show(h, scrollTop); return; }
+    var el = document.getElementById(h);
+    if (el) { var sec = el.closest(".view"); if (sec) { show(sec.id, false); el.scrollIntoView(); } }
+    else show("start", scrollTop);
+  }
+  addEventListener("hashchange", function(){ openFor(location.hash, true); });
+  [].forEach.call(document.querySelectorAll(".rowhit"), function(r){ r.addEventListener("click", function(){ location.hash = r.getAttribute("data-go"); }); });
+
+  function themeSvg(){
+    var dark = (matchMedia("(prefers-color-scheme: dark)").matches && document.documentElement.getAttribute("data-theme")!=="light") || document.documentElement.getAttribute("data-theme")==="dark";
+    var ink = dark ? "#eef0f4" : "#0e1116", body = dark ? "#c9ced8" : "#2a303a";
+    [].forEach.call(document.querySelectorAll("figure.matrix .inkfill, figure.matrix .inktext"), function(el){ el.setAttribute("fill", ink); });
+    [].forEach.call(document.querySelectorAll("figure.matrix .inkline"), function(el){ el.setAttribute("stroke", ink); });
+    [].forEach.call(document.querySelectorAll("figure.matrix .bodytext"), function(el){ el.setAttribute("fill", body); });
+  }
+  themeSvg(); matchMedia("(prefers-color-scheme: dark)").addEventListener("change", themeSvg);
+  openFor(location.hash, false);
+})();
+</script>
+</body>
+</html>

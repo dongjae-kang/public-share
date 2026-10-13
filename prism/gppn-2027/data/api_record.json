@@ -1,0 +1,597 @@
+{
+  "recorded_at_utc": "2026-10-13T22:39:46.818397+00:00",
+  "quota_units_used": 466,
+  "videos": [
+    {
+      "video_id": "mMok2XA6Dmk",
+      "set": "US",
+      "story": "Bipartisan backlash grows over Trump's Russian diesel deal as Zelenskyy says Russia violated the energy ceasefire",
+      "channel": "MeidasTouch",
+      "t0_views": 1008850,
+      "t0_utc": "2026-10-13T04:43:00+00:00",
+      "t1_views": 1113203,
+      "t1_utc": "2026-10-13T21:21:17.545168+00:00",
+      "recorded_at_utc": "2026-10-13T22:39:46.818397+00:00",
+      "videos_list": {
+        "url": "https://www.googleapis.com/youtube/v3/videos?part=snippet%2Cstatistics%2CcontentDetails%2CtopicDetails&id=mMok2XA6Dmk&key=REDACTED",
+        "status": 200,
+        "fields": {
+          "snippet.title": "🚨All HELL BREAKS LOOSE as Zelensky Hits THE MOTHERLODE…",
+          "snippet.channelTitle": "MeidasTouch",
+          "snippet.publishedAt": "2026-10-12T12:30:06Z",
+          "snippet.description": "MeidasTouch host Ben Meiselas reports on Ukraine's strikes on three Russian Yandex data centers as Trump faces backlash over his diesel deal with Russia and shi…",
+          "snippet.tags": [
+            "meidastouch",
+            "meidas touch",
+            "politics",
+            "political videos",
+            "political advertising",
+            "breaking news"
+          ],
+          "snippet.defaultAudioLanguage": "en-US",
+          "contentDetails.duration": "PT22M36S",
+          "contentDetails.caption": "false",
+          "statistics.viewCount": "1117497",
+          "statistics.likeCount": "44938",
+          "statistics.commentCount": "5374",
+          "topicDetails.topicCategories": [
+            "https://en.wikipedia.org/wiki/Politics",
+            "https://en.wikipedia.org/wiki/Society"
+          ]
+        }
+      },
+      "captions_list": {
+        "url": "https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=mMok2XA6Dmk&key=REDACTED",
+        "status": 200,
+        "error": null,
+        "tracks": [
+          {
+            "language": "en",
+            "trackKind": "asr",
+            "name": ""
+          }
+        ]
+      },
+      "comment_threads": {
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=mMok2XA6Dmk&maxResults=5&order=time&textFormat=plainText&key=REDACTED",
+        "status": 200,
+        "items_on_page": 5,
+        "has_next_page": true,
+        "pageInfo": {
+          "totalResults": 5,
+          "resultsPerPage": 5
+        },
+        "newest_published_at": "2026-10-12T16:38:38Z",
+        "orders_available": [
+          "time",
+          "relevance"
+        ],
+        "note": "comment text and author names not stored"
+      }
+    },
+    {
+      "video_id": "kDtOdVpppA8",
+      "set": "US",
+      "story": "Federal agents raid Ilhan Omar's home in criminal investigation",
+      "channel": "Fox News",
+      "t0_views": 1304557,
+      "t0_utc": "2026-10-13T04:43:00+00:00",
+      "t1_views": 1507114,
+      "t1_utc": "2026-10-13T21:21:17.545168+00:00",
+      "recorded_at_utc": "2026-10-13T22:39:46.818397+00:00",
+      "videos_list": {
+        "url": "https://www.googleapis.com/youtube/v3/videos?part=snippet%2Cstatistics%2CcontentDetails%2CtopicDetails&id=kDtOdVpppA8&key=REDACTED",
+        "status": 200,
+        "fields": {
+          "snippet.title": "Ilhan Omar SLAMS Trump after federal raid: 'I WILL NOT BE SILENCED'",
+          "snippet.channelTitle": "Fox News",
+          "snippet.publishedAt": "2026-10-12T17:24:04Z",
+          "snippet.description": "Fox News justice correspondent David Spunt reports on the ongoing criminal investigation into Rep. Ilhan Omar's immigration paperwork. Spunt reports that the ra…",
+          "snippet.tags": [
+            "fox",
+            "fox news",
+            "david spunt",
+            "ilhan omar",
+            "rep. ilhan omar",
+            "criminal investigation"
+          ],
+          "snippet.defaultAudioLanguage": "en",
+          "contentDetails.duration": "PT3M12S",
+          "contentDetails.caption": "true",
+          "statistics.viewCount": "1515609",
+          "statistics.likeCount": "10883",
+          "statistics.commentCount": "8440",
+          "topicDetails.topicCategories": [
+            "https://en.wikipedia.org/wiki/Politics",
+            "https://en.wikipedia.org/wiki/Society"
+          ]
+        }
+      },
+      "captions_list": {
+        "url": "https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=kDtOdVpppA8&key=REDACTED",
+        "status": 200,
+        "error": null,
+        "tracks": [
+          {
+            "language": "en-US",
+            "trackKind": "standard",
+            "name": ""
+          },
+          {
+            "language": "en",
+            "trackKind": "standard",
+            "name": "DTVCC1"
+          },
+          {
+            "language": "en",
+            "trackKind": "asr",
+            "name": ""
+          },
+          {
+            "language": "en",
+            "trackKind": "standard",
+            "name": "CC1"
+          }
+        ]
+      },
+      "comment_threads": {
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=kDtOdVpppA8&maxResults=5&order=time&textFormat=plainText&key=REDACTED",
+        "status": 200,
+        "items_on_page": 5,
+        "has_next_page": true,
+        "pageInfo": {
+          "totalResults": 5,
+          "resultsPerPage": 5
+        },
+        "newest_published_at": "2026-10-12T22:32:17Z",
+        "orders_available": [
+          "time",
+          "relevance"
+        ],
+        "note": "comment text and author names not stored"
+      }
+    },
+    {
+      "video_id": "im4XHObgmfA",
+      "set": "US",
+      "story": "Federal judge orders Trump administration to halt taxpayer-funded TV ads",
+      "channel": "Legal AF",
+      "t0_views": 142377,
+      "t0_utc": "2026-10-13T04:43:00+00:00",
+      "t1_views": 146696,
+      "t1_utc": "2026-10-13T21:21:17.545168+00:00",
+      "recorded_at_utc": "2026-10-13T22:39:46.818397+00:00",
+      "videos_list": {
+        "url": "https://www.googleapis.com/youtube/v3/videos?part=snippet%2Cstatistics%2CcontentDetails%2CtopicDetails&id=im4XHObgmfA&key=REDACTED",
+        "status": 200,
+        "fields": {
+          "snippet.title": "Trump BUSTED as Judge Enters EMERGENCY BLOCK of his Taxpayer Funded Ad Campaign to SWAY the Midterms",
+          "snippet.channelTitle": "Legal AF",
+          "snippet.publishedAt": "2026-10-12T13:30:24Z",
+          "snippet.description": "Popok reports on breaking news, as Federal Judge Jennifer Rochon, who once clerked for Trump's sister, entered an EMERGENCY BLOCK to prevent him from continuing…",
+          "snippet.tags": [],
+          "snippet.defaultAudioLanguage": "en-US",
+          "contentDetails.duration": "PT11M30S",
+          "contentDetails.caption": "false",
+          "statistics.viewCount": "146832",
+          "statistics.likeCount": "6871",
+          "statistics.commentCount": "454",
+          "topicDetails.topicCategories": [
+            "https://en.wikipedia.org/wiki/Politics",
+            "https://en.wikipedia.org/wiki/Society"
+          ]
+        }
+      },
+      "captions_list": {
+        "url": "https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=im4XHObgmfA&key=REDACTED",
+        "status": 200,
+        "error": null,
+        "tracks": [
+          {
+            "language": "en",
+            "trackKind": "asr",
+            "name": ""
+          }
+        ]
+      },
+      "comment_threads": {
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=im4XHObgmfA&maxResults=5&order=time&textFormat=plainText&key=REDACTED",
+        "status": 200,
+        "items_on_page": 5,
+        "has_next_page": true,
+        "pageInfo": {
+          "totalResults": 5,
+          "resultsPerPage": 5
+        },
+        "newest_published_at": "2026-10-13T19:11:47Z",
+        "orders_available": [
+          "time",
+          "relevance"
+        ],
+        "note": "comment text and author names not stored"
+      }
+    },
+    {
+      "video_id": "ny_YmIN_7rU",
+      "set": "US",
+      "story": "James Talarico rejects Republican claims about his whereabouts after a flu absence from the Texas Senate campaign",
+      "channel": "CNN",
+      "t0_views": 482111,
+      "t0_utc": "2026-10-13T04:43:00+00:00",
+      "t1_views": 1067854,
+      "t1_utc": "2026-10-13T21:21:17.545168+00:00",
+      "recorded_at_utc": "2026-10-13T22:39:46.818397+00:00",
+      "videos_list": {
+        "url": "https://www.googleapis.com/youtube/v3/videos?part=snippet%2Cstatistics%2CcontentDetails%2CtopicDetails&id=ny_YmIN_7rU&key=REDACTED",
+        "status": 200,
+        "fields": {
+          "snippet.title": "'A very unusual pattern': Enten & experts unpack Texas election polling",
+          "snippet.channelTitle": "CNN",
+          "snippet.publishedAt": "2026-10-12T23:47:41Z",
+          "snippet.description": "CNN chief data analyst Harry Enten examines the latest polls in Texas and finds an unusual pattern of emerging Democratic strength, downballot from the Senate a…",
+          "snippet.tags": [
+            "news",
+            "cnn",
+            "c.n.n.",
+            "elections",
+            "election",
+            "midterm"
+          ],
+          "snippet.defaultAudioLanguage": "en",
+          "contentDetails.duration": "PT8M10S",
+          "contentDetails.caption": "true",
+          "statistics.viewCount": "1092360",
+          "statistics.likeCount": "7809",
+          "statistics.commentCount": "1220",
+          "topicDetails.topicCategories": [
+            "https://en.wikipedia.org/wiki/Politics",
+            "https://en.wikipedia.org/wiki/Society",
+            "https://en.wikipedia.org/wiki/Television_program"
+          ]
+        }
+      },
+      "captions_list": {
+        "url": "https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=ny_YmIN_7rU&key=REDACTED",
+        "status": 200,
+        "error": null,
+        "tracks": [
+          {
+            "language": "en",
+            "trackKind": "standard",
+            "name": ""
+          },
+          {
+            "language": "en",
+            "trackKind": "asr",
+            "name": ""
+          }
+        ]
+      },
+      "comment_threads": {
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=ny_YmIN_7rU&maxResults=5&order=time&textFormat=plainText&key=REDACTED",
+        "status": 200,
+        "items_on_page": 5,
+        "has_next_page": true,
+        "pageInfo": {
+          "totalResults": 5,
+          "resultsPerPage": 5
+        },
+        "newest_published_at": "2026-10-12T20:07:11Z",
+        "orders_available": [
+          "time",
+          "relevance"
+        ],
+        "note": "comment text and author names not stored"
+      }
+    },
+    {
+      "video_id": "VdrBREe15_s",
+      "set": "US",
+      "story": "Man dies at Six Flags Over Georgia as witnesses say he fell from Goliath roller coaster",
+      "channel": "11Alive",
+      "t0_views": 269741,
+      "t0_utc": "2026-10-13T04:43:00+00:00",
+      "t1_views": 657285,
+      "t1_utc": "2026-10-13T21:21:17.545168+00:00",
+      "recorded_at_utc": "2026-10-13T22:39:46.818397+00:00",
+      "videos_list": {
+        "url": "https://www.googleapis.com/youtube/v3/videos?part=snippet%2Cstatistics%2CcontentDetails%2CtopicDetails&id=VdrBREe15_s&key=REDACTED",
+        "status": 200,
+        "fields": {
+          "snippet.title": "Chilling audio | Witnesses share what unfolded in moment they say man fell from roller coaster",
+          "snippet.channelTitle": "11Alive",
+          "snippet.publishedAt": "2026-10-12T21:42:55Z",
+          "snippet.description": "Six Flags Over Georgia Goliath Death: Witnesses on a roller coaster at Six Flags Over Georgia said a person fell from a ride on Monday. They describe the terrif…",
+          "snippet.tags": [
+            "6 flags",
+            "6 flags death",
+            "Georgia news today",
+            "Six Flags Goliath roller coaster accident",
+            "Six Flags Over Georgia incident",
+            "WXIA Atlanta"
+          ],
+          "snippet.defaultAudioLanguage": "en-US",
+          "contentDetails.duration": "PT4M17S",
+          "contentDetails.caption": "true",
+          "statistics.viewCount": "665205",
+          "statistics.likeCount": "3787",
+          "statistics.commentCount": "1375",
+          "topicDetails.topicCategories": [
+            "https://en.wikipedia.org/wiki/Society"
+          ]
+        }
+      },
+      "captions_list": {
+        "url": "https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=VdrBREe15_s&key=REDACTED",
+        "status": 200,
+        "error": null,
+        "tracks": [
+          {
+            "language": "en",
+            "trackKind": "standard",
+            "name": "VdrBREe15_s_Caption"
+          },
+          {
+            "language": "en",
+            "trackKind": "asr",
+            "name": ""
+          }
+        ]
+      },
+      "comment_threads": {
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=VdrBREe15_s&maxResults=5&order=time&textFormat=plainText&key=REDACTED",
+        "status": 200,
+        "items_on_page": 5,
+        "has_next_page": true,
+        "pageInfo": {
+          "totalResults": 5,
+          "resultsPerPage": 5
+        },
+        "newest_published_at": "2026-10-13T22:12:37Z",
+        "orders_available": [
+          "time",
+          "relevance"
+        ],
+        "note": "comment text and author names not stored"
+      }
+    },
+    {
+      "video_id": "U3hzB1TME20",
+      "set": "US",
+      "story": "South Carolina Senate debate between Graham and Andrews features clashes on healthcare, data centers, and Iran war",
+      "channel": "MeidasTouch",
+      "t0_views": 466129,
+      "t0_utc": "2026-10-13T04:43:00+00:00",
+      "t1_views": 700388,
+      "t1_utc": "2026-10-13T21:21:17.545168+00:00",
+      "recorded_at_utc": "2026-10-13T22:39:46.818397+00:00",
+      "videos_list": {
+        "url": "https://www.googleapis.com/youtube/v3/videos?part=snippet%2Cstatistics%2CcontentDetails%2CtopicDetails&id=U3hzB1TME20&key=REDACTED",
+        "status": 200,
+        "fields": {
+          "snippet.title": "🚨SC Debate GOES OFF THE RAILS…",
+          "snippet.channelTitle": "MeidasTouch",
+          "snippet.publishedAt": "2026-10-12T18:48:24Z",
+          "snippet.description": "MeidasTouch host Ben Meiselas breaks down the South Carolina Senate debate between Senator Darline Graham and Dr. Annie Andrews, including their clashes over he…",
+          "snippet.tags": [
+            "meidastouch",
+            "meidas touch",
+            "politics",
+            "political videos",
+            "political advertising",
+            "breaking news"
+          ],
+          "snippet.defaultAudioLanguage": "en-US",
+          "contentDetails.duration": "PT16M20S",
+          "contentDetails.caption": "false",
+          "statistics.viewCount": "708950",
+          "statistics.likeCount": "26514",
+          "statistics.commentCount": "2875",
+          "topicDetails.topicCategories": [
+            "https://en.wikipedia.org/wiki/Politics",
+            "https://en.wikipedia.org/wiki/Society"
+          ]
+        }
+      },
+      "captions_list": {
+        "url": "https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=U3hzB1TME20&key=REDACTED",
+        "status": 200,
+        "error": null,
+        "tracks": [
+          {
+            "language": "en",
+            "trackKind": "asr",
+            "name": ""
+          }
+        ]
+      },
+      "comment_threads": {
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=U3hzB1TME20&maxResults=5&order=time&textFormat=plainText&key=REDACTED",
+        "status": 200,
+        "items_on_page": 5,
+        "has_next_page": true,
+        "pageInfo": {
+          "totalResults": 5,
+          "resultsPerPage": 5
+        },
+        "newest_published_at": "2026-10-13T22:22:06Z",
+        "orders_available": [
+          "time",
+          "relevance"
+        ],
+        "note": "comment text and author names not stored"
+      }
+    },
+    {
+      "video_id": "-vBE7hvDe94",
+      "set": "IE",
+      "story": null,
+      "channel": "Irish Mirror",
+      "t0_views": 82924,
+      "t0_utc": "2026-10-13T21:19:49.447220+00:00",
+      "t1_views": null,
+      "t1_utc": null,
+      "recorded_at_utc": "2026-10-13T22:39:46.818397+00:00",
+      "videos_list": {
+        "url": "https://www.googleapis.com/youtube/v3/videos?part=snippet%2Cstatistics%2CcontentDetails%2CtopicDetails&id=-vBE7hvDe94&key=REDACTED",
+        "status": 200,
+        "fields": {
+          "snippet.title": "'THE PRIME MINISTER IS A LIAR' Farage ERUPTS as Burnham REOPENS Brexit Row With Russia Claims",
+          "snippet.channelTitle": "Irish Mirror",
+          "snippet.publishedAt": "2026-10-13T10:25:32Z",
+          "snippet.description": "Nigel Farage has launched a furious attack on Prime Minister Andy Burnham, branding him a \"liar\" after the Labour leader claimed Russia interfered in Britain's …",
+          "snippet.tags": [],
+          "snippet.defaultAudioLanguage": "en",
+          "contentDetails.duration": "PT19M35S",
+          "contentDetails.caption": "false",
+          "statistics.viewCount": "97700",
+          "statistics.likeCount": "651",
+          "statistics.commentCount": "176",
+          "topicDetails.topicCategories": [
+            "https://en.wikipedia.org/wiki/Politics",
+            "https://en.wikipedia.org/wiki/Society"
+          ]
+        }
+      },
+      "captions_list": {
+        "url": "https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=-vBE7hvDe94&key=REDACTED",
+        "status": 200,
+        "error": null,
+        "tracks": [
+          {
+            "language": "en",
+            "trackKind": "asr",
+            "name": ""
+          }
+        ]
+      },
+      "comment_threads": {
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=-vBE7hvDe94&maxResults=5&order=time&textFormat=plainText&key=REDACTED",
+        "status": 200,
+        "items_on_page": 5,
+        "has_next_page": true,
+        "pageInfo": {
+          "totalResults": 5,
+          "resultsPerPage": 5
+        },
+        "newest_published_at": "2026-10-13T22:20:01Z",
+        "orders_available": [
+          "time",
+          "relevance"
+        ],
+        "note": "comment text and author names not stored"
+      }
+    },
+    {
+      "video_id": "UKmWHUlj-2I",
+      "set": "IE",
+      "story": null,
+      "channel": "RTÉ News",
+      "t0_views": 64292,
+      "t0_utc": "2026-10-13T21:19:49.447220+00:00",
+      "t1_views": null,
+      "t1_utc": null,
+      "recorded_at_utc": "2026-10-13T22:39:46.818397+00:00",
+      "videos_list": {
+        "url": "https://www.googleapis.com/youtube/v3/videos?part=snippet%2Cstatistics%2CcontentDetails%2CtopicDetails&id=UKmWHUlj-2I&key=REDACTED",
+        "status": 200,
+        "fields": {
+          "snippet.title": "Murder investigation under way after Waterford arson attack | #rtenews",
+          "snippet.channelTitle": "RTÉ News",
+          "snippet.publishedAt": "2026-10-13T12:45:52Z",
+          "snippet.description": "A murder investigation is under way following the deaths of four people, including two children, in an arson attack at a house in Waterford.  \n\nGardai have said…",
+          "snippet.tags": [
+            "News",
+            "RTE",
+            "RTÉ News",
+            "RTE News",
+            "RTÉ",
+            "Irish news"
+          ],
+          "snippet.defaultAudioLanguage": "en-IE",
+          "contentDetails.duration": "PT39S",
+          "contentDetails.caption": "false",
+          "statistics.viewCount": "72547",
+          "statistics.likeCount": "366",
+          "statistics.commentCount": null,
+          "topicDetails.topicCategories": [
+            "https://en.wikipedia.org/wiki/Society"
+          ]
+        }
+      },
+      "captions_list": {
+        "url": "https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=UKmWHUlj-2I&key=REDACTED",
+        "status": 200,
+        "error": null,
+        "tracks": [
+          {
+            "language": "en",
+            "trackKind": "asr",
+            "name": ""
+          }
+        ]
+      },
+      "comment_threads": {
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=UKmWHUlj-2I&maxResults=5&order=time&textFormat=plainText&key=REDACTED",
+        "status": 403,
+        "error": {
+          "code": 403,
+          "message": "The video identified by the <code><a href=\"/youtube/v3/docs/commentThreads/list#videoId\">videoId</a></code> parameter has disabled comments.",
+          "errors": [
+            {
+              "message": "The video identified by the <code><a href=\"/youtube/v3/docs/commentThreads/list#videoId\">videoId</a></code> parameter has disabled comments.",
+              "domain": "youtube.commentThread",
+              "reason": "commentsDisabled",
+              "location": "videoId",
+              "locationType": "parameter"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "captions_download_attempt": {
+    "video_id": "mMok2XA6Dmk",
+    "caption_id": "AUieDaauXyHpRgebn3fKcbkBLAkl3aBbAU_sG_wFkuREiBJzi0g",
+    "tracks": [
+      {
+        "id": "AUieDaauXyHpRgebn3fKcbkBLAkl3aBbAU_sG_wFkuREiBJzi0g",
+        "language": "en",
+        "trackKind": "asr",
+        "name": "",
+        "isAutoSynced": false,
+        "status": "serving"
+      }
+    ],
+    "url": "https://www.googleapis.com/youtube/v3/captions/AUieDaauXyHpRgebn3fKcbkBLAkl3aBbAU_sG_wFkuREiBJzi0g?key=REDACTED",
+    "status": 401,
+    "response": {
+      "error": {
+        "code": 401,
+        "message": "API keys are not supported by this API. Expected OAuth2 access token or other authentication credentials that assert a principal. See https://cloud.google.com/docs/authentication",
+        "errors": [
+          {
+            "message": "Login Required.",
+            "domain": "global",
+            "reason": "required",
+            "location": "Authorization",
+            "locationType": "header"
+          }
+        ],
+        "status": "UNAUTHENTICATED",
+        "details": [
+          {
+            "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+            "reason": "CREDENTIALS_MISSING",
+            "domain": "googleapis.com",
+            "metadata": {
+              "service": "youtube.googleapis.com",
+              "method": "youtube.api.v3.V3DataCaptionService.Download"
+            }
+          }
+        ]
+      }
+    },
+    "attempted_at_utc": "2026-10-13T22:40:42.377172+00:00"
+  }
+}
