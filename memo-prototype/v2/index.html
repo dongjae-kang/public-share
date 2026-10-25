@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Floor Nobody Buys</title>
+<link rel="icon" href="data:,">
+<meta name="description" content="Format prototype v2 for a research memo: the house order on a rail, five figures built from the record, a trade with a horizon, and dated conditions for being wrong.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a long-form research memo. A narrow text column (68ch) with figures that break out to 820px; a sticky rail on the left names the six parts of the house format. Every figure is static SVG generated from data; the script adds one crosshair, one scroll-driven scene and tooltips. */
+:root{
+  --bg:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --mute:#898781;
+  --grid:#e1e0d9; --axis:#c3c2b7; --rule:#e1e0d9;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+  --ph:#f1efe8; --ph-ink:#6b6862;
+  --display:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  --body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0d0d0d; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --mute:#898781;
+  --grid:#2c2c2a; --axis:#383835; --rule:#2c2c2a;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --ph:#232320; --ph-ink:#a7a49b; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0d0d0d; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --mute:#898781;
+  --grid:#2c2c2a; --axis:#383835; --rule:#2c2c2a;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --ph:#232320; --ph-ink:#a7a49b; color-scheme:dark }
+
+*{box-sizing:border-box} html{color-scheme:light} img{max-width:100%} [hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+a{color:var(--s1);text-decoration-thickness:1px;text-underline-offset:2px}
+h1,h2{font-family:var(--display);font-weight:600;text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(1.9rem,4vw,2.7rem);letter-spacing:-.01em}
+p{margin:0 0 1em}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.proto{font-family:var(--mono);font-size:.78rem;color:var(--ink2);border-bottom:1px solid var(--rule);padding:10px 0;display:flex;gap:14px;flex-wrap:wrap}
+.proto b{color:var(--ink);font-weight:500}
+.masthead{max-width:820px;margin:0 auto;padding:40px 0 20px}
+.eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);margin-bottom:12px;font-weight:500}
+.meta{color:var(--ink2);font-size:.92rem;margin-top:14px;display:flex;gap:16px;flex-wrap:wrap}
+
+.wrap{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:0 40px}
+@media (min-width:1000px){.wrap{grid-template-columns:200px minmax(0,820px)}}
+.rail{font-size:.84rem;color:var(--ink2);border-bottom:1px solid var(--rule);margin:0 0 20px;padding:0 0 12px;display:flex;gap:4px 18px;flex-wrap:wrap}
+.rail a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:8px;padding:4px 0}
+.rail a::before{content:"";width:8px;height:8px;border:1px solid var(--axis);display:inline-block}
+.rail a.cur{color:var(--ink);font-weight:500}
+.rail a.cur::before{background:var(--s2);border-color:var(--s2)}
+@media (min-width:1000px){.rail{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;flex-direction:column;gap:6px;border:0;padding:8px 0 0;margin:0}
+  .rail .lab{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}}
+.rail .lab{display:none}@media (min-width:1000px){.rail .lab{display:block}}
+
+main{min-width:0}
+section{padding:8px 0 28px;border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:0}
+.text{max-width:68ch}
+.part{font-family:var(--mono);font-size:.76rem;color:var(--mute);margin:18px 0 6px}
+.ph{background:var(--ph);color:var(--ph-ink);border-left:3px solid var(--axis);padding:10px 14px;font-size:.93rem;max-width:68ch;margin:0 0 1.2em}
+.ph b{font-weight:500}
+
+figure.fig{margin:22px 0 8px;background:var(--surface);border:1px solid var(--rule);padding:16px 16px 12px;max-width:820px;position:relative}
+figure.fig .figscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+figure.fig .figscroll:focus{outline:2px solid var(--s1);outline-offset:2px}
+figure.fig svg{width:100%;height:auto;display:block;font-family:var(--mono);font-size:12px}
+@media (max-width:640px){figure.fig svg{min-width:600px;font-size:13px}}
+.fig .t,.scenefig .t{fill:var(--ink2)} .fig .tm,.scenefig .tm{fill:var(--mute)} .fig .ti,.scenefig .ti{fill:var(--ink)}
+.fig .gl,.scenefig .gl{stroke:var(--grid);stroke-width:1} .fig .ax,.scenefig .ax{stroke:var(--axis);stroke-width:1}
+figcaption{font-size:.84rem;color:var(--ink2);line-height:1.5;margin-top:10px}
+.ftitle{font-family:var(--body);font-weight:600;font-size:1rem;color:var(--ink);margin:0 0 4px}
+.fsub{font-size:.86rem;color:var(--ink2);margin:0 0 10px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.82rem;color:var(--ink2);margin:0 0 8px}
+.legend span::before{content:"";display:inline-block;width:14px;height:0;border-top:3px solid var(--c);vertical-align:middle;margin-right:6px}
+.legend span.dash::before{border-top-style:dashed} .legend span.dots::before{border-top-style:dotted}
+.legend span.fill::before{height:10px;background:var(--c);opacity:.25;border:0}
+.pt{cursor:default} .pt:focus{outline:2px solid var(--s1);outline-offset:2px}
+details{font-size:.86rem;color:var(--ink2);margin-top:8px} summary{cursor:pointer}
+table{border-collapse:collapse;font-size:.86rem;margin-top:8px;width:100%} th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:500;color:var(--ink2)} td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto} #t4{min-width:720px} #t4 td:first-child{white-space:nowrap}
+
+/* Figure 1 crosshair: the readout is one line, the cursor snaps to the nearest trading day. */
+.scrub{display:flex;gap:4px 18px;flex-wrap:wrap;align-items:baseline;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:8px 0;margin:0 0 10px;font-size:.86rem;color:var(--ink2)}
+.scrub .sd{color:var(--ink);font-weight:500}
+.scrub .sv{font-size:1.15rem;color:var(--ink);font-weight:500}
+.scrub .hint{margin-left:auto;font-size:.78rem;color:var(--mute)}
+@media (hover:none){.scrub .hint{display:none}}
+#f1 .cursor{stroke:var(--ink2);stroke-width:1;stroke-dasharray:3 3}
+#f1 #f1-shade{fill:var(--bg);opacity:.5}
+#f1 svg{touch-action:pan-y pan-x}
+
+/* Figure 4 ribbons lift on hover. */
+#f4 .rib{transition:opacity .2s;cursor:default} #f4 .rib:hover,#f4 .rib:focus{opacity:.95;outline:none}
+
+/* Scene: four lanes of state tools over the price; the card nearest the middle of the screen lights its lane and the price reaction to it. */
+.scene{margin:22px 0 10px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.1fr);gap:20px;align-items:start}
+.scene .sticky{order:2;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--surface);border:1px solid var(--rule);padding:14px 14px 10px}
+.steps{order:1;display:grid;gap:0}
+.scenefig svg{width:100%;height:auto;display:block;font-family:var(--mono);font-size:12px}
+.step{min-height:60vh;display:flex;align-items:center}
+.step:first-child{min-height:48vh;align-items:flex-start;padding-top:8px}
+.step .card{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--axis);padding:12px 14px;font-size:.93rem;line-height:1.55;transition:border-color .3s}
+.step.on .card{border-left-color:var(--s2)}
+.step .when{font-family:var(--mono);font-size:.74rem;color:var(--ink2);margin:0 0 6px}
+.step p{margin:0}
+.scene .tail{min-height:26vh}
+@media (max-width:760px){
+  .scene{display:block}
+  .scene .sticky{top:env(safe-area-inset-top,0px);z-index:3;margin:0 -2px;padding:10px 8px 6px}
+  .scenefig svg{font-size:13px}
+  .step{min-height:54vh;align-items:flex-end;padding-bottom:12px}
+  .step:first-child{min-height:30vh}
+  .scene .tail{min-height:18vh}
+}
+.js .scene .rx{opacity:0;transition:opacity .4s}
+.js .scene .ev,.js .scene .lanelab,.js .scene .lane{transition:opacity .4s}
+.js .scene[data-step="1"] .rx.s1,.js .scene[data-step="2"] .rx.s2,.js .scene[data-step="3"] .rx.s3,.js .scene[data-step="4"] .rx.s4{opacity:1}
+.js .scene[data-step="1"] .lane.s1,.js .scene[data-step="2"] .lane.s2,.js .scene[data-step="3"] .lane.s3,.js .scene[data-step="4"] .lane.s4{opacity:1}
+.js .scene[data-step="1"] .ev:not(.s1),.js .scene[data-step="2"] .ev:not(.s2),.js .scene[data-step="3"] .ev:not(.s3),.js .scene[data-step="4"] .ev:not(.s4),
+.js .scene[data-step="1"] .lanelab:not(.s1),.js .scene[data-step="2"] .lanelab:not(.s2),.js .scene[data-step="3"] .lanelab:not(.s3),.js .scene[data-step="4"] .lanelab:not(.s4){opacity:.3}
+
+.trade{border:1px solid var(--ink);padding:16px 18px;max-width:68ch;margin:14px 0 18px;display:grid;gap:8px}
+.trade .row{display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:.95rem}
+.trade .k{font-family:var(--mono);font-size:.78rem;color:var(--ink2);padding-top:3px}
+.wrong{list-style:none;padding:0;margin:10px 0 18px;max-width:68ch;display:grid;gap:0}
+.wrong li{display:grid;grid-template-columns:1fr auto;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule);font-size:.95rem}
+.wrong .st{font-family:var(--mono);font-size:.76rem;color:var(--ink2);white-space:nowrap;display:inline-flex;align-items:center;gap:6px;padding-top:4px}
+.wrong .st::before{content:"";width:9px;height:9px;border:1.5px solid var(--ink2);border-radius:50%}
+.cal{display:flex;flex-wrap:wrap;gap:0 22px;margin:8px 0 6px;padding:0;list-style:none;font-size:.9rem}
+.cal li{display:grid;grid-template-columns:auto 1fr;gap:8px;padding:6px 0;border-top:1px solid var(--rule);min-width:220px;flex:1 1 220px}
+.cal .d{font-family:var(--mono);font-size:.8rem;color:var(--ink2);padding-top:2px;white-space:nowrap}
+.src{font-size:.86rem;color:var(--ink2);padding-left:1.1em;margin:6px 0 0}
+.src li{margin:0 0 4px}
+footer{max-width:820px;margin:0 auto;padding:10px 0 0;color:var(--ink2);font-size:.86rem}
+.tip{position:absolute;z-index:5;background:var(--ink);color:var(--bg);font-family:var(--mono);font-size:.78rem;padding:6px 9px;pointer-events:none;max-width:280px;line-height:1.4}
+
+/* Motion: everything is drawn at rest. With scripting on, a figure replays a short draw once when it enters the viewport. */
+.js .fig .draw{stroke-dasharray:var(--len,0);stroke-dashoffset:var(--len,0)}
+.js .fig.in .draw{stroke-dashoffset:0;transition:stroke-dashoffset 1.3s ease-out}
+.js .fig .fade{opacity:0} .js .fig.in .fade{opacity:1;transition:opacity .5s .9s}
+@media (prefers-reduced-motion: reduce){
+  .js .fig .draw{stroke-dasharray:none;stroke-dashoffset:0} .js .fig .fade{opacity:1}
+  .js .fig.in .draw,.js .fig.in .fade,.js .scene .rx,.js .scene .ev,.js .scene .lanelab,.js .scene .lane,.step .card,#f4 .rib{transition:none}}
+</style>
+</head>
+<body>
+<div class="proto"><b>Format prototype v2</b><span>25 Oct 2026</span><span>Numbers are public and dated; prose is placeholder for the author's</span><span>Reads completely with motion off</span><span><a href="../">v1 for comparison</a></span></div>
+
+<header class="masthead">
+  <div class="eyebrow">Research memo · polysilicon</div>
+  <h1>The Floor Nobody Buys</h1>
+  <div class="meta"><span>Author name</span><span>25 October 2026</span><span>Working draft, structure only</span></div>
+</header>
+
+<div class="wrap">
+<nav class="rail" aria-label="Parts of the memo">
+  <div class="lab">The house order</div>
+  <a href="#hook">1 The claim</a>
+  <a href="#mechanism">2 Mechanism</a>
+  <a href="#winners">3 Winners and losers</a>
+  <a href="#expression">4 Expression</a>
+  <a href="#wrong">5 Way to be wrong</a>
+  <a href="#disclosure">6 Disclosure and sources</a>
+</nav>
+
+<main>
+<section id="hook">
+  <div class="part">1 · The claim the market holds</div>
+  <div class="text">
+  <p>On 11 October, eight producers holding more than 90 percent of China's effective polysilicon capacity met in Hangzhou and agreed that nothing would sell below 43,000 yuan a tonne. Five days later the November contract on the Guangzhou Futures Exchange closed at 34,285. The quote and the price sit 20 percent apart, and the association that publishes the quote counts two or three firms transacting at it. One of those two numbers is wrong.</p>
+  </div>
+  <p class="ph"><b>Author's paragraph.</b> What the equity market has priced on the floor: the move in the solar ETFs on the headlines, the sell-side line that effective capacity contracts by 28 to 40 percent, and the re-rating this implies for Tongwei, GCL and Daqo.</p>
+
+  <figure class="fig" id="f1">
+    <p class="ftitle">Polysilicon, yuan per tonne: the quoted floor and the traded price</p>
+    <p class="fsub">Daily closes of the main contract, April to October 2026, with the association's quotes and the Hangzhou floor. The line breaks where the main contract rolls (ticks on the axis). Point at a day, or use the arrow keys, to read the close and its gap to the floor.</p>
+    <div class="legend"><span style="--c:var(--s1)">Main contract close, GFEX</span><span class="dash" style="--c:var(--s2)">Spot quote, association weekly</span><span style="--c:var(--s2)">Producer floor</span><span class="fill" style="--c:var(--s2)">Gap between floor and price</span></div>
+    <div class="scrub"><span class="sd" id="f1-d">19 Oct 2026</span><span class="ss" id="f1-s">November contract close</span><span class="sv num" id="f1-v">35,040 yuan/t</span><span class="sg num" id="f1-g">−18.5% vs the 43,000 floor</span><span class="hint">arrow keys move one trading day</span></div>
+    <div class="figscroll" id="f1-scroll" tabindex="0" aria-label="Line chart with a movable cursor. Use the left and right arrow keys to move between trading days."><svg viewBox="0 0 760 360" role="img" aria-label="Daily closes of the Guangzhou polysilicon main contract from April to October 2026 against the 43,000 yuan producer floor set on 11 October. The contract last closed above 43,000 on 23 April and closed at 35,040 on 19 October, 18.5 percent below the floor.">
+      <line class="gl" x1="60" x2="720" y1="300.0" y2="300.0"/>
+      <text class="tm" x="52" y="304.0" text-anchor="end">30,000</text>
+      <line class="gl" x1="60" x2="720" y1="212.5" y2="212.5"/>
+      <text class="tm" x="52" y="216.5" text-anchor="end">35,000</text>
+      <line class="gl" x1="60" x2="720" y1="125.0" y2="125.0"/>
+      <text class="tm" x="52" y="129.0" text-anchor="end">40,000</text>
+      <line class="gl" x1="60" x2="720" y1="37.5" y2="37.5"/>
+      <text class="tm" x="52" y="41.5" text-anchor="end">45,000</text>
+      <text class="tm" x="60.0" y="326" text-anchor="middle">Apr</text>
+      <text class="tm" x="153.0" y="326" text-anchor="middle">May</text>
+      <text class="tm" x="249.0" y="326" text-anchor="middle">Jun</text>
+      <text class="tm" x="342.0" y="326" text-anchor="middle">Jul</text>
+      <text class="tm" x="438.0" y="326" text-anchor="middle">Aug</text>
+      <text class="tm" x="534.1" y="326" text-anchor="middle">Sep</text>
+      <text class="tm" x="627.0" y="326" text-anchor="middle">Oct</text>
+      <line class="ax" x1="60" x2="720" y1="300" y2="300"/>
+      <line x1="60" x2="658.0" y1="72.5" y2="72.5" stroke="var(--s2)" stroke-width="1" stroke-dasharray="2 4" opacity=".7"/>
+      <text class="t" x="648.0" y="86.5" text-anchor="end">43,000, the level the floor names</text>
+      <polygon class="fade" points="661.1,72.5 661.1,209.0 664.2,210.8 667.3,223.9 670.4,243.0 673.5,225.0 682.8,211.8 685.9,216.7 689.0,234.8 692.1,223.4 695.2,216.7 695.2,72.5" fill="var(--s2)" fill-opacity=".16"/>
+      <polyline points="103.4,207.2 617.7,125.0 667.3,72.5" fill="none" stroke="var(--s2)" stroke-width="2" stroke-dasharray="6 5"/>
+      <line class="draw" x1="658.0" x2="720" y1="72.5" y2="72.5" stroke="var(--s2)" stroke-width="2.5"/>
+      <text class="ti" x="720" y="64.5" text-anchor="end" font-weight="500">floor 43,000 · 11 Oct</text>
+      <polyline class="draw" points="60.0,217.4 63.1,208.2 66.2,234.0 78.6,258.0 81.7,252.8 84.8,270.4 87.9,262.8 97.2,216.5 100.3,228.5 103.4,215.6" fill="none" stroke="var(--s1)" stroke-width="2"/>
+      <polyline class="draw" points="106.5,135.8 109.6,128.9 118.9,73.3 122.0,78.2 125.1,32.2 128.2,56.3 131.3,113.5 140.6,142.2 143.7,144.2 146.8,149.8 149.9,153.3 168.5,141.1 171.5,117.5 174.6,150.6 183.9,156.2 187.0,187.5 190.1,174.2 193.2,167.5 196.3,177.1 205.6,178.7" fill="none" stroke="var(--s1)" stroke-width="2"/>
+      <polyline class="draw" points="208.7,175.5 211.8,161.1 214.9,176.1 218.0,168.1 227.3,161.5 230.4,170.9 233.5,182.2 236.6,178.2 239.7,180.4 249.0,155.1 252.1,168.6 255.2,184.4 258.3,203.5 261.4,200.7 270.7,205.5 273.8,225.1 276.9,193.2 280.0,165.1 283.1,172.9 292.4,159.5 295.5,205.2 298.6,185.8 301.7,197.8 314.1,193.4 317.2,198.5 320.3,186.5 323.4,201.4 326.5,217.0 335.8,208.7 338.9,206.8 342.0,198.1 345.1,203.0 348.2,199.2 357.5,196.3 360.6,194.6 363.7,204.2 366.8,198.6 369.9,188.9 379.2,193.1 382.3,198.2 385.4,209.7 388.5,210.1 391.5,230.3 400.8,241.2 403.9,234.2 407.0,225.6 410.1,235.0 413.2,241.1 422.5,236.3 425.6,254.1 428.7,253.1 431.8,255.2 434.9,246.8 444.2,196.9 447.3,200.0 450.4,204.1 453.5,196.8 456.6,176.8 465.9,188.2 469.0,175.7 472.1,156.7" fill="none" stroke="var(--s1)" stroke-width="2"/>
+      <polyline class="draw" points="475.2,153.2 478.3,139.2 487.6,142.8 490.7,166.5 493.8,163.2 496.9,151.7 500.0,152.5 509.3,165.3 512.4,174.8 515.5,166.2 518.6,164.7 521.7,166.9 531.0,176.9 534.1,160.0 537.2,179.2 540.3,170.2 543.4,163.6 552.7,176.4 555.8,174.1 558.9,166.7 562.0,182.5 565.1,186.6 574.4,181.7 577.5,182.7 580.6,180.4 583.7,186.4 586.8,186.4 596.1,181.0 599.2,165.2 602.3,175.9 605.4,177.7 617.7,177.9 620.8,190.6 623.9,184.8 648.7,189.1 651.8,192.9 661.1,209.0 664.2,210.8 667.3,223.9 670.4,243.0 673.5,225.0 682.8,211.8 685.9,216.7 689.0,234.8 692.1,223.4 695.2,216.7" fill="none" stroke="var(--s1)" stroke-width="2"/>
+      <line x1="106.5" x2="106.5" y1="300" y2="307" stroke="var(--ink2)" stroke-width="1.5"/>
+      <line x1="208.7" x2="208.7" y1="300" y2="307" stroke="var(--ink2)" stroke-width="1.5"/>
+      <line x1="475.2" x2="475.2" y1="300" y2="307" stroke="var(--ink2)" stroke-width="1.5"/>
+      <circle class="pt" cx="103.4" cy="207.2" r="5" fill="var(--surface)" stroke="var(--s2)" stroke-width="2" tabindex="0" data-tip="Spot, 15 Apr 2026: 35,300 yuan/t"/>
+      <circle class="pt" cx="617.7" cy="125.0" r="5" fill="var(--surface)" stroke="var(--s2)" stroke-width="2" tabindex="0" data-tip="Spot transaction average, 28 Sep 2026: above 40,000 yuan/t"/>
+      <circle class="pt" cx="667.3" cy="72.5" r="5" fill="var(--surface)" stroke="var(--s2)" stroke-width="2" tabindex="0" data-tip="Quote, week of 14 Oct 2026: 43,000, two to three firms transacting"/>
+      <circle cx="128.2" cy="56.3" r="3.5" fill="var(--s1)" stroke="var(--surface)" stroke-width="1.5"/>
+      <text class="t" x="136.2" y="60.3" text-anchor="start">43,925 · 23 Apr, last close above 43,000</text>
+      <circle cx="478.3" cy="139.2" r="3.5" fill="var(--s1)" stroke="var(--surface)" stroke-width="1.5"/>
+      <text class="t" x="478.3" y="129.2" text-anchor="middle">39,190 · 14 Aug</text>
+      <circle cx="670.4" cy="243.0" r="3.5" fill="var(--s1)" stroke="var(--surface)" stroke-width="1.5"/>
+      <text class="t" x="662.4" y="259.0" text-anchor="end">33,255 · 15 Oct</text>
+      <text class="t" x="95.9" y="285.3">31,070 intraday low · 10 Apr</text>
+      <g class="fade"><line x1="696.8" x2="696.8" y1="72.5" y2="211.8" stroke="var(--ink2)" stroke-width="1"/><line x1="692.8" x2="700.8" y1="72.5" y2="72.5" stroke="var(--ink2)"/><line x1="692.8" x2="700.8" y1="211.8" y2="211.8" stroke="var(--ink2)"/><text class="ti" x="690.8" y="147.2" text-anchor="end" font-weight="500" font-size="16"><tspan data-count="18.5" data-prefix="−" data-suffix="%">−18.5%</tspan></text><text class="t" x="690.8" y="162.2" text-anchor="end">19 Oct</text></g>
+      <rect id="f1-shade" x="682.8" y="20" width="37.2" height="280" hidden/>
+      <line id="f1-cursor" class="cursor" x1="0" x2="0" y1="20" y2="300" hidden/>
+      <circle id="f1-dot" cx="0" cy="0" r="5" fill="var(--s1)" stroke="var(--surface)" stroke-width="2" hidden/>
+    </svg></div>
+    <figcaption>Guangzhou Futures Exchange daily closes of the main contract, pulled 25 Oct 2026 through the Sina Finance futures feed; the line breaks where the main contract rolled (16 Apr to June, 19 May to September, 13 Aug to November) and follows the November contract after 22 Oct. Association n-type rod quotes: JRJ, 14 Oct 2026; Eastmoney, 28 Sep 2026. Floor: Trivium China, 14 Oct 2026.</figcaption>
+    <details><summary>Points named in the text</summary>
+      <div class="tablewrap"><table><tr><th>Date</th><th>Series</th><th class="n">Yuan per tonne</th><th class="n">Gap to 43,000</th><th>Source</th></tr>
+      <tr><td>10 Apr 2026</td><td>Intraday low, May contract</td><td class="n">31,070</td><td class="n">−27.7%</td><td>GFEX</td></tr>
+      <tr><td>15 Apr 2026</td><td>Spot</td><td class="n">35,300</td><td class="n">−17.9%</td><td>Association via clean-tech note</td></tr>
+      <tr><td>23 Apr 2026</td><td>Close, June contract, last above 43,000</td><td class="n">43,925</td><td class="n">+2.2%</td><td>GFEX</td></tr>
+      <tr><td>14 Aug 2026</td><td>Close, November contract</td><td class="n">39,190</td><td class="n">−8.9%</td><td>GFEX</td></tr>
+      <tr><td>28 Sep 2026</td><td>Spot transaction average</td><td class="n">above 40,000</td><td class="n">−7.0% or less</td><td>Eastmoney, 28 Sep 2026</td></tr>
+      <tr><td>11 Oct 2026</td><td>Producer floor</td><td class="n">43,000</td><td class="n">0</td><td>Trivium China, 14 Oct 2026</td></tr>
+      <tr><td>14 Oct 2026</td><td>Spot quote</td><td class="n">43,000</td><td class="n">0</td><td>JRJ, 14 Oct 2026</td></tr>
+      <tr><td>15 Oct 2026</td><td>Close, November contract</td><td class="n">33,255</td><td class="n">−22.7%</td><td>GFEX; pv magazine</td></tr>
+      <tr><td>16 Oct 2026</td><td>Close, November contract</td><td class="n">34,285</td><td class="n">−20.3%</td><td>GFEX; Securities Times via Eastmoney, 17 Oct 2026</td></tr>
+      <tr><td>19 Oct 2026</td><td>Close, November contract</td><td class="n">35,040</td><td class="n">−18.5%</td><td>GFEX; Mysteel, 19 Oct 2026</td></tr>
+      <tr><td>23 Oct 2026</td><td>Close, November contract</td><td class="n">34,760</td><td class="n">−19.2%</td><td>GFEX</td></tr></table></div>
+    </details>
+  </figure>
+</section>
+
+<section id="mechanism">
+  <div class="part">2 · Mechanism</div>
+  <div class="text">
+  <p>A floor announced by private firms binds only if someone enforces it. The state has used three tools on this market in twelve months, and a fourth that it did not aim at the price. The record below is the market's reaction to each, measured on the contract that was live that day.</p>
+  </div>
+
+  <div class="scene" data-step="0">
+    <div class="sticky scenefig">
+      <p class="ftitle">Four tools, one price</p>
+      <p class="fsub">What the state did, when, and what the main contract did in the sessions after. December 2025 to January 2027.</p>
+      <svg viewBox="0 0 580 460" role="img" aria-label="Four lanes of dated state actions, antitrust, Price Law, energy standard, and taxes and trade, above the daily close of the polysilicon main contract from December 2025 to October 2026. The contract fell 16 percent in five sessions after the January antitrust meeting and 46 percent to its April low, rose 20 percent in ten sessions after the July Price Law meetings and gave it back by mid-October, and fell 4.9 percent in two sessions after the 11 October floor.">
+        <text class="tm" x="0" y="16" font-size="10.5" letter-spacing=".08em">STATE TOOL</text>
+        <rect class="lane s1" x="0" y="22.0" width="580" height="44" fill="var(--ph)" opacity="0"/>
+        <line x1="124" x2="560" y1="44" y2="44" stroke="var(--grid)" stroke-width="1"/>
+        <text class="ti lanelab s1" x="0" y="48" font-size="11.5" font-weight="500">Antitrust</text>
+        <rect class="lane s2" x="0" y="66.0" width="580" height="44" fill="var(--ph)" opacity="0"/>
+        <line x1="124" x2="560" y1="88" y2="88" stroke="var(--grid)" stroke-width="1"/>
+        <text class="ti lanelab s2" x="0" y="92" font-size="11.5" font-weight="500">Price Law</text>
+        <rect class="lane s3" x="0" y="110.0" width="580" height="44" fill="var(--ph)" opacity="0"/>
+        <line x1="124" x2="560" y1="132" y2="132" stroke="var(--grid)" stroke-width="1"/>
+        <text class="ti lanelab s3" x="0" y="136" font-size="11.5" font-weight="500">Energy standard</text>
+        <rect class="lane s4" x="0" y="154.0" width="580" height="44" fill="var(--ph)" opacity="0"/>
+        <line x1="124" x2="560" y1="176" y2="176" stroke="var(--grid)" stroke-width="1"/>
+        <text class="ti lanelab s4" x="0" y="180" font-size="11.5" font-weight="500">Taxes and trade</text>
+        <g class="ev s1"><circle cx="132.2" cy="44" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5"/><text class="t" x="138.2" y="38" text-anchor="start" font-size="10.5">9 Dec · consolidation vehicle registered</text></g>
+        <g class="ev s1"><circle cx="160.8" cy="44" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5"/><text class="t" x="166.8" y="62" text-anchor="start" font-size="10.5">6 Jan · SAMR bars price and output agreements</text></g>
+        <g class="ev s2"><circle cx="367.6" cy="88" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5"/><text class="t" x="361.6" y="82" text-anchor="end" font-size="10.5">27 to 31 Jul · cost model, Yancheng</text></g>
+        <g class="ev s2"><circle cx="377.8" cy="88" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5"/><text class="t" x="383.8" y="106" text-anchor="start" font-size="10.5">6 Aug · pledge</text></g>
+        <g class="ev s2"><circle cx="445.4" cy="88" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5"/><text class="t" x="451.4" y="82" text-anchor="start" font-size="10.5">11 Oct · floor</text></g>
+        <g class="ev s3"><circle cx="336.9" cy="132" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5"/><text class="t" x="330.9" y="126" text-anchor="end" font-size="10.5">27 Jun · GB 29447 published</text></g>
+        <g class="ev s3"><circle cx="529.3" cy="132" r="4" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text class="t" x="523.3" y="126" text-anchor="end" font-size="10.5">1 Jan 2027 · in force</text></g>
+        <g class="ev s4"><circle cx="247.8" cy="176" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5"/><text class="t" x="253.8" y="170" text-anchor="start" font-size="10.5">1 Apr · VAT rebate ends</text></g>
+        <g class="ev s4"><circle cx="450.5" cy="176" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5"/><text class="t" x="444.5" y="206" text-anchor="end" font-size="10.5">16 Oct · export-control draft</text></g>
+        <g class="ev s4"><circle cx="377.8" cy="176" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="1.5"/><text class="t" x="383.8" y="194" text-anchor="start" font-size="10.5">6 Aug · Section 232 proclaimed</text></g>
+        <g class="ev s4"><circle cx="500.6" cy="176" r="4" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text class="t" x="494.6" y="158" text-anchor="end" font-size="10.5">4 Dec · US import floor</text></g>
+        <text class="tm" x="0" y="230" font-size="10.5" letter-spacing=".08em">MAIN CONTRACT, YUAN PER TONNE, CLOSE</text>
+        <line class="gl" x1="124" x2="560" y1="420.0" y2="420.0"/><text class="tm" x="118" y="424.0" text-anchor="end" font-size="10.5">30,000</text>
+        <line class="gl" x1="124" x2="560" y1="363.8" y2="363.8"/><text class="tm" x="118" y="367.8" text-anchor="end" font-size="10.5">40,000</text>
+        <line class="gl" x1="124" x2="560" y1="307.5" y2="307.5"/><text class="tm" x="118" y="311.5" text-anchor="end" font-size="10.5">50,000</text>
+        <line class="gl" x1="124" x2="560" y1="251.2" y2="251.2"/><text class="tm" x="118" y="255.2" text-anchor="end" font-size="10.5">60,000</text>
+        <line x1="124" x2="560" y1="346.9" y2="346.9" stroke="var(--s2)" stroke-width="1" stroke-dasharray="2 4" opacity=".8"/>
+        <line x1="445.4" x2="560" y1="346.9" y2="346.9" stroke="var(--s2)" stroke-width="2.5"/>
+        <text class="t" x="560" y="359.9" text-anchor="end" font-size="10.5">43,000 floor, from 11 Oct</text>
+        <line class="ax" x1="124" x2="560" y1="420" y2="420"/>
+        <text class="tm" x="124.0" y="438" text-anchor="middle" font-size="10.5">D</text>
+        <text class="tm" x="155.7" y="438" text-anchor="middle" font-size="10.5">J</text>
+        <text class="tm" x="187.5" y="438" text-anchor="middle" font-size="10.5">F</text>
+        <text class="tm" x="216.1" y="438" text-anchor="middle" font-size="10.5">M</text>
+        <text class="tm" x="247.8" y="438" text-anchor="middle" font-size="10.5">A</text>
+        <text class="tm" x="278.5" y="438" text-anchor="middle" font-size="10.5">M</text>
+        <text class="tm" x="310.3" y="438" text-anchor="middle" font-size="10.5">J</text>
+        <text class="tm" x="341.0" y="438" text-anchor="middle" font-size="10.5">J</text>
+        <text class="tm" x="372.7" y="438" text-anchor="middle" font-size="10.5">A</text>
+        <text class="tm" x="404.4" y="438" text-anchor="middle" font-size="10.5">S</text>
+        <text class="tm" x="435.1" y="438" text-anchor="middle" font-size="10.5">O</text>
+        <text class="tm" x="466.9" y="438" text-anchor="middle" font-size="10.5">N</text>
+        <text class="tm" x="497.6" y="438" text-anchor="middle" font-size="10.5">D</text>
+        <text class="tm" x="529.3" y="438" text-anchor="middle" font-size="10.5">J</text>
+        <text class="tm" x="124.0" y="452" text-anchor="middle" font-size="10.5">2025</text>
+        <text class="tm" x="155.7" y="452" text-anchor="middle" font-size="10.5">2026</text>
+        <text class="tm" x="529.3" y="452" text-anchor="middle" font-size="10.5">2027</text>
+        <line x1="132.2" x2="132.2" y1="420" y2="426" stroke="var(--ink2)" stroke-width="1.5"/>
+        <line x1="263.2" x2="263.2" y1="420" y2="426" stroke="var(--ink2)" stroke-width="1.5"/>
+        <line x1="297.0" x2="297.0" y1="420" y2="426" stroke="var(--ink2)" stroke-width="1.5"/>
+        <line x1="385.0" x2="385.0" y1="420" y2="426" stroke="var(--ink2)" stroke-width="1.5"/>
+        <g class="rx s1"><rect x="132.2" y="240" width="14.3" height="180" fill="var(--s2)" fill-opacity=".14"/><text class="ti" x="152.5" y="269.6" text-anchor="start" font-size="11" font-weight="500">+11.6% in ten sessions</text></g>
+        <g class="rx s1"><rect x="160.8" y="240" width="7.2" height="180" fill="var(--s2)" fill-opacity=".14"/><text class="ti" x="173.0" y="317.1" text-anchor="start" font-size="11" font-weight="500">−16.4% in five</text></g>
+        <g class="rx s1"><line x1="265.1" x2="265.1" y1="254.8" y2="408.0" stroke="var(--ink2)" stroke-width="1"/><line x1="261.1" x2="269.1" y1="254.8" y2="254.8" stroke="var(--ink2)"/><line x1="261.1" x2="269.1" y1="408.0" y2="408.0" stroke="var(--ink2)"/><text class="ti" x="271.1" y="300" font-size="13" font-weight="500">−46%</text><text class="t" x="271.1" y="314" font-size="10.5">6 Jan close to 10 Apr close</text></g>
+        <g class="rx s2"><rect x="371.7" y="240" width="14.3" height="180" fill="var(--s2)" fill-opacity=".14"/><text class="ti" x="381.0" y="360.3" text-anchor="end" font-size="11" font-weight="500">+19.9% in ten</text></g>
+        <g class="rx s2"><text class="t" x="429.0" y="403.1" font-size="10.5">then −15% to 15 Oct</text></g>
+        <g class="rx s2"><rect x="445.4" y="240" width="3.1" height="180" fill="var(--s2)" fill-opacity=".14"/><text class="ti" x="441.4" y="340.9" text-anchor="end" font-size="11" font-weight="500">−4.9% in two</text></g>
+        <g class="rx s3"><rect x="338.9" y="240" width="14.3" height="180" fill="var(--s2)" fill-opacity=".14"/><text class="ti" x="359.3" y="375.6" font-size="11" font-weight="500">+3.9% in ten,</text><text class="ti" x="359.3" y="388.6" font-size="11" font-weight="500">−3.2% in twenty</text></g>
+        <g class="rx s4"><rect x="247.8" y="240" width="8.2" height="180" fill="var(--s2)" fill-opacity=".14"/><text class="ti" x="261.0" y="414.5" text-anchor="start" font-size="11" font-weight="500">−10% in five</text></g>
+        <g class="rx s4"><rect x="450.5" y="240" width="7.2" height="180" fill="var(--s2)" fill-opacity=".14"/><text class="ti" x="463.7" y="397.2" text-anchor="start" font-size="11" font-weight="500">+4.5% in five</text></g>
+        <polyline points="124.0,264.2 125.0,272.0 126.0,265.7 127.1,268.6 128.1,276.5 131.2,281.9" fill="none" stroke="var(--s1)" stroke-width="1.6"/>
+        <polyline points="132.2,281.5 133.2,281.6 134.2,275.1 135.3,267.1 138.3,262.3 139.4,259.1 140.4,242.3 141.4,255.2 142.4,249.9 145.5,257.7 146.5,255.6 147.5,260.8 148.6,247.0 149.6,257.1 152.7,270.9 153.7,263.1 154.7,262.9 159.8,258.9 160.8,254.8 161.9,260.8 162.9,287.2 163.9,300.2 167.0,307.5 168.0,313.1 169.0,313.4 170.1,315.0 171.1,306.4 174.2,304.7 175.2,303.6 176.2,309.2 177.2,304.6 178.2,303.4 181.3,300.3 182.3,296.8 183.4,303.0 184.4,311.2 185.4,323.6 188.5,324.1 189.5,307.5 190.5,300.8 191.5,310.0 192.6,311.5 195.6,311.0 196.7,313.4 197.7,312.1 198.7,313.0 199.7,311.4 211.0,324.4 212.0,320.8 213.0,328.2 214.1,327.2 217.1,336.0 218.2,342.9 219.2,351.4 220.2,350.9 221.2,357.5 224.3,348.6 225.3,350.0 226.3,349.2 227.4,348.2 228.4,352.3 231.5,354.2 232.5,354.4 233.5,363.2 234.5,371.9 235.6,376.3 238.6,389.4 239.7,387.8 240.7,382.0 241.7,388.8 242.7,388.1 245.8,383.2 246.8,390.8 247.8,393.4 248.9,390.5 249.9,398.8 254.0,406.5 255.0,404.8 256.0,410.5 257.1,408.0 260.1,393.2 261.1,397.0 262.2,392.9" fill="none" stroke="var(--s1)" stroke-width="1.6"/>
+        <polyline points="263.2,367.2 264.2,365.0 267.3,347.1 268.3,348.7 269.3,333.9 270.4,341.7 271.4,360.1 274.5,369.3 275.5,369.9 276.5,371.7 277.5,372.9 283.7,368.9 284.7,361.3 285.7,372.0 288.8,373.8 289.8,383.8 290.8,379.6 291.8,377.4 292.9,380.5 295.9,381.0" fill="none" stroke="var(--s1)" stroke-width="1.6"/>
+        <polyline points="297.0,380.0 298.0,375.4 299.0,380.2 300.0,377.6 303.1,375.5 304.1,378.5 305.2,382.1 306.2,380.9 307.2,381.6 310.3,373.4 311.3,377.8 312.3,382.8 313.3,389.0 314.4,388.1 317.4,389.6 318.5,395.9 319.5,385.7 320.5,376.6 321.5,379.1 324.6,374.8 325.6,389.5 326.6,383.3 327.7,387.1 331.8,385.7 332.8,387.4 333.8,383.5 334.8,388.3 335.9,393.3 338.9,390.7 340.0,390.0 341.0,387.3 342.0,388.8 343.0,387.6 346.1,386.7 347.1,386.1 348.1,389.2 349.2,387.4 350.2,384.3 353.3,385.6 354.3,387.3 355.3,391.0 356.3,391.1 357.4,397.6 360.4,401.1 361.4,398.9 362.5,396.1 363.5,399.1 364.5,401.1 367.6,399.5 368.6,405.2 369.6,404.9 370.7,405.6 371.7,402.9 374.8,386.9 375.8,387.9 376.8,389.2 377.8,386.8 378.8,380.4 381.9,384.1 382.9,380.0 384.0,373.9" fill="none" stroke="var(--s1)" stroke-width="1.6"/>
+        <polyline points="385.0,372.8 386.0,368.3 389.1,369.5 390.1,377.1 391.1,376.0 392.2,372.3 393.2,372.6 396.2,376.7 397.3,379.8 398.3,377.0 399.3,376.5 400.3,377.2 403.4,380.4 404.4,375.0 405.5,381.2 406.5,378.3 407.5,376.2 410.6,380.3 411.6,379.5 412.6,377.2 413.6,382.2 414.7,383.6 417.7,382.0 418.8,382.3 419.8,381.6 420.8,383.5 421.8,383.5 424.9,381.8 425.9,376.7 426.9,380.1 428.0,380.7 432.1,380.8 433.1,384.8 434.1,383.0 442.3,384.4 443.3,385.6 446.4,390.8 447.4,391.3 448.4,395.5 449.5,401.7 450.5,395.9 453.6,391.6 454.6,393.2 455.6,399.0 456.6,395.4 457.7,393.2" fill="none" stroke="var(--s1)" stroke-width="1.6"/>
+        <circle cx="140.4" cy="242.3" r="3" fill="var(--s1)" stroke="var(--surface)" stroke-width="1.5"/><text class="t" x="146.4" y="246.3" font-size="10.5">61,595 · 17 Dec</text>
+        <circle cx="257.1" cy="408.0" r="3" fill="var(--s1)" stroke="var(--surface)" stroke-width="1.5"/><text class="t" x="250.1" y="412.0" text-anchor="end" font-size="10.5">32,125 · 10 Apr</text>
+        <line x1="457.7" x2="457.7" y1="240" y2="420" stroke="var(--axis)" stroke-width="1" stroke-dasharray="2 3"/><text class="tm" x="461.7" y="252" font-size="10.5">data to 23 Oct</text>
+      </svg>
+      <figcaption>Closes from the Guangzhou Futures Exchange via Sina Finance, pulled 25 Oct 2026. Reactions are measured on the contract that was the main contract on the event day; the line breaks at rolls. Events: 21jingji, 8 Jan and 4 Aug 2026; Daqo release, 20 Aug 2026; Trivium China, 14 Oct 2026; GB 29447-2026; EY tax alert 2026-1695.</figcaption>
+    </div>
+    <div class="steps">
+      <div class="step" data-step="1"><div class="card"><p class="when">Antitrust · 6 January 2026</p><p>A consolidation vehicle registered on 9 December was to buy and shut a third of surplus capacity. The main contract rose 11.6 percent in the next ten sessions and closed at 61,595 on 17 December. On 6 January the State Administration for Market Regulation barred the producers from any agreement on capacity, output or price. The contract fell 16.4 percent in five sessions and 46 percent by its 10 April low. The one tool the market believed was the one that removed a premium.</p></div></div>
+      <div class="step" data-step="2"><div class="card"><p class="when">Price Law · 27 July to 11 October 2026</p><p>The association's cost model (27 July) and the regulator's Yancheng meeting (31 July) changed the legal theory: a cartel is illegal, and so is selling below cost. The September contract rose 19.9 percent in ten sessions; the November contract then gave back 15 percent, from 39,190 on 14 August to 33,255 on 15 October. The 43,000 floor set on 11 October was followed by a 4.9 percent fall in two sessions. No main contract has closed above 43,000 since 23 April.</p></div></div>
+      <div class="step" data-step="3"><div class="card"><p class="when">Energy standard · published 27 June, in force 1 January 2027</p><p>GB 29447-2026 is the one tool in the sequence with the force of law: existing lines must run at 6.3 kilograms of coal equivalent per kilogram or close, against a 2025 industry average of 6.8. The contract rose 3.9 percent in the ten sessions after publication and was down 3.2 percent after twenty. Nameplate capacity above 3.5 million tonnes a year stands against output near 1.2 to 1.3 million, so most of what the standard retires is already idle.</p></div></div>
+      <div class="step" data-step="4"><div class="card"><p class="when">Taxes and trade · 1 April and 4 December 2026</p><p>The export VAT rebate ended on 1 April: a record 68 GW of modules shipped in March, and exports are down 9.6 percent year on year through September. Washington's minimum import price of 0.38 dollars a watt applies from 4 December, against a China FOB price of 0.107. Neither moved the polysilicon contract for long (minus 10 percent in the five sessions after 1 April, plus 4.5 percent after the 16 October export-control draft). They moved volumes. The floors that bind are taxes.</p></div></div>
+      <div class="tail"></div>
+    </div>
+  </div>
+
+  <div class="text">
+  <p>What the floor rests on, then, is the Price Law's clause against selling below cost and a cost model written by the trade association. Converted without VAT, 43,000 yuan a tonne is about 5.32 dollars a kilogram. Daqo's second quarter put cash cost at 4.57 and total cost at 5.95. The floor clears cash cost and misses full cost, even for one of the lowest-cost producers. It is a cash-cost floor presented as a cost floor, and it is being held by not selling.</p>
+  </div>
+
+  <figure class="fig" id="f2">
+    <p class="ftitle">Held by not selling: the stock and the two flows</p>
+    <p class="fsub">End of September 2026. Output on the October plan, demand as the association reports it, and the stock the difference builds. Below, three paths to the end-December note that condition 3 in the way to be wrong reads from.</p>
+    <div class="figscroll"><svg viewBox="0 0 760 160" role="img" aria-label="Flow diagram: 105 kilotonnes a month of output against 88 of demand; the 17 kilotonne difference flows into a stock of 572 kilotonnes at end September, 5.4 months of output.">
+      <text class="tm" x="60" y="12" font-size="10.5" letter-spacing=".08em">KILOTONNES A MONTH</text>
+      <rect x="60" y="18" width="250" height="57.8" fill="var(--s3)" opacity=".85"/>
+      <text x="70" y="51.9" fill="#ffffff" font-weight="500">Output 105 · October plan</text>
+      <rect x="310" y="18" width="14" height="57.8" fill="var(--ink)"/>
+      <rect x="324" y="18" width="300" height="48.4" fill="var(--s3)" opacity=".85"/>
+      <text x="334" y="47.2" fill="#ffffff" font-weight="500">Demand 88</text>
+      <path d="M324,66.4 h120 q24,0 24,24 v10 h-9.4 v-10 q0,-14.6 -14.6,-14.6 h-105.3 z" fill="var(--s3)"/>
+      <text class="ti" x="476" y="96.4" font-weight="500">+17 a month into stock</text>
+      <rect x="400" y="106.4" width="330" height="44" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+      <text class="ti" x="410" y="124.4" font-weight="500">Stock 572 kt at end September</text><text class="t" x="410" y="142.4">5.4 months of output, 6.5 months of demand</text>
+    </svg></div>
+    <div class="legend"><span style="--c:var(--s3)">105 in, 88 out: the October plan continues</span><span class="dash" style="--c:var(--s3)">Output cut to demand, 88 in</span><span class="dots" style="--c:var(--s3)">Output 47 a month, what prints 450 at end December</span></div>
+    <div class="figscroll"><svg viewBox="0 0 760 290" role="img" aria-label="Three inventory paths from 572 kilotonnes at end September to end March 2027: on the October plan the stock reaches 623 at end December; with output equal to demand it stays at 572; printing 450 at end December takes output of 47 kilotonnes a month, 45 percent of the October plan.">
+      <line class="gl" x1="60" x2="740" y1="250.0" y2="250.0"/><text class="tm" x="52" y="254.0" text-anchor="end">300</text>
+      <line class="gl" x1="60" x2="740" y1="190.0" y2="190.0"/><text class="tm" x="52" y="194.0" text-anchor="end">450</text>
+      <line class="gl" x1="60" x2="740" y1="130.0" y2="130.0"/><text class="tm" x="52" y="134.0" text-anchor="end">600</text>
+      <line class="gl" x1="60" x2="740" y1="70.0" y2="70.0"/><text class="tm" x="52" y="74.0" text-anchor="end">750 kt</text>
+      <text class="tm" x="70" y="274" text-anchor="middle">Sep</text>
+      <text class="tm" x="175" y="274" text-anchor="middle">Oct</text>
+      <text class="tm" x="280" y="274" text-anchor="middle">Nov</text>
+      <text class="tm" x="385" y="274" text-anchor="middle">Dec</text>
+      <text class="tm" x="490" y="274" text-anchor="middle">Jan</text>
+      <text class="tm" x="595" y="274" text-anchor="middle">Feb</text>
+      <text class="tm" x="700" y="274" text-anchor="middle">Mar</text>
+      <line class="ax" x1="60" x2="740" y1="250" y2="250"/>
+      <line x1="60" x2="740" y1="190.0" y2="190.0" stroke="var(--ink2)" stroke-width="1.5" stroke-dasharray="4 3"/><text class="t" x="736" y="184.0" text-anchor="end">450 kt · the end-December test</text>
+      <line x1="385" x2="385" y1="30" y2="250" stroke="var(--axis)" stroke-width="1" stroke-dasharray="2 3"/><text class="tm" x="390" y="42">end-December note</text>
+      <polyline class="draw" points="70,141.2 175,134.4 280,127.6 385,120.8 490,114.0 595,107.2 700,100.4" fill="none" stroke="var(--s3)" stroke-width="2.25"/>
+      <circle class="pt" cx="70" cy="141.2" r="4" fill="var(--s3)" stroke="var(--s3)" stroke-width="2" tabindex="0" data-tip="End Sep (reported), 105 in, 88 out: the October plan continues: 572 kt"/>
+      <circle class="pt" cx="385" cy="120.8" r="5" fill="var(--surface)" stroke="var(--s3)" stroke-width="2" tabindex="0" data-tip="End Dec, 105 in, 88 out: the October plan continues: 623 kt"/>
+      <circle class="pt" cx="700" cy="100.4" r="4" fill="var(--surface)" stroke="var(--s3)" stroke-width="2" tabindex="0" data-tip="End Mar, 105 in, 88 out: the October plan continues: 674 kt"/>
+      <text class="ti" x="394" y="112.8" font-weight="500">623</text>
+      <polyline points="70,141.2 175,141.2 280,141.2 385,141.2 490,141.2 595,141.2 700,141.2" fill="none" stroke="var(--s3)" stroke-width="2.25" stroke-dasharray="6 4"/>
+      <circle class="pt" cx="70" cy="141.2" r="4" fill="var(--s3)" stroke="var(--s3)" stroke-width="2" tabindex="0" data-tip="End Sep (reported), output cut to demand: 572 kt"/>
+      <circle class="pt" cx="385" cy="141.2" r="5" fill="var(--surface)" stroke="var(--s3)" stroke-width="2" tabindex="0" data-tip="End Dec, output cut to demand: 572 kt"/>
+      <circle class="pt" cx="700" cy="141.2" r="4" fill="var(--surface)" stroke="var(--s3)" stroke-width="2" tabindex="0" data-tip="End Mar, output cut to demand: 572 kt"/>
+      <text class="ti" x="394" y="157.2" font-weight="500">572</text>
+      <polyline points="70,141.2 175,157.5 280,173.7 385,190.0 490,206.3 595,222.5 700,238.8" fill="none" stroke="var(--s3)" stroke-width="2.25" stroke-dasharray="2 3"/>
+      <circle class="pt" cx="70" cy="141.2" r="4" fill="var(--s3)" stroke="var(--s3)" stroke-width="2" tabindex="0" data-tip="End Sep (reported), output 47 kt a month, what prints 450 at end December: 572 kt"/>
+      <circle class="pt" cx="385" cy="190.0" r="5" fill="var(--surface)" stroke="var(--s3)" stroke-width="2" tabindex="0" data-tip="End Dec, output 47 kt a month, what prints 450 at end December: 450 kt"/>
+      <circle class="pt" cx="700" cy="238.8" r="4" fill="var(--surface)" stroke="var(--s3)" stroke-width="2" tabindex="0" data-tip="End Mar, output 47 kt a month, what prints 450 at end December: 328 kt"/>
+      <text class="ti" x="394" y="206.0" font-weight="500">450</text>
+      <text class="t" x="76" y="131.2">572 reported</text>
+      <text class="t" x="706" y="104.4">674</text><text class="t" x="706" y="145.2">572</text><text class="t" x="706" y="242.8">328</text>
+    </svg></div>
+    <figcaption>Securities Times via Eastmoney, 17 Oct 2026: industry inventory about 572,000 tonnes at end September; October output expected near 105,000 tonnes; monthly silicon demand about 88,000 tonnes. The paths hold each rate constant. The April figure of 320,000 tonnes may rest on a different counting basis and is reconciled before publication.</figcaption>
+  </figure>
+
+  <figure class="fig" id="f3">
+    <p class="ftitle">Where the floor sits against one producer's costs</p>
+    <p class="fsub">Daqo New Energy, quarter to June 2026, dollars per kilogram ex-VAT. The floor and the futures price converted at 7.15 yuan per dollar, with the floor's range across 6.90 to 7.40.</p>
+    <div class="figscroll"><svg viewBox="0 0 760 330" role="img" aria-label="Vertical ladder from 3.9 to 6.3 dollars per kilogram: Daqo selling price 4.04, the futures close 4.24, cash cost 4.57, the Hangzhou floor 5.32 with a 5.14 to 5.51 exchange-rate band, total cost 5.95.">
+      <line class="ax" x1="250" x2="250" y1="30.0" y2="300.0"/>
+      <line class="gl" x1="245" x2="255" y1="232.5" y2="232.5"/><text class="tm" x="220" y="236.5" text-anchor="end">$4.5</text>
+      <line class="gl" x1="245" x2="255" y1="176.2" y2="176.2"/><text class="tm" x="220" y="180.2" text-anchor="end">$5.0</text>
+      <line class="gl" x1="245" x2="255" y1="120.0" y2="120.0"/><text class="tm" x="220" y="124.0" text-anchor="end">$5.5</text>
+      <text class="tm" x="220" y="28.0" text-anchor="end" font-size="10.5">$/kg ex-VAT</text>
+      <text class="tm" x="262" y="28.0" font-size="10.5">tax-inclusive yuan/t at 7.15</text>
+      <rect class="fade" x="228" y="118.9" width="44" height="41.6" fill="var(--s2)" fill-opacity=".2"/>
+      <rect class="fade" x="228" y="250.8" width="44" height="24.9" fill="var(--s1)" fill-opacity=".2"/>
+      <line x1="220" x2="280" y1="69.4" y2="69.4" stroke="var(--ink)" stroke-width="2.5"/>
+      <circle class="pt" cx="250" cy="69.4" r="7" fill="var(--ink)" stroke="var(--surface)" stroke-width="2" tabindex="0" data-tip="Total production cost, Daqo Q2 2026: 5.95 $/kg"/>
+      <text class="ti" x="294" y="73.4" font-weight="500">Total cost 5.95</text>
+      <text class="t" x="294" y="87.4" font-size="11">a floor covering it would be about 48,100 yuan</text>
+      <text class="t" x="180" y="73.4" text-anchor="end">48,100</text>
+      <line x1="220" x2="280" y1="140.2" y2="140.2" stroke="var(--s2)" stroke-width="3"/>
+      <circle class="pt" cx="250" cy="140.2" r="7" fill="var(--s2)" stroke="var(--surface)" stroke-width="2" tabindex="0" data-tip="Floor ex-VAT: 43,000 / 1.13 / 7.15 = 5.32 $/kg"/>
+      <text class="ti" x="294" y="144.2" font-weight="500">Hangzhou floor 5.32</text>
+      <text class="t" x="294" y="158.2" font-size="11">5.14 to 5.51 across 7.40 to 6.90 yuan per dollar</text>
+      <text class="t" x="180" y="144.2" text-anchor="end">43,000</text>
+      <line x1="220" x2="280" y1="224.6" y2="224.6" stroke="var(--ink)" stroke-width="2.5"/>
+      <circle class="pt" cx="250" cy="224.6" r="7" fill="var(--ink)" stroke="var(--surface)" stroke-width="2" tabindex="0" data-tip="Cash cost, Daqo Q2 2026: 4.57 $/kg"/>
+      <text class="ti" x="294" y="228.6" font-weight="500">Cash cost 4.57</text>
+      <text class="t" x="180" y="228.6" text-anchor="end">36,900</text>
+      <line x1="220" x2="280" y1="261.4" y2="261.4" stroke="var(--s1)" stroke-width="3"/>
+      <circle class="pt" cx="250" cy="261.4" r="7" fill="var(--s1)" stroke="var(--surface)" stroke-width="2" tabindex="0" data-tip="November contract close, 16 Oct 2026: 34,285 yuan/t = 4.24 $/kg"/>
+      <text class="ti" x="294" y="265.4" font-weight="500">Futures 4.24 · closes 15 to 23 Oct, 4.12 to 4.34</text>
+      <text class="t" x="180" y="265.4" text-anchor="end">34,300</text>
+      <line x1="220" x2="280" y1="284.2" y2="284.2" stroke="var(--ink)" stroke-width="2.5"/>
+      <circle class="pt" cx="250" cy="284.2" r="7" fill="var(--ink)" stroke="var(--surface)" stroke-width="2" tabindex="0" data-tip="Average selling price, Daqo Q2 2026: 4.04 $/kg"/>
+      <text class="ti" x="294" y="288.2" font-weight="500">Selling price 4.04 · Daqo, quarter to June</text>
+      <text class="t" x="180" y="288.2" text-anchor="end">32,600</text>
+    </svg></div>
+    <figcaption>Daqo New Energy results for the quarter to 30 June 2026 (company release, 20 Aug 2026): 43,675 tonnes produced, 15,190 sold, utilization near 57 percent. Conversions: yuan per tonne divided by 1.13 and by the exchange rate; 43,000 is 38,053 ex-VAT and 5.32 dollars at 7.15. The yuan column shows each dollar level back-converted the same way.</figcaption>
+  </figure>
+  <p class="ph"><b>Author's paragraph.</b> Why the floor broke in June when Daqo resumed sales below cost, and why five months of stock makes the same dilemma worse now.</p>
+</section>
+
+<section id="winners">
+  <div class="part">3 · Winners and losers</div>
+  <div class="text">
+  <p>The floors that bind are taxes. Beijing removed the export VAT rebate on modules on 1 April. Washington's Section 232 minimum import price of 0.38 dollars a watt takes effect on 4 December, against a Chinese FOB price near 0.107. The first shrinks China's export volume. The second sets the US price by law for anyone outside China, whatever happens in Hangzhou, and the flow it covers is a sliver of what China ships.</p>
+  </div>
+
+  <figure class="fig" id="f4">
+    <p class="ftitle">Who pays which floor: where China's modules went in September</p>
+    <p class="fsub">One month of exports split by destination, each with the price floor that applies to it. Point at a ribbon for the share.</p>
+    <div class="figscroll"><svg viewBox="0 0 760 320" role="img" aria-label="Flow diagram of China's 23.92 gigawatts of module exports in September 2026: 12.54 to other destinations, 7.19 to Europe, 3.97 to the Middle East, all at the 0.107 dollar FOB price, and 0.22 to the United States, where a 0.38 dollar minimum import price applies from 4 December.">
+      <text class="ti" x="200" y="40" font-weight="500">China module exports, September 2026 · 23.92 GW</text>
+      <rect x="200" y="52" width="14" height="200" fill="var(--ink)"/>
+      <text class="tm" x="192" y="252" text-anchor="end" font-size="10.5">bar height = the month</text>
+      <path class="rib" d="M214,52.0 C340,52.0 310,46.0 450,46.0 L450,150.8 C310,150.8 340,156.8 214,156.8 Z" fill="var(--ink2)" opacity=".22" tabindex="0" data-tip="Other destinations: 12.54 GW, 52% of the month"/>
+      <rect x="450" y="46.0" width="10" height="104.8" fill="var(--ink2)"/>
+      <text class="ti" x="468" y="57.0" font-weight="500">Other destinations · 12.54 GW · 52%</text>
+      <text class="t" x="468" y="71.0" font-size="11">pays the FOB price, 0.107 dollars a watt</text>
+      <path class="rib" d="M214,156.8 C340,156.8 310,160.8 450,160.8 L450,221.0 C310,221.0 340,217.0 214,217.0 Z" fill="var(--ink2)" opacity=".22" tabindex="0" data-tip="Europe: 7.19 GW, 30% of the month"/>
+      <rect x="450" y="160.8" width="10" height="60.1" fill="var(--ink2)"/>
+      <text class="ti" x="468" y="171.8" font-weight="500">Europe · 7.19 GW · 30%</text>
+      <text class="t" x="468" y="185.8" font-size="11">pays the FOB price, 0.107 dollars a watt</text>
+      <path class="rib" d="M214,217.0 C340,217.0 310,231.0 450,231.0 L450,264.2 C310,264.2 340,250.2 214,250.2 Z" fill="var(--ink2)" opacity=".22" tabindex="0" data-tip="Middle East: 3.97 GW, 17% of the month"/>
+      <rect x="450" y="231.0" width="10" height="33.2" fill="var(--ink2)"/>
+      <text class="ti" x="468" y="242.0" font-weight="500">Middle East · 3.97 GW · 17%</text>
+      <text class="t" x="468" y="256.0" font-size="11">pays the FOB price, 0.107 dollars a watt</text>
+      <path class="rib" d="M214,250.2 C340,250.2 310,274.2 450,274.2 L450,277.2 C310,277.2 340,252.0 214,252.0 Z" fill="var(--s3)" opacity=".9" tabindex="0" data-tip="United States: 0.22 GW, 0.9% of the month"/>
+      <rect x="450" y="274.2" width="10" height="3.0" fill="var(--s3)"/>
+      <text class="ti" x="468" y="279.7" font-weight="500">United States · 0.22 GW · 0.9%</text>
+      <text class="t" x="468" y="293.7" font-size="11">minimum import price 0.38 dollars a watt</text>
+      <text class="t" x="468" y="307.7" font-size="11">from 4 Dec, 3.55 times the FOB price</text>
+    </svg></div>
+    <figcaption>SMM, module exports for September 2026: 23.92 GW in total, Europe 7.19 GW, Middle East 3.97 GW, United States 0.22 GW; the remainder is computed. China FOB TOPCon price of 0.107 dollars a watt on 20 Oct 2026 (OPIS via pv magazine, 25 Oct 2026). Section 232 proclamation of 6 Aug 2026, minimum import price effective 4 Dec 2026 (EY tax alert 2026-1695). The Hangzhou module floor of 0.79 yuan a watt, about 0.110 dollars, is voluntary and its scope (cells or modules) unconfirmed.</figcaption>
+    <div class="tablewrap"><table id="t4">
+      <thead><tr><th>Name</th><th>Side</th><th>The floor that prices it</th><th>Key number</th><th>Prints</th></tr></thead>
+      <tbody>
+      <tr><td>First Solar, FSLR</td><td>Long</td><td>US minimum import price, statutory, from 4 December</td><td>0.38 dollars a watt against 0.107 FOB; backlog 45.1 GW; no polysilicon in the product</td><td>Third quarter late October; 4 Dec</td></tr>
+      <tr><td>JinkoSolar, JKS</td><td>Short, sized as a beta hedge</td><td>Hangzhou module floor, voluntary; Southeast Asian plants under AD/CVD</td><td>Down about 68 percent this year; A-share subsidiary pre-announced a 2.98 billion yuan loss</td><td>By 31 Oct; AD/CVD orders 2 Nov</td></tr>
+      <tr><td>Daqo, DQ</td><td>No position</td><td>Hangzhou polysilicon floor, voluntary</td><td>Floor 5.32 against cash cost 4.57 and total cost 5.95; about 1.4 billion dollars of attributable liquid assets against a market value near 0.7 billion</td><td>Third quarter 27 Oct</td></tr>
+      </tbody>
+    </table></div>
+  </figure>
+  <p class="ph"><b>Author's paragraphs.</b> First order: who is insulated (a US manufacturer with a 45 GW backlog and no polysilicon), who is exposed (a levered module exporter with Southeast Asian plants now under AD/CVD). Second order: wafer and cell makers who get cheap feedstock and cannot use it; buyers outside the US who still pay 0.107.</p>
+</section>
+
+<section id="expression">
+  <div class="part">4 · Expression</div>
+  <div class="trade">
+    <div class="row"><span class="k">Long</span><span>First Solar (NASDAQ: FSLR). Its floor is statutory and dated.</span></div>
+    <div class="row"><span class="k">Short</span><span>JinkoSolar (NYSE: JKS), sized as a hedge to FSLR's beta, not as the alpha. The leg is late: the stock is down about 68 percent this year.</span></div>
+    <div class="row"><span class="k">Horizon</span><span>To 31 March 2027, through 4 December, the 1 January standards and tax steps, and fourth-quarter results.</span></div>
+    <div class="row"><span class="k">Not this</span><span>Do not short Daqo (NYSE: DQ). It trades near half of its liquid assets with no debt.</span></div>
+  </div>
+  <p class="ph"><b>Author's paragraph.</b> Sizing, borrow, liquidity, and what the pair does if both floors hold.</p>
+</section>
+
+<section id="wrong">
+  <div class="part">5 · Way to be wrong</div>
+  <div class="text"><p>The view is wrong if these print. Each is a number or a dated event, checked on the schedule below.</p></div>
+  <ul class="wrong">
+    <li><span>The association's n-type rod transaction price at or above 43,000 yuan for eight consecutive weeks, with five or more firms transacting.</span><span class="st">Open · weekly, Wednesdays</span></li>
+    <li><span>The main contract closes at or above 43,000 for ten consecutive sessions before 31 January 2027.</span><span class="st">Open · daily</span></li>
+    <li><span>Industry inventory below 450,000 tonnes in the association's end-December note.</span><span class="st">Open · mid-January</span></li>
+    <li><span>Commerce delays or modifies the Section 232 minimum import price before 4 December 2026.</span><span class="st">Open · by 4 Dec</span></li>
+    <li><span>SAMR publishes a notice endorsing the Hangzhou floor as Price Law enforcement.</span><span class="st">Open · none found 25 Oct</span></li>
+  </ul>
+  <div class="part">Dates that test it</div>
+  <ul class="cal">
+    <li><span class="d">27 Oct</span><span>Daqo third quarter: selling price, volume, inventory</span></li>
+    <li><span class="d">31 Oct</span><span>A-share third-quarter deadline: Tongwei, Jinko, Trina, JA</span></li>
+    <li><span class="d">2 Nov</span><span>Commerce AD/CVD orders on India, Indonesia, Laos</span></li>
+    <li><span class="d">~12 Nov</span><span>Association note on October output and inventory</span></li>
+    <li><span class="d">4 Dec</span><span>Section 232 minimum import price takes effect</span></li>
+    <li><span class="d">1 Jan</span><span>GB 29447-2026 energy standard in force</span></li>
+  </ul>
+</section>
+
+<section id="disclosure">
+  <div class="part">6 · Disclosure and sources</div>
+  <div class="text">
+  <p><b>Disclosure.</b> The author's positions in any name mentioned, stated here even when there are none.</p>
+  <p><b>Notebook.</b> Every number above is rebuilt in a public notebook linked here, with the exchange closes by contract, the association's weekly series, the inventory paths and the cost conversion.</p>
+  </div>
+  <ol class="src">
+    <li>Guangzhou Futures Exchange, polysilicon contracts PS2601 to PS2612, daily closes via the Sina Finance futures feed, pulled 25 Oct 2026. <a href="http://www.gfex.com.cn">exchange</a></li>
+    <li>Securities Times via Eastmoney, 17 Oct 2026, inventory and output. <a href="https://finance.eastmoney.com/a/202610173898786188.html">link</a></li>
+    <li>Trivium China, 14 Oct 2026, the Hangzhou floor. <a href="https://triviumchina.com/2026/10/14/polysilicon-manfuacturers-set-price-floor-in-attempt-to-prevent-dumping/">link</a></li>
+    <li>JRJ, 14 Oct 2026, association weekly note. <a href="https://finance.jrj.com.cn/2026/10/14173458718358.shtml">link</a></li>
+    <li>Mysteel, 19 Oct 2026, futures below the floor. <a href="https://www.mysteel.net/news/5145105-flash-china-polysilicon-futures-stay-below-price-floor">link</a></li>
+    <li>Daqo New Energy, results for the quarter to June 2026, 20 Aug 2026. <a href="https://filecache.investorroom.com/mr5irasia_daqo/430/download/2026Q2ER.pdf">link</a></li>
+    <li>pv magazine, 12 Dec 2025, consolidation platform registered. <a href="https://www.pv-magazine.com/2025/12/12/china-module-market-watches-2026-export-rebate-signals-as-polysilicon-consolidation-platform-company-is-registered/">link</a></li>
+    <li>21jingji, 8 Jan 2026, minutes of the SAMR meeting. <a href="https://www.21jingji.com/article/20260108/herald/97097031449532089132ad17da58646b.html">link</a></li>
+    <li>21jingji, 4 Aug 2026, the cost accounting model and the Yancheng meeting. <a href="https://m.21jingji.com/article/20260804/herald/5669b3e92e99b3915698cf31a9ae082c.html">link</a></li>
+    <li>SMM, China PV module exports, September 2026. <a href="https://news.metal.com/newscontent/104171278-smm-analysis-chinas-pv-module-exports-sep-2026-up-44-mom-as-middle-east-surges-and-southeast-asian-demand-improves">link</a></li>
+    <li>pv magazine USA, 25 Oct 2026, China FOB module price. <a href="https://now.solar/2026/10/25/china-solar-module-prices-steady-as-proposed-price-floors-meet-skepticism-pv-magazine-usa/">link</a></li>
+    <li>EY tax alert 2026-1695, Section 232 proclamation. <a href="https://taxnews.ey.com/news/2026-1695-us-section-232-proclamation-establishes-minimum-import-prices-and-a-15-percent-tariff-on-polysilicon-and-derivative-products">link</a></li>
+    <li>GB 29447-2026, energy consumption limits for polysilicon. <a href="https://file.jgvogel.cn/134/upload/resources/file/670253.pdf">link</a></li>
+  </ol>
+</section>
+</main>
+</div>
+
+<footer>Prototype v2, built 25 October 2026 from the exchange record. Five figures the author builds: the daily price against the floor with a crosshair; four lanes of state tools and the market's reaction to each, lit as the text reaches them; the stock and the two flows that feed it, with three dated paths; the floor on a producer's cost ladder; and one month of exports split by the floor each buyer pays. Every figure reads at rest; motion replays once on scroll and is off under reduced-motion settings.</footer>
+<div class="tip" id="tip" hidden></div>
+
+<script>var F1DATA=[["2026-04-01",34720,60.0,217.4,"2605"],["2026-04-02",35245,63.1,208.2,"2605"],["2026-04-03",33770,66.2,234.0,"2605"],["2026-04-07",32400,78.6,258.0,"2605"],["2026-04-08",32700,81.7,252.8,"2605"],["2026-04-09",31690,84.8,270.4,"2605"],["2026-04-10",32125,87.9,262.8,"2605"],["2026-04-13",34770,97.2,216.5,"2605"],["2026-04-14",34085,100.3,228.5,"2605"],["2026-04-15",34825,103.4,215.6,"2605"],["2026-04-16",39380,106.5,135.8,"2606"],["2026-04-17",39780,109.6,128.9,"2606"],["2026-04-20",42955,118.9,73.3,"2606"],["2026-04-21",42675,122.0,78.2,"2606"],["2026-04-22",45300,125.1,32.2,"2606"],["2026-04-23",43925,128.2,56.3,"2606"],["2026-04-24",40655,131.3,113.5,"2606"],["2026-04-27",39020,140.6,142.2,"2606"],["2026-04-28",38905,143.7,144.2,"2606"],["2026-04-29",38585,146.8,149.8,"2606"],["2026-04-30",38380,149.9,153.3,"2606"],["2026-05-06",39080,168.5,141.1,"2606"],["2026-05-07",40430,171.5,117.5,"2606"],["2026-05-08",38540,174.6,150.6,"2606"],["2026-05-11",38215,183.9,156.2,"2606"],["2026-05-12",36430,187.0,187.5,"2606"],["2026-05-13",37190,190.1,174.2,"2606"],["2026-05-14",37570,193.2,167.5,"2606"],["2026-05-15",37025,196.3,177.1,"2606"],["2026-05-18",36930,205.6,178.7,"2606"],["2026-05-19",37115,208.7,175.5,"2609"],["2026-05-20",37935,211.8,161.1,"2609"],["2026-05-21",37080,214.9,176.1,"2609"],["2026-05-22",37540,218.0,168.1,"2609"],["2026-05-25",37915,227.3,161.5,"2609"],["2026-05-26",37375,230.4,170.9,"2609"],["2026-05-27",36730,233.5,182.2,"2609"],["2026-05-28",36960,236.6,178.2,"2609"],["2026-05-29",36835,239.7,180.4,"2609"],["2026-06-01",38280,249.0,155.1,"2609"],["2026-06-02",37510,252.1,168.6,"2609"],["2026-06-03",36605,255.2,184.4,"2609"],["2026-06-04",35515,258.3,203.5,"2609"],["2026-06-05",35675,261.4,200.7,"2609"],["2026-06-08",35400,270.7,205.5,"2609"],["2026-06-09",34280,273.8,225.1,"2609"],["2026-06-10",36100,276.9,193.2,"2609"],["2026-06-11",37710,280.0,165.1,"2609"],["2026-06-12",37265,283.1,172.9,"2609"],["2026-06-15",38030,292.4,159.5,"2609"],["2026-06-16",35420,295.5,205.2,"2609"],["2026-06-17",36525,298.6,185.8,"2609"],["2026-06-18",35840,301.7,197.8,"2609"],["2026-06-22",36090,314.1,193.4,"2609"],["2026-06-23",35800,317.2,198.5,"2609"],["2026-06-24",36485,320.3,186.5,"2609"],["2026-06-25",35635,323.4,201.4,"2609"],["2026-06-26",34745,326.5,217.0,"2609"],["2026-06-29",35215,335.8,208.7,"2609"],["2026-06-30",35325,338.9,206.8,"2609"],["2026-07-01",35820,342.0,198.1,"2609"],["2026-07-02",35545,345.1,203.0,"2609"],["2026-07-03",35760,348.2,199.2,"2609"],["2026-07-06",35925,357.5,196.3,"2609"],["2026-07-07",36025,360.6,194.6,"2609"],["2026-07-08",35475,363.7,204.2,"2609"],["2026-07-09",35795,366.8,198.6,"2609"],["2026-07-10",36350,369.9,188.9,"2609"],["2026-07-13",36110,379.2,193.1,"2609"],["2026-07-14",35815,382.3,198.2,"2609"],["2026-07-15",35160,385.4,209.7,"2609"],["2026-07-16",35140,388.5,210.1,"2609"],["2026-07-17",33985,391.5,230.3,"2609"],["2026-07-20",33360,400.8,241.2,"2609"],["2026-07-21",33760,403.9,234.2,"2609"],["2026-07-22",34250,407.0,225.6,"2609"],["2026-07-23",33715,410.1,235.0,"2609"],["2026-07-24",33365,413.2,241.1,"2609"],["2026-07-27",33640,422.5,236.3,"2609"],["2026-07-28",32625,425.6,254.1,"2609"],["2026-07-29",32680,428.7,253.1,"2609"],["2026-07-30",32560,431.8,255.2,"2609"],["2026-07-31",33040,434.9,246.8,"2609"],["2026-08-03",35890,444.2,196.9,"2609"],["2026-08-04",35715,447.3,200.0,"2609"],["2026-08-05",35480,450.4,204.1,"2609"],["2026-08-06",35895,453.5,196.8,"2609"],["2026-08-07",37040,456.6,176.8,"2609"],["2026-08-10",36390,465.9,188.2,"2609"],["2026-08-11",37105,469.0,175.7,"2609"],["2026-08-12",38190,472.1,156.7,"2609"],["2026-08-13",38390,475.2,153.2,"2611"],["2026-08-14",39190,478.3,139.2,"2611"],["2026-08-17",38980,487.6,142.8,"2611"],["2026-08-18",37630,490.7,166.5,"2611"],["2026-08-19",37815,493.8,163.2,"2611"],["2026-08-20",38475,496.9,151.7,"2611"],["2026-08-21",38430,500.0,152.5,"2611"],["2026-08-24",37695,509.3,165.3,"2611"],["2026-08-25",37155,512.4,174.8,"2611"],["2026-08-26",37645,515.5,166.2,"2611"],["2026-08-27",37730,518.6,164.7,"2611"],["2026-08-28",37605,521.7,166.9,"2611"],["2026-08-31",37035,531.0,176.9,"2611"],["2026-09-01",38000,534.1,160.0,"2611"],["2026-09-02",36900,537.2,179.2,"2611"],["2026-09-03",37420,540.3,170.2,"2611"],["2026-09-04",37795,543.4,163.6,"2611"],["2026-09-07",37065,552.7,176.4,"2611"],["2026-09-08",37195,555.8,174.1,"2611"],["2026-09-09",37615,558.9,166.7,"2611"],["2026-09-10",36715,562.0,182.5,"2611"],["2026-09-11",36480,565.1,186.6,"2611"],["2026-09-14",36760,574.4,181.7,"2611"],["2026-09-15",36705,577.5,182.7,"2611"],["2026-09-16",36835,580.6,180.4,"2611"],["2026-09-17",36490,583.7,186.4,"2611"],["2026-09-18",36490,586.8,186.4,"2611"],["2026-09-21",36800,596.1,181.0,"2611"],["2026-09-22",37705,599.2,165.2,"2611"],["2026-09-23",37090,602.3,175.9,"2611"],["2026-09-24",36990,605.4,177.7,"2611"],["2026-09-28",36975,617.7,177.9,"2611"],["2026-09-29",36250,620.8,190.6,"2611"],["2026-09-30",36585,623.9,184.8,"2611"],["2026-10-08",36335,648.7,189.1,"2611"],["2026-10-09",36120,651.8,192.9,"2611"],["2026-10-12",35200,661.1,209.0,"2611"],["2026-10-13",35095,664.2,210.8,"2611"],["2026-10-14",34350,667.3,223.9,"2611"],["2026-10-15",33255,670.4,243.0,"2611"],["2026-10-16",34285,673.5,225.0,"2611"],["2026-10-19",35040,682.8,211.8,"2611"],["2026-10-20",34760,685.9,216.7,"2611"],["2026-10-21",33725,689.0,234.8,"2611"],["2026-10-22",34380,692.1,223.4,"2611"],["2026-10-23",34760,695.2,216.7,"2611"]];</script>
+<script>
+(function(){
+  var root=document.documentElement; root.classList.add('js');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var MINUS='−', MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var CNAME={'2601':'January','2605':'May','2606':'June','2609':'September','2611':'November','2612':'December'};
+  function fmtInt(n){ return Math.round(n).toLocaleString('en-US'); }
+  function fmtDate(iso){ var p=iso.split('-'); return (+p[2])+' '+MON[+p[1]-1]+' '+p[0]; }
+  function setText(id,s){ var el=document.getElementById(id); if(el) el.textContent=s; }
+
+  document.querySelectorAll('.fig .draw').forEach(function(el){ try{ var L=el.getTotalLength(); el.style.setProperty('--len',L+2); }catch(e){} });
+  function countUp(el){
+    var target=parseFloat(el.getAttribute('data-count')), pre=el.getAttribute('data-prefix')||'', suf=el.getAttribute('data-suffix')||'';
+    if(reduce||!isFinite(target)){ el.textContent=pre+target.toFixed(1)+suf; return; }
+    var t0=null, dur=1100;
+    function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur); p=1-Math.pow(1-p,3); el.textContent=pre+(target*p).toFixed(1)+suf; if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var figs=document.querySelectorAll('.fig');
+  function reveal(f){ if(f.classList.contains('in'))return; f.classList.add('in'); f.querySelectorAll('[data-count]').forEach(function(c){ setTimeout(function(){countUp(c);}, reduce?0:900); }); }
+  if('IntersectionObserver' in window && !reduce){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ reveal(e.target); io.unobserve(e.target);} }); },{threshold:0.3});
+    figs.forEach(function(f){ io.observe(f); }); setTimeout(function(){ figs.forEach(reveal); }, 6000);
+  } else { figs.forEach(reveal); }
+
+  var links=document.querySelectorAll('.rail a[href^="#"]'), secs=[];
+  links.forEach(function(a){ var s=document.getElementById(a.getAttribute('href').slice(1)); if(s) secs.push([s,a]); });
+  if('IntersectionObserver' in window){
+    var so=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ links.forEach(function(a){a.classList.remove('cur');}); secs.forEach(function(p){ if(p[0]===e.target)p[1].classList.add('cur'); }); } }); },{rootMargin:'-40% 0px -50% 0px'});
+    secs.forEach(function(p){ so.observe(p[0]); });
+  }
+
+  var tip=document.getElementById('tip');
+  function show(el){ var r=el.getBoundingClientRect(); tip.textContent=el.getAttribute('data-tip'); tip.hidden=false;
+    var x=r.left+window.scrollX+r.width/2, y=r.top+window.scrollY-10; tip.style.left=Math.max(8,Math.min(x-tip.offsetWidth/2, document.documentElement.clientWidth-tip.offsetWidth-8))+'px'; tip.style.top=(y-tip.offsetHeight)+'px'; }
+  function hide(){ tip.hidden=true; }
+  document.querySelectorAll('[data-tip]').forEach(function(el){
+    el.addEventListener('mouseenter',function(){show(el);}); el.addEventListener('mouseleave',hide);
+    el.addEventListener('focus',function(){show(el);}); el.addEventListener('blur',hide);
+    el.addEventListener('touchstart',function(){ show(el); setTimeout(hide,1800); },{passive:true});
+  });
+
+  /* Figure 1: crosshair over daily closes. */
+  (function(){
+    var f1=document.getElementById('f1'); if(!f1||!window.F1DATA) return;
+    var svg=f1.querySelector('svg'), scroller=document.getElementById('f1-scroll'), pts=F1DATA;
+    var cur=document.getElementById('f1-cursor'), shade=document.getElementById('f1-shade'), dot=document.getElementById('f1-dot');
+    var FLOOR=43000, def=0, sel=-1, i;
+    for(i=0;i<pts.length;i++){ if(pts[i][0]==='2026-10-19') def=i; }
+    function select(i){
+      if(i<0||i>=pts.length) return; sel=i; var p=pts[i], iso=p[0], v=p[1], x=p[2], y=p[3], k=p[4];
+      cur.hidden=false; shade.hidden=false; dot.hidden=false;
+      cur.setAttribute('x1',x); cur.setAttribute('x2',x); dot.setAttribute('cx',x); dot.setAttribute('cy',y);
+      shade.setAttribute('x',x); shade.setAttribute('width',Math.max(0,720-x));
+      setText('f1-d',fmtDate(iso)); setText('f1-s',(CNAME[k]||k)+' contract close'); setText('f1-v',fmtInt(v)+' yuan/t');
+      var gap=(v-FLOOR)/FLOOR*100, g=(gap<0?MINUS:'+')+Math.abs(gap).toFixed(1)+'% vs the 43,000 floor'+(iso<'2026-10-11'?' (set 11 Oct)':'');
+      setText('f1-g',g);
+    }
+    function pick(e){
+      var r=svg.getBoundingClientRect(); if(!r.width) return;
+      var vx=(e.clientX-r.left)/r.width*760, best=0, bd=1e9;
+      for(var j=0;j<pts.length;j++){ var d=Math.abs(pts[j][2]-vx); if(d<bd){bd=d;best=j;} }
+      if(best!==sel) select(best);
+    }
+    svg.addEventListener('pointermove',function(e){ if(e.pointerType==='mouse') pick(e); });
+    svg.addEventListener('pointerdown',function(e){ pick(e); });
+    svg.addEventListener('pointerleave',function(e){ if(e.pointerType==='mouse') select(def); });
+    scroller.addEventListener('keydown',function(e){
+      var k=e.key, n=sel<0?def:sel;
+      if(k==='ArrowLeft'){ select(Math.max(0,n-1)); e.preventDefault(); }
+      else if(k==='ArrowRight'){ select(Math.min(pts.length-1,n+1)); e.preventDefault(); }
+      else if(k==='Home'){ select(0); e.preventDefault(); } else if(k==='End'){ select(pts.length-1); e.preventDefault(); }
+    });
+    select(def);
+  })();
+
+  /* Scene: the card nearest the middle of the viewport sets the step. */
+  (function(){
+    var scene=document.querySelector('.scene'); if(!scene) return;
+    var steps=[].slice.call(scene.querySelectorAll('.step'));
+    if(!('IntersectionObserver' in window)){ scene.removeAttribute('data-step'); return; }
+    var obs=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ var s=e.target.getAttribute('data-step'); scene.setAttribute('data-step',s); steps.forEach(function(st){ st.classList.toggle('on',st===e.target); }); } });
+    },{rootMargin:'-42% 0px -42% 0px',threshold:0});
+    steps.forEach(function(s){ obs.observe(s); });
+  })();
+})();
+</script>
+</body>
+</html>
