@@ -36,18 +36,15 @@ h1{margin-top:14px;font-size:38px;line-height:1.12;letter-spacing:-.035em;font-w
 h1 span{display:block}
 h1 em{font-style:normal;background:var(--navy);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
 .dek{margin-top:14px;font-size:16px;line-height:1.65;color:var(--body);max-width:46em}
-.doors{list-style:none;margin:26px 0 0;border-top:2px solid var(--rule)}
-.doors li{display:grid;grid-template-columns:150px 46px 1fr auto;gap:0 16px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
-.doors .from{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.doors .from b{color:var(--accent);font-weight:700}
-.doors .n{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1;color:var(--ink)}
-.doors .t{font-size:16px;font-weight:700;color:var(--ink)}
-.doors .t small{display:block;font-weight:400;color:var(--muted);font-size:13.5px;margin-top:3px;line-height:1.5}
-.doors a.go{font-size:13px;font-weight:600;white-space:nowrap;border-bottom:1px solid var(--line);color:var(--ink)}
-.doors a.go:hover{border-color:var(--ink);text-decoration:none}
-.doors li.ref{grid-template-columns:150px 1fr;color:var(--muted);font-size:13.5px;padding:11px 0}
-.doors li.ref a{color:var(--body);font-weight:600}
-.doors li.ref a+a{margin-left:18px}
+.doors{list-style:none;margin:22px 0 0;border-top:1px solid var(--rule)}
+.doors li{border-bottom:1px solid var(--line)}
+.doors li a{display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:0 14px;align-items:baseline;padding:11px 0;color:var(--ink)}
+.doors li a:hover{text-decoration:none}
+.doors li a:hover .t{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--faint)}
+.doors .n{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.doors .t{font-size:16px;font-weight:700}
+.doors .from{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.doors .from::before{content:"from ";color:var(--faint)}
 .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0 24px;margin-top:22px}
 .strip .st{padding:12px 0 10px;border-top:1px solid var(--line)}
 .strip .v{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
@@ -67,8 +64,7 @@ h1 em{font-style:normal;background:var(--navy);-webkit-background-clip:text;back
 .bar nav a b{font-size:11px;font-weight:800;color:var(--faint);font-variant-numeric:tabular-nums}
 .bar nav a:hover{color:var(--ink);text-decoration:none}
 .bar nav a.on{color:var(--ink)} .bar nav a.on b{color:var(--accent)}
-.bar .ext{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--muted);white-space:nowrap}
-.bar .ext:hover{color:var(--ink);text-decoration:none}
+.bar .ext{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 
 /* ---- chapters ---- */
 main{padding-bottom:60px}
@@ -394,11 +390,8 @@ footer b{color:var(--ink);font-weight:600}
   h1 span{display:inline}
   h1 span:first-child::after{content:" "}
   .dek{font-size:15px}
-  .doors li{grid-template-columns:40px 1fr;gap:4px 12px}
-  .doors .from{grid-column:1/-1}
-  .doors a.go{grid-column:2}
-  .doors li.ref{grid-template-columns:1fr}
-  .doors li.ref a+a{margin-left:14px}
+  .doors li a{grid-template-columns:36px minmax(0,1fr) auto;gap:0 10px}
+  .doors .t{font-size:15px}
   .strip{grid-template-columns:1fr 1fr;gap:0 16px}
   .stats{grid-template-columns:1fr 1fr}
   .quotes{grid-template-columns:1fr}
