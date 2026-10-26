@@ -38,7 +38,17 @@
   </div>
 </header>
 
-<div class="bar"><div class="in"><span class="cur"><b id="bar-n">00</b><span id="bar-t">Start</span></span><nav><a href="#ledger" data-ch="0">01</a><a href="#brief" data-ch="1">02</a><a href="#ireland" data-ch="2">03</a></nav></div></div>
+<div class="bar" id="bar"><div class="in">
+  <a class="brand" href="#top"><b>Seeing the Feed</b><span>Access ledger</span></a>
+  <nav aria-label="Sections">
+    <a href="#ledger" data-sec="ledger"><b>01</b><span>The route</span></a>
+    <a href="#brief" data-sec="brief"><b>02</b><span>One story</span></a>
+    <a href="#ireland" data-sec="ireland"><b>03</b><span>The Irish pilot</span></a>
+    <a href="#terms" data-sec="terms"><b>04</b><span>Terms</span></a>
+    <a href="#method" data-sec="method"><b>05</b><span>Method</span></a>
+  </nav>
+  <a class="ext" href="https://prism-news.org/en" target="_blank" rel="noopener">prism-news.org ↗</a>
+</div></div>
 
 <main>
 <div class="wrap">
@@ -99,7 +109,7 @@
         <div class="legend"><span><i class="mk full"></i>available</span><span><i class="mk lim"></i>with a limit</span><span><i class="mk own"></i>closed on this route</span><span><i class="mk none"></i>does not exist</span></div>
 
         <div class="receipt" id="receipt">
-          <div class="rh"><span class="lab">Request as sent, answer as returned</span><span class="lab ac" id="rc-cost"></span></div>
+          <div class="rh"><span class="lab">Request as sent, answer as returned, for the highlighted row</span><span class="lab ac" id="rc-cost"></span></div>
           <div class="seg" id="vidpick" role="group" aria-label="Choose a video"></div>
           <div class="vh" id="vidhead"></div>
           <div id="rc-body"></div>
@@ -192,6 +202,7 @@
           <div class="quote">"Why isn't Putin speaking for himself instead of letting Trump speak on his behalf?"</div>
           <div class="acc">ONE<br>ACCOUNT</div>
           <div class="vids" id="repvids"></div>
+          <div class="tl" id="reptl"></div>
           <div class="brace" id="repbrace">within six minutes · at most 11 likes on any copy</div>
         </div>
         <ul class="liked" id="liked"></ul>

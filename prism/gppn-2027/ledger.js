@@ -81,7 +81,7 @@
   function receipt() {
     var v = VIDS[cur], h = "", last = v.reads[v.reads.length - 1][1];
     $("vidhead").innerHTML = av(v.avatar) + '<b>' + esc(v.ch) + '</b> · ' + esc(shortStory(v)) + ' · ' + esc(v.title) + ' · published ' + dstr(v.pub) + ' · <a href="https://www.youtube.com/watch?v=' + v.id + '" target="_blank" rel="noopener">watch?v=' + v.id + '</a>';
-    $("rc-cost").textContent = STEPNAME[routeStep];
+    $("rc-cost").innerHTML = '<b class="k">' + "ABCDE"[routeStep] + '</b>' + esc(STEPNAME[routeStep].slice(4));
     if (routeStep === 0) {
       h += '<div class="req">GET youtube/v3/<b>videos</b>?part=snippet,statistics,contentDetails&id=' + v.id + '&key=REDACTED</div>';
       h += '<div class="resp"><span class="k">status</span> <span class="okk">200</span> · <span class="k">cost</span> <span class="v">1 unit</span><br>'
@@ -149,10 +149,22 @@
     if (R) {
       R.instances.forEach(function (x) {
         h += '<a class="rv" href="https://www.youtube.com/watch?v=' + x.video_id + '" target="_blank" rel="noopener" title="' + esc(x.title) + '">'
-          + '<span class="th"><img src="' + x.thumb + '" alt="" loading="lazy" width="320" height="180"></span>'
+          + '<span class="th"><img src="' + x.thumb + '" alt="" width="320" height="180"></span>'
           + '<span class="rc">' + av(x.avatar) + '<span class="rn">' + esc(x.channel) + '</span></span>'
           + '<span class="rt">' + x.comment_at.slice(11, 19) + '</span></a>';
       });
+      var t0 = Date.parse(R.first_seen), t1 = Date.parse(R.last_seen), W = 600, L = 46, Rr = 46, Y = 22;
+      var tl = '<svg viewBox="0 0 ' + W + ' 44" role="img" aria-label="The six comments on a time axis from ' + R.first_seen.slice(11, 19) + ' to ' + R.last_seen.slice(11, 19) + ' UTC">';
+      tl += '<line class="ax" x1="' + L + '" x2="' + (W - Rr) + '" y1="' + Y + '" y2="' + Y + '"/>';
+      tl += '<line class="lit" x1="' + L + '" x2="' + (W - Rr) + '" y1="' + Y + '" y2="' + Y + '"/>';
+      R.instances.forEach(function (x, k) {
+        var f = (Date.parse(x.comment_at) - t0) / Math.max(1, t1 - t0), cx = L + f * (W - L - Rr);
+        tl += '<g class="tk" style="--f:' + f.toFixed(3) + '"><line x1="' + cx + '" x2="' + cx + '" y1="' + (Y - 7) + '" y2="' + (Y + 7) + '"/><circle cx="' + cx + '" cy="' + Y + '" r="3.2"/></g>';
+      });
+      tl += '<circle class="mk" cx="' + L + '" cy="' + Y + '" r="5"/>';
+      tl += '<text class="tt" x="' + L + '" y="40" text-anchor="middle">' + R.first_seen.slice(11, 19) + '</text><text class="tt" x="' + (W - Rr) + '" y="40" text-anchor="middle">' + R.last_seen.slice(11, 19) + ' UTC</text></svg>';
+      $("reptl").innerHTML = tl;
+      [].forEach.call(document.querySelectorAll("#repvids .rv"), function (el, k) { el.style.setProperty("--f", ((Date.parse(R.instances[k].comment_at) - t0) / Math.max(1, t1 - t0)).toFixed(3)); });
       var m = Math.floor(R.span_seconds / 60), sec = Math.round(R.span_seconds % 60);
       $("repbrace").textContent = "the same comment, posted " + R.first_seen.slice(11, 19) + " to " + R.last_seen.slice(11, 19) + " UTC, " + m + " min " + sec + " s apart · at most " + R.max_like + " likes on any copy";
     } else {
@@ -186,6 +198,11 @@
         last[i] = p;
         f.style.setProperty("--p", p);
         f.classList.toggle("in", p > 0.01);
+        // the time-axis sweep in module F plays once each time the figure is fully in view
+        if (f.id === "" && f.querySelector("#reptl")) {
+          if (p >= 0.99 && !f._swept) { f._swept = true; f.classList.remove("go"); void f.offsetWidth; f.classList.add("go"); }
+          else if (p < 0.5 && f._swept) { f._swept = false; f.classList.remove("go"); }
+        }
         counts[i].forEach(function (c) {
           var v = c.target * ease(Math.min(1, p / 0.75));
           c.el.textContent = c.pre + (c.dec ? v.toFixed(c.dec) : Math.round(v).toLocaleString("en-US")) + c.suf;
@@ -280,11 +297,13 @@
   $("teamseg").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) setTeam(b.getAttribute("data-team")); });
   setTeam("us-uni");
 
-  /* ---------- position: rail (wide), bar (narrow), chapter progress ---------- */
+  /* ---------- position: top bar (all widths), rail (wide), chapter progress ---------- */
   var chapters = [].slice.call(document.querySelectorAll("section.chapter[data-ch]"));
-  var railLis = [].slice.call(document.querySelectorAll("#rail li")), barLinks = [].slice.call(document.querySelectorAll(".bar nav a"));
+  var sections = [].slice.call(document.querySelectorAll("section.chapter"));
+  var railLis = [].slice.call(document.querySelectorAll("#rail li")), barLinks = [].slice.call(document.querySelectorAll("#bar nav a"));
   var fills = railLis.map(function (li) { return li.querySelector(".rb i b"); });
-  function goChapter(i) { var el = chapters[i]; if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 8, behavior: reduced ? "auto" : "smooth" }); }
+  var BAR = 52; // sticky bar height plus a little air, used wherever the page scrolls itself
+  function goChapter(i) { var el = chapters[i]; if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - BAR, behavior: reduced ? "auto" : "smooth" }); }
   railLis.forEach(function (li, i) {
     li.querySelector(".rn").addEventListener("click", function () { goChapter(i); });
     li.querySelector(".rb").addEventListener("click", function (e) {
@@ -296,19 +315,17 @@
   var raf = 0;
   function paint() {
     raf = 0;
-    var y = window.scrollY, H = window.innerHeight, curCh = -1, inAny = false;
+    var y = window.scrollY, H = window.innerHeight, curCh = -1, inAny = false, curSec = "";
     chapters.forEach(function (el, i) {
       var top = el.getBoundingClientRect().top + y, h = el.offsetHeight, p = (y + H * 0.4 - top) / Math.max(1, h);
       if (fills[i]) fills[i].style.transform = "scaleY(" + Math.max(0, Math.min(1, p)).toFixed(3) + ")";
       if (p >= 0 && p < 1) { curCh = i; inAny = true; }
     });
+    sections.forEach(function (el) { if (el.getBoundingClientRect().top + y <= y + H * 0.4) curSec = el.id; });
     var tail = document.getElementById("terms"), tailTop = tail ? tail.getBoundingClientRect().top + y : Infinity;
     $("rail").classList.toggle("on", inAny && y + H * 0.4 < tailTop);
     railLis.forEach(function (li, i) { li.classList.toggle("on", i === curCh); });
-    barLinks.forEach(function (a, i) { a.classList.toggle("on", i === curCh); });
-    if (curCh >= 0) { $("bar-n").textContent = "0" + (curCh + 1); $("bar-t").textContent = chapters[curCh].getAttribute("data-title"); }
-    else if (y + H * 0.4 >= tailTop) { $("bar-n").textContent = y + H * 0.4 >= (document.getElementById("method").getBoundingClientRect().top + y) ? "05" : "04"; $("bar-t").textContent = $("bar-n").textContent === "05" ? "Method and sources" : "The terms"; }
-    else { $("bar-n").textContent = "00"; $("bar-t").textContent = "Start"; }
+    barLinks.forEach(function (a) { a.classList.toggle("on", a.getAttribute("data-sec") === curSec); });
   }
   function kick() { if (!raf) raf = requestAnimationFrame(paint); }
   window.addEventListener("scroll", kick, { passive: true });
@@ -324,7 +341,7 @@
     var h = (hash || "").replace(/^#/, ""); if (!h) return;
     var id = ALIAS[h] || h, el = document.getElementById(id); if (!el) return;
     var isStep = el.classList.contains("step");
-    var top = el.getBoundingClientRect().top + window.scrollY - (isStep ? window.innerHeight * 0.25 : 8);
+    var top = el.getBoundingClientRect().top + window.scrollY - (isStep ? window.innerHeight * 0.25 : BAR);
     window.scrollTo({ top: Math.max(0, top), behavior: "instant" });
   }
   document.querySelectorAll(".scene").forEach(setupScene);
