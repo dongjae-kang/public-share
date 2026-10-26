@@ -132,12 +132,16 @@ table.matrix td .tx{display:inline}
 .receipt .rh{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
 .receipt .rh .lab{font-size:10px}
 .seg{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 10px}
-.seg button{appearance:none;font-family:var(--sans);font-size:11.5px;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--body);padding:3px 7px;border-radius:4px;line-height:1.25;text-align:left}
+.seg button{appearance:none;display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:11.5px;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--body);padding:3px 8px 3px 4px;border-radius:4px;line-height:1.25;text-align:left}
+.av{width:18px;height:18px;border-radius:50%;object-fit:cover;flex:none;background:var(--line);vertical-align:-4px;margin-right:6px}
+.seg button .av{margin-right:0}
+.seg button.on .av{box-shadow:0 0 0 1.5px rgba(255,255,255,.7)}
 .seg button small{display:inline;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.06em;margin-left:3px}
 .seg button:hover{border-color:var(--accent);color:var(--accent)}
 .seg button.on{background:var(--accent-deep);border-color:var(--accent-deep);color:#fff;font-weight:600}
 .seg button.on small{color:#dcdcff}
 .vh{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vh .av{width:16px;height:16px;vertical-align:-3px}
 .vh b{color:var(--ink);font-weight:650}
 .req{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:var(--tint);border:1px solid var(--line);border-radius:4px;padding:6px 9px;word-break:break-all;line-height:1.5;margin:5px 0}
 .req b{color:var(--accent);font-weight:600}
@@ -154,7 +158,7 @@ table.matrix td .tx{display:inline}
 .verdict{margin-top:7px;font-size:12.5px;color:var(--body);line-height:1.5}
 .verdict b{color:var(--ink)}
 
-/* chapter 02: story stage with switching panels */
+/* chapter 02: the filing as a document. Each module = letter + title + route chip, then text | figure side by side. */
 .story{margin-top:22px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-radius:4px}
 .story .sh{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-bottom:9px;border-bottom:1px solid var(--line);margin-bottom:10px}
 .story .sh .lab{font-size:10.5px}
@@ -162,12 +166,18 @@ table.matrix td .tx{display:inline}
 .story .sh a:hover{border-color:var(--ink);text-decoration:none}
 .story h3{margin:0;padding:0;border:0;font-size:17px;line-height:1.35;letter-spacing:-.015em}
 .story .sm{margin-top:6px;font-size:12.5px;color:var(--muted)}
-.fpanels{position:relative;min-height:300px}
-.fp{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s .35s}
-.fp.on{position:relative;opacity:1;visibility:visible;transition:opacity .35s ease}
-.fp .fh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-.fp .fh .t{font-size:15px;font-weight:750;color:var(--ink)}
-.fp .fh .chip{margin-left:auto}
+.filing{margin-top:18px;border-top:2px solid var(--rule)}
+.mod{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:8px 40px;padding:16px 0 20px;border-bottom:1px solid var(--line)}
+.mod.one{grid-template-columns:minmax(0,1fr)}
+.mod.one .mt{max-width:62em}
+.mod .mh{grid-column:1/-1;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.mod .mh b.k{flex:none;width:20px;height:20px;border-radius:3px;background:var(--ink);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;line-height:1;transform:translateY(3px)}
+.mod .mh .t{font-size:16px;font-weight:750;color:var(--ink);letter-spacing:-.01em}
+.mod .mh .chip{margin-left:auto}
+.mod .mt p{font-size:14.5px;line-height:1.6}
+.mod .mt p+p{margin-top:8px}
+.mod .mf{min-width:0;padding-top:2px}
+.mod .mf .note{margin-top:8px}
 .bignums{display:grid;grid-template-columns:repeat(3,1fr);gap:0 16px;margin:4px 0 12px}
 .bignums .b{padding:10px 0 8px;border-top:1px solid var(--line)}
 .bignums .v{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
@@ -237,7 +247,9 @@ figure.dumb figcaption{font-size:12px;color:var(--muted);margin-top:8px;line-hei
 .plan tr:hover td{background:var(--tint)}
 .plan tr.off td{color:var(--faint)}
 .plan td.r,.plan th.r{text-align:right;font-variant-numeric:tabular-nums}
-.plan td label{display:flex;align-items:center;gap:9px;cursor:pointer}
+.plan td label{display:flex;align-items:center;gap:8px;cursor:pointer}
+.plan td label .av{margin-right:0;width:20px;height:20px}
+.plan tr.off td .av{opacity:.35}
 .plan input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;flex:none}
 .plan td .tag{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-left:6px}
 .plan td .ib{display:inline-block;height:8px;background:var(--ink);border-radius:1px;vertical-align:1px;margin-right:6px;opacity:.75}
@@ -311,6 +323,8 @@ footer b{color:var(--ink);font-weight:600}
   .step:first-child{min-height:30vh}
   .tail{min-height:14vh}
   .plan{display:block}
+  .mod{grid-template-columns:1fr;gap:10px 0}
+  .mod .mh .chip{margin-left:0}
   .out{position:static;margin-top:16px}
   .bar{display:block;position:sticky;top:0;z-index:20;background:var(--panel);border-bottom:1px solid var(--line)}
   .bar .in{max-width:var(--col);margin:0 auto;padding:9px 24px;display:flex;align-items:center;gap:12px;font-size:13px}

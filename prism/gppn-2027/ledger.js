@@ -69,15 +69,16 @@
   /* ---------- chapter 01: matrix + receipt ---------- */
   var VIDS = F.videos, DL = F.captions_download, cur = 0, routeStep = 0;
   var STEPNAME = ["A · Video metadata", "B · Caption text", "C · View counts over time", "D · Public comments", "E · Beyond the specification"];
+  function av(src) { return src ? '<img class="av" src="' + src + '" alt="" width="18" height="18" loading="lazy">' : ''; }
   function shortStory(v) { if (!v.story) return "Irish probe"; var m = F.spread.stories.filter(function (st) { return st.title === v.story; })[0]; return m ? m.short : v.story; }
   function pickBtns() {
     var html = "";
-    VIDS.forEach(function (v, i) { html += '<button type="button" data-i="' + i + '" title="' + esc(shortStory(v)) + '"' + (i === cur ? ' class="on"' : '') + '>' + esc(v.ch) + (v.set === "IE" ? ' <small>IE</small>' : '') + '</button>'; });
+    VIDS.forEach(function (v, i) { html += '<button type="button" data-i="' + i + '" title="' + esc(shortStory(v)) + '"' + (i === cur ? ' class="on"' : '') + '>' + av(v.avatar) + esc(v.ch) + (v.set === "IE" ? ' <small>IE</small>' : '') + '</button>'; });
     $("vidpick").innerHTML = html;
   }
   function receipt() {
     var v = VIDS[cur], h = "", last = v.reads[v.reads.length - 1][1];
-    $("vidhead").innerHTML = '<b>' + esc(shortStory(v)) + '</b> · ' + esc(v.title) + ' · published ' + dstr(v.pub) + ' · <a href="https://www.youtube.com/watch?v=' + v.id + '" target="_blank" rel="noopener">watch?v=' + v.id + '</a>';
+    $("vidhead").innerHTML = av(v.avatar) + '<b>' + esc(shortStory(v)) + '</b> · ' + esc(v.title) + ' · published ' + dstr(v.pub) + ' · <a href="https://www.youtube.com/watch?v=' + v.id + '" target="_blank" rel="noopener">watch?v=' + v.id + '</a>';
     $("rc-cost").textContent = STEPNAME[routeStep];
     if (routeStep === 0) {
       h += '<div class="req">GET youtube/v3/<b>videos</b>?part=snippet,statistics,contentDetails&id=' + v.id + '&key=REDACTED</div>';
@@ -146,15 +147,14 @@
     $("repvids").innerHTML = h;
     $("liked").innerHTML = S.most_liked.map(function (m) { return '<li><span>' + esc(m[0]) + '</span><b>' + fmt(m[1]) + ' likes</b></li>'; }).join("");
   })();
-  var FP_NAME = ["A · The question", "B · Data", "C · Origin", "D · Framing", "E · Spread", "F · Reception", "G · Limits"];
-  var dumbDrawn = false;
-  function setBrief(k) {
-    [].forEach.call(document.querySelectorAll("#fpanels .fp"), function (p) { p.classList.toggle("on", +p.getAttribute("data-step") === k); });
-    $("fp-pos").textContent = FP_NAME[k];
-    if (k === 4 && !dumbDrawn) { dumbDrawn = true; setTimeout(function () { $("dumb").classList.add("in"); }, 60); }
-    if (k === 5) { var vids = document.querySelectorAll("#repvids i"); [].forEach.call(vids, function (el, i) { setTimeout(function () { el.classList.add("on"); }, reduced ? 0 : 120 * i); }); }
-  }
-  sceneHandlers.brief = setBrief;
+  // reveal figures as they come into view (the chart draws once, the six video boxes light in order)
+  (function () {
+    var dumb = $("dumb"), vids = document.querySelectorAll("#repvids i");
+    function lightVids() { [].forEach.call(vids, function (el, i) { setTimeout(function () { el.classList.add("on"); }, reduced ? 0 : 120 * i); }); }
+    if (!("IntersectionObserver" in window) || reduced) { dumb.classList.add("in"); lightVids(); return; }
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (!e.isIntersecting) return; io.unobserve(e.target); if (e.target === dumb) dumb.classList.add("in"); else lightVids(); }); }, { threshold: 0.35 });
+    io.observe(dumb); io.observe($("repvids"));
+  })();
 
   // dumbbell: six stories, two readings, log axis
   (function () {
@@ -177,7 +177,6 @@
     var cap = '<figcaption>Each story\'s YouTube videos, summed. Hollow dot = reading 1, filled dot = reading 2, ' + sp.hours + ' hours later; the line between them is the interval no call returns. All ' + sp.n_videos + ' videos: ' + (sp.total_v0 / 1e6).toFixed(1) + 'M → ' + (sp.total_v1 / 1e6).toFixed(1) + 'M views (+' + sp.total_pct + '%); per video the median change was +' + sp.median_pct + '% and ' + sp.doubled + ' videos at least doubled. The highlighted row is the story of this filing.</figcaption>';
     $("dumb").innerHTML = s + cap;
     [].forEach.call(document.querySelectorAll("#dumb .ln"), function (el) { try { var l = el.getTotalLength(); el.style.setProperty("--len", l + 2); } catch (e) { } });
-    if (reduced) $("dumb").classList.add("in");
   })();
 
   // tooltip that follows the pointer
@@ -206,7 +205,7 @@
   function drawPlan() {
     var tb = document.querySelector("#plantable tbody"), html = "";
     IE.forEach(function (o, i) {
-      html += '<tr' + (sel[i] ? '' : ' class="off"') + '><td><label><input type="checkbox" data-i="' + i + '"' + (sel[i] ? ' checked' : '') + '><span>' + esc(o.label) + (o.found === "search" ? '<span class="tag">search</span>' : '') + '</span></label></td><td class="r">' + fmt(o.subs) + '</td><td class="r"><i class="ib" style="width:' + Math.round(40 * o.v24 / maxV) + 'px"></i>' + o.v24 + '</td><td class="r">' + fmt(o.c24) + '</td><td class="r">' + o.pg + '</td></tr>';
+      html += '<tr' + (sel[i] ? '' : ' class="off"') + '><td><label><input type="checkbox" data-i="' + i + '"' + (sel[i] ? ' checked' : '') + '>' + av(o.avatar) + '<span>' + esc(o.label) + (o.found === "search" ? '<span class="tag">search</span>' : '') + '</span></label></td><td class="r">' + fmt(o.subs) + '</td><td class="r"><i class="ib" style="width:' + Math.round(40 * o.v24 / maxV) + 'px"></i>' + o.v24 + '</td><td class="r">' + fmt(o.c24) + '</td><td class="r">' + o.pg + '</td></tr>';
     });
     tb.innerHTML = html;
     var n = 0, v = 0, c = 0, pg = 0; IE.forEach(function (o, i) { if (sel[i]) { n++; v += o.v24; c += o.c24; pg += o.pg; } });

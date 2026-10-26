@@ -121,107 +121,97 @@
     <p class="sm">Published as a PRISM card on October 13, 2026. The modules below are the research behind it, not the card itself.</p>
   </div>
 
-  <div class="scene" data-scene="brief">
-    <div class="steps" id="brief-steps">
-      <div class="step" data-step="0"><div class="card">
-        <div class="sh"><b class="k">A</b><span class="t">The question</span></div>
-        <p>Which framings did the feed repeat, where did the story enter the news-video ecosystem, and did identical comments appear across outlets at once.</p>
-        <p>Three questions a platform's own risk assessment would have to answer about the same story, if Step 2 were in force.</p>
-      </div></div>
-      <div class="step" data-step="1"><div class="card">
-        <div class="sh"><b class="k">B</b><span class="t">Data</span><span class="chip ok"><i></i>via the API</span></div>
+  <div class="filing" id="filing">
+    <article class="mod one" id="brief-a">
+      <div class="mh"><b class="k">A</b><span class="t">The question</span></div>
+      <div class="mt">
+        <p>Three questions a platform's own risk assessment would have to answer about the same story, if Step 2 were in force. Each maps to one row of the matrix in chapter 01: framing needs caption text, origin and spread need timestamps and view counts over time, reception needs public comments.</p>
+        <ol class="qs">
+          <li>Which framings did the feed repeat?</li>
+          <li>Where did the story enter the news-video ecosystem?</li>
+          <li>Did identical comments appear across outlets at once?</li>
+        </ol>
+      </div>
+    </article>
+
+    <article class="mod" id="brief-b">
+      <div class="mh"><b class="k">B</b><span class="t">Data</span><span class="chip ok"><i></i>via the API</span></div>
+      <div class="mt">
         <p><b>208 items from 83 outlets</b>: 198 YouTube videos and 10 podcast episodes, 9,774,739 views at first reading.</p>
-        <p>Video metadata and comments came through <code>videos.list</code> and <code>commentThreads.list</code>; podcast episodes through RSS.</p>
-      </div></div>
-      <div class="step" data-step="2"><div class="card">
-        <div class="sh"><b class="k">C</b><span class="t">Origin</span><span class="chip ok"><i></i>via the API</span></div>
-        <p>Earliest item in the collected window: <b>Bloomberg Television, October 12</b>. Publish timestamps are returned for every video, so the first report in the window can be named.</p>
-      </div></div>
-      <div class="step" data-step="3"><div class="card">
-        <div class="sh"><b class="k">D</b><span class="t">Framing</span><span class="chip cond"><i></i>partly</span></div>
-        <p>Three outlets selected for maximal dispersion among the 198 videos. The quoted framings are titles and descriptions, which the API returns.</p>
-        <p>The transcripts that would let the comparison go past headlines are listed by the API but not returned (chapter 01, step B).</p>
-      </div></div>
-      <div class="step" data-step="4"><div class="card">
-        <div class="sh"><b class="k">E</b><span class="t">Spread</span><span class="chip cond"><i></i>single readings</span></div>
+        <p>Video metadata and comments came through <code>videos.list</code> and <code>commentThreads.list</code>, at 1 unit per 50 videos; podcast episodes through each show's RSS feed, outside YouTube.</p>
+      </div>
+      <div class="mf">
+        <div class="bignums">
+          <div class="b"><div class="v num">208</div><div class="l">items</div></div>
+          <div class="b"><div class="v num">83</div><div class="l">outlets</div></div>
+          <div class="b"><div class="v num">9.77M</div><div class="l">views at first reading</div></div>
+        </div>
+        <div class="comp"><i class="a" style="width:95.2%"></i><i class="b" style="width:4.8%"></i></div>
+        <div class="complab"><span>198 YouTube videos</span><span>10 podcast episodes</span></div>
+      </div>
+    </article>
+
+    <article class="mod" id="brief-c">
+      <div class="mh"><b class="k">C</b><span class="t">Origin</span><span class="chip ok"><i></i>via the API</span></div>
+      <div class="mt">
+        <p>Earliest item in the collected window: <b>Bloomberg Television, October 12</b>. The API returns a publish timestamp for every video, so the first report in the window can be named with certainty.</p>
+        <p>What it cannot say is which upload a viewer saw first; that is exposure data, outside the public route (chapter 01, step E).</p>
+      </div>
+      <div class="mf">
+        <div class="origin"><span class="d">Oct 12</span><span class="o">Bloomberg Television<small>earliest of the 198 videos by <code>snippet.publishedAt</code></small></span></div>
+      </div>
+    </article>
+
+    <article class="mod" id="brief-d">
+      <div class="mh"><b class="k">D</b><span class="t">Framing</span><span class="chip cond"><i></i>partly</span></div>
+      <div class="mt">
+        <p>Three outlets selected for maximal dispersion among the 198 videos. Each line describes what the outlet put first, as published in its own title and description, which the API returns.</p>
+        <p>A comparison of what was said in the videos would need the caption text the API lists and refuses (chapter 01, step B).</p>
+      </div>
+      <div class="mf"><ul class="outs" id="outs"></ul></div>
+    </article>
+
+    <article class="mod" id="brief-e">
+      <div class="mh"><b class="k">E</b><span class="t">Spread</span><span class="chip cond"><i></i>single readings</span></div>
+      <div class="mt">
         <p>The two largest channels, MeidasTouch and CNN, held about 31% of all views at first reading. The peak item was a MeidasTouch video at 1,008,850 views. By the second reading, 16.6 hours later, the story's YouTube videos had grown from 9.77M to 12.68M views (+29.7%).</p>
         <p>Each reading is a separate call. The curve between readings, where the spread happens, is not returned, and under III.E.4.b readings must be deleted or refreshed after 30 days.</p>
-      </div></div>
-      <div class="step" data-step="5"><div class="card">
-        <div class="sh"><b class="k">F</b><span class="t">Reception</span><span class="chip ok"><i></i>via the API, within quota</span></div>
-        <p>Comment sample of 198 videos, 34,685 comments. One account posted the same comment on <b>6 videos across 5 channels within six minutes</b>, with at most 11 likes on any copy. The most-liked comments in the sample sat on CNN (1,086 likes) and MeidasTouch (876 and 791).</p>
-        <p>Returned at 1 unit per page of 100 threads. There is no oldest-first order, so reaching a video's first comments means paging to the end.</p>
-      </div></div>
-      <div class="step" data-step="6"><div class="card">
-        <div class="sh"><b class="k">G</b><span class="t">Limits, and what the assessment would answer</span></div>
-        <p>About 31% of views concentrate in two channels; comment opinion reflects a sample; developments after the window are out of scope; the single-account pattern is one account, not a campaign, and is reported as observed.</p>
-        <p>Under Step 2, the annual civic-discourse assessment would respond to this filing: whether the platform's own systems saw the same comment land on five outlets' videos within minutes, and what, if anything, that triggered. Today there is no obligation to.</p>
-      </div></div>
-      <div class="tail"></div>
-    </div>
-
-    <div class="stage">
-      <div class="panel">
-        <div class="ph"><span class="lab">The filing, module by module</span><span class="lab" id="fp-pos">A · The question</span></div>
-        <div class="fpanels" id="fpanels">
-          <div class="fp on" data-step="0">
-            <div class="fh"><span class="t">Three questions, one story</span></div>
-            <ol class="qs">
-              <li>Which framings did the feed repeat?</li>
-              <li>Where did the story enter the news-video ecosystem?</li>
-              <li>Did identical comments appear across outlets at once?</li>
-            </ol>
-            <p class="note">Each question maps to one row of the matrix in chapter 01: framing needs caption text, origin and spread need timestamps and view counts over time, reception needs public comments.</p>
-          </div>
-          <div class="fp" data-step="1">
-            <div class="fh"><span class="t">What the window held</span><span class="chip ok"><i></i>videos.list · commentThreads.list · RSS</span></div>
-            <div class="bignums">
-              <div class="b"><div class="v num">208</div><div class="l">items</div></div>
-              <div class="b"><div class="v num">83</div><div class="l">outlets</div></div>
-              <div class="b"><div class="v num">9.77M</div><div class="l">views at first reading</div></div>
-            </div>
-            <div class="comp"><i class="a" style="width:95.2%"></i><i class="b" style="width:4.8%"></i></div>
-            <div class="complab"><span>198 YouTube videos</span><span>10 podcast episodes</span></div>
-            <p class="note">Every field in this module is returned by the Data API at 1 unit per 50 videos. The podcast episodes came through each show's RSS feed, outside YouTube.</p>
-          </div>
-          <div class="fp" data-step="2">
-            <div class="fh"><span class="t">First report in the window</span><span class="chip ok"><i></i>snippet.publishedAt</span></div>
-            <div class="origin"><span class="d">Oct 12</span><span class="o">Bloomberg Television<small>earliest of the 198 videos by publish timestamp</small></span></div>
-            <p class="note">The API returns a publish timestamp for every video, so the earliest item in the collected window can be named with certainty. What it cannot say is which upload a viewer saw first; that is exposure data, outside the public route (chapter 01, step E).</p>
-          </div>
-          <div class="fp" data-step="3">
-            <div class="fh"><span class="t">Three outlets, three leads</span><span class="chip cond"><i></i>titles and descriptions only</span></div>
-            <ul class="outs" id="outs"></ul>
-            <p class="note">Selected for maximal dispersion among the 198 videos. Each line describes what the outlet put first, as published in its own title and description. A comparison of what was said in the videos would need the caption text the API lists and refuses.</p>
-          </div>
-          <div class="fp" data-step="4">
-            <div class="fh"><span class="t">Two readings, six stories</span><span class="chip cond"><i></i>statistics.viewCount × 2</span></div>
-            <figure class="dumb" id="dumb"></figure>
-          </div>
-          <div class="fp" data-step="5">
-            <div class="fh"><span class="t">One account, six videos, five channels</span><span class="chip ok"><i></i>commentThreads.list</span></div>
-            <div class="rep">
-              <div class="acc">ONE<br>ACCOUNT</div>
-              <div class="vids" id="repvids"></div>
-              <div class="brace">within six minutes · at most 11 likes on any copy</div>
-              <div class="quote">"Why isn't Putin speaking for himself instead of letting Trump speak on his behalf?"</div>
-            </div>
-            <ul class="liked" id="liked"></ul>
-            <p class="note">Sample of 34,685 comments on the 198 videos. The pattern is one account, reported as observed; whether it was part of anything larger is what Step 2 would make the platform answer.</p>
-          </div>
-          <div class="fp" data-step="6">
-            <div class="fh"><span class="t">What this filing cannot say</span></div>
-            <ul class="limits">
-              <li><b>Concentration.</b> About 31% of views sit in two channels, so the framings of the long tail weigh less than their count suggests.</li>
-              <li><b>Sample.</b> Comment opinion reflects the comments collected, not every comment posted.</li>
-              <li><b>Window.</b> Developments after October 13 are out of scope.</li>
-              <li><b>One account.</b> The repeated comment is one account, not a campaign, and is reported as observed.</li>
-              <li><b>Headlines.</b> Framing rests on titles and descriptions; the caption text that would deepen it is refused.</li>
-            </ul>
-          </div>
-        </div>
       </div>
-    </div>
+      <div class="mf"><figure class="dumb" id="dumb"></figure></div>
+    </article>
+
+    <article class="mod" id="brief-f">
+      <div class="mh"><b class="k">F</b><span class="t">Reception</span><span class="chip ok"><i></i>via the API, within quota</span></div>
+      <div class="mt">
+        <p>Comment sample of 198 videos, 34,685 comments. One account posted the same comment on <b>6 videos across 5 channels within six minutes</b>, with at most 11 likes on any copy. The most-liked comments in the sample sat on CNN (1,086 likes) and MeidasTouch (876 and 791).</p>
+        <p>Returned at 1 unit per page of 100 threads. There is no oldest-first order, so reaching a video's first comments means paging to the end. The pattern is one account, reported as observed; whether it was part of anything larger is what Step 2 would make the platform answer.</p>
+      </div>
+      <div class="mf">
+        <div class="rep">
+          <div class="acc">ONE<br>ACCOUNT</div>
+          <div class="vids" id="repvids"></div>
+          <div class="brace">within six minutes · at most 11 likes on any copy</div>
+          <div class="quote">"Why isn't Putin speaking for himself instead of letting Trump speak on his behalf?"</div>
+        </div>
+        <ul class="liked" id="liked"></ul>
+      </div>
+    </article>
+
+    <article class="mod" id="brief-g">
+      <div class="mh"><b class="k">G</b><span class="t">Limits, and what the assessment would answer</span></div>
+      <div class="mt">
+        <p>Under Step 2, the annual civic-discourse assessment would respond to this filing: whether the platform's own systems saw the same comment land on five outlets' videos within minutes, and what, if anything, that triggered. Today there is no obligation to.</p>
+      </div>
+      <div class="mf">
+        <ul class="limits">
+          <li><b>Concentration.</b> About 31% of views sit in two channels, so the framings of the long tail weigh less than their count suggests.</li>
+          <li><b>Sample.</b> Comment opinion reflects the comments collected, not every comment posted.</li>
+          <li><b>Window.</b> Developments after October 13 are out of scope.</li>
+          <li><b>One account.</b> The repeated comment is one account, not a campaign, and is reported as observed.</li>
+          <li><b>Headlines.</b> Framing rests on titles and descriptions; the caption text that would deepen it is refused.</li>
+        </ul>
+      </div>
+    </article>
   </div>
   <p class="sum">Of the four modules that carry evidence, two are fully supported by the sanctioned route, one is supported at the level of headlines, and one rests on readings the researcher must take and then discard. That is the shape of independent research under today's access, and the reason Step 1 precedes Step 2.</p>
 </section>
@@ -341,6 +331,7 @@
     <li><a href="record_api_views.py">record_api_views.py</a> produced <a href="data/api_record.json">api_record.json</a> (chapter 01; comment text and author names removed).</li>
     <li><a href="probe_ie_channels.py">probe_ie_channels.py</a> and <a href="resolve_ie_search.py">resolve_ie_search.py</a> produced <a href="data/ie_probe.json">ie_probe.json</a> and <a href="data/ie_search_resolved.json">ie_search_resolved.json</a> (chapter 03).</li>
     <li><a href="poll_views.py">poll_views.py</a> took the second reading of 586 videos; <a href="data/view_snapshots_aggregate.json">view_snapshots_aggregate.json</a> holds the per-story totals and the growth distribution.</li>
+    <li><a href="fetch_logos.py">fetch_logos.py</a> fetched the channel avatars shown in chapters 01 and 03 (<code>videos.list</code> and <code>channels.list</code>, 2 units, October 26, 2026) into <a href="data/channels.json">channels.json</a>; the avatars are stored with the page rather than loaded from the platform.</li>
     <li><a href="calc.py">calc.py</a> derives every figure on this page from those four files and writes <a href="data/facts.js">facts.js</a>; the counts that come from the pipeline's own run log (channels, videos fetched, comments counted and collected) are listed there with their source.</li>
     <li>The nightly fetch and comment collection are pipeline code in the team's repository (07_phase2a_24h_fetch.py, collect_comments.py).</li>
   </ul>
