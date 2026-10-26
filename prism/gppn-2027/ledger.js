@@ -161,19 +161,42 @@
     $("repvids").innerHTML = h;
     $("liked").innerHTML = S.most_liked.map(function (m) { return '<li><span>' + esc(m[0]) + '</span><b>' + fmt(m[1]) + ' likes</b></li>'; }).join("");
   })();
-  // Chapter 02 figures unfold once, when they come into view (Jack 10/26: bars fill, dots and lines appear
-  //   one by one, the six videos arrive in order). Everything is drawn at rest; the CSS under `.mf.in` adds
-  //   the motion, and reduced-motion settings skip it.
+  // Chapter 02 figures follow the scroll (Jack 10/26: scrolling back up folds them back). Each figure gets a
+  //   progress value --p: 0 while its top is below 90% of the viewport, 1 once it has risen to 35%. The CSS
+  //   turns --p into bar length, dot and line reveal, the order the six videos arrive in; the counts are set
+  //   here. Reversible by construction. Reduced-motion settings pin --p at 1.
   (function () {
-    var figs = document.querySelectorAll(".mod .mf");
-    function reveal(f) {
-      if (f.classList.contains("in")) return;
-      f.classList.add("in");
-      [].forEach.call(f.querySelectorAll("[data-count]"), function (c) { setTimeout(function () { countUp(c); }, reduced ? 0 : 120); });
+    var figs = [].slice.call(document.querySelectorAll(".mod .mf"));
+    if (!figs.length) return;
+    var counts = figs.map(function (f) {
+      return [].slice.call(f.querySelectorAll("[data-count]")).map(function (el) {
+        return { el: el, target: parseFloat(el.getAttribute("data-count")), pre: el.getAttribute("data-prefix") || "", suf: el.getAttribute("data-suffix") || "", dec: +(el.getAttribute("data-dec") || 0) };
+      });
+    });
+    var raf = 0, last = [];
+    function ease(u) { return 1 - Math.pow(1 - u, 3); }
+    function paint() {
+      raf = 0;
+      var H = window.innerHeight;
+      figs.forEach(function (f, i) {
+        var r = f.getBoundingClientRect();
+        var p = reduced ? 1 : Math.max(0, Math.min(1, (H * 0.9 - r.top) / (H * 0.55)));
+        p = Math.round(p * 500) / 500;
+        if (last[i] === p) return;
+        last[i] = p;
+        f.style.setProperty("--p", p);
+        f.classList.toggle("in", p > 0.01);
+        counts[i].forEach(function (c) {
+          var v = c.target * ease(Math.min(1, p / 0.75));
+          c.el.textContent = c.pre + (c.dec ? v.toFixed(c.dec) : Math.round(v).toLocaleString("en-US")) + c.suf;
+        });
+      });
     }
-    if (!("IntersectionObserver" in window) || reduced) { [].forEach.call(figs, reveal); return; }
-    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); reveal(e.target); } }); }, { threshold: 0.3 });
-    [].forEach.call(figs, function (f) { io.observe(f); });
+    function kick() { if (!raf) raf = requestAnimationFrame(paint); }
+    window.addEventListener("scroll", kick, { passive: true });
+    window.addEventListener("resize", kick);
+    window.addEventListener("load", kick);
+    paint();
   })();
 
   // dumbbell: six stories, two readings, log axis
@@ -186,7 +209,7 @@
     s += '<text class="shl" x="' + x(5e5) + '" y="' + (T - 12) + '">VIEWS, READING 1 (04:43 UTC) → READING 2 (21:21 UTC)</text>';
     sp.stories.forEach(function st(d, i) {
       var y = T + rowH * i + rowH / 2, x0 = x(d.v0), x1 = x(d.v1), curc = d.external_id === S.external_id;
-      s += '<g class="row' + (curc ? ' cur' : '') + '" data-i="' + i + '" style="--d:' + (i * 0.22).toFixed(2) + 's" tabindex="0" data-tip="' + esc(d.title) + '&#10;' + fmt(d.v0) + ' → ' + fmt(d.v1) + ' views · ' + sp.hours + ' h · ' + d.n + ' videos">';
+      s += '<g class="row' + (curc ? ' cur' : '') + '" data-i="' + i + '" style="--s:' + (i * 0.13).toFixed(2) + '" tabindex="0" data-tip="' + esc(d.title) + '&#10;' + fmt(d.v0) + ' → ' + fmt(d.v1) + ' views · ' + sp.hours + ' h · ' + d.n + ' videos">';
       s += '<rect class="hit" x="0" y="' + (y - rowH / 2) + '" width="' + W + '" height="' + rowH + '"/>';
       s += '<text class="lbl" x="0" y="' + (y + 1) + '">' + esc(d.short) + '</text><text class="sub" x="0" y="' + (y + 15) + '">' + d.n + ' videos</text>';
       s += '<line class="ln" x1="' + x0 + '" y1="' + y + '" x2="' + x1 + '" y2="' + y + '"/>';
