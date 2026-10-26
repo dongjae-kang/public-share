@@ -13,21 +13,21 @@
   function dur(s) { return s.replace("PT", "").replace("H", "h ").replace("M", "m ").replace("S", "s"); }
   function $(id) { return document.getElementById(id); }
 
-  /* ---------- count-up on first sight (masthead strip) ---------- */
+  /* ---------- count-up (masthead strip, module B) ---------- */
+  function countUp(el) {
+    var target = parseFloat(el.getAttribute("data-count")), pre = el.getAttribute("data-prefix") || "", suf = el.getAttribute("data-suffix") || "", dec = +(el.getAttribute("data-dec") || 0);
+    var show = function (v) { el.textContent = pre + (dec ? v.toFixed(dec) : Math.round(v).toLocaleString("en-US")) + suf; };
+    if (reduced) { show(target); return; }
+    var t0 = null, T = target > 10000 ? 1100 : 850;
+    function step(ts) { if (!t0) t0 = ts; var p = Math.min(1, (ts - t0) / T); p = 1 - Math.pow(1 - p, 3); show(target * p); if (p < 1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
   (function () {
     var els = document.querySelectorAll("#strip [data-count]");
-    function run(el) {
-      var target = parseFloat(el.getAttribute("data-count")), pre = el.getAttribute("data-prefix") || "", suf = el.getAttribute("data-suffix") || "", dec = +(el.getAttribute("data-dec") || 0);
-      var show = function (v) { el.textContent = pre + (dec ? v.toFixed(dec) : Math.round(v).toLocaleString("en-US")) + suf; };
-      if (reduced) { show(target); return; }
-      var t0 = null, T = target > 10000 ? 1100 : 850;
-      function step(ts) { if (!t0) t0 = ts; var p = Math.min(1, (ts - t0) / T); p = 1 - Math.pow(1 - p, 3); show(target * p); if (p < 1) requestAnimationFrame(step); }
-      requestAnimationFrame(step);
-    }
     if ("IntersectionObserver" in window && !reduced) {
-      var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); run(e.target); } }); }, { threshold: 0.4 });
+      var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); countUp(e.target); } }); }, { threshold: 0.4 });
       els.forEach(function (el) { io.observe(el); });
-    } else { els.forEach(run); }
+    } else { els.forEach(countUp); }
   })();
 
   /* ---------- scenes: the step card nearest the middle of the screen sets the stage ---------- */
@@ -73,12 +73,14 @@
   function shortStory(v) { if (!v.story) return "Irish probe"; var m = F.spread.stories.filter(function (st) { return st.title === v.story; })[0]; return m ? m.short : v.story; }
   function pickBtns() {
     var html = "";
-    VIDS.forEach(function (v, i) { html += '<button type="button" data-i="' + i + '" title="' + esc(shortStory(v)) + '"' + (i === cur ? ' class="on"' : '') + '>' + av(v.avatar) + esc(v.ch) + (v.set === "IE" ? ' <small>IE</small>' : '') + '</button>'; });
+    // Eight videos = the top video of each October 12 story plus two Irish ones, so each button is named by
+    //   its story (two stories share MeidasTouch as their top channel) and carries the channel as its avatar.
+    VIDS.forEach(function (v, i) { html += '<button type="button" data-i="' + i + '" title="' + esc(v.ch + ' · ' + v.title) + '"' + (i === cur ? ' class="on"' : '') + '>' + av(v.avatar) + (v.set === "IE" ? esc(v.ch) + ' <small>IE</small>' : esc(shortStory(v))) + '</button>'; });
     $("vidpick").innerHTML = html;
   }
   function receipt() {
     var v = VIDS[cur], h = "", last = v.reads[v.reads.length - 1][1];
-    $("vidhead").innerHTML = av(v.avatar) + '<b>' + esc(shortStory(v)) + '</b> · ' + esc(v.title) + ' · published ' + dstr(v.pub) + ' · <a href="https://www.youtube.com/watch?v=' + v.id + '" target="_blank" rel="noopener">watch?v=' + v.id + '</a>';
+    $("vidhead").innerHTML = av(v.avatar) + '<b>' + esc(v.ch) + '</b> · ' + esc(shortStory(v)) + ' · ' + esc(v.title) + ' · published ' + dstr(v.pub) + ' · <a href="https://www.youtube.com/watch?v=' + v.id + '" target="_blank" rel="noopener">watch?v=' + v.id + '</a>';
     $("rc-cost").textContent = STEPNAME[routeStep];
     if (routeStep === 0) {
       h += '<div class="req">GET youtube/v3/<b>videos</b>?part=snippet,statistics,contentDetails&id=' + v.id + '&key=REDACTED</div>';
@@ -159,13 +161,19 @@
     $("repvids").innerHTML = h;
     $("liked").innerHTML = S.most_liked.map(function (m) { return '<li><span>' + esc(m[0]) + '</span><b>' + fmt(m[1]) + ' likes</b></li>'; }).join("");
   })();
-  // reveal figures as they come into view (the chart draws once, the six video boxes light in order)
+  // Chapter 02 figures unfold once, when they come into view (Jack 10/26: bars fill, dots and lines appear
+  //   one by one, the six videos arrive in order). Everything is drawn at rest; the CSS under `.mf.in` adds
+  //   the motion, and reduced-motion settings skip it.
   (function () {
-    var dumb = $("dumb"), vids = document.querySelectorAll("#repvids i, #repvids .rv");
-    function lightVids() { [].forEach.call(vids, function (el, i) { setTimeout(function () { el.classList.add("on"); }, reduced ? 0 : 120 * i); }); }
-    if (!("IntersectionObserver" in window) || reduced) { dumb.classList.add("in"); lightVids(); return; }
-    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (!e.isIntersecting) return; io.unobserve(e.target); if (e.target === dumb) dumb.classList.add("in"); else lightVids(); }); }, { threshold: 0.35 });
-    io.observe(dumb); io.observe($("repvids"));
+    var figs = document.querySelectorAll(".mod .mf");
+    function reveal(f) {
+      if (f.classList.contains("in")) return;
+      f.classList.add("in");
+      [].forEach.call(f.querySelectorAll("[data-count]"), function (c) { setTimeout(function () { countUp(c); }, reduced ? 0 : 120); });
+    }
+    if (!("IntersectionObserver" in window) || reduced) { [].forEach.call(figs, reveal); return; }
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); reveal(e.target); } }); }, { threshold: 0.3 });
+    [].forEach.call(figs, function (f) { io.observe(f); });
   })();
 
   // dumbbell: six stories, two readings, log axis
@@ -178,7 +186,7 @@
     s += '<text class="shl" x="' + x(5e5) + '" y="' + (T - 12) + '">VIEWS, READING 1 (04:43 UTC) → READING 2 (21:21 UTC)</text>';
     sp.stories.forEach(function st(d, i) {
       var y = T + rowH * i + rowH / 2, x0 = x(d.v0), x1 = x(d.v1), curc = d.external_id === S.external_id;
-      s += '<g class="row' + (curc ? ' cur' : '') + '" data-i="' + i + '" tabindex="0" data-tip="' + esc(d.title) + '&#10;' + fmt(d.v0) + ' → ' + fmt(d.v1) + ' views · ' + sp.hours + ' h · ' + d.n + ' videos">';
+      s += '<g class="row' + (curc ? ' cur' : '') + '" data-i="' + i + '" style="--d:' + (i * 0.22).toFixed(2) + 's" tabindex="0" data-tip="' + esc(d.title) + '&#10;' + fmt(d.v0) + ' → ' + fmt(d.v1) + ' views · ' + sp.hours + ' h · ' + d.n + ' videos">';
       s += '<rect class="hit" x="0" y="' + (y - rowH / 2) + '" width="' + W + '" height="' + rowH + '"/>';
       s += '<text class="lbl" x="0" y="' + (y + 1) + '">' + esc(d.short) + '</text><text class="sub" x="0" y="' + (y + 15) + '">' + d.n + ' videos</text>';
       s += '<line class="ln" x1="' + x0 + '" y1="' + y + '" x2="' + x1 + '" y2="' + y + '"/>';
