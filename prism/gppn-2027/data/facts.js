@@ -2,8 +2,94 @@
 window.FACTS = {
  "logos": {
   "fetched_at": "2026-10-26T16:11:30.055480+00:00",
+  "units": 3,
+  "n": 21
+ },
+ "repeat": {
+  "fetched_at_utc": "2026-10-26T16:15:16.098250+00:00",
   "units": 2,
-  "n": 17
+  "card": "trend_2026-10-12_backlash-grows-over-trump-s-russian-diesel-d",
+  "quote": "Why isn’t Putin speaking for himself instead of letting Trump speak on his behalf?",
+  "max_like": 11,
+  "n_videos": 6,
+  "n_channels": 5,
+  "first_seen": "2026-10-12T16:01:51Z",
+  "last_seen": "2026-10-12T16:06:13Z",
+  "span_seconds": 262.0,
+  "instances": [
+   {
+    "video_id": "AfRjLt0otCI",
+    "channel": "Hook Global",
+    "channel_id_card": "UCyri-PL3l4Dn9IooWXQAqfA",
+    "title": "‘Putin Does Not Read Truth Social…’: Zelensky Hits Trump With a Brutal Reality Check",
+    "comment_at": "2026-10-12T16:01:51Z",
+    "channel_id": "UCyri-PL3l4Dn9IooWXQAqfA",
+    "video_published_at": "2026-10-12T10:42:44Z",
+    "thumb": "img/vid/AfRjLt0otCI.jpg",
+    "thumb_bytes": 15620,
+    "avatar": "img/ch/UCyri-PL3l4Dn9IooWXQAqfA.jpg"
+   },
+   {
+    "video_id": "ZCPwrCriirM",
+    "channel": "CNN",
+    "channel_id_card": "UCupvZG-5ko_eiXAupbDfxWw",
+    "title": "Russia attacks Ukraine power plant after Trump announced ‘energy ceasefire’",
+    "comment_at": "2026-10-12T16:03:00Z",
+    "channel_id": "UCupvZG-5ko_eiXAupbDfxWw",
+    "video_published_at": "2026-10-12T14:01:15Z",
+    "thumb": "img/vid/ZCPwrCriirM.jpg",
+    "thumb_bytes": 14194,
+    "avatar": "img/ch/UCupvZG-5ko_eiXAupbDfxWw.jpg"
+   },
+   {
+    "video_id": "79MYsbp0Am8",
+    "channel": "BBC News",
+    "channel_id_card": "UC16niRr50-MSBwiO3YDb3RA",
+    "title": "Zelensky says Russia hit Ukrainian power plant after Trump declared energy ceasefire | BBC News",
+    "comment_at": "2026-10-12T16:03:51Z",
+    "channel_id": "UC16niRr50-MSBwiO3YDb3RA",
+    "video_published_at": "2026-10-12T11:15:19Z",
+    "thumb": "img/vid/79MYsbp0Am8.jpg",
+    "thumb_bytes": 14474,
+    "avatar": "img/ch/UC16niRr50-MSBwiO3YDb3RA.jpg"
+   },
+   {
+    "video_id": "b2cDu8zgNBQ",
+    "channel": "Hook Global",
+    "channel_id_card": "UCyri-PL3l4Dn9IooWXQAqfA",
+    "title": "Zelensky Brutally Mocks Trump, Saying Putin Doesn’t Read His ‘Truth Social’ Ceasefire Posts",
+    "comment_at": "2026-10-12T16:04:24Z",
+    "channel_id": "UCyri-PL3l4Dn9IooWXQAqfA",
+    "video_published_at": "2026-10-13T02:29:25Z",
+    "thumb": "img/vid/b2cDu8zgNBQ.jpg",
+    "thumb_bytes": 13674,
+    "avatar": "img/ch/UCyri-PL3l4Dn9IooWXQAqfA.jpg"
+   },
+   {
+    "video_id": "i2UaTFKgnG8",
+    "channel": "MS NOW",
+    "channel_id_card": "UCaXkIU1QidjPwiAYu6GcHjg",
+    "title": "Trump ATTACKS Zelensky as he receives major PUSHBACK on Russian diesel deal",
+    "comment_at": "2026-10-12T16:06:01Z",
+    "channel_id": "UCaXkIU1QidjPwiAYu6GcHjg",
+    "video_published_at": "2026-10-12T10:05:48Z",
+    "thumb": "img/vid/i2UaTFKgnG8.jpg",
+    "thumb_bytes": 12321,
+    "avatar": "img/ch/UCaXkIU1QidjPwiAYu6GcHjg.jpg"
+   },
+   {
+    "video_id": "W2FjjFJIRd8",
+    "channel": "FRANCE 24 English",
+    "channel_id_card": "UCQfwfsi5VrQ8yKZ-UWmAEFg",
+    "title": "Ukraine: Russian strikes continue despite Trump's 'energy ceasefire' • FRANCE 24 English",
+    "comment_at": "2026-10-12T16:06:13Z",
+    "channel_id": "UCQfwfsi5VrQ8yKZ-UWmAEFg",
+    "video_published_at": "2026-10-12T12:12:49Z",
+    "thumb": "img/vid/W2FjjFJIRd8.jpg",
+    "thumb_bytes": 11130,
+    "avatar": "img/ch/UCQfwfsi5VrQ8yKZ-UWmAEFg.jpg"
+   }
+  ]
  },
  "generated_from": [
   "data/api_record.json",

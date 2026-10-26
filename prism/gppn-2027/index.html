@@ -188,11 +188,11 @@
         <p>Returned at 1 unit per page of 100 threads. There is no oldest-first order, so reaching a video's first comments means paging to the end. The pattern is one account, reported as observed; whether it was part of anything larger is what Step 2 would make the platform answer.</p>
       </div>
       <div class="mf">
-        <div class="rep">
+        <div class="rep" id="rep">
+          <div class="quote">"Why isn't Putin speaking for himself instead of letting Trump speak on his behalf?"</div>
           <div class="acc">ONE<br>ACCOUNT</div>
           <div class="vids" id="repvids"></div>
-          <div class="brace">within six minutes · at most 11 likes on any copy</div>
-          <div class="quote">"Why isn't Putin speaking for himself instead of letting Trump speak on his behalf?"</div>
+          <div class="brace" id="repbrace">within six minutes · at most 11 likes on any copy</div>
         </div>
         <ul class="liked" id="liked"></ul>
       </div>
@@ -332,6 +332,7 @@
     <li><a href="record_api_views.py">record_api_views.py</a> produced <a href="data/api_record.json">api_record.json</a> (chapter 01; comment text and author names removed).</li>
     <li><a href="probe_ie_channels.py">probe_ie_channels.py</a> and <a href="resolve_ie_search.py">resolve_ie_search.py</a> produced <a href="data/ie_probe.json">ie_probe.json</a> and <a href="data/ie_search_resolved.json">ie_search_resolved.json</a> (chapter 03).</li>
     <li><a href="poll_views.py">poll_views.py</a> took the second reading of 586 videos; <a href="data/view_snapshots_aggregate.json">view_snapshots_aggregate.json</a> holds the per-story totals and the growth distribution.</li>
+    <li><a href="fetch_repeat.py">fetch_repeat.py</a> re-read the card from the public API on October 26, 2026, matched the six videos of the repeated comment to their ids, and stored their thumbnails (<code>videos.list</code>, 1 unit) in <a href="data/repeat.json">repeat.json</a>.</li>
     <li><a href="fetch_logos.py">fetch_logos.py</a> fetched the channel avatars shown in chapters 01 and 03 (<code>videos.list</code> and <code>channels.list</code>, 2 units, October 26, 2026) into <a href="data/channels.json">channels.json</a>; the avatars are stored with the page rather than loaded from the platform.</li>
     <li><a href="calc.py">calc.py</a> derives every figure on this page from those four files and writes <a href="data/facts.js">facts.js</a>; the counts that come from the pipeline's own run log (channels, videos fetched, comments counted and collected) are listed there with their source.</li>
     <li>The nightly fetch and comment collection are pipeline code in the team's repository (07_phase2a_24h_fetch.py, collect_comments.py).</li>

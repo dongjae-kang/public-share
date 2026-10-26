@@ -143,13 +143,25 @@
   var S = F.const.story;
   $("outs").innerHTML = S.framing.map(function (f) { return '<li><b>' + esc(f[0]) + '</b><span class="fr">' + esc(f[1]) + '</span></li>'; }).join("");
   (function () {
-    var h = ""; for (var i = 0; i < S.repeat_videos; i++) h += '<i data-ch="video ' + (i + 1) + '"></i>';
+    var R = F.repeat, h = "";
+    if (R) {
+      R.instances.forEach(function (x) {
+        h += '<a class="rv" href="https://www.youtube.com/watch?v=' + x.video_id + '" target="_blank" rel="noopener" title="' + esc(x.title) + '">'
+          + '<span class="th"><img src="' + x.thumb + '" alt="" loading="lazy" width="320" height="180"></span>'
+          + '<span class="rc">' + av(x.avatar) + '<span class="rn">' + esc(x.channel) + '</span></span>'
+          + '<span class="rt">' + x.comment_at.slice(11, 19) + '</span></a>';
+      });
+      var m = Math.floor(R.span_seconds / 60), sec = Math.round(R.span_seconds % 60);
+      $("repbrace").textContent = "the same comment, posted " + R.first_seen.slice(11, 19) + " to " + R.last_seen.slice(11, 19) + " UTC, " + m + " min " + sec + " s apart · at most " + R.max_like + " likes on any copy";
+    } else {
+      for (var i = 0; i < S.repeat_videos; i++) h += '<i data-ch="video ' + (i + 1) + '"></i>';
+    }
     $("repvids").innerHTML = h;
     $("liked").innerHTML = S.most_liked.map(function (m) { return '<li><span>' + esc(m[0]) + '</span><b>' + fmt(m[1]) + ' likes</b></li>'; }).join("");
   })();
   // reveal figures as they come into view (the chart draws once, the six video boxes light in order)
   (function () {
-    var dumb = $("dumb"), vids = document.querySelectorAll("#repvids i");
+    var dumb = $("dumb"), vids = document.querySelectorAll("#repvids i, #repvids .rv");
     function lightVids() { [].forEach.call(vids, function (el, i) { setTimeout(function () { el.classList.add("on"); }, reduced ? 0 : 120 * i); }); }
     if (!("IntersectionObserver" in window) || reduced) { dumb.classList.add("in"); lightVids(); return; }
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (!e.isIntersecting) return; io.unobserve(e.target); if (e.target === dumb) dumb.classList.add("in"); else lightVids(); }); }, { threshold: 0.35 });

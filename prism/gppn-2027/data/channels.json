@@ -1,6 +1,6 @@
 {
  "fetched_at_utc": "2026-10-26T16:11:30.055480+00:00",
- "units": 2,
+ "units": 3,
  "videos": {
   "mMok2XA6Dmk": "UC9r9HYFxEQOBXSopFS61ZWg",
   "kDtOdVpppA8": "UCXIJgqnII2ZOINSWNOGFThA",
@@ -113,6 +113,31 @@
    "file": "img/ch/UCN65cXpG1DyqNzQ074obQ0Q.jpg",
    "thumb_url": "https://yt3.ggpht.com/ytc/AIdro_n3voMOWEoWIY1zhJKaMXxhiKLcI9Z7QMPCssAqlJITVAs=s88-c-k-c0x00ffffff-no-rj",
    "bytes": 6128
+  },
+  "UCyri-PL3l4Dn9IooWXQAqfA": {
+   "title": "Hook Global",
+   "file": "img/ch/UCyri-PL3l4Dn9IooWXQAqfA.jpg",
+   "thumb_url": "https://yt3.ggpht.com/SMWuhvyJl_3sBiq632abhRJTX6jVQ6qVN8LA7AJNYpAn1ptkzUFjhI4_meLQUEKczoqc1mdQ=s88-c-k-c0x00ffffff-no-rj",
+   "bytes": 2972
+  },
+  "UC16niRr50-MSBwiO3YDb3RA": {
+   "title": "BBC News",
+   "file": "img/ch/UC16niRr50-MSBwiO3YDb3RA.jpg",
+   "thumb_url": "https://yt3.ggpht.com/v4JamQ9B-PUiJHjmZQs9UwTaoLQW8vijJMMpV5QvA2wHQ6iwWM8Q1s6O4jgTl0dtDigVWAi7SA=s88-c-k-c0x00ffffff-no-rj",
+   "bytes": 2890
+  },
+  "UCQfwfsi5VrQ8yKZ-UWmAEFg": {
+   "title": "FRANCE 24 English",
+   "file": "img/ch/UCQfwfsi5VrQ8yKZ-UWmAEFg.jpg",
+   "thumb_url": "https://yt3.ggpht.com/ytc/AIdro_n_QTJ5-GLGnftQFkb7Kp36W2eBH3H-7ZqTQxzFkkqGrIE=s88-c-k-c0x00ffffff-no-rj",
+   "bytes": 4676
+  },
+  "UCaXkIU1QidjPwiAYu6GcHjg": {
+   "title": "MS NOW",
+   "file": "img/ch/UCaXkIU1QidjPwiAYu6GcHjg.jpg",
+   "thumb_url": "https://yt3.ggpht.com/k6bDbWwngaO6KSyL1lxkmFIbW6ncdoLKITtcqTumbD5wBazaJltUEkJdrfHjuMtDrHltYaIbLd0=s88-c-k-c0x00ffffff-no-rj",
+   "bytes": 4020
   }
- }
+ },
+ "avatars_added_at_utc": "2026-10-26T16:15:16.097383+00:00"
 }
