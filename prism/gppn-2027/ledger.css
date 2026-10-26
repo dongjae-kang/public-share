@@ -34,21 +34,23 @@ b,strong{font-weight:650;color:var(--ink)}
 .mast .eyebrow .ac{color:var(--accent);font-weight:700}
 h1{margin-top:14px;font-size:38px;line-height:1.12;letter-spacing:-.035em;font-weight:800;max-width:22em}
 h1 span{display:block}
-h1 em{font-style:normal;background:var(--navy);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+h1 em{font-style:normal;background:linear-gradient(100deg,#4F46E5 0%,#DB2777 60%,#4F46E5 120%);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800} /* the /about title emphasis */
 .dek{margin-top:14px;font-size:16px;line-height:1.65;color:var(--body);max-width:46em}
-.doors{list-style:none;margin:22px 0 0;border-top:1px solid var(--rule)}
+.doors{list-style:none;margin:18px 0 0;border-top:1px solid var(--rule)}
 .doors li{border-bottom:1px solid var(--line)}
-.doors li a{display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:0 14px;align-items:baseline;padding:11px 0;color:var(--ink)}
+.doors li a{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:0 12px;align-items:baseline;padding:10px 0;color:var(--ink)}
 .doors li a:hover{text-decoration:none}
 .doors li a:hover .t{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--faint)}
-.doors .n{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.doors .n{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--accent);font-variant-numeric:tabular-nums}
 .doors .t{font-size:16px;font-weight:700}
 .doors .from{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .doors .from::before{content:"from ";color:var(--faint)}
-.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0 24px;margin-top:22px}
-.strip .st{padding:12px 0 10px;border-top:1px solid var(--line)}
-.strip .v{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
-.strip .l{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.45}
+/* key figures box, the Alliance summary's strip: rule above, hairline below, hairlines between the cells */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);margin-top:22px;border-top:1px solid var(--rule);border-bottom:1px solid var(--line)}
+.strip .st{padding:13px 16px 12px;border-left:1px solid var(--line)}
+.strip .st:first-child{border-left:0;padding-left:0}
+.strip .v{font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1.05;font-variant-numeric:tabular-nums}
+.strip .l{margin-top:6px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);line-height:1.5}
 .meta{display:flex;flex-wrap:wrap;gap:4px 22px;margin:18px 0 8px;padding-top:12px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--muted)}
 .meta b{color:var(--ink);font-weight:600}
 
@@ -226,13 +228,13 @@ figure.dumb figcaption{font-size:12px;color:var(--muted);margin-top:8px;line-hei
 /* chapter 02 motion = a function of the figure's scroll progress --p (set by ledger.js, 0 to 1, reversible).
    Each staged item has a start --s and a width --w on that scale; --u is its own 0..1. */
 .js .mf{--p:0}
-.js .dumb g.row{--w:.1;--u:clamp(0,calc((var(--p) - var(--s,0)) / var(--w)),1);opacity:var(--u)}
-.js .dumb .ln{stroke-dasharray:var(--len,0);stroke-dashoffset:calc(var(--len,0) * (1 - clamp(0,calc((var(--p) - var(--s,0) - .04) / .16),1)))}
-.js .dumb .d1,.js .dumb .pct{opacity:clamp(0,calc((var(--p) - var(--s,0) - .19) / .08),1)}
-.js .mf .comp i{transform-origin:0 50%;transition:transform .12s linear}
+.js .dumb g.row{--w:.12;--u:clamp(0,calc((var(--p) - var(--s,0)) / var(--w)),1);opacity:var(--u);transition:opacity .3s ease-out}
+.js .dumb .ln{stroke-dasharray:var(--len,0);stroke-dashoffset:calc(var(--len,0) * (1 - clamp(0,calc((var(--p) - var(--s,0) - .04) / .2),1)));transition:stroke-dashoffset .3s ease-out}
+.js .dumb .d1,.js .dumb .pct{opacity:clamp(0,calc((var(--p) - var(--s,0) - .22) / .1),1);transition:opacity .3s ease-out}
+.js .mf .comp i{transform-origin:0 50%;transition:transform .3s ease-out}
 .js .mf .comp i.a{transform:scaleX(clamp(0,calc(var(--p) / .6),1))}
 .js .mf .comp i.b{transform:scaleX(clamp(0,calc((var(--p) - .55) / .3),1))}
-.js .mf .complab,.js .mf .origin,.js .mf .outs li,.js .mf .limits li,.js .mf .liked li,.js .mf .rep .quote,.js .mf .rep .acc,.js .mf .rep .brace,.js .mf .rep .rv{--s:0;--w:.25;--u:clamp(0,calc((var(--p) - var(--s)) / var(--w)),1);opacity:var(--u);transform:translateY(calc((1 - var(--u)) * 6px));transition:opacity .12s linear,transform .12s linear}
+.js .mf .complab,.js .mf .origin,.js .mf .outs li,.js .mf .limits li,.js .mf .liked li,.js .mf .rep .quote,.js .mf .rep .acc,.js .mf .rep .brace,.js .mf .rep .rv{--s:0;--w:.25;--u:clamp(0,calc((var(--p) - var(--s)) / var(--w)),1);opacity:var(--u);transform:translateY(calc((1 - var(--u)) * 6px));transition:opacity .3s ease-out,transform .3s ease-out}
 .js .mf .complab{--s:.7;--w:.2}
 .js .mf .origin{--s:0;--w:.4}
 .js .mf .outs li:nth-child(1){--s:.05} .js .mf .outs li:nth-child(2){--s:.3} .js .mf .outs li:nth-child(3){--s:.55}
@@ -390,9 +392,14 @@ footer b{color:var(--ink);font-weight:600}
   h1 span{display:inline}
   h1 span:first-child::after{content:" "}
   .dek{font-size:15px}
-  .doors li a{grid-template-columns:36px minmax(0,1fr) auto;gap:0 10px}
+  .doors li a{grid-template-columns:30px minmax(0,1fr) auto;gap:0 10px}
   .doors .t{font-size:15px}
-  .strip{grid-template-columns:1fr 1fr;gap:0 16px}
+  .strip{grid-template-columns:1fr 1fr}
+  .strip .st{padding:11px 12px 10px}
+  .strip .st:nth-child(odd){border-left:0;padding-left:0}
+  .strip .st:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .strip .v{font-size:24px}
+  .strip .l br{display:none}
   .stats{grid-template-columns:1fr 1fr}
   .quotes{grid-template-columns:1fr}
   .recon{grid-template-columns:1fr;gap:12px 0}

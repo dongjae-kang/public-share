@@ -174,7 +174,7 @@
     $("liked").innerHTML = S.most_liked.map(function (m) { return '<li><span>' + esc(m[0]) + '</span><b>' + fmt(m[1]) + ' likes</b></li>'; }).join("");
   })();
   // Chapter 02 figures follow the scroll (Jack 10/26: scrolling back up folds them back). Each figure gets a
-  //   progress value --p: 0 while its top is below 90% of the viewport, 1 once it has risen to 35%. The CSS
+  //   progress value --p: 0 while its top is below 95% of the viewport, 1 once it has risen to 20%. The CSS
   //   turns --p into bar length, dot and line reveal, the order the six videos arrive in; the counts are set
   //   here. Reversible by construction. Reduced-motion settings pin --p at 1.
   (function () {
@@ -192,7 +192,7 @@
       var H = window.innerHeight;
       figs.forEach(function (f, i) {
         var r = f.getBoundingClientRect();
-        var p = reduced ? 1 : Math.max(0, Math.min(1, (H * 0.9 - r.top) / (H * 0.55)));
+        var p = reduced ? 1 : Math.max(0, Math.min(1, (H * 0.95 - r.top) / (H * 0.75)));
         p = Math.round(p * 500) / 500;
         if (last[i] === p) return;
         last[i] = p;
