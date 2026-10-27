@@ -19,7 +19,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{margin:0;background:#fff;color:var(--ink);font:18px/1.62 Charter,"Bitstream Charter","Sitka Text",Cambria,Georgia,serif;font-kerning:normal}
 .page{max-width:712px;margin:0 auto;padding:32px 16px 56px}
-.course{display:none;margin:0 0 .9rem;font-size:.82rem;letter-spacing:.01em;color:var(--muted)}
+.mast{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem}
+.course{display:none;margin:.2rem 0 0;font-size:.82rem;line-height:1.5;letter-spacing:.01em;color:var(--muted);text-align:right;flex:none}
+.course span{display:block}
+.course .prof{color:var(--ink);font-size:.95rem;font-weight:600}
 h1{font-size:2.1rem;line-height:1.1;margin:0 0 .5rem;letter-spacing:-.01em}
 .sub{font-size:1.15rem;line-height:1.4;font-style:italic;color:var(--muted);margin:0 0 .6rem}
 .byline{font-size:.9rem;color:var(--ink);margin:0 0 1.5rem}
@@ -252,8 +255,10 @@ footer p{margin:0 0 .9rem}
 <div class="page">
 
 <header>
-  <p class="course">Policy Communication and Advocacy · Professor George Miller · Columbia SIPA · Fall 2026</p>
-  <h1>Seeing the Feed</h1>
+  <div class="mast">
+    <h1>Seeing the Feed</h1>
+    <p class="course"><span>Policy Communication and Advocacy</span><span class="prof">Professor George Miller</span><span>Columbia SIPA · Fall 2026</span></p>
+  </div>
   <p class="sub">What the public route to YouTube gives an independent monitor: a short companion to a policy memo</p>
   <p class="byline">Dongjae Kang · Companion to the final policy memo</p>
   <p>The memo asks the European Commission to set one standard for the public data that independent researchers can obtain from video platforms. To see what YouTube gives today, we sent real requests to its official Data API, the public route, on <span class="nw">October 12</span> and 13, 2026, with one API key on the default quota, and kept YouTube’s answers as returned.</p>
