@@ -6,32 +6,35 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:,">
 <title>Seeing the Feed</title>
-<meta name="description" content="What YouTube's official Data API returns to an independent monitor, from real requests made on October 12 and 13, 2026. A companion to a policy memo.">
+<meta name="description" content="What YouTube's official Data API returns to an independent monitor, from real requests made on October 12 and 13, 2026. A companion to a policy memo for Policy Communication and Advocacy, Columbia SIPA.">
 <script>
-/* Hidden-until-revealed styles apply only when scripts run; if the page script never starts, drop them. */
+/* Scroll-driven states apply only when scripts run; if the page script never starts, drop them. */
 document.documentElement.classList.add("js");
 setTimeout(function () { if (!window.__stf) document.documentElement.classList.remove("js"); }, 3000);
 </script>
 <style>
-:root{--ink:#161616;--muted:#5c5c5c;--rule:#d6d6d1;--tint:#f4f4f1;--track:#e6e6e2;--link:#1d4f91;color-scheme:light}
+:root{--ink:#161616;--muted:#5c5c5c;--rule:#d6d6d1;--tint:#f4f4f1;--track:#e4e4df;--link:#1d4f91;--measure:800px;color-scheme:light}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{margin:0;background:#fff;color:var(--ink);font:18px/1.62 Charter,"Bitstream Charter","Sitka Text",Cambria,Georgia,serif;font-kerning:normal}
-.page{max-width:712px;margin:0 auto;padding:64px 16px 56px}
-h1{font-size:2.5rem;line-height:1.1;margin:0 0 .5rem;letter-spacing:-.01em}
-.sub{font-size:1.2rem;line-height:1.4;font-style:italic;color:var(--muted);margin:0 0 1.6rem}
+.page{max-width:712px;margin:0 auto;padding:32px 16px 56px}
+.course{display:none;margin:0 0 .9rem;font-size:.82rem;letter-spacing:.01em;color:var(--muted)}
+h1{font-size:2.1rem;line-height:1.1;margin:0 0 .5rem;letter-spacing:-.01em}
+.sub{font-size:1.15rem;line-height:1.4;font-style:italic;color:var(--muted);margin:0 0 .6rem}
+.byline{font-size:.9rem;color:var(--ink);margin:0 0 1.5rem}
 section{border-top:1px solid var(--rule);margin-top:2.75rem;padding-top:1.75rem}
-section,footer{scroll-margin-top:28px}
+section,footer{scroll-margin-top:60px}
 h2{font-size:1.5rem;line-height:1.25;margin:0 0 .9rem}
 h2 .n{margin-right:.3em}
 h3{font-size:1.1rem;line-height:1.3;margin:2rem 0 .6rem}
 p{margin:0 0 1rem}
 a{color:var(--link);text-underline-offset:.15em;text-decoration-thickness:1px}
-a:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+a:focus-visible,input:focus-visible,summary:focus-visible,.dr:focus-visible{outline:2px solid var(--link);outline-offset:2px}
 q{quotes:"\201C" "\201D" "\2018" "\2019"}
 .note{font-size:.88rem;line-height:1.5;color:var(--muted)}
 .nw{white-space:nowrap}
+.mobile-only{display:block}
 
 /* section navigation: a left rail on wide screens, a compact bar on narrow ones */
 .rail{display:none}
@@ -41,37 +44,51 @@ q{quotes:"\201C" "\201D" "\2018" "\2019"}
 .topbar ol{list-style:none;margin:0 -8px 0 0;padding:0;display:flex;flex:none}
 .topbar a{display:block;min-width:40px;height:44px;line-height:42px;text-align:center;font-size:.95rem;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;font-variant-numeric:lining-nums}
 .topbar a[aria-current="true"]{color:var(--ink);font-weight:700;border-bottom-color:var(--ink)}
-@media (max-width:999px){section,footer{scroll-margin-top:60px}}
-@media (min-width:1000px){
-  .topbar{display:none}
-  .layout{display:grid;grid-template-columns:minmax(232px,1fr) minmax(0,712px) minmax(0,1fr)}
-  .page{grid-column:2;margin:0;max-width:none}
-  .rail{display:block;grid-column:1;grid-row:1;align-self:start;justify-self:end;position:sticky;top:48px;width:12.5rem;margin:68px 24px 0 0}
-  .rail ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--rule)}
-  .rail a{display:flex;margin-left:-1px;padding:.4rem 0 .4rem .85rem;border-left:2px solid transparent;font-size:.85rem;line-height:1.35;color:var(--muted);text-decoration:none}
-  .rail a:hover{color:var(--ink)}
-  .rail .n{flex:none;width:1.2em;font-variant-numeric:tabular-nums lining-nums}
-  .rail li.m{margin-top:.6rem}
-  .rail li.m a{padding-left:calc(.85rem + 1.2em)}
-  .rail a[aria-current="true"]{color:var(--ink);font-weight:700;border-left-color:var(--ink)}
-}
 
-/* first appearance: a short fade and rise, once */
-.js .rv{opacity:0;transform:translateY(6px)}
-.js .rv.in{opacity:1;transform:none;transition:opacity .4s ease-out,transform .4s ease-out}
+/* section 1: four numbers, each with its figure */
+.s1{margin:1.4rem 0 0;border-top:1px solid var(--rule)}
+.pn{padding:1.2rem 0 1.4rem;border-bottom:1px solid var(--rule)}
+.pn.wide{border-bottom:0}
+.pn .big{font-size:2.5rem;font-weight:700;line-height:1;letter-spacing:-.01em;font-variant-numeric:lining-nums}
+.pn .lab{margin:.5rem 0 .2rem;line-height:1.35}
+.pn .ex{margin:0;font-size:.85rem;line-height:1.4;color:var(--muted)}
+.pn figure{margin:1.1rem 0 0}
+.pn figcaption{margin-top:.55rem;font-size:.8rem;line-height:1.4;color:var(--muted)}
+.waffle{display:grid;grid-template-columns:repeat(35,6px);gap:2px;width:max-content}
+.waffle i{display:block;width:6px;height:6px;background:var(--track)}
+.waffle i:nth-child(-n+398){background:var(--ink)}
+.hb{position:relative;display:block;height:14px;background:var(--track)}
+.hb > i{position:absolute;left:0;top:0;bottom:0;width:calc(var(--w) * var(--p,1));background:var(--ink)}
+.hb > b{position:absolute;top:0;bottom:0;width:1px;background:#fff}
+.scale{display:flex;justify-content:space-between;gap:1rem;margin-top:.35rem;font-size:.8rem;line-height:1.35;color:var(--muted);font-variant-numeric:lining-nums}
+.scale b{font-weight:400;color:var(--ink)}
 
-.figs{margin:1.25rem 0 0}
-.figs div{display:grid;grid-template-columns:5rem 1fr;gap:0 1rem;padding:.75rem 0;border-top:1px solid var(--rule)}
-.figs div:last-child{border-bottom:1px solid var(--rule)}
-.figs dt{font-weight:700;font-size:1.3rem;line-height:1.35;font-variant-numeric:tabular-nums lining-nums}
-.figs dd{margin:0;line-height:1.45}
-.figs dd .x{display:block;margin-top:.15rem;font-size:.85rem;color:var(--muted)}
-
-/* a share of one day's quota */
-.qbar{display:block;position:relative;height:6px;background:var(--track);margin:.5rem 0 .35rem}
-.qbar i{position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--ink)}
-.js .rv .qbar i{width:0}
-.js .rv.in .qbar i{width:var(--w);transition:width .7s ease-out .15s}
+/* the six stories: first reading, second reading, and the interval between */
+.dbkey{display:flex;flex-wrap:wrap;gap:.2rem 1.4rem;margin:0 0 .5rem;font-size:.8rem;line-height:1.4;color:var(--muted)}
+.dbkey i{position:relative;display:inline-block;vertical-align:-1px;margin-right:.4rem}
+.d0,.d1{width:11px;height:11px;border-radius:50%}
+.d0{border:1.5px solid var(--ink);background:#fff}
+.d1{background:var(--ink)}
+.dr{display:grid;grid-template-columns:20rem 1fr 5rem;align-items:center;gap:0 1.25rem;padding:.3rem 0}
+.dr .dl{line-height:1.3}
+.dr .dl small{margin-left:.35rem;font-size:.78rem;color:var(--muted)}
+.dr .dp{text-align:right;font-variant-numeric:tabular-nums lining-nums;opacity:var(--pl,1)}
+.dt{position:relative;display:block;height:22px}
+.dt::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid var(--rule)}
+.dt .ln{position:absolute;top:50%;height:2px;margin-top:-1px;background:var(--ink);left:var(--x0);width:calc((var(--x1) - var(--x0)) * var(--pi,1))}
+.dt .d0,.dt .d1{position:absolute;top:50%;margin:-5.5px 0 0 -5.5px}
+.dt .d0{left:var(--x0)}
+.dt .d1{left:calc(var(--x0) + (var(--x1) - var(--x0)) * var(--pi,1))}
+.dr.tot{margin-top:.35rem;padding-top:.6rem;border-top:1px solid var(--rule)}
+.dr.tot .dl b{font-weight:700}
+.dr.on .dl b{text-decoration:underline;text-underline-offset:.2em}
+.dr[data-tip]{cursor:default}
+.dax{padding:0;height:1.2rem}
+.dax .dt{height:1.2rem}
+.dax .dt::before{display:none}
+.dax .dt span{position:absolute;top:0;transform:translateX(-50%);font-size:.75rem;color:var(--muted);font-variant-numeric:lining-nums}
+.dbread{margin:.8rem 0 0;font-size:.85rem;line-height:1.45}
+.dbread .hint{color:var(--muted)}
 
 .rows{margin:1.25rem 0 1.25rem}
 .r{display:grid;grid-template-columns:9.5rem 1fr;gap:.3rem 1.25rem;padding:1rem 0;border-top:1px solid var(--rule)}
@@ -93,21 +110,17 @@ details p.evn{margin:.5rem 0 0;font-size:.85rem;color:var(--muted)}
 .story p{margin:0 0 .3rem}
 .story p:last-child{margin:0}
 
-/* two readings of the same story, and the interval between them that no call returns */
+/* section 3: two readings of one story, and the interval no call returns */
 .spread{margin:.9rem 0 .2rem}
 .spread .sh{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;font-size:.82rem;line-height:1.35;color:var(--muted)}
 .spread .sh b{font-size:.95rem;color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
 .spread .sh.a{margin-bottom:.3rem}
 .spread .sh.b{margin-top:.3rem}
 .spread .st{display:block;position:relative;height:10px;background:var(--track)}
-.spread .st i{position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--ink)}
-.spread .gap{margin:0 0 0 0;padding:.6rem 0 .6rem .75rem;border-left:1px dashed var(--muted);font-size:.82rem;line-height:1.4;font-style:italic;color:var(--muted)}
+.spread .st i{position:absolute;left:0;top:0;bottom:0;width:calc(var(--w) * var(--p,1));background:var(--ink)}
+.spread .st.sb2 i{width:calc(var(--w) * var(--p2,1))}
+.spread .gap{padding:.6rem 0 .6rem .75rem;border-left:1px dashed var(--muted);font-size:.82rem;line-height:1.4;font-style:italic;color:var(--muted);opacity:var(--p,1)}
 .spread figcaption{margin-top:.6rem;font-size:.82rem;line-height:1.45;color:var(--muted)}
-.js .spread.rv .st i{width:0}
-.js .spread.rv .gap{opacity:0}
-.js .spread.rv.in .st i{width:var(--w);transition:width .7s ease-out .1s}
-.js .spread.rv.in .sb2 .st i{transition-delay:.45s}
-.js .spread.rv.in .gap{opacity:1;transition:opacity .4s ease-out .3s}
 
 table{width:100%;border-collapse:collapse;margin:1.25rem 0 .6rem;font-size:.88rem;line-height:1.35;font-variant-numeric:tabular-nums lining-nums}
 caption{caption-side:top;text-align:left;font-size:.85rem;color:var(--muted);padding-bottom:.4rem}
@@ -126,7 +139,8 @@ html:not(.js) .js-only{display:none}
 .planout .p1{font-size:1rem;line-height:1.45}
 .planout .p1 b{font-variant-numeric:tabular-nums lining-nums}
 .planout .p2{font-size:.82rem;line-height:1.45;color:var(--muted)}
-.planout .qbar i{transition:width .3s ease-out}
+.qbar{display:block;position:relative;height:6px;background:var(--track);margin:.5rem 0 .35rem}
+.qbar i{position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--ink);transition:width .25s ease-out}
 
 ul.plain{margin:0 0 1rem;padding-left:1.1rem}
 ul.plain li{margin:0 0 .6rem}
@@ -135,12 +149,60 @@ footer{border-top:1px solid var(--rule);margin-top:3rem;padding-top:1.5rem;font-
 footer h2{font-size:1rem;color:var(--ink);margin:0 0 .5rem}
 footer p{margin:0 0 .9rem}
 
+/* scroll-driven states, both directions; the script sets --q, --p, --p2, --pi and --pl */
+.js .rv{opacity:var(--q,0);transform:translateY(calc((1 - var(--q,0)) * 8px))}
+.js [data-scrub]{--p:0;--p2:0}
+.js .dr{--pi:0;--pl:0}
+.js .waffle i:nth-child(-n+398){background:var(--track)}
+.js .waffle i.lit{background:var(--ink)}
+
+@media (min-width:700px){
+  .course{display:block}
+  .mobile-only{display:none}
+}
+@media (max-width:999px){
+  .dr{grid-template-columns:1fr auto;gap:.15rem .75rem;padding:.45rem 0}
+  .dr .dt{grid-column:1 / -1;order:3}
+  .dr .dl{order:1}
+  .dr .dp{order:2}
+  .dax{display:block}
+  .dax > span:not(.dt){display:none}
+}
+@media (min-width:1000px){
+  .topbar{display:none}
+  .layout{display:grid;grid-template-columns:minmax(224px,1fr) minmax(0,1040px) minmax(24px,1fr)}
+  .page{grid-column:2;margin:0;max-width:none;padding:48px 16px 64px}
+  section,footer{scroll-margin-top:28px}
+  section{margin-top:2.1rem;padding-top:1.4rem}
+  h2{margin-bottom:.7rem}
+  .byline{margin-bottom:1.2rem}
+  .s1{margin-top:1.1rem}
+  .pn .lab{margin-top:.4rem}
+  .pn figure{margin-top:.9rem}
+  .page :is(header > p, section > p, .rows, table, ul, .story, .planout, h3, footer p){max-width:var(--measure)}
+  .page header > .sub{max-width:none}
+  h1{font-size:2.6rem}
+  .sub{font-size:1.2rem}
+  .s1{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .pn{padding:1.1rem 1.5rem 1.4rem}
+  .pn:first-child{padding-left:0}
+  .pn:nth-child(3){padding-right:0}
+  .pn + .pn{border-left:1px solid var(--rule)}
+  .pn.wide{grid-column:1 / -1;border-left:0;padding-left:0;padding-right:0}
+  .pn.wide .lab{max-width:var(--measure)}
+  .rail{display:block;grid-column:1;grid-row:1;align-self:start;justify-self:end;position:sticky;top:48px;width:12.5rem;margin:52px 24px 0 0}
+  .rail ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--rule)}
+  .rail a{display:flex;margin-left:-1px;padding:.4rem 0 .4rem .85rem;border-left:2px solid transparent;font-size:.85rem;line-height:1.35;color:var(--muted);text-decoration:none}
+  .rail a:hover{color:var(--ink)}
+  .rail .n{flex:none;width:1.2em;font-variant-numeric:tabular-nums lining-nums}
+  .rail li.m{margin-top:.6rem}
+  .rail li.m a{padding-left:calc(.85rem + 1.2em)}
+  .rail a[aria-current="true"]{color:var(--ink);font-weight:700;border-left-color:var(--ink)}
+}
 @media (max-width:600px){
   body{font-size:17px}
-  .page{padding-top:32px}
-  h1{font-size:2.1rem}
+  .pn .big{font-size:2.2rem}
   .r{grid-template-columns:1fr}
-  .figs div{grid-template-columns:4.4rem 1fr}
   table{font-size:.8rem}
   th,td{padding:.4rem .3rem}
 }
@@ -151,15 +213,17 @@ footer p{margin:0 0 .9rem}
   td label span{hyphens:auto;-webkit-hyphens:auto}
 }
 @media (prefers-reduced-motion:reduce){
-  .js .rv{opacity:1;transform:none;transition:none}
-  .js .rv .qbar i,.js .spread.rv .st i{width:var(--w);transition:none}
-  .js .spread.rv .gap{opacity:1;transition:none}
+  .js .rv{opacity:1;transform:none}
+  .js [data-scrub]{--p:1;--p2:1}
+  .js .dr{--pi:1;--pl:1}
+  .js .waffle i:nth-child(-n+398){background:var(--ink)}
 }
 @media print{
   .topbar,.rail{display:none}
   .js .rv{opacity:1;transform:none}
-  .js .rv .qbar i,.js .spread.rv .st i{width:var(--w)}
-  .js .spread.rv .gap{opacity:1}
+  .js [data-scrub]{--p:1;--p2:1}
+  .js .dr{--pi:1;--pl:1}
+  .js .waffle i:nth-child(-n+398){background:var(--ink)}
 }
 </style>
 </head>
@@ -188,20 +252,66 @@ footer p{margin:0 0 .9rem}
 <div class="page">
 
 <header>
+  <p class="course">Policy Communication and Advocacy · Professor George Miller · Columbia SIPA · Fall 2026</p>
   <h1>Seeing the Feed</h1>
   <p class="sub">What the public route to YouTube gives an independent monitor: a short companion to a policy memo</p>
+  <p class="byline">Dongjae Kang · Companion to the final policy memo</p>
   <p>The memo asks the European Commission to set one standard for the public data that independent researchers can obtain from video platforms. To see what YouTube gives today, we sent real requests to its official Data API, the public route, on <span class="nw">October 12</span> and 13, 2026, with one API key on the default quota, and kept YouTube’s answers as returned.</p>
 </header>
 
 <section id="night">
   <h2><span class="n">1.</span>One night on the public route</h2>
   <p>On the news day of <span class="nw">October 12</span>, 2026, PRISM’s nightly pipeline read a fixed list of 485 US news channels through the Data API. Every request costs quota units, and one key gets <span class="nw">10,000 units</span> a day by default.</p>
-  <dl class="figs">
-    <div class="rv"><dt>5.9K</dt><dd>videos fetched in <span class="nw">24 hours</span>, from 398 of the <span class="nw">485 channels</span><span class="x">5,889 by count</span></dd></div>
-    <div class="rv"><dt>10%</dt><dd>of one day’s quota, the cost of that fetch<span class="qbar" role="img" aria-label="1,028 of 10,000 units"><i style="--w:10.28%"></i></span><span class="x">1,028 of <span class="nw">10,000 units</span></span></dd></div>
-    <div class="rv"><dt>553K</dt><dd>comments the API counted across those videos<span class="x">553,191 by count, on 3,965 of the videos</span></dd></div>
-    <div class="rv"><dt>+49%</dt><dd>views on the <span class="nw">586 videos</span> behind six of the night’s stories, read again <span class="nw">16.6 hours</span> later<span class="x">+48.8% between the two readings, from 35.3M to 52.5M</span></dd></div>
-  </dl>
+  <div class="s1">
+    <div class="pn rv">
+      <div class="big">5.9K</div>
+      <p class="lab">videos fetched in <span class="nw">24 hours</span></p>
+      <p class="ex">5,889 by count, from 398 of the <span class="nw">485 channels</span></p>
+      <figure data-scrub="waffle" data-fit="1" data-n="398">
+        <div class="waffle" role="img" aria-label="398 of 485 channels published in the window"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <figcaption>The <span class="nw">485 channels</span> in the list, one square each: 398 published in the window, 87 did not.</figcaption>
+      </figure>
+    </div>
+    <div class="pn rv">
+      <div class="big">10%</div>
+      <p class="lab">of one day’s quota, the cost of that fetch</p>
+      <p class="ex">1,028 of <span class="nw">10,000 units</span></p>
+      <figure data-scrub="bar" data-fit="1">
+        <span class="hb" role="img" aria-label="1,028 of 10,000 units" style="--w:10.28%"><i></i><b style="left:10%"></b><b style="left:20%"></b><b style="left:30%"></b><b style="left:40%"></b><b style="left:50%"></b><b style="left:60%"></b><b style="left:70%"></b><b style="left:80%"></b><b style="left:90%"></b></span>
+        <div class="scale"><span><b>1,028</b> used</span><span><span class="nw">10,000 units</span> a day</span></div>
+        <figcaption>One key’s default quota for a day, with a mark every <span class="nw">1,000 units</span>.</figcaption>
+      </figure>
+    </div>
+    <div class="pn rv">
+      <div class="big">553K</div>
+      <p class="lab">comments the API counted across those videos</p>
+      <p class="ex">553,191 by count, on 3,965 of the <span class="nw">5,889 videos</span></p>
+      <figure data-scrub="bar" data-fit="1">
+        <span class="hb" role="img" aria-label="3,965 of 5,889 videos had comments" style="--w:67.33%"><i></i></span>
+        <div class="scale"><span><b>3,965</b> videos with comments</span><span>1,924 without</span></div>
+        <figcaption>The <span class="nw">5,889 videos</span> fetched that night, split by whether the API counted any comments on them.</figcaption>
+      </figure>
+    </div>
+    <div class="pn wide rv">
+      <div class="big">+49%</div>
+      <p class="lab">views on the <span class="nw">586 videos</span> behind six of the night’s stories, read again <span class="nw">16.6 hours</span> later</p>
+      <p class="ex">+48.8% between the two readings, from 35.3M to 52.5M</p>
+      <figure data-scrub="db" data-a="0.98" data-b="0.42" id="dumbbell">
+        <div class="dbkey"><span><i class="d0"></i>First reading, <span class="nw">October 13</span>, <span class="nw">04:43 UTC</span></span><span><i class="d1"></i>Second reading, <span class="nw">21:21 UTC</span></span><span>Views, summed per story, on a log scale</span></div>
+        <div class="dbrows" id="dbrows">
+          <div class="dr" data-tip="Ilhan Omar raid: 17,911,155 → 26,341,527 views on 250 videos (+47.1%)" title="Ilhan Omar raid: 17,911,155 → 26,341,527 views on 250 videos (+47.1%)"><span class="dl"><b>Ilhan Omar raid</b><small><span class="nw">250 videos</span></small></span><span class="dt" style="--x0:75.87%;--x1:83.57%"><i class="ln"></i><i class="d0"></i><i class="d1"></i></span><span class="dp">+47.1%</span></div>
+          <div class="dr" data-tip="Russian diesel deal (the story in section 3): 9,774,739 → 12,681,273 views on 198 videos (+29.7%)" title="Russian diesel deal (the story in section 3): 9,774,739 → 12,681,273 views on 198 videos (+29.7%)"><span class="dl"><b>Russian diesel deal</b><small><span class="nw">198 videos</span></small></span><span class="dt" style="--x0:63.79%;--x1:68.98%"><i class="ln"></i><i class="d0"></i><i class="d1"></i></span><span class="dp">+29.7%</span></div>
+          <div class="dr" data-tip="Talarico, Texas Senate: 3,007,404 → 4,464,301 views on 52 videos (+48.4%)" title="Talarico, Texas Senate: 3,007,404 → 4,464,301 views on 52 videos (+48.4%)"><span class="dl"><b>Talarico, Texas Senate</b><small><span class="nw">52 videos</span></small></span><span class="dt" style="--x0:40.26%;--x1:48.15%"><i class="ln"></i><i class="d0"></i><i class="d1"></i></span><span class="dp">+48.4%</span></div>
+          <div class="dr" data-tip="Goliath roller coaster: 2,492,355 → 6,488,557 views on 54 videos (+160.3%)" title="Goliath roller coaster: 2,492,355 → 6,488,557 views on 54 videos (+160.3%)"><span class="dl"><b>Goliath roller coaster</b><small><span class="nw">54 videos</span></small></span><span class="dt" style="--x0:36.51%;--x1:55.61%"><i class="ln"></i><i class="d0"></i><i class="d1"></i></span><span class="dp">+160.3%</span></div>
+          <div class="dr" data-tip="South Carolina debate: 1,557,083 → 1,951,484 views on 13 videos (+25.3%)" title="South Carolina debate: 1,557,083 → 1,951,484 views on 13 videos (+25.3%)"><span class="dl"><b>South Carolina debate</b><small><span class="nw">13 videos</span></small></span><span class="dt" style="--x0:27.12%;--x1:31.63%"><i class="ln"></i><i class="d0"></i><i class="d1"></i></span><span class="dp">+25.3%</span></div>
+          <div class="dr" data-tip="Taxpayer-funded ads halted: 570,424 → 620,646 views on 19 videos (+8.8%)" title="Taxpayer-funded ads halted: 570,424 → 620,646 views on 19 videos (+8.8%)"><span class="dl"><b>Taxpayer-funded ads halted</b><small><span class="nw">19 videos</span></small></span><span class="dt" style="--x0:7.08%;--x1:8.77%"><i class="ln"></i><i class="d0"></i><i class="d1"></i></span><span class="dp">+8.8%</span></div>
+          <div class="dr tot" data-tip="All six stories: 35,313,160 → 52,547,788 views on 586 videos (+48.8%)" title="All six stories: 35,313,160 → 52,547,788 views on 586 videos (+48.8%)"><span class="dl"><b>All six stories</b><small><span class="nw">586 videos</span></small></span><span class="dt" style="--x0:89.42%;--x1:97.35%"><i class="ln"></i><i class="d0"></i><i class="d1"></i></span><span class="dp">+48.8%</span></div>
+          <div class="dr dax" aria-hidden="true"><span></span><span class="dt"><span style="left:4.45%">500K</span><span style="left:18.29%">1M</span><span style="left:32.12%">2M</span><span style="left:50.41%">5M</span><span style="left:64.24%">10M</span><span style="left:78.07%">20M</span><span style="left:96.36%">50M</span></span><span></span></div>
+        </div>
+        <p class="dbread" id="dbread" aria-live="polite">All six stories: 35,313,160 → 52,547,788 views on <span class="nw">586 videos</span> (+48.8%)<span class="hint js-only">. Point at or tap a story for its counts.</span></p>
+      </figure>
+    </div>
+  </div>
 </section>
 
 <section id="items">
@@ -307,7 +417,7 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
       <div class="k"><b>Spread</b><i>Single readings</i></div>
       <div class="v">
         <p>Two channels, MeidasTouch and CNN, held about 31% of all views at first reading. By the second reading, <span class="nw">16.6 hours</span> later, the story’s YouTube videos had grown from 9.77M to 12.68M views (+29.7%). The curve between the readings is not returned, and under III.E.4.b the readings must be deleted or refreshed after <span class="nw">30 days</span>.</p>
-        <figure class="spread rv">
+        <figure class="spread" data-scrub="spread" data-a="0.95" data-b="0.45">
           <div class="sh a"><span>First reading, <span class="nw">October 13</span>, <span class="nw">04:43 UTC</span></span><b>9.77M</b></div>
           <span class="st"><i style="--w:77.08%"></i></span>
           <div class="gap"><span class="nw">16.6 hours</span> between the two calls; no count in between is returned</div>
@@ -369,7 +479,7 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
   <h2>Method and limits</h2>
   <p>Instrument: PRISM’s nightly pipeline, which reads a fixed list of 485 US news channels, and one YouTube Data API key on the default quota. US figures are from the news day of <span class="nw">October 12</span>, 2026 (<span class="nw">04:00 UTC</span> <span class="nw">October 12</span> to <span class="nw">04:00 UTC</span> <span class="nw">October 13</span>). The second view reading came <span class="nw">16.6 hours</span> after the first; the eight-video record and the Irish probe were made on <span class="nw">October 13</span>. Quota units are counted by our client as calls made; the Google Cloud console was not consulted. No YouTube data was obtained outside the Data API; the podcast episodes in section 3 came from each show’s RSS feed. The figures cover one platform over two days, and the growth in views is one interval that says nothing about the shape between readings. Policy text is quoted as read on <span class="nw">October 13</span>, 2026. Data files: <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/api_record.json">api_record.json</a> (section 2), <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/view_snapshots_aggregate.json">view_snapshots_aggregate.json</a> (view readings), <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/ie_probe.json">ie_probe.json</a> (section 4) and <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/facts.js">facts.js</a> (derived figures and the pipeline’s run-log counts).</p>
   <p>A longer interactive version prepared for the GPPN 2027 proposal: <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/">dongjae-kang.github.io/public-share/prism/gppn-2027</a></p>
-  <p>Prepared by Dongjae Kang and Ahin Jung, Columbia SIPA, as a companion to a policy memo for Policy Communication and Advocacy (Fall 2026).</p>
+  <p class="mobile-only">Prepared for Policy Communication and Advocacy, Professor George Miller, Columbia SIPA, Fall 2026.</p>
 </footer>
 
 </div>
@@ -380,27 +490,82 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
   window.__stf = 1;
   var doc = document, root = doc.documentElement;
   var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var hasIO = "IntersectionObserver" in window;
-  function $(id) { return doc.getElementById(id); }
+  function byId(id) { return doc.getElementById(id); }
+  function clamp(x) { return x < 0 ? 0 : (x > 1 ? 1 : x); }
+  function atFoot() { return window.innerHeight + window.pageYOffset >= root.scrollHeight - 2; }
 
-  /* ---- first appearance of rows and figures ---- */
-  var rv = [].slice.call(doc.querySelectorAll(".rv"));
-  function show(el) { el.classList.add("in"); }
-  if (reduced || !hasIO) {
-    rv.forEach(show);
-  } else {
-    var seen = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { show(e.target); seen.unobserve(e.target); } });
-    }, { rootMargin: "0px 0px -6% 0px" });
-    rv.forEach(function (el) { seen.observe(el); });
+  /* ---- figures and rows follow the scroll, both ways ----
+     Each figure's progress p runs from 0, when its top sits at data-a of the screen height, to 1, when
+     it has risen to data-b. A data-fit figure is complete whenever its graphic is on screen, so the first
+     screen never rests on a half-drawn count. Scrolling back lowers p again. On load, whatever is
+     already on screen draws in over 600 ms. With reduced motion, everything stays in its final state. */
+  var scrubs = [].slice.call(doc.querySelectorAll("[data-scrub]")).map(function (el) {
+    return { el: el, kind: el.getAttribute("data-scrub"), a: +el.getAttribute("data-a"), b: +el.getAttribute("data-b"),
+             cells: [].slice.call(el.querySelectorAll(".waffle i")), n: +el.getAttribute("data-n") || 0, lit: 0,
+             rows: [].slice.call(el.querySelectorAll(".dr[data-tip]")), fit: el.hasAttribute("data-fit"), geo: el.querySelector(".waffle, .hb") || el, last: -1 };
+  });
+  var rvs = [].slice.call(doc.querySelectorAll(".rv")).map(function (el) { return { el: el, last: -1 }; });
+  var t0 = null, INTRO = 600;
+  function paintScrub(s, p) {
+    if (s.kind === "waffle") {
+      var n = Math.round(s.n * p);
+      for (var i = Math.min(n, s.lit); i < Math.max(n, s.lit); i++) s.cells[i].classList.toggle("lit", i < n);
+      s.lit = n;
+    } else if (s.kind === "db") {
+      s.rows.forEach(function (r, i) {
+        var pi = clamp((p - i * 0.06) / 0.55);
+        r.style.setProperty("--pi", pi.toFixed(3));
+        r.style.setProperty("--pl", clamp((pi - 0.7) / 0.3).toFixed(3));
+      });
+    } else {
+      s.el.style.setProperty("--p", p.toFixed(3));
+      if (s.kind === "spread") s.el.style.setProperty("--p2", clamp((p - 0.25) / 0.75).toFixed(3));
+    }
   }
+  var raf = 0;
+  function frame(now) {
+    raf = 0;
+    if (t0 === null) t0 = now;
+    var H = window.innerHeight, k = reduced ? 1 : 1 - Math.pow(1 - clamp((now - t0) / INTRO), 3), foot = atFoot();
+    scrubs.forEach(function (s) {
+      var r = (s.fit ? s.geo : s.el).getBoundingClientRect();
+      var p = reduced ? 1 : (s.fit ? clamp((H - r.top) / Math.max(1, r.height)) : clamp((H * s.a - r.top) / (H * (s.a - s.b)))) * k;
+      p = Math.round(p * 500) / 500;
+      if (p !== s.last) { s.last = p; paintScrub(s, p); }
+    });
+    rvs.forEach(function (o) {
+      var q = (reduced || foot) ? 1 : clamp((H - o.el.getBoundingClientRect().top) / (H * 0.12)) * k;
+      q = Math.round(q * 200) / 200;
+      if (q !== o.last) { o.last = q; o.el.style.setProperty("--q", q); }
+    });
+    if (k < 1) raf = requestAnimationFrame(frame);
+  }
+  function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+  window.addEventListener("scroll", kick, { passive: true });
+  window.addEventListener("resize", kick);
+  kick();
+
+  /* ---- dumbbell: exact counts for the row under the pointer or the last one tapped ---- */
+  var read = byId("dbread"), readDefault = read.innerHTML, dbRows = [].slice.call(doc.querySelectorAll("#dbrows .dr[data-tip]"));
+  function showRow(r) {
+    dbRows.forEach(function (x) { x.classList.toggle("on", x === r); });
+    if (r) read.textContent = r.getAttribute("data-tip"); else read.innerHTML = readDefault;
+  }
+  dbRows.forEach(function (r) {
+    r.removeAttribute("title");
+    r.setAttribute("tabindex", "0");
+    r.addEventListener("pointerenter", function () { showRow(r); });
+    r.addEventListener("focus", function () { showRow(r); });
+    r.addEventListener("click", function () { showRow(r); });
+  });
+  byId("dbrows").addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") showRow(null); });
 
   /* ---- which section is being read: rail and top bar ---- */
   var ids = ["night", "items", "story", "ireland", "method"];
   var names = { night: "1. One night", items: "2. What each item returns", story: "3. One story", ireland: "4. The Irish pilot", method: "Method and limits" };
-  var secs = ids.map($);
+  var secs = ids.map(byId);
   var links = [].slice.call(doc.querySelectorAll(".rail a, .topbar a"));
-  var cur = $("cur"), active = null;
+  var cur = byId("cur"), active = null;
   function setActive(id) {
     if (id === active) return;
     active = id;
@@ -414,13 +579,13 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
   //   sections the last one stays marked; above section 1 none is; at the foot of the page, Method.
   var inBand = {};
   function pick() {
-    if (window.innerHeight + window.pageYOffset >= root.scrollHeight - 2) { setActive("method"); return; }
+    if (atFoot()) { setActive("method"); return; }
     var id = null;
     ids.forEach(function (k) { if (inBand[k]) id = k; });
     if (id) setActive(id);
     else if (secs[0].getBoundingClientRect().top > window.innerHeight * 0.3) setActive(null);
   }
-  if (hasIO) {
+  if ("IntersectionObserver" in window) {
     var spy = new IntersectionObserver(function (es) {
       es.forEach(function (e) { inBand[e.target.id] = e.isIntersecting; });
       pick();
@@ -435,7 +600,7 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
   pick();
 
   /* ---- Irish planner: the arithmetic of the full ledger's planner ---- */
-  var table = $("pltable");
+  var table = byId("pltable");
   var rows = [].slice.call(table.querySelectorAll("tbody tr"));
   function fmt(n) { return n.toLocaleString("en-US"); }
   function count(n, one, many) { return fmt(n) + " " + (n === 1 ? one : many); }
@@ -447,15 +612,15 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
       if (on) { n++; v += +r.getAttribute("data-v"); c += +r.getAttribute("data-c"); pg += +r.getAttribute("data-pg"); }
     });
     var lookups = Math.ceil(n / 50), playlist = n, batches = Math.ceil(v / 50), units = lookups + playlist + batches + pg;
-    $("pl-units").textContent = fmt(units);
-    $("pl-pct").textContent = (units / 100).toFixed(1) + "%";
-    $("pl-n").textContent = n === rows.length ? "all twelve outlets" : (n === 0 ? "no outlets" : n + " of " + rows.length + " outlets");
-    $("pl-label").textContent = n === rows.length ? "Twelve outlets" : "Ticked outlets (" + n + ")";
-    $("pl-v").textContent = fmt(v);
-    $("pl-c").textContent = fmt(c);
-    $("pl-pg").textContent = fmt(pg);
-    $("pl-bar").style.setProperty("--w", Math.min(100, units / 100) + "%");
-    $("pl-formula").textContent = count(lookups, "channel lookup", "channel lookups") + " + " + count(playlist, "playlist page", "playlist pages") +
+    byId("pl-units").textContent = fmt(units);
+    byId("pl-pct").textContent = (units / 100).toFixed(1) + "%";
+    byId("pl-n").textContent = n === rows.length ? "all twelve outlets" : (n === 0 ? "no outlets" : n + " of " + rows.length + " outlets");
+    byId("pl-label").textContent = n === rows.length ? "Twelve outlets" : "Ticked outlets (" + n + ")";
+    byId("pl-v").textContent = fmt(v);
+    byId("pl-c").textContent = fmt(c);
+    byId("pl-pg").textContent = fmt(pg);
+    byId("pl-bar").style.setProperty("--w", Math.min(100, units / 100) + "%");
+    byId("pl-formula").textContent = count(lookups, "channel lookup", "channel lookups") + " + " + count(playlist, "playlist page", "playlist pages") +
       " + " + count(batches, "video batch", "video batches") + " + " + count(pg, "comment page", "comment pages") +
       ". A comment page holds up to 100 comments; every video with comments on needs at least one.";
   }
