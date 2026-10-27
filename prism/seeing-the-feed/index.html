@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:,">
+<title>Seeing the Feed</title>
+<meta name="description" content="What YouTube's official Data API returns to an independent monitor, from real requests made on October 12 and 13, 2026. A companion to a policy memo.">
+<style>
+:root{--ink:#161616;--muted:#5c5c5c;--rule:#d6d6d1;--tint:#f4f4f1;--link:#1d4f91;color-scheme:light}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:#fff;color:var(--ink);font:18px/1.62 Charter,"Bitstream Charter","Sitka Text",Cambria,Georgia,serif;font-kerning:normal}
+.page{max-width:712px;margin:0 auto;padding:64px 16px 56px}
+h1{font-size:2.5rem;line-height:1.1;margin:0 0 .5rem;letter-spacing:-.01em}
+.sub{font-size:1.2rem;line-height:1.4;font-style:italic;color:var(--muted);margin:0 0 1.6rem}
+section{border-top:1px solid var(--rule);margin-top:2.75rem;padding-top:1.75rem}
+h2{font-size:1.5rem;line-height:1.25;margin:0 0 .9rem}
+h2 .n{margin-right:.3em}
+h3{font-size:1.1rem;line-height:1.3;margin:2rem 0 .6rem}
+p{margin:0 0 1rem}
+a{color:var(--link);text-underline-offset:.15em;text-decoration-thickness:1px}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+.note{font-size:.88rem;line-height:1.5;color:var(--muted)}
+.num{font-variant-numeric:tabular-nums lining-nums}
+.nw{white-space:nowrap}
+
+.figs{margin:1.25rem 0 0}
+.figs div{display:grid;grid-template-columns:5rem 1fr;gap:0 1rem;padding:.75rem 0;border-top:1px solid var(--rule)}
+.figs div:last-child{border-bottom:1px solid var(--rule)}
+.figs dt{font-weight:700;font-size:1.3rem;line-height:1.35;font-variant-numeric:tabular-nums lining-nums}
+.figs dd{margin:0;line-height:1.45}
+.figs dd .x{display:block;margin-top:.15rem;font-size:.85rem;color:var(--muted)}
+
+.rows{margin:1.25rem 0 1.25rem}
+.r{display:grid;grid-template-columns:9.5rem 1fr;gap:.3rem 1.25rem;padding:1rem 0;border-top:1px solid var(--rule)}
+.r:last-child{border-bottom:1px solid var(--rule)}
+.r .k b{display:block;line-height:1.35}
+.r .k i{display:block;margin-top:.2rem;font-size:.9rem;line-height:1.35;color:var(--muted)}
+.r .v p{margin:0 0 .6rem}
+.r .v p:last-child{margin-bottom:0}
+
+details{margin:.2rem 0 0;font-size:.9rem;line-height:1.5}
+summary{cursor:pointer;color:var(--link)}
+details[open] summary{margin-bottom:.4rem}
+.evl{margin:.8rem 0 .3rem;font-size:.82rem;color:var(--muted)}
+pre{margin:0;padding:.6rem .75rem;background:var(--tint);font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+details p.evn{margin:.5rem 0 0;font-size:.85rem;color:var(--muted)}
+
+.story{margin:1.25rem 0 1.5rem;padding-left:1rem;border-left:2px solid var(--ink)}
+.story .t{font-style:italic;font-size:1.15rem;line-height:1.4;margin:0 0 .5rem}
+.story p{margin:0 0 .3rem}
+.story p:last-child{margin:0}
+
+table{width:100%;border-collapse:collapse;margin:1.25rem 0 .6rem;font-size:.88rem;line-height:1.35;font-variant-numeric:tabular-nums lining-nums}
+caption{caption-side:top;text-align:left;font-size:.85rem;color:var(--muted);padding-bottom:.4rem}
+th,td{padding:.45rem .5rem;border-bottom:1px solid var(--rule);text-align:right;vertical-align:top}
+th:first-child,td:first-child{text-align:left;padding-left:0}
+th:last-child,td:last-child{padding-right:0}
+thead th{font-weight:700;vertical-align:bottom;border-bottom:1px solid var(--ink)}
+tfoot td{font-weight:700;border-top:1px solid var(--ink);border-bottom:0}
+
+ul.plain{margin:0 0 1rem;padding-left:1.1rem}
+ul.plain li{margin:0 0 .6rem}
+
+footer{border-top:1px solid var(--rule);margin-top:3rem;padding-top:1.5rem;font-size:.9rem;line-height:1.55;color:var(--muted)}
+footer h2{font-size:1rem;color:var(--ink);margin:0 0 .5rem}
+footer p{margin:0 0 .9rem}
+
+@media (max-width:600px){
+  body{font-size:17px}
+  .page{padding-top:40px}
+  h1{font-size:2.1rem}
+  .r{grid-template-columns:1fr}
+  .figs div{grid-template-columns:4.4rem 1fr}
+  table{font-size:.8rem}
+  th,td{padding:.4rem .3rem}
+}
+@media (max-width:370px){
+  table{font-size:.74rem}
+  th,td{padding:.35rem .2rem}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Seeing the Feed</h1>
+  <p class="sub">What the public route to YouTube gives an independent monitor: a short companion to a policy memo</p>
+  <p>The memo asks the European Commission to set one standard for the public data that independent researchers can obtain from video platforms. To see what YouTube gives today, we sent real requests to its official Data API, the public route, on <span class="nw">October 12</span> and 13, 2026, with one API key on the default quota, and kept YouTube’s answers as returned.</p>
+</header>
+
+<section id="night">
+  <h2><span class="n">1.</span>One night on the public route</h2>
+  <p>On the news day of <span class="nw">October 12</span>, 2026, PRISM’s nightly pipeline read a fixed list of 485 US news channels through the Data API. Every request costs quota units, and one key gets <span class="nw">10,000 units</span> a day by default.</p>
+  <dl class="figs">
+    <div><dt>5.9K</dt><dd>videos fetched in <span class="nw">24 hours</span>, from 398 of the <span class="nw">485 channels</span><span class="x">5,889 by count</span></dd></div>
+    <div><dt>10%</dt><dd>of one day’s quota, the cost of that fetch<span class="x">1,028 of <span class="nw">10,000 units</span></span></dd></div>
+    <div><dt>553K</dt><dd>comments the API counted across those videos<span class="x">553,191 by count, on 3,965 of the videos</span></dd></div>
+    <div><dt>+49%</dt><dd>views on the <span class="nw">586 videos</span> behind six of the night’s stories, read again <span class="nw">16.6 hours</span> later<span class="x">+48.8% between the two readings, from 35.3M to 52.5M</span></dd></div>
+  </dl>
+</section>
+
+<section id="items">
+  <h2><span class="n">2.</span>What each item returns</h2>
+  <p>The memo’s standard names four items of public data for video platforms. The requests and answers shown under each item are for one video, <a href="https://www.youtube.com/watch?v=mMok2XA6Dmk">a MeidasTouch upload of <span class="nw">October 12</span></a> from the story in section 3, recorded on <span class="nw">October 13</span>, 2026 at <span class="nw">22:39 UTC</span>.</p>
+  <div class="rows">
+    <div class="r">
+      <div class="k"><b>Video details</b><i>Returned in full</i></div>
+      <div class="v">
+        <p>One call returns every field the watch page shows: title, channel, time, length, views, likes and comment count, at <span class="nw">1 quota unit</span> per <span class="nw">50 videos</span>. The limit sits earlier: finding a channel by search is capped at <span class="nw">100 calls</span> a day.</p>
+        <details><summary>Request and recorded answer</summary><p class="evl">Request, as sent (the key is shown as REDACTED)</p><pre>GET https://www.googleapis.com/youtube/v3/videos?<wbr>part=snippet%2Cstatistics%2CcontentDetails%2CtopicDetails<wbr>&amp;id=mMok2XA6Dmk<wbr>&amp;key=REDACTED</pre><p class="evl">Answer, as recorded: HTTP 200, <span class="nw">1 quota unit</span></p><pre>snippet.title: "🚨All HELL BREAKS LOOSE as Zelensky Hits THE MOTHERLODE…"
+snippet.channelTitle: "MeidasTouch"
+snippet.publishedAt: "2026-10-12T12:30:06Z"
+snippet.description: "MeidasTouch host Ben Meiselas reports on Ukraine's strikes on three Russian Yandex data centers as Trump faces backlash over his diesel deal with Russia and shi…"
+snippet.tags: ["meidastouch", "meidas touch", "politics", "political videos", "political advertising", "breaking news"]
+snippet.defaultAudioLanguage: "en-US"
+contentDetails.duration: "PT22M36S"
+contentDetails.caption: "false"
+statistics.viewCount: "1117497"
+statistics.likeCount: "44938"
+statistics.commentCount: "5374"
+topicDetails.topicCategories: ["https://en.wikipedia.org/wiki/Politics", "https://en.wikipedia.org/wiki/Society"]</pre><p class="evn">PT22M36S is <span class="nw">22 minutes</span> 36 seconds. The record shortens the description.</p></details>
+      </div>
+    </div>
+    <div class="r">
+      <div class="k"><b>Caption text</b><i>Listed; the text is refused</i></div>
+      <div class="v">
+        <p>The API lists the caption tracks a video has, made by the uploader or generated by the platform, at <span class="nw">50 units</span> a video. A request for the text of a track answered 401: API keys are not supported, and the documentation requires permission to edit the video. The player plays the same track to anyone who watches.</p>
+        <details><summary>Requests and recorded answers</summary><p class="evl">Request 1, for the list of tracks</p><pre>GET https://www.googleapis.com/youtube/v3/captions?<wbr>part=snippet<wbr>&amp;videoId=mMok2XA6Dmk<wbr>&amp;key=REDACTED</pre><p class="evl">Answer, as recorded: HTTP 200, <span class="nw">50 quota units</span></p><pre>tracks: [{"language": "en", "trackKind": "asr", "name": ""}]</pre><p class="evn">“asr” is the track the platform generates automatically.</p><p class="evl">Request 2, for the text of that track, <span class="nw">October 13</span>, 2026 at <span class="nw">22:40 UTC</span></p><pre>GET https://www.googleapis.com/youtube/v3/captions/AUieDaauXyHpRgebn3fKcbkBLAkl3aBbAU_sG_wFkuREiBJzi0g?<wbr>key=REDACTED</pre><p class="evl">Answer, as returned: HTTP 401</p><pre>{
+  "error": {
+    "code": 401,
+    "message": "API keys are not supported by this API. Expected OAuth2 access token or other authentication credentials that assert a principal. See https://cloud.google.com/docs/authentication",
+    "errors": [
+      {
+        "message": "Login Required.",
+        "domain": "global",
+        "reason": "required",
+        "location": "Authorization",
+        "locationType": "header"
+      }
+    ],
+    "status": "UNAUTHENTICATED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+        "reason": "CREDENTIALS_MISSING",
+        "domain": "googleapis.com",
+        "metadata": {
+          "service": "youtube.googleapis.com",
+          "method": "youtube.api.v3.V3DataCaptionService.Download"
+        }
+      }
+    ]
+  }
+}</pre></details>
+      </div>
+    </div>
+    <div class="r">
+      <div class="k"><b>View counts over time</b><i>One reading per call</i></div>
+      <div class="v">
+        <p>The view count is the count at the moment of the call. There is no history for a video one does not own: a series exists only if the researcher keeps polling, and nothing between two readings can be recovered. YouTube’s Developer Policies also limit storage, in section III.E.4.b: <q>an API Client must not store statistics retrieved as Non-Authorized Data for more than <span class="nw">30 days</span>.</q></p>
+        <details><summary>Three recorded readings</summary><pre>reading  time (UTC)         viewCount
+1        2026-10-13 04:43   1,008,850
+2        2026-10-13 21:21   1,113,203
+3        2026-10-13 22:39   1,117,497</pre><p class="evn">Three separate calls: the first reading, the second <span class="nw">16.6 hours</span> later, and the call shown under Video details. Nothing between them is returned. Counted from the first reading, III.E.4.b sets <span class="nw">November 12</span>, 2026 as the date by which these readings must be deleted or refreshed.</p></details>
+      </div>
+    </div>
+    <div class="r">
+      <div class="k"><b>Public comments</b><i>Within quota</i></div>
+      <div class="v">
+        <p>A page of up to 100 comment threads costs <span class="nw">1 unit</span>, newest first or top first. There is no total and no oldest-first order, so reaching a video’s first comments, where coordinated arrival shows, means paging to the end.</p>
+        <details><summary>Request and recorded answer</summary><p class="evl">Request, as sent</p><pre>GET https://www.googleapis.com/youtube/v3/commentThreads?<wbr>part=snippet<wbr>&amp;videoId=mMok2XA6Dmk<wbr>&amp;maxResults=5<wbr>&amp;order=time<wbr>&amp;textFormat=plainText<wbr>&amp;key=REDACTED</pre><p class="evl">Answer, as recorded: HTTP 200, <span class="nw">1 quota unit</span></p><pre>items_on_page: 5
+has_next_page: true
+pageInfo: {"totalResults": 5, "resultsPerPage": 5}
+newest_published_at: "2026-10-12T16:38:38Z"
+orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the size of this page, set by maxResults=5, not the number of comments. The details call counts <span class="nw">5,374 comments</span> on this video. No order starts from the first comment.</p></details>
+      </div>
+    </div>
+  </div>
+  <p><b>Beyond the four items.</b> Why a video was shown, impressions and watch time are not shown to anyone and are not in the public API; only vetted access under <span class="nw">Art. 4</span>0(4) reaches them. The standard stops at what every viewer can already see.</p>
+  <p class="note">The full record covers eight videos and cost <span class="nw">466 quota units</span>: <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/api_record.json">api_record.json</a>. Comment text and author names were not stored.</p>
+</section>
+
+<section id="story">
+  <h2><span class="n">3.</span>One story, route by route</h2>
+  <p>The memo asks that each platform’s annual risk assessment respond to independent research filed through the European Digital Media Observatory (EDMO). The evidence such a filing would carry, built from one story collected on <span class="nw">October 12</span>:</p>
+  <div class="story">
+    <p class="t">Bipartisan backlash grows over Trump’s Russian diesel deal as Zelenskyy says Russia violated the energy ceasefire</p>
+    <p><span class="nw">208 items</span> from <span class="nw">83 outlets</span>: <span class="nw">198 YouTube</span> videos and <span class="nw">10 podcast</span> episodes, with 9,774,739 views at first reading.</p>
+    <p class="note">Published on PRISM on <span class="nw">October 13</span>, 2026: <a href="https://prism-news.org/en/today/trend_2026-10-12_backlash-grows-over-trump-s-russian-diesel-d">the story as published</a>.</p>
+  </div>
+  <p>A cross-outlet analysis of the story has four parts. For each, what the public route supported:</p>
+  <div class="rows">
+    <div class="r">
+      <div class="k"><b>Origin</b><i>Supported</i></div>
+      <div class="v"><p>The earliest item in the collection window came from Bloomberg Television on <span class="nw">October 12</span>; the API returns a publish time for every video. Which upload a viewer saw first is exposure data, outside the public route.</p></div>
+    </div>
+    <div class="r">
+      <div class="k"><b>Framing</b><i>Headlines only</i></div>
+      <div class="v"><p>Each outlet’s title and description, which the API returns, show what it put first. A comparison of what was said in the videos would need the caption text the API lists and refuses.</p></div>
+    </div>
+    <div class="r">
+      <div class="k"><b>Spread</b><i>Single readings</i></div>
+      <div class="v"><p>Two channels, MeidasTouch and CNN, held about 31% of all views at first reading. By the second reading, <span class="nw">16.6 hours</span> later, the story’s YouTube videos had grown from 9.77M to 12.68M views (+29.7%). The curve between the readings is not returned, and under III.E.4.b the readings must be deleted or refreshed after <span class="nw">30 days</span>.</p></div>
+    </div>
+    <div class="r">
+      <div class="k"><b>Reception</b><i>Supported, within quota</i></div>
+      <div class="v">
+        <p>In a sample of <span class="nw">34,685 comments</span> on the <span class="nw">198 videos</span>, one account posted the same comment on <span class="nw">6 videos</span> across <span class="nw">5 channels</span> within six minutes, between 16:01:51 and <span class="nw">16:06:13 UTC</span> on <span class="nw">October 12</span>: <q>Why isn’t Putin speaking for himself instead of letting Trump speak on his behalf?</q> No copy had more than <span class="nw">11 likes</span>. The videos came from Hook Global (two videos), CNN, BBC News, MS NOW and FRANCE 24 English.</p>
+        <p>This is one account, reported as observed, not a campaign. Whether it was part of anything larger is the question the platform’s own assessment would have to answer.</p>
+      </div>
+    </div>
+  </div>
+  <p>Of the four parts, two are fully supported by the public route, one is supported at the level of headlines, and one rests on readings the researcher must take and then discard.</p>
+</section>
+
+<section id="ireland">
+  <h2><span class="n">4.</span>The Irish pilot</h2>
+  <p>The memo proposes a six-month pilot on Irish news channels with Coimisiún na Meán, the Digital Services Coordinator in Ireland. On <span class="nw">October 13</span> at <span class="nw">21:19 UTC</span>, the same Data API key looked up twelve Irish outlets and their last <span class="nw">24 hours</span>.</p>
+  <table>
+    <caption>Twelve Irish outlets on YouTube, <span class="nw">24 hours</span> to <span class="nw">October 13</span>, 2026, <span class="nw">21:19 UTC</span></caption>
+    <thead><tr><th scope="col">Outlet</th><th scope="col">Subscribers</th><th scope="col">Videos</th><th scope="col">Comments</th><th scope="col">Comment pages</th></tr></thead>
+    <tbody>
+      <tr><td>VideoParliament Ireland (Oireachtas)*</td><td>51,300</td><td>40</td><td>67</td><td>40</td></tr>
+      <tr><td>RTÉ News</td><td>253,000</td><td>13</td><td>120</td><td>8</td></tr>
+      <tr><td>Irish Independent*</td><td>118,000</td><td>9</td><td>40</td><td>8</td></tr>
+      <tr><td>Irish Mirror*</td><td>48,200</td><td>7</td><td>760</td><td>11</td></tr>
+      <tr><td>Newstalk</td><td>113,000</td><td>5</td><td>24</td><td>3</td></tr>
+      <tr><td>The Journal*</td><td>53,800</td><td>5</td><td>8</td><td>5</td></tr>
+      <tr><td>Gript Media</td><td>79,000</td><td>2</td><td>266</td><td>4</td></tr>
+      <tr><td>Today FM</td><td>34,100</td><td>2</td><td>0</td><td>2</td></tr>
+      <tr><td>TG4</td><td>47,400</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr><td>Irish Examiner</td><td>12,400</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr><td>RTÉ (main channel)</td><td>400,000</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>The Irish Times</td><td>20,100</td><td>0</td><td>0</td><td>0</td></tr>
+    </tbody>
+    <tfoot><tr><td>Twelve outlets</td><td></td><td>85</td><td>1,285</td><td>83</td></tr></tfoot>
+  </table>
+  <p class="note">* Found only through search, which is capped at <span class="nw">100 calls</span> a day; the other eight were found by handle. Six look-alike channels carrying an outlet’s name were excluded. Comments were off on 8 of the <span class="nw">85 videos</span>. The probe cost <span class="nw">43 units</span>, and the six searches 12 more.</p>
+  <p>At the API’s published costs, following all twelve outlets would take <span class="nw">98 units</span> a day: 1 for channel lookups, 12 for playlist pages, 2 for video batches (<span class="nw">85 videos</span>, 50 to a call) and 83 for comment pages, counted at one page per <span class="nw">100 comments</span> and at least one for every video with comments on. That is 1.0% of the default <span class="nw">10,000 units</span>, or <span class="nw">17,934 units</span> over six months (<span class="nw">183 days</span>).</p>
+  <p>The Irish figure is a floor: for the US fetch of <span class="nw">October 12</span>, the same arithmetic gives <span class="nw">613 units</span> where 1,028 were measured, because high-volume channels need several playlist pages.</p>
+  <p>For Ireland, quota is not the constraint; the three items below are.</p>
+  <h3>What the pilot cannot obtain at any size</h3>
+  <ul class="plain">
+    <li><b>The text of any caption track.</b> The API lists the tracks; the download call answered 401 and requires permission to edit the video.</li>
+    <li><b>Any reading older than the call.</b> A six-month series exists only if the pilot polls every video it follows, and III.E.4.b requires each reading to be deleted or refreshed within <span class="nw">30 days</span>.</li>
+    <li><b>The first comments on a video, cheaply.</b> No oldest-first order and no total; the pilot pages to the end to see how a thread began.</li>
+  </ul>
+</section>
+
+<footer>
+  <h2>Method and limits</h2>
+  <p>Instrument: PRISM’s nightly pipeline, which reads a fixed list of 485 US news channels, and one YouTube Data API key on the default quota. US figures are from the news day of <span class="nw">October 12</span>, 2026 (<span class="nw">04:00 UTC</span> <span class="nw">October 12</span> to <span class="nw">04:00 UTC</span> <span class="nw">October 13</span>). The second view reading came <span class="nw">16.6 hours</span> after the first; the eight-video record and the Irish probe were made on <span class="nw">October 13</span>. Quota units are counted by our client as calls made; the Google Cloud console was not consulted. No YouTube data was obtained outside the Data API; the podcast episodes in section 3 came from each show’s RSS feed. The figures cover one platform over two days, and the growth in views is one interval that says nothing about the shape between readings. Policy text is quoted as read on <span class="nw">October 13</span>, 2026. Data files: <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/api_record.json">api_record.json</a> (section 2), <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/view_snapshots_aggregate.json">view_snapshots_aggregate.json</a> (view readings), <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/ie_probe.json">ie_probe.json</a> (section 4) and <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/facts.js">facts.js</a> (derived figures and the pipeline’s run-log counts).</p>
+  <p>A longer interactive version prepared for the GPPN 2027 proposal: <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/">dongjae-kang.github.io/public-share/prism/gppn-2027</a></p>
+  <p>Prepared by Dongjae Kang and Ahin Jung, Columbia SIPA, as a companion to a policy memo for Policy Communication and Advocacy (Fall 2026).</p>
+</footer>
+
+</div>
+</body>
+</html>
