@@ -111,7 +111,7 @@ footer p{margin:0 0 .9rem}
       <div class="k"><b>Video details</b><i>Returned in full</i></div>
       <div class="v">
         <p>One call returns every field the watch page shows: title, channel, time, length, views, likes and comment count, at <span class="nw">1 quota unit</span> per <span class="nw">50 videos</span>. The limit sits earlier: finding a channel by search is capped at <span class="nw">100 calls</span> a day.</p>
-        <details><summary>Request and recorded answer</summary><p class="evl">Request, as sent (the key is shown as REDACTED)</p><pre>GET https://www.googleapis.com/youtube/v3/videos?<wbr>part=snippet%2Cstatistics%2CcontentDetails%2CtopicDetails<wbr>&amp;id=mMok2XA6Dmk<wbr>&amp;key=REDACTED</pre><p class="evl">Answer, as recorded: HTTP 200, <span class="nw">1 quota unit</span></p><pre>snippet.title: "🚨All HELL BREAKS LOOSE as Zelensky Hits THE MOTHERLODE…"
+        <details><summary>Request and recorded answer</summary><p class="evl">Request, as sent (the key is shown as REDACTED)</p><pre>GET https://www.googleapis.com/youtube/v3/videos?<wbr>part=snippet%2Cstatistics%2CcontentDetails%2CtopicDetails<wbr>&amp;id=mMok2XA6Dmk<wbr>&amp;key=REDACTED</pre><p class="evl">Answer, as recorded: HTTP 200, <span class="nw">1 quota unit</span></p><pre>snippet.title: "\ud83d\udea8All HELL BREAKS LOOSE as Zelensky Hits THE MOTHERLODE…"
 snippet.channelTitle: "MeidasTouch"
 snippet.publishedAt: "2026-10-12T12:30:06Z"
 snippet.description: "MeidasTouch host Ben Meiselas reports on Ukraine's strikes on three Russian Yandex data centers as Trump faces backlash over his diesel deal with Russia and shi…"
@@ -240,9 +240,7 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
     <tfoot><tr><td>Twelve outlets</td><td></td><td>85</td><td>1,285</td><td>83</td></tr></tfoot>
   </table>
   <p class="note">* Found only through search, which is capped at <span class="nw">100 calls</span> a day; the other eight were found by handle. Six look-alike channels carrying an outlet’s name were excluded. Comments were off on 8 of the <span class="nw">85 videos</span>. The probe cost <span class="nw">43 units</span>, and the six searches 12 more.</p>
-  <p>At the API’s published costs, following all twelve outlets would take <span class="nw">98 units</span> a day: 1 for channel lookups, 12 for playlist pages, 2 for video batches (<span class="nw">85 videos</span>, 50 to a call) and 83 for comment pages, counted at one page per <span class="nw">100 comments</span> and at least one for every video with comments on. That is 1.0% of the default <span class="nw">10,000 units</span>, or <span class="nw">17,934 units</span> over six months (<span class="nw">183 days</span>).</p>
-  <p>The Irish figure is a floor: for the US fetch of <span class="nw">October 12</span>, the same arithmetic gives <span class="nw">613 units</span> where 1,028 were measured, because high-volume channels need several playlist pages.</p>
-  <p>For Ireland, quota is not the constraint; the three items below are.</p>
+  <p>At the API’s published costs, following all twelve outlets would take an estimated <span class="nw">98 units</span> a day, 1.0% of the default <span class="nw">10,000 units</span>. Busy channels can need more, as the US run showed (<span class="nw">1,028 units</span> measured against <span class="nw">613 estimated</span>), but for Ireland quota is not the constraint; the three items below are.</p>
   <h3>What the pilot cannot obtain at any size</h3>
   <ul class="plain">
     <li><b>The text of any caption track.</b> The API lists the tracks; the download call answered 401 and requires permission to edit the video.</li>
