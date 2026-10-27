@@ -7,24 +7,58 @@
 <link rel="icon" href="data:,">
 <title>Seeing the Feed</title>
 <meta name="description" content="What YouTube's official Data API returns to an independent monitor, from real requests made on October 12 and 13, 2026. A companion to a policy memo.">
+<script>
+/* Hidden-until-revealed styles apply only when scripts run; if the page script never starts, drop them. */
+document.documentElement.classList.add("js");
+setTimeout(function () { if (!window.__stf) document.documentElement.classList.remove("js"); }, 3000);
+</script>
 <style>
-:root{--ink:#161616;--muted:#5c5c5c;--rule:#d6d6d1;--tint:#f4f4f1;--link:#1d4f91;color-scheme:light}
+:root{--ink:#161616;--muted:#5c5c5c;--rule:#d6d6d1;--tint:#f4f4f1;--track:#e6e6e2;--link:#1d4f91;color-scheme:light}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{margin:0;background:#fff;color:var(--ink);font:18px/1.62 Charter,"Bitstream Charter","Sitka Text",Cambria,Georgia,serif;font-kerning:normal}
 .page{max-width:712px;margin:0 auto;padding:64px 16px 56px}
 h1{font-size:2.5rem;line-height:1.1;margin:0 0 .5rem;letter-spacing:-.01em}
 .sub{font-size:1.2rem;line-height:1.4;font-style:italic;color:var(--muted);margin:0 0 1.6rem}
 section{border-top:1px solid var(--rule);margin-top:2.75rem;padding-top:1.75rem}
+section,footer{scroll-margin-top:28px}
 h2{font-size:1.5rem;line-height:1.25;margin:0 0 .9rem}
 h2 .n{margin-right:.3em}
 h3{font-size:1.1rem;line-height:1.3;margin:2rem 0 .6rem}
 p{margin:0 0 1rem}
 a{color:var(--link);text-underline-offset:.15em;text-decoration-thickness:1px}
+a:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--link);outline-offset:2px}
 q{quotes:"\201C" "\201D" "\2018" "\2019"}
 .note{font-size:.88rem;line-height:1.5;color:var(--muted)}
-.num{font-variant-numeric:tabular-nums lining-nums}
 .nw{white-space:nowrap}
+
+/* section navigation: a left rail on wide screens, a compact bar on narrow ones */
+.rail{display:none}
+.topbar{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--rule)}
+.topbar .tb{max-width:712px;margin:0 auto;padding:0 16px;height:44px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.topbar .cur{min-width:0;font-size:.85rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar ol{list-style:none;margin:0 -8px 0 0;padding:0;display:flex;flex:none}
+.topbar a{display:block;min-width:40px;height:44px;line-height:42px;text-align:center;font-size:.95rem;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;font-variant-numeric:lining-nums}
+.topbar a[aria-current="true"]{color:var(--ink);font-weight:700;border-bottom-color:var(--ink)}
+@media (max-width:999px){section,footer{scroll-margin-top:60px}}
+@media (min-width:1000px){
+  .topbar{display:none}
+  .layout{display:grid;grid-template-columns:minmax(232px,1fr) minmax(0,712px) minmax(0,1fr)}
+  .page{grid-column:2;margin:0;max-width:none}
+  .rail{display:block;grid-column:1;grid-row:1;align-self:start;justify-self:end;position:sticky;top:48px;width:12.5rem;margin:68px 24px 0 0}
+  .rail ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--rule)}
+  .rail a{display:flex;margin-left:-1px;padding:.4rem 0 .4rem .85rem;border-left:2px solid transparent;font-size:.85rem;line-height:1.35;color:var(--muted);text-decoration:none}
+  .rail a:hover{color:var(--ink)}
+  .rail .n{flex:none;width:1.2em;font-variant-numeric:tabular-nums lining-nums}
+  .rail li.m{margin-top:.6rem}
+  .rail li.m a{padding-left:calc(.85rem + 1.2em)}
+  .rail a[aria-current="true"]{color:var(--ink);font-weight:700;border-left-color:var(--ink)}
+}
+
+/* first appearance: a short fade and rise, once */
+.js .rv{opacity:0;transform:translateY(6px)}
+.js .rv.in{opacity:1;transform:none;transition:opacity .4s ease-out,transform .4s ease-out}
 
 .figs{margin:1.25rem 0 0}
 .figs div{display:grid;grid-template-columns:5rem 1fr;gap:0 1rem;padding:.75rem 0;border-top:1px solid var(--rule)}
@@ -32,6 +66,12 @@ q{quotes:"\201C" "\201D" "\2018" "\2019"}
 .figs dt{font-weight:700;font-size:1.3rem;line-height:1.35;font-variant-numeric:tabular-nums lining-nums}
 .figs dd{margin:0;line-height:1.45}
 .figs dd .x{display:block;margin-top:.15rem;font-size:.85rem;color:var(--muted)}
+
+/* a share of one day's quota */
+.qbar{display:block;position:relative;height:6px;background:var(--track);margin:.5rem 0 .35rem}
+.qbar i{position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--ink)}
+.js .rv .qbar i{width:0}
+.js .rv.in .qbar i{width:var(--w);transition:width .7s ease-out .15s}
 
 .rows{margin:1.25rem 0 1.25rem}
 .r{display:grid;grid-template-columns:9.5rem 1fr;gap:.3rem 1.25rem;padding:1rem 0;border-top:1px solid var(--rule)}
@@ -53,6 +93,22 @@ details p.evn{margin:.5rem 0 0;font-size:.85rem;color:var(--muted)}
 .story p{margin:0 0 .3rem}
 .story p:last-child{margin:0}
 
+/* two readings of the same story, and the interval between them that no call returns */
+.spread{margin:.9rem 0 .2rem}
+.spread .sh{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;font-size:.82rem;line-height:1.35;color:var(--muted)}
+.spread .sh b{font-size:.95rem;color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+.spread .sh.a{margin-bottom:.3rem}
+.spread .sh.b{margin-top:.3rem}
+.spread .st{display:block;position:relative;height:10px;background:var(--track)}
+.spread .st i{position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--ink)}
+.spread .gap{margin:0 0 0 0;padding:.6rem 0 .6rem .75rem;border-left:1px dashed var(--muted);font-size:.82rem;line-height:1.4;font-style:italic;color:var(--muted)}
+.spread figcaption{margin-top:.6rem;font-size:.82rem;line-height:1.45;color:var(--muted)}
+.js .spread.rv .st i{width:0}
+.js .spread.rv .gap{opacity:0}
+.js .spread.rv.in .st i{width:var(--w);transition:width .7s ease-out .1s}
+.js .spread.rv.in .sb2 .st i{transition-delay:.45s}
+.js .spread.rv.in .gap{opacity:1;transition:opacity .4s ease-out .3s}
+
 table{width:100%;border-collapse:collapse;margin:1.25rem 0 .6rem;font-size:.88rem;line-height:1.35;font-variant-numeric:tabular-nums lining-nums}
 caption{caption-side:top;text-align:left;font-size:.85rem;color:var(--muted);padding-bottom:.4rem}
 th,td{padding:.45rem .5rem;border-bottom:1px solid var(--rule);text-align:right;vertical-align:top}
@@ -60,6 +116,17 @@ th:first-child,td:first-child{text-align:left;padding-left:0}
 th:last-child,td:last-child{padding-right:0}
 thead th{font-weight:700;vertical-align:bottom;border-bottom:1px solid var(--ink)}
 tfoot td{font-weight:700;border-top:1px solid var(--ink);border-bottom:0}
+td label{display:flex;gap:.4rem;align-items:flex-start;cursor:pointer}
+td input{flex:none;margin:.2rem 0 0;accent-color:var(--ink)}
+tr.off td{color:var(--muted)}
+html:not(.js) .js-only{display:none}
+
+.planout{margin:1rem 0 1rem;padding:.75rem 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.planout p{margin:0}
+.planout .p1{font-size:1rem;line-height:1.45}
+.planout .p1 b{font-variant-numeric:tabular-nums lining-nums}
+.planout .p2{font-size:.82rem;line-height:1.45;color:var(--muted)}
+.planout .qbar i{transition:width .3s ease-out}
 
 ul.plain{margin:0 0 1rem;padding-left:1.1rem}
 ul.plain li{margin:0 0 .6rem}
@@ -70,20 +137,54 @@ footer p{margin:0 0 .9rem}
 
 @media (max-width:600px){
   body{font-size:17px}
-  .page{padding-top:40px}
+  .page{padding-top:32px}
   h1{font-size:2.1rem}
   .r{grid-template-columns:1fr}
   .figs div{grid-template-columns:4.4rem 1fr}
   table{font-size:.8rem}
   th,td{padding:.4rem .3rem}
 }
-@media (max-width:370px){
-  table{font-size:.74rem}
+@media (max-width:420px){
+  table{font-size:.75rem}
   th,td{padding:.35rem .2rem}
+  td label{gap:.3rem}
+  td label span{hyphens:auto;-webkit-hyphens:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  .js .rv{opacity:1;transform:none;transition:none}
+  .js .rv .qbar i,.js .spread.rv .st i{width:var(--w);transition:none}
+  .js .spread.rv .gap{opacity:1;transition:none}
+}
+@media print{
+  .topbar,.rail{display:none}
+  .js .rv{opacity:1;transform:none}
+  .js .rv .qbar i,.js .spread.rv .st i{width:var(--w)}
+  .js .spread.rv .gap{opacity:1}
 }
 </style>
 </head>
 <body>
+<nav class="topbar" aria-label="Sections">
+  <div class="tb">
+    <span class="cur" id="cur">Seeing the Feed</span>
+    <ol>
+      <li><a href="#night" title="One night on the public route">1</a></li>
+      <li><a href="#items" title="What each item returns">2</a></li>
+      <li><a href="#story" title="One story, route by route">3</a></li>
+      <li><a href="#ireland" title="The Irish pilot">4</a></li>
+    </ol>
+  </div>
+</nav>
+<div class="layout">
+<nav class="rail" aria-label="Sections">
+  <ol>
+    <li><a href="#night"><span class="n">1</span>One night</a></li>
+    <li><a href="#items"><span class="n">2</span>What each item returns</a></li>
+    <li><a href="#story"><span class="n">3</span>One story</a></li>
+    <li><a href="#ireland"><span class="n">4</span>The Irish pilot</a></li>
+    <li class="m"><a href="#method">Method</a></li>
+  </ol>
+</nav>
 <div class="page">
 
 <header>
@@ -96,10 +197,10 @@ footer p{margin:0 0 .9rem}
   <h2><span class="n">1.</span>One night on the public route</h2>
   <p>On the news day of <span class="nw">October 12</span>, 2026, PRISM’s nightly pipeline read a fixed list of 485 US news channels through the Data API. Every request costs quota units, and one key gets <span class="nw">10,000 units</span> a day by default.</p>
   <dl class="figs">
-    <div><dt>5.9K</dt><dd>videos fetched in <span class="nw">24 hours</span>, from 398 of the <span class="nw">485 channels</span><span class="x">5,889 by count</span></dd></div>
-    <div><dt>10%</dt><dd>of one day’s quota, the cost of that fetch<span class="x">1,028 of <span class="nw">10,000 units</span></span></dd></div>
-    <div><dt>553K</dt><dd>comments the API counted across those videos<span class="x">553,191 by count, on 3,965 of the videos</span></dd></div>
-    <div><dt>+49%</dt><dd>views on the <span class="nw">586 videos</span> behind six of the night’s stories, read again <span class="nw">16.6 hours</span> later<span class="x">+48.8% between the two readings, from 35.3M to 52.5M</span></dd></div>
+    <div class="rv"><dt>5.9K</dt><dd>videos fetched in <span class="nw">24 hours</span>, from 398 of the <span class="nw">485 channels</span><span class="x">5,889 by count</span></dd></div>
+    <div class="rv"><dt>10%</dt><dd>of one day’s quota, the cost of that fetch<span class="qbar" role="img" aria-label="1,028 of 10,000 units"><i style="--w:10.28%"></i></span><span class="x">1,028 of <span class="nw">10,000 units</span></span></dd></div>
+    <div class="rv"><dt>553K</dt><dd>comments the API counted across those videos<span class="x">553,191 by count, on 3,965 of the videos</span></dd></div>
+    <div class="rv"><dt>+49%</dt><dd>views on the <span class="nw">586 videos</span> behind six of the night’s stories, read again <span class="nw">16.6 hours</span> later<span class="x">+48.8% between the two readings, from 35.3M to 52.5M</span></dd></div>
   </dl>
 </section>
 
@@ -107,7 +208,7 @@ footer p{margin:0 0 .9rem}
   <h2><span class="n">2.</span>What each item returns</h2>
   <p>The memo’s standard names four items of public data for video platforms. The requests and answers shown under each item are for one video, <a href="https://www.youtube.com/watch?v=mMok2XA6Dmk">a MeidasTouch upload of <span class="nw">October 12</span></a> from the story in section 3, recorded on <span class="nw">October 13</span>, 2026 at <span class="nw">22:39 UTC</span>.</p>
   <div class="rows">
-    <div class="r">
+    <div class="r rv">
       <div class="k"><b>Video details</b><i>Returned in full</i></div>
       <div class="v">
         <p>One call returns every field the watch page shows: title, channel, time, length, views, likes and comment count, at <span class="nw">1 quota unit</span> per <span class="nw">50 videos</span>. The limit sits earlier: finding a channel by search is capped at <span class="nw">100 calls</span> a day.</p>
@@ -125,7 +226,7 @@ statistics.commentCount: "5374"
 topicDetails.topicCategories: ["https://en.wikipedia.org/wiki/Politics", "https://en.wikipedia.org/wiki/Society"]</pre><p class="evn">PT22M36S is <span class="nw">22 minutes</span> 36 seconds. The record shortens the description.</p></details>
       </div>
     </div>
-    <div class="r">
+    <div class="r rv">
       <div class="k"><b>Caption text</b><i>Listed; the text is refused</i></div>
       <div class="v">
         <p>The API lists the caption tracks a video has, made by the uploader or generated by the platform, at <span class="nw">50 units</span> a video. A request for the text of a track answered 401: API keys are not supported, and the documentation requires permission to edit the video. The player plays the same track to anyone who watches.</p>
@@ -158,7 +259,7 @@ topicDetails.topicCategories: ["https://en.wikipedia.org/wiki/Politics", "https:
 }</pre></details>
       </div>
     </div>
-    <div class="r">
+    <div class="r rv">
       <div class="k"><b>View counts over time</b><i>One reading per call</i></div>
       <div class="v">
         <p>The view count is the count at the moment of the call. There is no history for a video one does not own: a series exists only if the researcher keeps polling, and nothing between two readings can be recovered. YouTube’s Developer Policies also limit storage, in section III.E.4.b: <q>an API Client must not store statistics retrieved as Non-Authorized Data for more than <span class="nw">30 days</span>.</q></p>
@@ -168,7 +269,7 @@ topicDetails.topicCategories: ["https://en.wikipedia.org/wiki/Politics", "https:
 3        2026-10-13 22:39   1,117,497</pre><p class="evn">Three separate calls: the first reading, the second <span class="nw">16.6 hours</span> later, and the call shown under Video details. Nothing between them is returned. Counted from the first reading, III.E.4.b sets <span class="nw">November 12</span>, 2026 as the date by which these readings must be deleted or refreshed.</p></details>
       </div>
     </div>
-    <div class="r">
+    <div class="r rv">
       <div class="k"><b>Public comments</b><i>Within quota</i></div>
       <div class="v">
         <p>A page of up to 100 comment threads costs <span class="nw">1 unit</span>, newest first or top first. There is no total and no oldest-first order, so reaching a video’s first comments, where coordinated arrival shows, means paging to the end.</p>
@@ -187,26 +288,36 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
 <section id="story">
   <h2><span class="n">3.</span>One story, route by route</h2>
   <p>The memo asks that each platform’s annual risk assessment respond to independent research filed through the European Digital Media Observatory (EDMO). The evidence such a filing would carry, built from one story collected on <span class="nw">October 12</span>:</p>
-  <div class="story">
+  <div class="story rv">
     <p class="t">Bipartisan backlash grows over Trump’s Russian diesel deal as Zelenskyy says Russia violated the energy ceasefire</p>
     <p><span class="nw">208 items</span> from <span class="nw">83 outlets</span>: <span class="nw">198 YouTube</span> videos and <span class="nw">10 podcast</span> episodes, with 9,774,739 views at first reading.</p>
     <p class="note">Published on PRISM on <span class="nw">October 13</span>, 2026: <a href="https://prism-news.org/en/today/trend_2026-10-12_backlash-grows-over-trump-s-russian-diesel-d">the story as published</a>.</p>
   </div>
   <p>A cross-outlet analysis of the story has four parts. For each, what the public route supported:</p>
   <div class="rows">
-    <div class="r">
+    <div class="r rv">
       <div class="k"><b>Origin</b><i>Supported</i></div>
       <div class="v"><p>The earliest item in the collection window came from Bloomberg Television on <span class="nw">October 12</span>; the API returns a publish time for every video. Which upload a viewer saw first is exposure data, outside the public route.</p></div>
     </div>
-    <div class="r">
+    <div class="r rv">
       <div class="k"><b>Framing</b><i>Headlines only</i></div>
       <div class="v"><p>Each outlet’s title and description, which the API returns, show what it put first. A comparison of what was said in the videos would need the caption text the API lists and refuses.</p></div>
     </div>
-    <div class="r">
+    <div class="r rv" id="spread">
       <div class="k"><b>Spread</b><i>Single readings</i></div>
-      <div class="v"><p>Two channels, MeidasTouch and CNN, held about 31% of all views at first reading. By the second reading, <span class="nw">16.6 hours</span> later, the story’s YouTube videos had grown from 9.77M to 12.68M views (+29.7%). The curve between the readings is not returned, and under III.E.4.b the readings must be deleted or refreshed after <span class="nw">30 days</span>.</p></div>
+      <div class="v">
+        <p>Two channels, MeidasTouch and CNN, held about 31% of all views at first reading. By the second reading, <span class="nw">16.6 hours</span> later, the story’s YouTube videos had grown from 9.77M to 12.68M views (+29.7%). The curve between the readings is not returned, and under III.E.4.b the readings must be deleted or refreshed after <span class="nw">30 days</span>.</p>
+        <figure class="spread rv">
+          <div class="sh a"><span>First reading, <span class="nw">October 13</span>, <span class="nw">04:43 UTC</span></span><b>9.77M</b></div>
+          <span class="st"><i style="--w:77.08%"></i></span>
+          <div class="gap"><span class="nw">16.6 hours</span> between the two calls; no count in between is returned</div>
+          <span class="st sb2"><i style="--w:100%"></i></span>
+          <div class="sh b"><span>Second reading, <span class="nw">October 13</span>, <span class="nw">21:21 UTC</span></span><b>12.68M</b></div>
+          <figcaption>Views of the story’s <span class="nw">198 YouTube</span> videos, summed, at two readings (+29.7%). Both bars start at zero.</figcaption>
+        </figure>
+      </div>
     </div>
-    <div class="r">
+    <div class="r rv">
       <div class="k"><b>Reception</b><i>Supported, within quota</i></div>
       <div class="v">
         <p>In a sample of <span class="nw">34,685 comments</span> on the <span class="nw">198 videos</span>, one account posted the same comment on <span class="nw">6 videos</span> across <span class="nw">5 channels</span> within six minutes, between 16:01:51 and <span class="nw">16:06:13 UTC</span> on <span class="nw">October 12</span>: <q>Why isn’t Putin speaking for himself instead of letting Trump speak on his behalf?</q> No copy had more than <span class="nw">11 likes</span>. The videos came from Hook Global (two videos), CNN, BBC News, MS NOW and FRANCE 24 English.</p>
@@ -220,36 +331,41 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
 <section id="ireland">
   <h2><span class="n">4.</span>The Irish pilot</h2>
   <p>The memo proposes a six-month pilot on Irish news channels with Coimisiún na Meán, the Digital Services Coordinator in Ireland. On <span class="nw">October 13</span> at <span class="nw">21:19 UTC</span>, the same Data API key looked up twelve Irish outlets and their last <span class="nw">24 hours</span>.</p>
-  <table>
-    <caption>Twelve Irish outlets on YouTube, <span class="nw">24 hours</span> to <span class="nw">October 13</span>, 2026, <span class="nw">21:19 UTC</span></caption>
+  <table id="pltable">
+    <caption>Twelve Irish outlets on YouTube, <span class="nw">24 hours</span> to <span class="nw">October 13</span>, 2026, <span class="nw">21:19 UTC</span><span class="js-only">. Untick an outlet to leave it out of the estimate below the table.</span></caption>
     <thead><tr><th scope="col">Outlet</th><th scope="col">Subscribers</th><th scope="col">Videos</th><th scope="col">Comments</th><th scope="col">Comment pages</th></tr></thead>
     <tbody>
-      <tr><td>VideoParliament Ireland (Oireachtas)*</td><td>51,300</td><td>40</td><td>67</td><td>40</td></tr>
-      <tr><td>RTÉ News</td><td>253,000</td><td>13</td><td>120</td><td>8</td></tr>
-      <tr><td>Irish Independent*</td><td>118,000</td><td>9</td><td>40</td><td>8</td></tr>
-      <tr><td>Irish Mirror*</td><td>48,200</td><td>7</td><td>760</td><td>11</td></tr>
-      <tr><td>Newstalk</td><td>113,000</td><td>5</td><td>24</td><td>3</td></tr>
-      <tr><td>The Journal*</td><td>53,800</td><td>5</td><td>8</td><td>5</td></tr>
-      <tr><td>Gript Media</td><td>79,000</td><td>2</td><td>266</td><td>4</td></tr>
-      <tr><td>Today FM</td><td>34,100</td><td>2</td><td>0</td><td>2</td></tr>
-      <tr><td>TG4</td><td>47,400</td><td>1</td><td>0</td><td>1</td></tr>
-      <tr><td>Irish Examiner</td><td>12,400</td><td>1</td><td>0</td><td>1</td></tr>
-      <tr><td>RTÉ (main channel)</td><td>400,000</td><td>0</td><td>0</td><td>0</td></tr>
-      <tr><td>The Irish Times</td><td>20,100</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr data-v="40" data-c="67" data-pg="40"><td><label><input type="checkbox" class="js-only" checked><span>VideoParliament Ireland (Oireachtas)*</span></label></td><td>51,300</td><td>40</td><td>67</td><td>40</td></tr>
+      <tr data-v="13" data-c="120" data-pg="8"><td><label><input type="checkbox" class="js-only" checked><span>RTÉ News</span></label></td><td>253,000</td><td>13</td><td>120</td><td>8</td></tr>
+      <tr data-v="9" data-c="40" data-pg="8"><td><label><input type="checkbox" class="js-only" checked><span>Irish Independent*</span></label></td><td>118,000</td><td>9</td><td>40</td><td>8</td></tr>
+      <tr data-v="7" data-c="760" data-pg="11"><td><label><input type="checkbox" class="js-only" checked><span>Irish Mirror*</span></label></td><td>48,200</td><td>7</td><td>760</td><td>11</td></tr>
+      <tr data-v="5" data-c="24" data-pg="3"><td><label><input type="checkbox" class="js-only" checked><span>Newstalk</span></label></td><td>113,000</td><td>5</td><td>24</td><td>3</td></tr>
+      <tr data-v="5" data-c="8" data-pg="5"><td><label><input type="checkbox" class="js-only" checked><span>The Journal*</span></label></td><td>53,800</td><td>5</td><td>8</td><td>5</td></tr>
+      <tr data-v="2" data-c="266" data-pg="4"><td><label><input type="checkbox" class="js-only" checked><span>Gript Media</span></label></td><td>79,000</td><td>2</td><td>266</td><td>4</td></tr>
+      <tr data-v="2" data-c="0" data-pg="2"><td><label><input type="checkbox" class="js-only" checked><span>Today FM</span></label></td><td>34,100</td><td>2</td><td>0</td><td>2</td></tr>
+      <tr data-v="1" data-c="0" data-pg="1"><td><label><input type="checkbox" class="js-only" checked><span>TG4</span></label></td><td>47,400</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr data-v="1" data-c="0" data-pg="1"><td><label><input type="checkbox" class="js-only" checked><span>Irish Examiner</span></label></td><td>12,400</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr data-v="0" data-c="0" data-pg="0"><td><label><input type="checkbox" class="js-only" checked><span>RTÉ (main channel)</span></label></td><td>400,000</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr data-v="0" data-c="0" data-pg="0"><td><label><input type="checkbox" class="js-only" checked><span>The Irish Times</span></label></td><td>20,100</td><td>0</td><td>0</td><td>0</td></tr>
     </tbody>
-    <tfoot><tr><td>Twelve outlets</td><td></td><td>85</td><td>1,285</td><td>83</td></tr></tfoot>
+    <tfoot><tr><td id="pl-label">Twelve outlets</td><td></td><td id="pl-v">85</td><td id="pl-c">1,285</td><td id="pl-pg">83</td></tr></tfoot>
   </table>
+  <div class="planout rv" id="planner" aria-live="polite">
+    <p class="p1"><b id="pl-units">98</b> units a day for <span id="pl-n">all twelve outlets</span>, <b id="pl-pct">1.0%</b> of the default 10,000</p>
+    <span class="qbar" role="img" aria-label="Share of one day's quota"><i id="pl-bar" style="--w:0.98%"></i></span>
+    <p class="p2" id="pl-formula">1 channel lookup + 12 playlist pages + 2 video batches + 83 comment pages. A comment page holds up to <span class="nw">100 comments</span>; every video with comments on needs at least one.</p>
+  </div>
   <p class="note">* Found only through search, which is capped at <span class="nw">100 calls</span> a day; the other eight were found by handle. Six look-alike channels carrying an outlet’s name were excluded. Comments were off on 8 of the <span class="nw">85 videos</span>. The probe cost <span class="nw">43 units</span>, and the six searches 12 more.</p>
   <p>At the API’s published costs, following all twelve outlets would take an estimated <span class="nw">98 units</span> a day, 1.0% of the default <span class="nw">10,000 units</span>. Busy channels can need more, as the US run showed (<span class="nw">1,028 units</span> measured against <span class="nw">613 estimated</span>), but for Ireland quota is not the constraint; the three items below are.</p>
   <h3>What the pilot cannot obtain at any size</h3>
   <ul class="plain">
-    <li><b>The text of any caption track.</b> The API lists the tracks; the download call answered 401 and requires permission to edit the video.</li>
-    <li><b>Any reading older than the call.</b> A six-month series exists only if the pilot polls every video it follows, and III.E.4.b requires each reading to be deleted or refreshed within <span class="nw">30 days</span>.</li>
-    <li><b>The first comments on a video, cheaply.</b> No oldest-first order and no total; the pilot pages to the end to see how a thread began.</li>
+    <li class="rv"><b>The text of any caption track.</b> The API lists the tracks; the download call answered 401 and requires permission to edit the video.</li>
+    <li class="rv"><b>Any reading older than the call.</b> A six-month series exists only if the pilot polls every video it follows, and III.E.4.b requires each reading to be deleted or refreshed within <span class="nw">30 days</span>.</li>
+    <li class="rv"><b>The first comments on a video, cheaply.</b> No oldest-first order and no total; the pilot pages to the end to see how a thread began.</li>
   </ul>
 </section>
 
-<footer>
+<footer id="method">
   <h2>Method and limits</h2>
   <p>Instrument: PRISM’s nightly pipeline, which reads a fixed list of 485 US news channels, and one YouTube Data API key on the default quota. US figures are from the news day of <span class="nw">October 12</span>, 2026 (<span class="nw">04:00 UTC</span> <span class="nw">October 12</span> to <span class="nw">04:00 UTC</span> <span class="nw">October 13</span>). The second view reading came <span class="nw">16.6 hours</span> after the first; the eight-video record and the Irish probe were made on <span class="nw">October 13</span>. Quota units are counted by our client as calls made; the Google Cloud console was not consulted. No YouTube data was obtained outside the Data API; the podcast episodes in section 3 came from each show’s RSS feed. The figures cover one platform over two days, and the growth in views is one interval that says nothing about the shape between readings. Policy text is quoted as read on <span class="nw">October 13</span>, 2026. Data files: <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/api_record.json">api_record.json</a> (section 2), <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/view_snapshots_aggregate.json">view_snapshots_aggregate.json</a> (view readings), <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/ie_probe.json">ie_probe.json</a> (section 4) and <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/data/facts.js">facts.js</a> (derived figures and the pipeline’s run-log counts).</p>
   <p>A longer interactive version prepared for the GPPN 2027 proposal: <a href="https://dongjae-kang.github.io/public-share/prism/gppn-2027/">dongjae-kang.github.io/public-share/prism/gppn-2027</a></p>
@@ -257,5 +373,95 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
 </footer>
 
 </div>
+</div>
+<script>
+(function () {
+  "use strict";
+  window.__stf = 1;
+  var doc = document, root = doc.documentElement;
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var hasIO = "IntersectionObserver" in window;
+  function $(id) { return doc.getElementById(id); }
+
+  /* ---- first appearance of rows and figures ---- */
+  var rv = [].slice.call(doc.querySelectorAll(".rv"));
+  function show(el) { el.classList.add("in"); }
+  if (reduced || !hasIO) {
+    rv.forEach(show);
+  } else {
+    var seen = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { show(e.target); seen.unobserve(e.target); } });
+    }, { rootMargin: "0px 0px -6% 0px" });
+    rv.forEach(function (el) { seen.observe(el); });
+  }
+
+  /* ---- which section is being read: rail and top bar ---- */
+  var ids = ["night", "items", "story", "ireland", "method"];
+  var names = { night: "1. One night", items: "2. What each item returns", story: "3. One story", ireland: "4. The Irish pilot", method: "Method and limits" };
+  var secs = ids.map($);
+  var links = [].slice.call(doc.querySelectorAll(".rail a, .topbar a"));
+  var cur = $("cur"), active = null;
+  function setActive(id) {
+    if (id === active) return;
+    active = id;
+    links.forEach(function (a) {
+      if (id && a.getAttribute("href") === "#" + id) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+    cur.textContent = id ? names[id] : "Seeing the Feed";
+  }
+  // A thin band 30% down the screen: the section crossing it is the one being read. Between two
+  //   sections the last one stays marked; above section 1 none is; at the foot of the page, Method.
+  var inBand = {};
+  function pick() {
+    if (window.innerHeight + window.pageYOffset >= root.scrollHeight - 2) { setActive("method"); return; }
+    var id = null;
+    ids.forEach(function (k) { if (inBand[k]) id = k; });
+    if (id) setActive(id);
+    else if (secs[0].getBoundingClientRect().top > window.innerHeight * 0.3) setActive(null);
+  }
+  if (hasIO) {
+    var spy = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { inBand[e.target.id] = e.isIntersecting; });
+      pick();
+    }, { rootMargin: "-30% 0px -69% 0px" });
+    secs.forEach(function (s) { spy.observe(s); });
+  }
+  var tick = 0;
+  window.addEventListener("scroll", function () {
+    if (!tick) tick = requestAnimationFrame(function () { tick = 0; pick(); });
+  }, { passive: true });
+  links.forEach(function (a) { a.addEventListener("click", function () { setActive(a.getAttribute("href").slice(1)); }); });
+  pick();
+
+  /* ---- Irish planner: the arithmetic of the full ledger's planner ---- */
+  var table = $("pltable");
+  var rows = [].slice.call(table.querySelectorAll("tbody tr"));
+  function fmt(n) { return n.toLocaleString("en-US"); }
+  function count(n, one, many) { return fmt(n) + " " + (n === 1 ? one : many); }
+  function draw() {
+    var n = 0, v = 0, c = 0, pg = 0;
+    rows.forEach(function (r) {
+      var on = r.querySelector("input").checked;
+      r.classList.toggle("off", !on);
+      if (on) { n++; v += +r.getAttribute("data-v"); c += +r.getAttribute("data-c"); pg += +r.getAttribute("data-pg"); }
+    });
+    var lookups = Math.ceil(n / 50), playlist = n, batches = Math.ceil(v / 50), units = lookups + playlist + batches + pg;
+    $("pl-units").textContent = fmt(units);
+    $("pl-pct").textContent = (units / 100).toFixed(1) + "%";
+    $("pl-n").textContent = n === rows.length ? "all twelve outlets" : (n === 0 ? "no outlets" : n + " of " + rows.length + " outlets");
+    $("pl-label").textContent = n === rows.length ? "Twelve outlets" : "Ticked outlets (" + n + ")";
+    $("pl-v").textContent = fmt(v);
+    $("pl-c").textContent = fmt(c);
+    $("pl-pg").textContent = fmt(pg);
+    $("pl-bar").style.setProperty("--w", Math.min(100, units / 100) + "%");
+    $("pl-formula").textContent = count(lookups, "channel lookup", "channel lookups") + " + " + count(playlist, "playlist page", "playlist pages") +
+      " + " + count(batches, "video batch", "video batches") + " + " + count(pg, "comment page", "comment pages") +
+      ". A comment page holds up to 100 comments; every video with comments on needs at least one.";
+  }
+  table.addEventListener("change", draw);
+  draw();
+})();
+</script>
 </body>
 </html>
