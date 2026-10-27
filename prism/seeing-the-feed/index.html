@@ -154,6 +154,7 @@ footer p{margin:0 0 .9rem}
 
 /* scroll-driven states, both directions; the script sets --q, --p, --p2, --pi and --pl */
 .js .rv{opacity:var(--q,0);transform:translateY(calc((1 - var(--q,0)) * 8px))}
+.js .pn[data-rise]{opacity:calc(.65 + .35 * var(--r,0));transform:translateY(calc((1 - var(--r,0)) * 10px))}
 .js [data-scrub]{--p:0;--p2:0}
 .js .dr{--pi:0;--pl:0}
 .js .waffle i:nth-child(-n+398){background:var(--track)}
@@ -217,14 +218,14 @@ footer p{margin:0 0 .9rem}
   td label span{hyphens:auto;-webkit-hyphens:auto}
 }
 @media (prefers-reduced-motion:reduce){
-  .js .rv{opacity:1;transform:none}
+  .js .rv,.js .pn[data-rise]{opacity:1;transform:none}
   .js [data-scrub]{--p:1;--p2:1}
   .js .dr{--pi:1;--pl:1}
   .js .waffle i:nth-child(-n+398){background:var(--ink)}
 }
 @media print{
   .topbar,.rail{display:none}
-  .js .rv{opacity:1;transform:none}
+  .js .rv,.js .pn[data-rise]{opacity:1;transform:none}
   .js [data-scrub]{--p:1;--p2:1}
   .js .dr{--pi:1;--pl:1}
   .js .waffle i:nth-child(-n+398){background:var(--ink)}
@@ -269,30 +270,30 @@ footer p{margin:0 0 .9rem}
   <h2><span class="n">1.</span>One night on the public route</h2>
   <p>On the news day of <span class="nw">October 12</span>, 2026, PRISM’s nightly pipeline read a fixed list of 485 US news channels through the Data API. Every request costs quota units, and one key gets <span class="nw">10,000 units</span> a day by default.</p>
   <div class="s1">
-    <div class="pn rv">
+    <div class="pn" data-rise>
       <div class="big">5.9K</div>
       <p class="lab">videos fetched in <span class="nw">24 hours</span></p>
       <p class="ex">5,889 by count, from 398 of the <span class="nw">485 channels</span></p>
-      <figure data-scrub="waffle" data-fit="1" data-n="398">
+      <figure data-scrub="waffle" data-lead="1" data-a="0.98" data-b="0.6" data-n="398">
         <div class="waffle" role="img" aria-label="398 of 485 channels published in the window"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <figcaption>The <span class="nw">485 channels</span> in the list, one square each: 398 published in the window, 87 did not.</figcaption>
       </figure>
     </div>
-    <div class="pn rv">
+    <div class="pn" data-rise>
       <div class="big">10%</div>
       <p class="lab">of one day’s quota, the cost of that fetch</p>
       <p class="ex">1,028 of <span class="nw">10,000 units</span></p>
-      <figure data-scrub="bar" data-fit="1">
+      <figure data-scrub="bar" data-lead="1" data-a="0.98" data-b="0.6">
         <span class="hb" role="img" aria-label="1,028 of 10,000 units" style="--w:10.28%"><i></i><b style="left:10%"></b><b style="left:20%"></b><b style="left:30%"></b><b style="left:40%"></b><b style="left:50%"></b><b style="left:60%"></b><b style="left:70%"></b><b style="left:80%"></b><b style="left:90%"></b></span>
         <div class="scale"><span><b>1,028</b> used</span><span><span class="nw">10,000 units</span> a day</span></div>
         <figcaption>One key’s default quota for a day, with a mark every <span class="nw">1,000 units</span>.</figcaption>
       </figure>
     </div>
-    <div class="pn rv">
+    <div class="pn" data-rise>
       <div class="big">553K</div>
       <p class="lab">comments the API counted across those videos</p>
       <p class="ex">553,191 by count, on 3,965 of the <span class="nw">5,889 videos</span></p>
-      <figure data-scrub="bar" data-fit="1">
+      <figure data-scrub="bar" data-lead="1" data-a="0.98" data-b="0.6">
         <span class="hb" role="img" aria-label="3,965 of 5,889 videos had comments" style="--w:67.33%"><i></i></span>
         <div class="scale"><span><b>3,965</b> videos with comments</span><span>1,924 without</span></div>
         <figcaption>The <span class="nw">5,889 videos</span> fetched that night, split by whether the API counted any comments on them.</figcaption>
@@ -502,15 +503,28 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
 
   /* ---- figures and rows follow the scroll, both ways ----
      Each figure's progress p runs from 0, when its top sits at data-a of the screen height, to 1, when
-     it has risen to data-b. A data-fit figure is complete whenever its graphic is on screen, so the first
-     screen never rests on a half-drawn count. Scrolling back lowers p again. On load, whatever is
-     already on screen draws in over 600 ms. With reduced motion, everything stays in its final state. */
+     it has risen to data-b. The three figures at the top of section 1 (data-lead) open on the first
+     screen, so when they start there they follow the scroll from the very top instead: a third drawn
+     at the top of the page, complete after LEAD_PX of scrolling, back to a third on the way up. Their
+     panels (data-rise) rise and brighten with the same progress, never below 65% opacity, so the exact
+     counts beside each figure stay in view. Scrolling back lowers p again. On load, whatever is on
+     screen draws in over 600 ms. With reduced motion, everything stays in its final state. */
+  var LEAD_FROM = 1 / 3, LEAD_PX = 200;
+  // Positions come from layout (offsetTop), not from the screen box, so an element's own rise or
+  //   reveal transform never feeds back into its progress.
+  function docTop(el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
+  function progress(el, a, b, leadEl) {
+    var H = window.innerHeight, y = window.pageYOffset;
+    if (leadEl && docTop(leadEl) < H * 0.92) return LEAD_FROM + (1 - LEAD_FROM) * clamp(y / LEAD_PX);
+    return clamp((H * a - (docTop(el) - y)) / (H * (a - b)));
+  }
   var scrubs = [].slice.call(doc.querySelectorAll("[data-scrub]")).map(function (el) {
     return { el: el, kind: el.getAttribute("data-scrub"), a: +el.getAttribute("data-a"), b: +el.getAttribute("data-b"),
              cells: [].slice.call(el.querySelectorAll(".waffle i")), n: +el.getAttribute("data-n") || 0, lit: 0,
-             rows: [].slice.call(el.querySelectorAll(".dr[data-tip]")), fit: el.hasAttribute("data-fit"), geo: el.querySelector(".waffle, .hb") || el, last: -1 };
+             rows: [].slice.call(el.querySelectorAll(".dr[data-tip]")), lead: el.hasAttribute("data-lead") ? el : null, last: -1 };
   });
   var rvs = [].slice.call(doc.querySelectorAll(".rv")).map(function (el) { return { el: el, last: -1 }; });
+  var rises = [].slice.call(doc.querySelectorAll("[data-rise]")).map(function (el) { return { el: el, lead: el.querySelector("[data-lead]"), last: -1 }; });
   var t0 = null, INTRO = 600;
   function paintScrub(s, p) {
     if (s.kind === "waffle") {
@@ -534,15 +548,19 @@ orders_available: ["time", "relevance"]</pre><p class="evn">totalResults is the 
     if (t0 === null) t0 = now;
     var H = window.innerHeight, k = reduced ? 1 : 1 - Math.pow(1 - clamp((now - t0) / INTRO), 3), foot = atFoot();
     scrubs.forEach(function (s) {
-      var r = (s.fit ? s.geo : s.el).getBoundingClientRect();
-      var p = reduced ? 1 : (s.fit ? clamp((H - r.top) / Math.max(1, r.height)) : clamp((H * s.a - r.top) / (H * (s.a - s.b)))) * k;
+      var p = reduced ? 1 : progress(s.el, s.a, s.b, s.lead) * k;
       p = Math.round(p * 500) / 500;
       if (p !== s.last) { s.last = p; paintScrub(s, p); }
     });
     rvs.forEach(function (o) {
-      var q = (reduced || foot) ? 1 : clamp((H - o.el.getBoundingClientRect().top) / (H * 0.12)) * k;
+      var q = (reduced || foot) ? 1 : clamp((H - (docTop(o.el) - window.pageYOffset)) / (H * 0.12)) * k;
       q = Math.round(q * 200) / 200;
       if (q !== o.last) { o.last = q; o.el.style.setProperty("--q", q); }
+    });
+    rises.forEach(function (o) {
+      var r = reduced ? 1 : progress(o.el, 1, 0.75, o.lead) * k;
+      r = Math.round(r * 500) / 500;
+      if (r !== o.last) { o.last = r; o.el.style.setProperty("--r", r); }
     });
     if (k < 1) raf = requestAnimationFrame(frame);
   }
